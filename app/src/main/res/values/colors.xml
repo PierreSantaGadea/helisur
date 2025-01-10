@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+
+    <color name="principal">#002f5e</color>
+    <color name="secondary">#ffed00</color>
+    <color name="third">#e11f21</color>
+
+    <color name="fondo_pantalla_general">#E9E9E9</color>
+
+    <color name="fondo_login">@color/principal</color>
+
+    <color name="fondo_contenedor_login">#E9E9E9</color>
+    <color name="borde_contenedor_login">@color/principal</color>
+    <color name="color_titulo_contenedor_login">@color/principal</color>
+
+    <color name="fondo_textbox_login">#E9E9E9</color>
+    <color name="borde_textbox_login">#666666</color>
+
+    <color name="color_texto_cajatexto">#1F1F1F</color>
+    <color name="text_hint">#cacaca</color>
+
+    <color name="icono">@color/principal</color>
+
+    <color name="fondo_boton_principal">@color/principal</color>
+    <color name="borde_boton_principal">@color/principal</color>
+    <color name="texto_boton_principal">#E9E9E9</color>
+
+</resources>
