@@ -64,5 +64,6 @@ class Constants {
     {
         const val AERONAVE: String = "AERONAVE"
         const val ID_AERONAVE: String = "ID_AERONAVE"
+        const val NOMBRE_AERONAVE: String = "NOMBRE_AERONAVE"
     }
 }

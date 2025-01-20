@@ -43,7 +43,6 @@ class DatosAeronaveFragment : Fragment() {
         binding = FragmentDatosAeronaveBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initUI()
-      //  setSpinnerAeronave()
         setSpinnerUbicacion()
         observers()
         return root
@@ -68,21 +67,63 @@ class DatosAeronaveFragment : Fragment() {
         return text
     }
 
+    fun getNombreAeronave(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, "")
+        return text
+    }
+
 
 
     fun setSpinnerAeronave(
     ) {
         var spinnerTipo = binding.spiAeronave
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
         val spinnerArray: MutableList<String> = ArrayList()
-        spinnerArray.add("Seleccione modelo")
+   //     spinnerArray.add("Seleccione modelo")
+   //     spinnerArrayImages.add(R.drawable.ic_down)
      //   spinnerArray.add("Aeronave 1")
      //   spinnerArray.add("Aeronave 2")
 
-           for(item in modelosAeronavesList!!)
-           { spinnerArray.add(item.nombre) }
+           for(item in modelosAeronavesList!!) {
+             //  if (item.nombre.equals("")) {
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.spinner_item)
+             //  } else {
+
+             //  }
+               var itemName = getNombreAeronave(requireContext())
+               spinnerArray.add(item.nombre)
+
+               if(itemName!!.contains("MI"))
+               {
+                   spinnerArrayImages.add(R.drawable.img_mi8)
+               }
+               else
+               {
+                   if(itemName.contains("BK"))
+                   {
+                       spinnerArrayImages.add(R.drawable.img_bk117)
+                   }
+                   else
+                   {
+                       if(itemName.contains("BELL"))
+                       {
+                           spinnerArrayImages.add(R.drawable.img_bell412)
+                       }
+                       else
+                       {
+                           //    spinnerArrayImages.add(R.drawable.img_bell412)
+                       }
+                   }
+               }
+
+           }
+
+     //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+        val adapter = SpinenrItemAeronave(requireContext(),0,
+            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+     //   adapter.setDropDownViewResource(R.layout.spinner_item_aeronave)
+
         spinnerTipo.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -102,6 +143,9 @@ class DatosAeronaveFragment : Fragment() {
                 }
             }
         }
+
+
+
     }
 
 

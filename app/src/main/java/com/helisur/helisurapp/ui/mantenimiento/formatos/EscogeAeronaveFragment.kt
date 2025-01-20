@@ -23,6 +23,7 @@ import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemAeronave
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -40,6 +41,7 @@ class EscogeAeronaveFragment  : Fragment() {
 
     var loading: TransparentProgressDialog? = null
     private var idAeronave:String = ""
+    private var nombreAeronave:String = ""
     private var idFormato:String = ""
 
     override fun onCreateView(
@@ -80,7 +82,7 @@ class EscogeAeronaveFragment  : Fragment() {
                 else
                 {
 
-                    saveAeronave(requireContext(),idAeronave)
+                    saveAeronave(requireContext(),idAeronave,nombreAeronave)
                     val intent = Intent (getActivity(), PreVueloActivity::class.java)
                     getActivity()?.startActivity(intent)
                 }
@@ -89,10 +91,11 @@ class EscogeAeronaveFragment  : Fragment() {
         }
     }
 
-    fun saveAeronave(context: Context,idAeronave:String) {
+    fun saveAeronave(context: Context,idAeronave:String,nombreAeronave:String) {
         val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString(Constants.SHARED_PREFERENCES.ID_AERONAVE, idAeronave)
+        editor.putString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, nombreAeronave)
         editor.apply()
     }
 
@@ -101,31 +104,60 @@ class EscogeAeronaveFragment  : Fragment() {
     ) {
         var spinnerTipo = binding.spiAeronave
         val spinnerArray: MutableList<String> = ArrayList()
-        spinnerArray.add("Seleccione modelo")
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
+    //    spinnerArray.add("Seleccione modelo")
+    //    spinnerArrayImages.add(R.drawable.ic_down)
 
            for(item in aeronavesList!!)
            {
                var itemName = item.descripcion
                spinnerArray.add(itemName)
+
+               if(itemName.contains("MI"))
+               {
+                   spinnerArrayImages.add(R.drawable.img_mi8)
+               }
+               else
+               {
+                   if(itemName.contains("BK"))
+                   {
+                       spinnerArrayImages.add(R.drawable.img_bk117)
+                   }
+                   else
+                   {
+                       if(itemName.contains("BELL"))
+                       {
+                           spinnerArrayImages.add(R.drawable.img_bell412)
+                       }
+                       else
+                       {
+                       //    spinnerArrayImages.add(R.drawable.img_bell412)
+                       }
+                   }
+               }
            }
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.spinner_item)
+        val adapter = SpinenrItemAeronave(requireContext(),0,
+            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+
+    //    val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+     //   adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
                       idAeronave = ""
+                    nombreAeronave = ""
                     binding.spiFormato.adapter = null
                     binding.rlFormato!!.setBackgroundResource(R.drawable.shape_control_disabled)
                 } else {
-                    idAeronave = aeronavesList!![position-1].codigoModeloPuesto
+                    idAeronave = aeronavesList!![position].codigoModeloPuesto
+                    nombreAeronave = aeronavesList!![position].descripcion
                     setSpinnerFormato()
                     binding.rlFormato!!.setBackgroundResource(R.drawable.shape_text_box)
                     val sessionManager = SessionUserManager(requireContext())
