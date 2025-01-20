@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+
+   >
+
+    <group
+        android:checkableBehavior="single" >
+        <item
+            android:visible="true"
+            android:titleCondensed="Areas"
+            android:title="Mantenimiento"
+            app:showAsAction="always">
+            <menu>
+                <item
+                    android:id="@+id/item_formatos"
+                    android:icon="@drawable/ic_progress_one"
+                    android:title="Formato"
+                    app:showAsAction="always"></item>
+
+                <item
+                    android:id="@+id/item_mecanicas"
+                    android:icon="@drawable/ic_reglas"
+                    android:title="Otro"
+                    app:showAsAction="always"></item>
+            </menu>
+        </item>
+    </group>
+
+
+
+
+    <group>
+
+        <item
+            android:id="@+id/item_cerrar"
+            android:icon="@drawable/ic_logout"
+            android:title="Cerrar sesión" />
+    </group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</menu>

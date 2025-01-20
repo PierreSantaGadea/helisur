@@ -4,27 +4,22 @@ class Constants {
     object URLS {
         //  const val URL: String = "https://extranet.edusoft.pe"
         const val URL: String = "http://38.199.4.100:81"
-           const val LOGIN: String = "ws.concursos/api/appService/login"
         const val OBTIENE_TOKEN: String = "serviceintranetHLS/api/LoginApi"
+        const val OBTIENE_DATOS_USUARIO: String = "http://38.199.4.100:81/serviceintranetHLS/api/Usuario/GetByUsuario?usuarioAcceso="
+        const val OBTIENE_AERONAVES: String = "serviceintranetHLS/api/ModeloPuestoTecnico/GetAll"
+        const val OBTIENE_MODELO_AERONAVES: String = "http://38.199.4.100:81/serviceintranetHLS/api/PuestoTecnico/GetByModeloAeronave?codigoModeloAeronave="
 
-        const val OBTIENE_DATOS_USUARIO: String = "serviceintranetHLS/api/Usuario/GetByUsuario?usuarioAcceso=chroman"
-
-        const val LISTA_MENU: String = "ws.identity/api/identity/getMenu"
-        const val LISTA_PERIODOS: String = "ws.concursos/api/appService/getAllPeriodo"
-        const val LISTA_CONCURSOS: String = "ws.concursos/api/appService/getAllConcurso"
-        const val LISTA_LINEAS: String = "ws.concursos/api/appService/getAllLinea"
-        const val LISTA_CATEGORIAS: String = "ws.concursos/api/appService/getAllCategoria"
-        const val LISTA_CANDADOS: String = "ws.concursos/api/appService/getAllCandado"
-
-        const val LISTA_CARTERA_CLIENTES: String = ""
     }
 
     object ERROR {
         const val ERROR: String = "ERROR INESPERADO"
         const val FAILURE: String = "FAILURE"
         const val SUCCESS: String = "SUCCESS"
+        const val ERROR_EN_CODIGO: String = "ERROR : "
 
-        const val MESSAGE_400: String = "Request invalido"
+        const val ERROR_ENTERO :Int = 0
+
+        const val MESSAGE_400: String = "Request inválido"
         const val MESSAGE_401: String = "Usuario no autorizado"
         const val MESSAGE_403: String = ""
         const val MESSAGE_404: String = "Servicio no encontrado o no disponible"
@@ -41,10 +36,6 @@ class Constants {
         const val _403: Int = 403
         const val _404: Int = 404
         const val _500: Int = 500
-    }
-
-    object RESPONSE_MESSAGES {
-
     }
 
     object TABS_VENDEDOR {
@@ -67,5 +58,11 @@ class Constants {
         const val ANOTACIONES: Int = 2
         const val FIRMA_RESPONSABLE: Int = 3
         const val FIRMA_PILOTO_COPILOTO: Int = 4
+    }
+
+    object SHARED_PREFERENCES
+    {
+        const val AERONAVE: String = "AERONAVE"
+        const val ID_AERONAVE: String = "ID_AERONAVE"
     }
 }

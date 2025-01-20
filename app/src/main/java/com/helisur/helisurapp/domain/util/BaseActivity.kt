@@ -36,9 +36,9 @@ open class BaseActivity : AppCompatActivity() {
     fun showErrorDialog(message: String?) {
         val bundle = Bundle()
         bundle.putString("errorMessage", message)
-       // val df: ErrorMessageDialog = ErrorMessageDialog()
-     //   df.setArguments(bundle)
-     //   df.show(supportFragmentManager, "")
+        val df: ErrorMessageDialog = ErrorMessageDialog()
+        df.setArguments(bundle)
+        df.show(supportFragmentManager, "")
     }
 
 
