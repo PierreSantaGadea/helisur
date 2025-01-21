@@ -1,34 +1,41 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
-import android.R
-import android.content.Intent
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.provider.Contacts.SettingsColumns.KEY
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import com.helisur.helisurapp.databinding.ActivityLoginBinding
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.helisur.helisurapp.R
+import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
+import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentDatosAeronaveBinding
-import com.helisur.helisurapp.databinding.FragmentEscogeAeronaveBinding
+import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
+import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class DatosAeronaveFragment : Fragment() {
 
     var className = "ConcursosAvancesFragment"
 
-  //  private var _binding: FragmentDatosAeronaveBinding? = null
-  //  private val binding get() = _binding!!
+    private val aeronavesViewModel: AeronavesViewModel by viewModels()
 
     private lateinit var binding: FragmentDatosAeronaveBinding
 
     var loading: TransparentProgressDialog? = null
-
+    private var modelosAeronavesList: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,14 +43,15 @@ class DatosAeronaveFragment : Fragment() {
         binding = FragmentDatosAeronaveBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initUI()
-        setSpinnerAeronave()
         setSpinnerUbicacion()
-        //   observers()
+        observers()
         return root
     }
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
+        var idAeronave = getAeronave(requireContext())
+        aeronavesViewModel.obtieneModelosAeronave(idAeronave!!)
         ///   val sessionManager = SessionUserManager(requireContext())
         //  val tokennn = sessionManager.getToken()!!
         //  cocursosViewModel.listaPeriodos(sessionManager.getToken()!!)
@@ -53,21 +61,69 @@ class DatosAeronaveFragment : Fragment() {
     }
 
 
+    fun getAeronave(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_AERONAVE, "")
+        return text
+    }
+
+    fun getNombreAeronave(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, "")
+        return text
+    }
+
 
 
     fun setSpinnerAeronave(
     ) {
         var spinnerTipo = binding.spiAeronave
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
         val spinnerArray: MutableList<String> = ArrayList()
-        spinnerArray.add("Seleccione aeronave")
-        spinnerArray.add("Aeronave 1")
-        spinnerArray.add("Aeronave 2")
+   //     spinnerArray.add("Seleccione modelo")
+   //     spinnerArrayImages.add(R.drawable.ic_down)
+     //   spinnerArray.add("Aeronave 1")
+     //   spinnerArray.add("Aeronave 2")
 
-        //   for(item in periodosList)
-        //   { spinnerArray.add(item.detalle) }
+           for(item in modelosAeronavesList!!) {
+             //  if (item.nombre.equals("")) {
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+             //  } else {
+
+             //  }
+               var itemName = getNombreAeronave(requireContext())
+               spinnerArray.add(item.nombre)
+
+               if(itemName!!.contains("MI"))
+               {
+                   spinnerArrayImages.add(R.drawable.img_mi8)
+               }
+               else
+               {
+                   if(itemName.contains("BK"))
+                   {
+                       spinnerArrayImages.add(R.drawable.img_bk117)
+                   }
+                   else
+                   {
+                       if(itemName.contains("BELL"))
+                       {
+                           spinnerArrayImages.add(R.drawable.img_bell412)
+                       }
+                       else
+                       {
+                           //    spinnerArrayImages.add(R.drawable.img_bell412)
+                       }
+                   }
+               }
+
+           }
+
+     //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+        val adapter = SpinenrItemAeronave(requireContext(),0,
+            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+     //   adapter.setDropDownViewResource(R.layout.spinner_item_aeronave)
+
         spinnerTipo.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -87,6 +143,9 @@ class DatosAeronaveFragment : Fragment() {
                 }
             }
         }
+
+
+
     }
 
 
@@ -102,8 +161,8 @@ class DatosAeronaveFragment : Fragment() {
         //   for(item in periodosList)
         //   { spinnerArray.add(item.detalle) }
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+        adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -125,6 +184,61 @@ class DatosAeronaveFragment : Fragment() {
         }
     }
 
+
+    private fun observers()
+    {
+
+        aeronavesViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it) {
+                    if (!loading!!.isShowing) {
+                        loading!!.show()
+                    }
+                } else {
+                    if (loading!!.isShowing) {
+                        loading!!.dismiss()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+        aeronavesViewModel.loginState.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it.toString().contains(Constants.ERROR.SUCCESS)) {
+                } else {
+                    if (it.toString().contains(Constants.ERROR.FAILURE)) {
+                        Log.e(className, Constants.ERROR.ERROR)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+        aeronavesViewModel.responseModelosAeronave.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    modelosAeronavesList = ArrayList(it.data!!.table)
+               //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+                    setSpinnerAeronave()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+    }
 
 
 

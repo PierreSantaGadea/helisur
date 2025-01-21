@@ -9,6 +9,8 @@ class SessionUserManager(context: Context) {
         context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
 
     companion object {
+        const val USER = "user"
+        const val PASS = "pass"
         const val USER_TOKEN = "user_token"
         const val USER_ID = "user_id"
         const val USER_NOMBRES = "user_nombres"
@@ -18,6 +20,19 @@ class SessionUserManager(context: Context) {
         const val USER_LOGGED = "user_logged"
         const val USER_CURRENT_TAB_POSITION = "user_current_tab_position"
     }
+
+    fun saveUser(user: String) {
+        val editor = prefs.edit()
+        editor.putString(USER, user)
+        editor.apply()
+    }
+
+    fun savePass(pass: String) {
+        val editor = prefs.edit()
+        editor.putString(PASS, pass)
+        editor.apply()
+    }
+
 
     fun saveAuthToken(token: String) {
         val editor = prefs.edit()
@@ -65,6 +80,14 @@ class SessionUserManager(context: Context) {
         val editor = prefs.edit()
         editor.putInt(USER_CURRENT_TAB_POSITION, tab)
         editor.apply()
+    }
+
+    fun getUser(): String? {
+        return prefs.getString(USER, null)
+    }
+
+    fun getPass(): String? {
+        return prefs.getString(PASS, null)
     }
 
     fun getToken(): String? {

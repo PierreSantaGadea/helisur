@@ -4,17 +4,22 @@ import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.helisur.helisurapp.databinding.ActivityLoginBinding
 import com.helisur.helisurapp.domain.util.BaseActivity
+import com.helisur.helisurapp.domain.util.Constants
+import com.helisur.helisurapp.domain.util.SessionUserManager
+import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLoginBinding
- //   private val loginViewModel: LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
     var passView: Boolean = false
-  //  var loading: TransparentProgressDialog? = null
+    var loading: TransparentProgressDialog? = null
     var className = "LoginActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,28 +35,26 @@ class LoginActivity : BaseActivity() {
     fun initUI() {
         binding.etEmail.setText("analista_app")
         binding.etPass.setText("helisur2024.")
-      //  loading = TransparentProgressDialog(this)
+        loading = TransparentProgressDialog(this)
     }
 
     fun clickListener() {
 
         binding.btnlogin.setOnClickListener { view ->
-            // if(validations())
-          //  next(ModulesActivity::class.java, null)
-            //    loginViewModel.login(
-            //        binding.etEmail.text.toString().trim(), binding.etPass.text.toString().trim(), ""
-            //    )
+            //     if(validations())
+            loginViewModel.login(
+                binding.etEmail.text.toString().trim(), binding.etPass.text.toString().trim()
+            )
         }
 
         binding.ivPass.setOnClickListener { view ->
-          //  clickViewPass()
+            clickViewPass()
         }
 
     }
 
     private fun observers() {
 
-        /*
         loginViewModel.isLoading.observe(this, Observer {
             if (it) {
                 if (!loading!!.isShowing) {
@@ -73,47 +76,41 @@ class LoginActivity : BaseActivity() {
             }
         })
 
-        loginViewModel.responseLoginUsuario.observe(this, Observer {
+        loginViewModel.responseObtieneTokenCloud.observe(this, Observer {
             if (it != null) {
-                /*
-                saveDatosUser(
-                    it.id!!,
-                    it.token!!,
-                    it.nombres!!,
-                    it.apellidoPaterno!!,
-                    it.apellidoMaterno!!,
-                    it.rol!!
-                )
-
-                 */
-                //    loginViewModel.listaMenu(it.token)
-                //  next(ModulesActivity::class.java, null)
-                val intent = Intent(this, ModulesActivity::class.java)
-                startActivity(intent)
+                saveTokenUser(it.token)
+               // loginViewModel.obtieneDatosUsuarioCloud(binding.etEmail.text.toString().trim())
+                loginViewModel.obtieneDatosUsuarioCloud("chroman")
             } else {
-                //   Log.e(className, Constants.ERROR.ERROR)
-                //   showErrorDialog(Constants.ERROR.ERROR)
-                //Toast.makeText(this, Constants.ERROR.ERROR, Toast.LENGTH_SHORT).show()
+                Log.e(className, Constants.ERROR.ERROR)
             }
         })
 
-        loginViewModel.responseListaMenu.observe(this, Observer {
+
+        loginViewModel.responseObtieneDatosUsuario.observe(this, Observer {
             try {
                 if (it != null) {
-                    next(MainActivityVendedor::class.java, null)
-                } else {
-                    Log.e(className, Constants.ERROR.ERROR)
-                    showErrorDialog(Constants.ERROR.ERROR)
+                    if (it.success == Constants.ERROR.ERROR_ENTERO) {
+                        showErrorDialog(it.message)
+                    } else {
+                        saveDatosUser(
+                            it.data!!.table.get(0).codigoUsuario,
+                            it.data.table.get(0).nombreUsuario,
+                            it.data.table.get(0).apellidoPaterno,
+                            it.data.table.get(0).apellidoMaterno,
+                            it.data.table.get(0).cargo
+                        )
+                        next(ModulesActivity::class.java, null)
+                    }
                 }
-            }
-            catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 Log.e(className, e.message!!)
-                showErrorDialog(e.message)
+                showErrorDialog(e.toString())
             }
 
         })
-*/
+
+
     }
 
 
@@ -126,11 +123,9 @@ class LoginActivity : BaseActivity() {
                 binding.etPass.setTransformationMethod(PasswordTransformationMethod.getInstance())
                 passView = false
             }
-        }
-        catch (e:Exception)
-        {
-            //   Log.e(className, e.message!!)
-            //   showErrorDialog(e.message)
+        } catch (e: Exception) {
+            Log.e(className, e.message!!)
+            showErrorDialog(e.toString())
         }
 
     }
@@ -154,8 +149,37 @@ class LoginActivity : BaseActivity() {
         return isValid
     }
 
-    fun disableBackButton()
-    {
+    fun saveDatosUser(
+        idUser: String,
+        nombres: String,
+        apellidoPaterno: String,
+        apellidoMaterno: String,
+        rol: String
+    ) {
+        try {
+            val sessionManager = SessionUserManager(baseContext)
+           // sessionManager.saveUser(binding.etEmail.text.toString().trim())
+            sessionManager.saveUser("chroman")
+            sessionManager.savePass(binding.etPass.text.toString().trim())
+            sessionManager.saveUserId(idUser)
+            sessionManager.saveUserNombres(nombres)
+            sessionManager.saveUserApellidoPaterno(apellidoPaterno)
+            sessionManager.saveUserApellidoMaterno(apellidoMaterno)
+            sessionManager.saveUserRol(rol)
+            sessionManager.saveUserLogged(true)
+        } catch (e: Exception) {
+        }
+    }
+
+    fun saveTokenUser(token: String) {
+        try {
+            val sessionManager = SessionUserManager(baseContext)
+            sessionManager.saveAuthToken(token)
+        } catch (e: Exception) {
+        }
+    }
+
+    fun disableBackButton() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // No hagas nada aquí para deshabilitar el botón "Atrás"

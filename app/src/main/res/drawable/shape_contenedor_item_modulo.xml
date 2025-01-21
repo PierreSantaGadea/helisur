@@ -9,4 +9,13 @@
         android:height="58dp" />
 
     <stroke android:width="2dp" android:color="@color/borde_item_modulo"/>
+
+
+    <gradient
+        android:centerY="35%"
+        android:startColor="#000"
+        android:centerColor="#1B1B1B"
+        android:endColor="#474646"
+        android:angle="90"
+        />
 </shape>

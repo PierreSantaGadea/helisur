@@ -1,28 +1,31 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos
 
-import android.R
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Contacts.SettingsColumns.KEY
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentEscogeAeronaveBinding
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
-import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemAeronave
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class EscogeAeronaveFragment  : Fragment() {
@@ -37,6 +40,9 @@ class EscogeAeronaveFragment  : Fragment() {
     private var aeronavesList: ArrayList<ObtieneAeronavesDataTableCloudResponse>? = null
 
     var loading: TransparentProgressDialog? = null
+    private var idAeronave:String = ""
+    private var nombreAeronave:String = ""
+    private var idFormato:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -44,8 +50,6 @@ class EscogeAeronaveFragment  : Fragment() {
         _binding = FragmentEscogeAeronaveBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initUI()
-     //   setSpinnerAeronave()
-        setSpinnerUbicacion()
         clickListener()
         observers()
         return root
@@ -53,13 +57,9 @@ class EscogeAeronaveFragment  : Fragment() {
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
+        binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_control_disabled)
+        binding.rlFormato!!.setBackgroundResource(R.drawable.shape_control_disabled)
         aeronavesViewModel.obtieneAeronaves()
-        ///   val sessionManager = SessionUserManager(requireContext())
-        //  val tokennn = sessionManager.getToken()!!
-        //  cocursosViewModel.listaPeriodos(sessionManager.getToken()!!)
-        //   llenaLista()
-        //   setRecyclerView(concursosList)
-        //   setSpinnerPeriodo()
     }
 
 
@@ -67,9 +67,36 @@ class EscogeAeronaveFragment  : Fragment() {
     {
         binding.btnCotinuar.setOnClickListener {
 
-            val intent = Intent (getActivity(), PreVueloActivity::class.java)
-            getActivity()?.startActivity(intent)
+            if(idAeronave.equals(""))
+            {
+              //  val intent = Intent (getActivity(), PreVueloActivity::class.java)
+              //  getActivity()?.startActivity(intent)
+                showErrorDialog("Escoja aeronave")
+            }
+            else
+            {
+                if(idFormato.equals(""))
+                {
+                    showErrorDialog("Escoja formato")
+                }
+                else
+                {
+
+                    saveAeronave(requireContext(),idAeronave,nombreAeronave)
+                    val intent = Intent (getActivity(), PreVueloActivity::class.java)
+                    getActivity()?.startActivity(intent)
+                }
+            }
+
         }
+    }
+
+    fun saveAeronave(context: Context,idAeronave:String,nombreAeronave:String) {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Constants.SHARED_PREFERENCES.ID_AERONAVE, idAeronave)
+        editor.putString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, nombreAeronave)
+        editor.apply()
     }
 
 
@@ -77,29 +104,62 @@ class EscogeAeronaveFragment  : Fragment() {
     ) {
         var spinnerTipo = binding.spiAeronave
         val spinnerArray: MutableList<String> = ArrayList()
-        spinnerArray.add("Seleccione aeronave")
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
+    //    spinnerArray.add("Seleccione modelo")
+    //    spinnerArrayImages.add(R.drawable.ic_down)
 
            for(item in aeronavesList!!)
            {
-               var itemName = item.descripcion + " / " + item.codigoModeloPuesto
+               var itemName = item.descripcion
                spinnerArray.add(itemName)
+
+               if(itemName.contains("MI"))
+               {
+                   spinnerArrayImages.add(R.drawable.img_mi8)
+               }
+               else
+               {
+                   if(itemName.contains("BK"))
+                   {
+                       spinnerArrayImages.add(R.drawable.img_bk117)
+                   }
+                   else
+                   {
+                       if(itemName.contains("BELL"))
+                       {
+                           spinnerArrayImages.add(R.drawable.img_bell412)
+                       }
+                       else
+                       {
+                       //    spinnerArrayImages.add(R.drawable.img_bell412)
+                       }
+                   }
+               }
            }
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        val adapter = SpinenrItemAeronave(requireContext(),0,
+            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+
+    //    val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+     //   adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
-                    ///  periodoSelected = ""
+                      idAeronave = ""
+                    nombreAeronave = ""
+                    binding.spiFormato.adapter = null
+                    binding.rlFormato!!.setBackgroundResource(R.drawable.shape_control_disabled)
                 } else {
-                    //  periodoSelected = periodosList[position-1].id
+                    idAeronave = aeronavesList!![position].codigoModeloPuesto
+                    nombreAeronave = aeronavesList!![position].descripcion
+                    setSpinnerFormato()
+                    binding.rlFormato!!.setBackgroundResource(R.drawable.shape_text_box)
                     val sessionManager = SessionUserManager(requireContext())
                     //  concursosList = ArrayList()
                     //  cocursosViewModel.listaConcursos(sessionManager.getToken()!!,periodoSelected)
@@ -110,19 +170,18 @@ class EscogeAeronaveFragment  : Fragment() {
 
 
 
-    fun setSpinnerUbicacion(
+    fun setSpinnerFormato(
     ) {
         var spinnerTipo = binding.spiFormato
         val spinnerArray: MutableList<String> = ArrayList()
         spinnerArray.add("Seleccione formato")
         spinnerArray.add("Pre-Vuelo")
-        spinnerArray.add("Otro")
 
         //   for(item in periodosList)
         //   { spinnerArray.add(item.detalle) }
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+        adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -133,12 +192,10 @@ class EscogeAeronaveFragment  : Fragment() {
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
-                    ///  periodoSelected = ""
+                      idFormato = ""
                 } else {
+                    idFormato = "op"
                     //  periodoSelected = periodosList[position-1].id
-                    val sessionManager = SessionUserManager(requireContext())
-                    //  concursosList = ArrayList()
-                    //  cocursosViewModel.listaConcursos(sessionManager.getToken()!!,periodoSelected)
                 }
             }
         }
@@ -184,6 +241,7 @@ class EscogeAeronaveFragment  : Fragment() {
             try {
                 if (it != null) {
                     aeronavesList = ArrayList(it.data!!.table)
+                    binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerAeronave()
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)

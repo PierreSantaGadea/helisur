@@ -146,7 +146,7 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="30dp"
                         android:layout_marginRight="30dp"
-                        android:background="@drawable/shape_button_principal"
+                        android:background="@drawable/shape_button_login"
                         android:gravity="center">
 
                         <TextView
@@ -154,7 +154,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoregular"
                             android:text="INICIAR SESIÓN"
-                            android:textColor="@color/texto_boton_principal"
+                            android:textColor="@color/texto_boton_login"
                             android:textSize="17dp" />
 
 

@@ -13,4 +13,18 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="CustomNavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <!-- Personaliza los colores -->
+        <item name="itemTextAppearance">@style/CustomNavigationItemText</item>
+        <item name="itemIconTint">#B8B6B4</item> <!-- Color del ícono -->
+        <item name="itemTextColor">#B8B6B4</item> <!-- Color del texto -->
+        <!-- Fondo del NavigationView -->
+    </style>
+
+
+    <style name="CustomNavigationItemText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">#F44336</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

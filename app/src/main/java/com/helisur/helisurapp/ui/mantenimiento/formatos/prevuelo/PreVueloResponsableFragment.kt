@@ -20,6 +20,9 @@ class PreVueloResponsableFragment : Fragment() {
     private lateinit var binding: FragmentResponsableBinding
     var loading: TransparentProgressDialog? = null
 
+    var showDetail1 = false
+    var showDetail2 = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -58,6 +61,41 @@ class PreVueloResponsableFragment : Fragment() {
 
 
 
+
+        binding.llitem1!!.setOnClickListener {
+
+            if(showDetail1)
+            {
+                showDetail1 = false
+                binding.llDetalle1!!.visibility = View.GONE
+                binding.llDetalle1!!.visibility = View.GONE
+            }
+            else
+            {
+                showDetail1 = true
+                binding.llDetalle1!!.visibility = View.VISIBLE
+                binding.llDetalle1!!.visibility = View.VISIBLE
+            }
+
+
+        }
+
+        binding.llitem2!!.setOnClickListener {
+
+            if(showDetail2)
+            {
+                showDetail2 = false
+                binding.llDetalle2!!.visibility = View.GONE
+                binding.llDetalle2!!.visibility = View.GONE
+            }
+            else
+            {
+                showDetail2 = true
+                binding.llDetalle2!!.visibility = View.VISIBLE
+                binding.llDetalle2!!.visibility = View.VISIBLE
+            }
+
+        }
 
     }
 

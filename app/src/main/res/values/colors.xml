@@ -7,31 +7,95 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="almost_white">#E9E9E9</color>
+    <color name="almost_black">#161616</color>
+    <color name="grey">#C4C4C4</color>
+    <color name="dark_grey">#2C2C2C</color>
+    <color name="disabled">#D3D3D3</color>
 
-
-
+    <!--  COLORES PRINCIPALES DE LA ORGANIZACION -->
     <color name="principal">#002f5e</color>
     <color name="secondary">#ffed00</color>
     <color name="third">#e11f21</color>
 
-    <color name="fondo_pantalla_general">#E9E9E9</color>
+    <!--  PANTALLA GENERAL -->
+    <color name="fondo_pantalla_general">@color/almost_white</color>
+    <color name="titulo_pantalla_general">@color/principal</color>
+    <color name="texto_simple_pantalla_general">@color/almost_black</color>
 
+    <!--  LOGIN -->
     <color name="fondo_login">@color/principal</color>
-
-    <color name="fondo_contenedor_login">#E9E9E9</color>
+    <color name="fondo_contenedor_login">@color/almost_white</color>
     <color name="borde_contenedor_login">@color/principal</color>
     <color name="color_titulo_contenedor_login">@color/principal</color>
-
-    <color name="fondo_textbox_login">#E9E9E9</color>
+    <color name="fondo_textbox_login">@color/almost_white</color>
     <color name="borde_textbox_login">#666666</color>
+    <color name="fondo_boton_login">@color/principal</color>
+    <color name="borde_boton_login">@color/principal</color>
+    <color name="texto_boton_login">@color/almost_white</color>
 
-    <color name="color_texto_cajatexto">#1F1F1F</color>
+
+    <!--  CAJAS DE TEXTO -->
+    <color name="fondo_cajatexto">@color/white</color>
+    <color name="borde_cajatexto">#666666</color>
+    <color name="color_texto_cajatexto">@color/almost_black</color>
     <color name="text_hint">#cacaca</color>
 
+    <!--  MENU INFERIOR -->
     <color name="icono">@color/principal</color>
 
+
+    <!--  BOTON PRINCIPAL -->
     <color name="fondo_boton_principal">@color/principal</color>
     <color name="borde_boton_principal">@color/principal</color>
-    <color name="texto_boton_principal">#E9E9E9</color>
+    <color name="texto_boton_principal">@color/almost_white</color>
 
+    <!--  BOTON SECUNDARIO -->
+    <color name="fondo_boton_secundario">@color/almost_white</color>
+    <color name="borde_boton_secundario">@color/principal</color>
+    <color name="texto_boton_secundario">@color/principal</color>
+
+
+    <!--  ITEM MODULO -->
+    <color name="fondo_item_modulo">@color/white</color>
+    <color name="borde_item_modulo">@color/principal</color>
+    <color name="texto_item_modulo">@color/principal</color>
+
+    <!--  TOOLBAR -->
+    <color name="fondo_toolbar">@color/principal</color>
+    <color name="texto_toolbar">@color/almost_white</color>
+
+    <!--  POPUPS -->
+    <color name="fondo_popup">@color/almost_white</color>
+    <color name="borde_popup">#666666</color>
+
+    <!--  FIRMA DIGITAL -->
+    <color name="fondo_firma_digital">@color/grey</color>
+    <color name="borde_firma_digital">@color/grey</color>
+    <color name="texto_firma_digital">@color/black</color>
+
+    <!--  CAJA TEXTO DISABLED -->
+    <color name="fondo_cajatexto_disabled">@color/disabled</color>
+    <color name="borde_cajatexto_disabled">@color/borde_cajatexto</color>
+
+
+    <!--  CONTENEDOR TAREA ABUELO -->
+    <color name="fondo_contenedor_tarea_abuelo">@color/principal</color>
+    <color name="borde_contenedor_tarea_abuelo">@color/principal</color>
+    <color name="texto_contenedor_tarea_abuelo">@color/white</color>
+
+    <!--  CONTENEDOR TAREA PADRE -->
+    <color name="fondo_contenedor_tarea_padre">@color/disabled</color>
+    <color name="borde_contenedor_tarea_padre">@color/borde_cajatexto</color>
+    <color name="texto_contenedor_tarea_padre">@color/black</color>
+
+    <!--  CONTENEDOR TAREA HIJO -->
+    <color name="fondo_contenedor_tarea_hijo">@color/almost_white</color>
+    <color name="borde_contenedor_tarea_hijo">@color/principal</color>
+    <color name="texto_contenedor_tarea_hijo">@color/black</color>
+
+
+
+    <color name="green_labell">#1A8A1F</color>
+    <color name="input_line">#666666</color>
 </resources>

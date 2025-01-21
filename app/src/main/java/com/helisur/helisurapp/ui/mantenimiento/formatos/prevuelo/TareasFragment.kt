@@ -20,6 +20,17 @@ class TareasFragment : Fragment() {
     var showDetail = false
     var isChecked = false
 
+
+    var showDetailAbuelo = false
+    var showDetailPadre = false
+    var showDetailhijo = false
+    var showDetailhijo2 = false
+
+    var showDetailAbuelo2 = false
+    var showDetailPadre2 = false
+    var showDetailhijo222 = false
+    var showDetailhijo2222 = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -44,87 +55,139 @@ class TareasFragment : Fragment() {
 
     fun clickListener()
     {
-        binding.item1.setOnClickListener {
 
-            if(showDetail)
+
+        binding.contenedorAbuelo!!.setOnClickListener {
+
+            if(showDetailAbuelo)
             {
-                binding.llDetalle.visibility = View.GONE
-                showDetail = false
-            }
-            else{
-                binding.llDetalle.visibility = View.VISIBLE
-                showDetail = true
-            }
-
-        }
-
-
-        binding.cbxNoAplica.setOnClickListener {
-
-            if(binding.cbxNoAplica.isChecked)
-            {
-                binding.llMotivo.visibility = View.VISIBLE
+                showDetailAbuelo = false
+                binding.contenedorPadre!!.visibility = View.GONE
+                binding.contenedorPadre2!!.visibility = View.GONE
             }
             else
             {
-                if(!binding.cbxReporRTV.isChecked && !binding.cbxReporDanosMenores.isChecked && !binding.cbxReporMELMDS.isChecked)
-                {
-                    binding.llMotivo.visibility = View.GONE
-                }
+                showDetailAbuelo = true
+                binding.contenedorPadre!!.visibility = View.VISIBLE
+                binding.contenedorPadre2!!.visibility = View.VISIBLE
             }
+
 
         }
 
-        binding.cbxReporRTV.setOnClickListener {
 
-            if(binding.cbxReporRTV.isChecked)
+
+
+
+        binding.contenedorPadre!!.setOnClickListener {
+
+            if(showDetailPadre)
             {
-                binding.llMotivo.visibility = View.VISIBLE
+                showDetailPadre = false
+                binding.contenedorMadre!!.visibility = View.GONE
             }
             else
             {
-                if(!binding.cbxNoAplica.isChecked && !binding.cbxReporDanosMenores.isChecked && !binding.cbxReporMELMDS.isChecked)
-                {
-                    binding.llMotivo.visibility = View.GONE
-                }
+                showDetailPadre = true
+                binding.contenedorMadre!!.visibility = View.VISIBLE
             }
+
 
         }
 
 
-        binding.cbxReporDanosMenores.setOnClickListener {
 
-            if(binding.cbxReporDanosMenores.isChecked)
+        binding.contenedorHijo1!!.setOnClickListener {
+
+            if(showDetailhijo)
             {
-                binding.llMotivo.visibility = View.VISIBLE
+                showDetailhijo = false
+                binding.contenedorNieto1!!.visibility = View.GONE
             }
             else
             {
-                if(!binding.cbxNoAplica.isChecked && !binding.cbxReporRTV.isChecked && !binding.cbxReporMELMDS.isChecked)
-                {
-                    binding.llMotivo.visibility = View.GONE
-                }
+                showDetailhijo = true
+                binding.contenedorNieto1!!.visibility = View.VISIBLE
             }
+
 
         }
 
 
-        binding.cbxReporMELMDS.setOnClickListener {
 
-            if(binding.cbxReporMELMDS.isChecked)
+        binding.contenedorHijo2!!.setOnClickListener {
+
+            if(showDetailhijo2)
             {
-                binding.llMotivo.visibility = View.VISIBLE
+                showDetailhijo2 = false
+                binding.contenedorNieto2!!.visibility = View.GONE
             }
             else
             {
-                if(!binding.cbxNoAplica.isChecked && !binding.cbxReporRTV.isChecked && !binding.cbxReporDanosMenores.isChecked)
-                {
-                    binding.llMotivo.visibility = View.GONE
-                }
+                showDetailhijo2 = true
+                binding.contenedorNieto2!!.visibility = View.VISIBLE
             }
+
 
         }
 
+
+
+
+
+
+
+        binding.contenedorPadre2!!.setOnClickListener {
+
+            if(showDetailPadre2)
+            {
+                showDetailPadre2 = false
+                binding.contenedorMadre2!!.visibility = View.GONE
+            }
+            else
+            {
+                showDetailPadre2 = true
+                binding.contenedorMadre2!!.visibility = View.VISIBLE
+            }
+
+
+        }
+
+
+
+        binding.contenedorHijo12!!.setOnClickListener {
+
+            if(showDetailhijo222)
+            {
+                showDetailhijo222 = false
+                binding.contenedorNieto12!!.visibility = View.GONE
+            }
+            else
+            {
+                showDetailhijo222 = true
+                binding.contenedorNieto12!!.visibility = View.VISIBLE
+            }
+
+
+        }
+
+
+
+        binding.contenedorHijo22!!.setOnClickListener {
+
+            if(showDetailhijo2222)
+            {
+                showDetailhijo2222 = false
+                binding.contenedorNieto22!!.visibility = View.GONE
+            }
+            else
+            {
+                showDetailhijo2222 = true
+                binding.contenedorNieto22!!.visibility = View.VISIBLE
+            }
+
+
+        }
 
 
 

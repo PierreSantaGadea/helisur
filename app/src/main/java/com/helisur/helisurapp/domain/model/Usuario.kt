@@ -2,33 +2,38 @@ package com.helisur.helisurapp.domain.model
 
 import com.helisur.helisurapp.data.cloud.usuario.model.response.LoginCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.LoginCloudResponseDataOpciones
+import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneDatosUsuarioCloudResponse
+import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneDatosUsuarioDataCloudResponse
+import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneTokenCloudResponse
 
 class Usuario(
-    var error: String?,
-    val changePassword: Boolean?,
-    val token: String?,
-    var nombres: String?,
-    val apellidoPaterno: String?,
+
+    var success:Int?,
+    var message:String?,
+    var codigoUsuario: String?,
+    var codigoEmpleado: String?,
+    var codigoPerfil: String?,
+    var nombreUsuario: String?,
+    var apellidoPaterno: String?,
     var apellidoMaterno: String?,
-    val rol: String?,
-    var companiaNombre: String?,
-    val razonSocial: String?,
-    var usuario: String?,
-    val perfilId: String?,
-    var controladorPrincipal: String?,
-    val isAdmin: Boolean?,
-    var vistaPrincipal: String?,
-    val compania: String?,
-    var ruta: String?,
-    val perfil: String?,
-    var id: String?,
-    val opciones: List<LoginCloudResponseDataOpciones>?,
-    var linea: String?
+    var usuarioAcceso: String?,
+    var claveAcceso: String?,
+    var indicadorExterno: String?,
+    var codigoEstacion: String?,
+    var nombreEstacion: String?,
+    var cargo: String?,
+    var dni: String?,
+    var superior: String?,
+    var codigoArea: String?,
+    var nombreArea: String?,
+    var ubigeoDireccion: String?,
+    var direccion: String?,
+    var referencia: String?,
+    var codUsuarioReq: String?,
+
 ) {
     constructor() : this(
-        "",
-        false,
-        "",
+        0,
         "",
         "",
         "",
@@ -38,36 +43,43 @@ class Usuario(
         "",
         "",
         "",
-        false,
         "",
         "",
         "",
         "",
         "",
-        null,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
         ""
     )
 }
 
-fun LoginCloudResponse.toDomain() = Usuario(
+
+fun ObtieneDatosUsuarioCloudResponse.toDomain() = Usuario(
+    success,
     message,
-    data.changePassword,
-    data.token,
-    data.nombres,
-    data.apellidoPaterno,
-    data.apellidoMaterno,
-    data.rol,
-    data.companiaNombre,
-    data.razonSocial,
-    data.usuario,
-    data.perfilId,
-    data.controladorPrincipal,
-    data.isAdmin,
-    data.vistaPrincipal,
-    data.compania,
-    data.ruta,
-    data.perfil,
-    data.id,
-    data.opciones,
-    data.linea
+    data!!.table.get(0).codigoUsuario,
+    data!!.table.get(0).codigoEmpleado,
+    data!!.table.get(0).codigoPerfil,
+    data!!.table.get(0).nombreUsuario,
+    data!!.table.get(0).apellidoPaterno,
+    data!!.table.get(0).apellidoMaterno,
+    data!!.table.get(0).usuarioAcceso,
+    data!!.table.get(0).claveAcceso,
+    data!!.table.get(0).indicadorExterno,
+    data!!.table.get(0).codigoEstacion,
+    data!!.table.get(0).nombreEstacion,
+    data!!.table.get(0).cargo,
+    data!!.table.get(0).dni,
+    data!!.table.get(0).superior,
+    data!!.table.get(0).codigoArea,
+    data!!.table.get(0).nombreArea,
+    data!!.table.get(0).ubigeoDireccion,
+    data!!.table.get(0).direccion,
+    data!!.table.get(0).referencia,
+    data!!.table.get(0).codUsuarioReq
 )

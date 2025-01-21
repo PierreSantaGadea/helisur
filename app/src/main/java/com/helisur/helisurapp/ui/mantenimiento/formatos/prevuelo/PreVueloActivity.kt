@@ -26,10 +26,7 @@ class PreVueloActivity  : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPrevueloBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //  setSupportActionBar(binding.appBarMain.toolbar)
-        //   drawerSetListMenuItems()
-        //   drawerSetHeader()
-        //    disableBackButton()
+
         loadTabHomeFragment()
     }
 

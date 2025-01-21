@@ -31,6 +31,7 @@ class SplashActivity  : BaseActivity() {
         val sessionManager = SessionUserManager(baseContext)
         val userLogged = sessionManager.getLogged()
         if (userLogged!!) {
+            next(ModulesActivity::class.java, null)
          //   next(MainActivityVendedor::class.java, null)
         } else {
 
