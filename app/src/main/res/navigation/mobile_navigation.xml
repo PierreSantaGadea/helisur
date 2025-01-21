@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    android:label="Pre vuelo"
+    app:startDestination="@+id/item_formatos">
+
+    <fragment
+        android:id="@+id/item_formatos"
+        android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.EscogeAeronaveFragment" />
+
+    <fragment
+        android:id="@+id/item_mecanicas"
+        android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.DatosAeronaveFragment"
+        android:label="Mecanicas"
+        tools:layout="@layout/fragment_datos_aeronave" />
+
+    <activity
+        android:id="@+id/item_cartera"
+        android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity"
+        android:label="Cartera Clientes"
+        tools:layout="@layout/activity_prevuelo" />
+
+    <dialog
+        android:id="@+id/item_cerrar"
+        android:label="Cerrar sesion"
+        tools:layout="@layout/dialog_logout" />
+
+</navigation>

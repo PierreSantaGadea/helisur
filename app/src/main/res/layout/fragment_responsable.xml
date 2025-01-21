@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo_pantalla_general">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/robotobold"
+                android:text="El helicóptero se encuentra en condición no satisfactoria"
+                android:textColor="@color/third"
+                android:textSize="22dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/robotomedium"
+                android:text="Responsable"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/robotoregular"
+                android:text="Nombres y apellidos"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="15dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_text_box"
+                android:padding="0dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="0dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="30dp"
+                        android:paddingBottom="-5dp"
+                        android:textColor="@color/color_texto_cajatexto"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:src="@drawable/ic_down"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/robotoregular"
+                android:text="Licencia DGAC"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="15dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_text_box"
+                android:padding="0dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="0dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="30dp"
+                        android:paddingBottom="-5dp"
+                        android:textColor="@color/color_texto_cajatexto"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:src="@drawable/ic_down"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Firma dentro del recuadro"
+                    android:textColor="@color/titulo_pantalla_general"
+                    android:textSize="16sp"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/robotolight"/>
+
+                <com.github.gcacace.signaturepad.views.SignaturePad
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_margin="24dp"
+                    android:background="@drawable/shape_signature_pad"
+                    app:penColor="@color/texto_firma_digital" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="#C4C4C4"
+                        android:gravity="center"
+                        android:paddingHorizontal="24dp"
+                        android:paddingVertical="8dp"
+                        android:text="Borrar"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@color/input_line"
+                        android:gravity="center"
+                        android:paddingHorizontal="24dp"
+                        android:paddingVertical="8dp"
+                        android:text="Guardar"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/robotoregular"
+                android:text="¿La aeronave se entregare a operación?"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="15dp" />
+
+
+            <CheckBox
+                android:id="@+id/chxSi"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Si"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="15dp"
+                android:buttonTint="@color/titulo_pantalla_general" />
+
+            <CheckBox
+                android:id="@+id/chxNo"
+                android:layout_marginTop="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="15dp"
+                android:buttonTint="@color/titulo_pantalla_general" />
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="40dp"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:id="@+id/tvAtras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_arrow_left" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/robotomedium"
+                        android:text="Atrás"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="19dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/tvSiguiente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/robotomedium"
+                        android:text="Siguiente"
+
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="19dp" />
+
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/ic_arrow_rigth" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

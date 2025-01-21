@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:background="@color/principal"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:layout_marginTop="40dp"
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:contentDescription="@string/nav_header_desc"
+        app:srcCompat="@drawable/logo_helisur_blanco_color"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/header_drawer_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:text="Pierre SantaGadea"
+        android:textSize="@dimen/size_text_nav_header"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/header_drawer_rol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Analista programador"
+        android:paddingTop="4dp"
+        android:textSize="@dimen/size_text_nav_header"
+        android:layout_gravity="center"/>
+
+    <View
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#A8A4A4" />
+
+
+
+
+</LinearLayout>
