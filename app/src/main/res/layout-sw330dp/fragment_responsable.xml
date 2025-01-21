@@ -27,7 +27,7 @@
                 android:fontFamily="@font/robotomedium"
                 android:text="Anotaciones"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="30dp" />
+                android:textSize="20dp" />
 
 
             <RelativeLayout
@@ -37,14 +37,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_item_anotaciones"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <LinearLayout
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginLeft="20dp">
+                    android:layout_marginLeft="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                         android:fontFamily="@font/robotoregular"
                         android:text="Lavar motor"
                         android:textColor="@color/color_texto_cajatexto"
-                        android:textSize="25dp" />
+                        android:textSize="16dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
                             android:fontFamily="@font/robotoregular"
                             android:text="Reportaje en daños menores"
                             android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
+                            android:textSize="14dp" />
                         <TextView
                             android:layout_marginTop="5dp"
                             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
                             android:fontFamily="@font/robotoregular"
                             android:text="Reportaje MEL/MDS"
                             android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
+                            android:textSize="14dp" />
                         <TextView
                             android:layout_marginTop="5dp"
                             android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                             android:fontFamily="@font/robotoregular"
                             android:text="Se observo daño menor en los componentes prinicpales"
                             android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
@@ -100,7 +100,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_width="40dp"
-                    android:layout_height="35dp"
+                    android:layout_height="25dp"
                     android:src="@drawable/ic_fail" />
 
 
@@ -114,14 +114,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_item_anotaciones"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <LinearLayout
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginLeft="20dp">
+                    android:layout_marginLeft="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                         android:fontFamily="@font/robotoregular"
                         android:text="Lubricación eje"
                         android:textColor="@color/color_texto_cajatexto"
-                        android:textSize="25dp" />
+                        android:textSize="16dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -146,7 +146,7 @@
                             android:fontFamily="@font/robotoregular"
                             android:text="Reportaje en daños menores"
                             android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
+                            android:textSize="14dp" />
                         <TextView
                             android:layout_marginTop="5dp"
                             android:layout_width="wrap_content"
@@ -154,7 +154,7 @@
                             android:fontFamily="@font/robotoregular"
                             android:text="Reportaje MEL/MDS"
                             android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
+                            android:textSize="14dp" />
                         <TextView
                             android:layout_marginTop="5dp"
                             android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                             android:fontFamily="@font/robotoregular"
                             android:text="Se detectaron fallas en controles"
                             android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
@@ -177,12 +177,15 @@
                     android:layout_marginRight="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_width="40dp"
-                    android:layout_height="35dp"
+                    android:layout_height="25dp"
                     android:src="@drawable/ic_fail" />
 
 
 
             </RelativeLayout>
+
+
+
 
 
             <TextView
@@ -192,18 +195,18 @@
                 android:fontFamily="@font/robotobold"
                 android:text="El helicóptero se encuentra en condición no satisfactoria"
                 android:textColor="@color/third"
-                android:textSize="32dp"
+                android:textSize="22dp"
                 android:layout_gravity="center"
                 android:gravity="center"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="35dp"
                 android:fontFamily="@font/robotomedium"
                 android:text="Responsable"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="30dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -212,11 +215,11 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="Nombres y apellidos"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -224,7 +227,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -264,11 +267,11 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="Licencia DGAC"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -276,7 +279,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -320,14 +323,14 @@
                     android:layout_gravity="center"
                     android:text="Firma dentro del recuadro"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="22dp"
+                    android:textSize="16sp"
                     android:layout_marginTop="30dp"
                     android:fontFamily="@font/robotolight"/>
 
                 <com.github.gcacace.signaturepad.views.SignaturePad
                     android:id="@+id/signaturePad"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="180dp"
                     android:layout_margin="24dp"
                     android:background="@drawable/shape_signature_pad"
                     app:penColor="@color/texto_firma_digital" />
@@ -382,28 +385,28 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="¿La aeronave se entregare a operación?"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
 
             <CheckBox
                 android:id="@+id/chxSi"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Si"
                 android:fontFamily="@font/robotoregular"
-                android:textSize="22dp"
+                android:textSize="15dp"
                 android:buttonTint="@color/titulo_pantalla_general"
                 android:textColor="@color/texto_simple_pantalla_general" />
 
             <CheckBox
                 android:id="@+id/chxNo"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No"
                 android:fontFamily="@font/robotoregular"
-                android:textSize="22dp"
+                android:textSize="15dp"
                 android:buttonTint="@color/titulo_pantalla_general"
                 android:textColor="@color/texto_simple_pantalla_general" />
 
@@ -412,7 +415,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="70dp"
                 android:layout_marginBottom="40dp"
                 android:orientation="horizontal">
 
@@ -427,8 +430,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="35dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_arrow_left" />
 
                     <TextView
@@ -438,7 +441,7 @@
                         android:fontFamily="@font/robotomedium"
                         android:text="Atrás"
                         android:textColor="@color/titulo_pantalla_general"
-                        android:textSize="25dp" />
+                        android:textSize="19dp" />
 
                 </LinearLayout>
 

@@ -22,6 +22,7 @@ import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaPrevuelosRealizadosActivity
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemAeronave
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,7 +84,8 @@ class EscogeAeronaveFragment  : Fragment() {
                 {
 
                     saveAeronave(requireContext(),idAeronave,nombreAeronave)
-                    val intent = Intent (getActivity(), PreVueloActivity::class.java)
+                    val intent = Intent (getActivity(), ListaPrevuelosRealizadosActivity::class.java)
+              //      val intent = Intent (getActivity(), PreVueloActivity::class.java)
                     getActivity()?.startActivity(intent)
                 }
             }

@@ -3,6 +3,7 @@ package com.helisur.helisurapp.data.di
 import android.content.Context
 import com.google.gson.GsonBuilder
 import com.helisur.helisurapp.data.cloud.aeronaves.apis.AeronavesApiClient
+import com.helisur.helisurapp.data.cloud.formatos.apis.FormatosApiClient
 import com.helisur.helisurapp.data.cloud.usuario.apis.UsuarioApiClient
 import com.helisur.helisurapp.data.cloud.usuario.model.parameter.LoginCloudParameter
 import com.helisur.helisurapp.domain.util.Constants
@@ -165,6 +166,12 @@ object NetworkModule {
     @Provides
     fun provideAeronavesApiService(retrofit: Retrofit): AeronavesApiClient =
         retrofit.create(AeronavesApiClient::class.java)
+
+
+    @Singleton
+    @Provides
+    fun provideFormatosApiService(retrofit: Retrofit): FormatosApiClient =
+        retrofit.create(FormatosApiClient::class.java)
 
 
 }

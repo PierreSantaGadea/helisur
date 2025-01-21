@@ -25,9 +25,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
                 android:fontFamily="@font/robotomedium"
-                android:text="Datos modelo aeronave"
+                android:text="Datos aeronave"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="30dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,12 +36,12 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="Aeronave"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -49,7 +49,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -90,11 +90,11 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="RTV"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -102,7 +102,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -116,7 +116,6 @@
                         android:paddingTop="0dp"
                         android:paddingEnd="30dp"
                         android:paddingBottom="-5dp"
-                        android:textSize="18dp"
                         android:textColor="@color/color_texto_cajatexto"/>
 
                 </LinearLayout>
@@ -142,11 +141,11 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="Ubicación"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -154,7 +153,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -194,43 +193,42 @@
                 android:fontFamily="@font/robotomedium"
                 android:text="Antecedente y requerimiento"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="30dp" />
+                android:textSize="20dp" />
 
 
             <CheckBox
                 android:id="@+id/chxDiscrepancias"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Existen discrepancias"
                 android:fontFamily="@font/robotoregular"
-                android:textSize="22dp"
+                android:textSize="15dp"
                 android:buttonTint="@color/titulo_pantalla_general"
-                android:textColor="@color/texto_simple_pantalla_general"/>
+                android:textColor="@color/texto_simple_pantalla_general" />
 
 
             <TextView
-                android:id="@+id/tvDiscrepancias"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/robotoregular"
                 android:text="Las discrepancias surgidas estan registradas en el RTV Nro"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="22dp" />
+                android:textSize="15dp" />
 
             <RelativeLayout
-                android:id="@+id/rlDiscrepancias"
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
-                android:padding="0dip">
+                android:padding="0dip"
+                android:id="@+id/rlDiscrepancias">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -245,7 +243,6 @@
                         android:paddingTop="0dp"
                         android:paddingEnd="30dp"
                         android:paddingBottom="-5dp"
-                        android:textSize="22dp"
                         android:textColor="@color/color_texto_cajatexto"/>
 
                 </LinearLayout>
@@ -266,31 +263,31 @@
 
 
             <CheckBox
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Se efectuaron acciones de mantenimiento"
                 android:fontFamily="@font/robotoregular"
-                android:textSize="22dp"
+                android:textSize="15dp"
                 android:buttonTint="@color/titulo_pantalla_general"
-                android:textColor="@color/texto_simple_pantalla_general"/>
+                android:textColor="@color/texto_simple_pantalla_general" />
 
             <CheckBox
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Se solicita un encendido previo de motores"
                 android:fontFamily="@font/robotoregular"
-                android:textSize="22dp"
+                android:textSize="15dp"
                 android:buttonTint="@color/titulo_pantalla_general"
-                android:textColor="@color/texto_simple_pantalla_general"/>
+                android:textColor="@color/texto_simple_pantalla_general" />
 
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="70dp"
                 android:layout_marginBottom="40dp"
                 android:orientation="horizontal">
 
@@ -337,12 +334,12 @@
                         android:fontFamily="@font/robotomedium"
                         android:text="Siguiente"
                         android:textColor="@color/titulo_pantalla_general"
-                        android:textSize="25dp" />
+                        android:textSize="19dp" />
 
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="35dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginLeft="5dp"
                         android:src="@drawable/ic_arrow_rigth" />
 

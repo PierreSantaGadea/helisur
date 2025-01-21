@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -35,7 +37,8 @@ class DatosAeronaveFragment : Fragment() {
     private lateinit var binding: FragmentDatosAeronaveBinding
 
     var loading: TransparentProgressDialog? = null
-    private var modelosAeronavesList: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? = null
+    private var modelosAeronavesList: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? =
+        null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -50,8 +53,11 @@ class DatosAeronaveFragment : Fragment() {
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
+        binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
+        binding.etDiscrepancias!!.isEnabled = false
         var idAeronave = getAeronave(requireContext())
         aeronavesViewModel.obtieneModelosAeronave(idAeronave!!)
+        setCheckBox()
         ///   val sessionManager = SessionUserManager(requireContext())
         //  val tokennn = sessionManager.getToken()!!
         //  cocursosViewModel.listaPeriodos(sessionManager.getToken()!!)
@@ -59,6 +65,23 @@ class DatosAeronaveFragment : Fragment() {
         //   setRecyclerView(concursosList)
         //   setSpinnerPeriodo()
     }
+
+    fun setCheckBox() {
+
+        binding.chxDiscrepancias!!.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                //Do Whatever you want in isChecked
+                binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_text_box)
+                binding.etDiscrepancias!!.isEnabled = true
+            } else {
+                binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
+                binding.etDiscrepancias!!.isEnabled = false
+            }
+        }
+    }
+
+
+
 
 
     fun getAeronave(context: Context): String? {
