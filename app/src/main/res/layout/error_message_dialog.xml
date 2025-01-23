@@ -61,7 +61,7 @@
                         android:textColor="@color/color_texto_cajatexto"
                         android:textSize="18dp"
                         android:fontFamily="@font/robotoregular"
-                        android:justificationMode="inter_word"/>
+                        />
 
 
                     <TextView

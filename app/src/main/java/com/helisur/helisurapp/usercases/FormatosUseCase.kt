@@ -5,6 +5,9 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatos
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.data.repository.FormatosRepository
+import com.helisur.helisurapp.domain.model.Sistema
+import com.helisur.helisurapp.domain.model.Tarea
+import com.helisur.helisurapp.domain.model.toDomain
 import com.helisur.helisurapp.domain.util.Constants
 import javax.inject.Inject
 
@@ -25,7 +28,7 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
         }
     }
 
-
+/*
     suspend fun obtieneSistemas(codigoFormato: String): ObtieneSistemasCloudResponse {
         try {
             val respuesta = repository.obtieneSistemas(codigoFormato)
@@ -40,16 +43,33 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
     }
 
 
-    suspend fun obtieneTareas(codigoSistema: String): ObtieneTareasCloudResponse {
+ */
+    suspend fun obtieneSistemas(codigoFormato: String): ArrayList<Sistema> {
+        try {
+            val respuesta = repository.obtieneSistemas(codigoFormato)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            val sistemaFailed = Sistema()
+            sistemaFailed.messageFailed = e.message.toString()
+            var lista:ArrayList<Sistema> = arrayListOf()
+            lista.add(sistemaFailed)
+            return lista
+        }
+    }
+
+
+    suspend fun obtieneTareas(codigoSistema: String): ArrayList<Tarea> {
         try {
             val respuesta = repository.obtieneTareas(codigoSistema)
             return respuesta
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
-            val responseFailed = ObtieneTareasCloudResponse()
-            responseFailed.success = Constants.ERROR.ERROR_ENTERO
-            responseFailed.message = e.message.toString()
-            return responseFailed
+            val tareaFailed = Tarea()
+            tareaFailed.messageFailed = e.message.toString()
+            var lista:ArrayList<Tarea> = arrayListOf()
+            lista.add(tareaFailed)
+            return lista
         }
     }
 

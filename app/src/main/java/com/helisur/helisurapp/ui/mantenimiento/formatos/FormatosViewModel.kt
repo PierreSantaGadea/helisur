@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
+import com.helisur.helisurapp.domain.model.Sistema
+import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.usercases.FormatosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +21,8 @@ class FormatosViewModel @Inject constructor(
 
 
     val responseObtieneFormatos= MutableLiveData<ObtieneFormatosCloudResponse>()
-    val responseObtieneSistemas= MutableLiveData<ObtieneSistemasCloudResponse>()
-    val responseObtieneTareas= MutableLiveData<ObtieneTareasCloudResponse>()
+    val responseObtieneSistemas= MutableLiveData<ArrayList<Sistema>>()
+    val responseObtieneTareas= MutableLiveData<ArrayList<Tarea>>()
     val isLoading = MutableLiveData<Boolean>()
     val formatosState = MutableLiveData<FormatosState>(FormatosState.START)
 
@@ -47,7 +49,7 @@ class FormatosViewModel @Inject constructor(
             }
         }
     }
-
+/*
     fun obtieneSistemas(codigoFormato:String) {
         viewModelScope.launch {
             isLoading.postValue(true)
@@ -71,22 +73,46 @@ class FormatosViewModel @Inject constructor(
         }
     }
 
-    fun obtieneTareas(codigoSistema:String) {
+ */
+
+    fun obtieneSistemas(codigoFormato:String) {
         viewModelScope.launch {
             isLoading.postValue(true)
-            val result = formatosUseCase.obtieneTareas(codigoSistema)
+            val result = formatosUseCase.obtieneSistemas(codigoFormato)
             if (result != null) {
-                if(result.success == Constants.ERROR.ERROR_ENTERO)
+                if(result.size>0)
                 {
-                    isLoading.postValue(false)
-                    formatosState.postValue(FormatosState.FAILURE(result.message))
+                    if(result.size == 1)
+                    {
+                        if(result.get(0).messageFailed.equals(""))
+                        {
+                            // sin errores 1 solo item
+                            isLoading.postValue(false)
+                            formatosState.postValue(FormatosState.SUCCESS)
+                            responseObtieneSistemas.postValue(result)
+                        }
+                        else
+                        {
+                            //error
+                            isLoading.postValue(false)
+                            formatosState.postValue(FormatosState.FAILURE(result.get(0).messageFailed))
+                        }
+                    }
+                    else
+                    {
+                        // sin errores varios items
+                        isLoading.postValue(false)
+                        formatosState.postValue(FormatosState.SUCCESS)
+                        responseObtieneSistemas.postValue(result)
+                    }
                 }
                 else
                 {
+                    //error sin resultados
                     isLoading.postValue(false)
-                    formatosState.postValue(FormatosState.SUCCESS)
-                    responseObtieneTareas.postValue(result)
+                    formatosState.postValue(FormatosState.FAILURE("No se encontraron resultados"))
                 }
+
             } else {
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
@@ -96,11 +122,59 @@ class FormatosViewModel @Inject constructor(
 
 
 
+    fun obtieneTareas(codigoSistema:String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.obtieneTareas(codigoSistema)
+            if (result != null) {
+                if(result.size>0)
+                {
+                    if(result.size == 1)
+                    {
+                        if(result.get(0).messageFailed.equals(""))
+                        {
+                            // sin errores 1 solo item
+                            isLoading.postValue(false)
+                            formatosState.postValue(FormatosState.SUCCESS)
+                            responseObtieneTareas.postValue(result)
+                        }
+                        else
+                        {
+                            //error
+                            isLoading.postValue(false)
+                            formatosState.postValue(FormatosState.FAILURE(result.get(0).messageFailed))
+                        }
+                    }
+                    else
+                    {
+                        // sin errores varios items
+                        isLoading.postValue(false)
+                        formatosState.postValue(FormatosState.SUCCESS)
+                        responseObtieneTareas.postValue(result)
+                    }
+                }
+                else
+                {
+                    //error sin resultados
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.FAILURE("No se encontraron resultados"))
+                }
+
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+
+
     sealed class FormatosState {
         object START : FormatosState()
         object LOADING : FormatosState()
         object SUCCESS : FormatosState()
-        data class FAILURE(val message: String?) : FormatosState()
+        data class FAILURE(val Error: String?) : FormatosState()
     }
 
 

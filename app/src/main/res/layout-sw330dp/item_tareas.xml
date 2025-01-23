@@ -47,6 +47,7 @@
                 android:orientation="vertical">
 
                 <CheckBox
+                    android:id="@+id/chbx_Reportaje_No_Aplica"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,6 +58,7 @@
                     android:textColor="@color/texto_simple_pantalla_general"/>
 
                 <CheckBox
+                    android:id="@+id/chbx_Reportaje_RTV"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,6 +69,7 @@
                     android:textColor="@color/texto_simple_pantalla_general"/>
 
                 <CheckBox
+                    android:id="@+id/chbx_Reportaje_DanosMenores"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,6 +80,7 @@
                     android:textColor="@color/texto_simple_pantalla_general"/>
 
                 <CheckBox
+                    android:id="@+id/chbx_Reportaje_MELMDS"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,11 +102,11 @@
 
 
                     <RelativeLayout
+                        android:id="@+id/rl_Reportaje_Motivo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
-
-                        android:background="@drawable/shape_text_box"
+                        android:background="@drawable/shape_control_disabled"
                         android:padding="0dip">
 
                         <LinearLayout
@@ -112,6 +116,7 @@
                             android:paddingTop="0dp">
 
                             <EditText
+                                android:id="@+id/et_Reportaje_Motivo"
                                 android:hint="Motivo"
                                 android:textColorHint="@color/borde_cajatexto"
                                 android:layout_width="match_parent"
@@ -123,7 +128,8 @@
                                 android:paddingBottom="10dp"
                                 android:textSize="17dp"
                                 android:gravity="top|left"
-                                android:textColor="@color/color_texto_cajatexto"/>
+                                android:textColor="@color/color_texto_cajatexto"
+                                android:enabled="false"/>
 
                         </LinearLayout>
 

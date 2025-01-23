@@ -30,8 +30,10 @@ class ListaPrevuelosRealizadosActivity  : BaseActivity() {
 
         itemList = arrayListOf()
 
-        itemList.add(ObtienePrevuelosRealizadosCloudResponse(0,"priueba"))
-        itemList.add(ObtienePrevuelosRealizadosCloudResponse(0,"priueba2"))
+        itemList.add(ObtienePrevuelosRealizadosCloudResponse(0,"Pre vuelo realizado 1"))
+        itemList.add(ObtienePrevuelosRealizadosCloudResponse(0,"Pre vuelo realizado 2"))
+        itemList.add(ObtienePrevuelosRealizadosCloudResponse(0,"Pre vuelo realizado 3"))
+        itemList.add(ObtienePrevuelosRealizadosCloudResponse(0,"Pre vuelo realizado 4"))
 
         setRecyclerView(itemList)
 
