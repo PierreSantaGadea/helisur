@@ -20,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.FragmentResponsableBinding
+import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
@@ -139,6 +140,19 @@ class PreVueloResponsableFragment : Fragment() {
 
     fun clicListener()
     {
+
+        binding.tvAtras.setOnClickListener {
+            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+        }
+
+        binding.tvSiguiente.setOnClickListener {
+            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
+        }
+
+
+
+
+
         binding.chxNo.setOnClickListener {
             showDialog()
         }
@@ -268,21 +282,18 @@ class PreVueloResponsableFragment : Fragment() {
 
         val etUsuario = dialog.findViewById(R.id.etUsuario) as EditText
         val etPass = dialog.findViewById(R.id.etPass) as EditText
-       // body.text = title
 
         val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
         yesBtn.setOnClickListener {
 
-          //  var user = etUsuario.text
-         //   var pass = etPass.text
-            var user = "analista_app"
-            var pass = "helisur2024."
+            var user = etUsuario.text
+            var pass = etPass.text
+       //     var user = "analista_app"
+       //     var pass = "helisur2024."
 
             loginViewModel.login(
                 user.toString().trim(), pass.toString().trim()
             )
-         //   logout()
-          //  goToLogin()
         }
 
         val noBtn = dialog.findViewById(R.id.btnNo) as RelativeLayout

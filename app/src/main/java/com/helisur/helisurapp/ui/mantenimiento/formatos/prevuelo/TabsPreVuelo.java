@@ -56,6 +56,9 @@ public class TabsPreVuelo extends Fragment {
         //  SessionUserManager sesion = new SessionUserManager(generalContext);
         //  viewPager.setCurrentItem(sesion.getUserCurrentTabPosition());
         //  viewPager.setEnableSwipe(false);
+
+      //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
+        viewPager.setOffscreenPageLimit(int_items);
     }
 
 

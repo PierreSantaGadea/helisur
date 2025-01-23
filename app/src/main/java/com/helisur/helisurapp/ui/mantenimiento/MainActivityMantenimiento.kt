@@ -1,6 +1,7 @@
 package com.helisur.helisurapp.ui.mantenimiento
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.ActivityMantenimientoBinding
 import com.helisur.helisurapp.domain.util.BaseActivity
 import com.helisur.helisurapp.domain.util.SessionUserManager
+import com.helisur.helisurapp.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +39,7 @@ class MainActivityMantenimiento : BaseActivity() {
         drawerSetListMenuItems()
         drawerSetHeader()
         disableBackButton()
+        drawersetRedirections()
     }
 
 
@@ -101,7 +104,17 @@ class MainActivityMantenimiento : BaseActivity() {
 
         val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
         yesBtn.setOnClickListener {
-            // logout()
+            val sessionManager = SessionUserManager(baseContext)
+            sessionManager.saveUser("")
+            sessionManager.savePass("")
+            sessionManager.saveUserId("")
+            sessionManager.saveUserNombres("")
+            sessionManager.saveUserApellidoPaterno("")
+            sessionManager.saveUserApellidoMaterno("")
+            sessionManager.saveUserRol("")
+            sessionManager.saveUserLogged(false)
+
+            next(LoginActivity::class.java, null)
         }
 
         val noBtn = dialog.findViewById(R.id.btnNo) as RelativeLayout
@@ -117,23 +130,6 @@ class MainActivityMantenimiento : BaseActivity() {
     fun drawersetRedirections() {
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.item_formatos -> {
-                    // addFragment(FragmentFactory.Screens.SERVICE_HISTORY_FRAGMENT,null)
-                    // Toast.makeText(this, Constants.ERROR.ERROR, Toast.LENGTH_SHORT).show()
-                    // loadTabHomeFragment()
-                    true
-                }
-
-                R.id.item_mecanicas -> {
-                    // addFragment(FragmentFactory.Screens.SERVICE_HISTORY_FRAGMENT,null)
-                    //   Toast.makeText(this, "Mecanicas", Toast.LENGTH_SHORT).show()
-                    true
-                }
-
-                R.id.item_cartera -> {
-                 //   next(CarteraClientesActivity::class.java, null)
-                    true
-                }
 
                 R.id.item_cerrar -> {
                     showDialog("¿Desea cerrar sesión?")

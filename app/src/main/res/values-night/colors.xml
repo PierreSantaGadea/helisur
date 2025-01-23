@@ -89,4 +89,9 @@
     <color name="borde_contenedor_tarea_hijo">@color/borde_cajatexto</color>
     <color name="texto_contenedor_tarea_hijo">@color/white</color>
 
+    <!--  CONTENEDOR ANOTACIONES-->
+    <color name="fondo_contenedor_anotaciones">@color/black</color>
+    <color name="borde_contenedor_anotaciones">@color/secondary</color>
+    <color name="texto_contenedor_anotaciones">@color/almost_white</color>
+
 </resources>

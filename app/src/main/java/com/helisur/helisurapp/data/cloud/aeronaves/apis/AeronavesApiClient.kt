@@ -1,6 +1,7 @@
 package com.helisur.helisurapp.data.cloud.aeronaves.apis
 
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesCloudResponse
+import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveCloudResponse
 import com.helisur.helisurapp.domain.util.Constants
 import retrofit2.Response
@@ -15,4 +16,8 @@ interface AeronavesApiClient {
 
     @GET
     suspend fun obtieneModelosAeronave(@Url url:String):Response<ObtieneModelosAeronaveCloudResponse>
+
+    @GET(Constants.URLS.OBTIENE_ESTACIONES)
+    suspend fun obtieneEstaciones(): Response<ObtieneEstacionesCloudResponse>
+
 }

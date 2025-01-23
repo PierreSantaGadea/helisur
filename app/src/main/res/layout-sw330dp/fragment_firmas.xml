@@ -20,6 +20,10 @@
             android:layout_marginLeft="30dp">
 
 
+
+
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -27,7 +31,7 @@
                 android:fontFamily="@font/robotomedium"
                 android:text="Entrega de la aeronave a operaciones"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="30dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,7 +39,7 @@
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/robotomedium"
                 android:text="El copiloto y el piloto que suscriben, verificaron la NO EXISTENCIA de objetos extraños y/o peligrosos, que atenten contra la Seguridad de la Aviación, en los compartimientos internos y externos de la Aeronave, descritos en la Lista de Verificación del Prevuelo de Operaciones"
-                android:textSize="22dp"
+                android:textSize="16dp"
                 android:justificationMode="inter_word"
                 android:textColor="@color/color_texto_cajatexto"/>
 
@@ -48,11 +52,11 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="Nombre del copiloto"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -60,7 +64,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -100,11 +104,11 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="Licencia"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -112,7 +116,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -157,14 +161,14 @@
                     android:layout_gravity="center"
                     android:text="Firma dentro del recuadro"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="22sp"
+                    android:textSize="16sp"
                     android:layout_marginTop="30dp"
                     android:fontFamily="@font/robotolight"/>
 
                 <com.github.gcacace.signaturepad.views.SignaturePad
-                    android:id="@+id/signaturePad"
+                    android:id="@+id/signaturePadCopiloto"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="180dp"
                     android:layout_margin="24dp"
                     android:background="@drawable/shape_signature_pad"
                     app:penColor="@color/texto_firma_digital" />
@@ -218,18 +222,18 @@
                 android:layout_marginTop="55dp"
                 android:fontFamily="@font/robotomedium"
                 android:text="El piloto al mando de la Aeronave certifica que :"
-                android:textSize="22dp"
-                android:textColor="@color/texto_simple_pantalla_general"/>
+                android:textSize="17dp"
+                android:textColor="@color/black"/>
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/robotobold"
                 android:text="EL HELICÓPTERO SE ENCUENTRA LISTO PARA EL VUELO"
                 android:textColor="@color/green_labell"
-                android:textSize="25dp"
+                android:textSize="19dp"
                 android:textStyle="bold"
                 />
 
@@ -238,14 +242,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/robotoregular"
-                android:text="Nombre del piloto al mando de la aeronave"
-                android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:fontFamily="@font/robotomedium"
+                android:text="El piloto al mando de la Aeronave certifica que :"
+                android:textSize="15dp"
+                android:textColor="@color/texto_simple_pantalla_general"/>
+
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -253,7 +258,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -293,11 +298,11 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="Licencia"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp" />
+                android:textSize="15dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_text_box"
@@ -305,7 +310,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="0dp">
@@ -349,13 +354,13 @@
                     android:layout_gravity="center"
                     android:text="Firma dentro del recuadro"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="22dp"
+                    android:textSize="16sp"
                     android:layout_marginTop="30dp"
                     android:fontFamily="@font/robotolight"/>
 
                 <com.github.gcacace.signaturepad.views.SignaturePad
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="180dp"
                     android:layout_margin="24dp"
                     android:background="@drawable/shape_signature_pad"
                     app:penColor="@color/texto_firma_digital" />
@@ -403,10 +408,10 @@
             <RelativeLayout
                 android:id="@+id/btnlogin"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="0dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginRight="0dp"
                 android:background="@drawable/shape_button_principal"
                 android:gravity="center">
@@ -415,9 +420,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/robotoregular"
-                    android:text="Terminar"
+                    android:text="Guardar"
                     android:textColor="@color/texto_boton_principal"
-                    android:textSize="25dp" />
+                    android:textSize="17dp" />
 
 
             </RelativeLayout>
@@ -454,7 +459,7 @@
                         android:fontFamily="@font/robotomedium"
                         android:text="Atrás"
                         android:textColor="@color/titulo_pantalla_general"
-                        android:textSize="25dp" />
+                        android:textSize="19dp" />
 
                 </LinearLayout>
 

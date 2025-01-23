@@ -1,18 +1,15 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
-
 import android.content.Context
 import android.content.Intent
-import android.content.res.TypedArray
-import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneListaFormatosCloudResponse
-import com.helisur.helisurapp.databinding.ActivityListaFormatosBinding
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtienePrevuelosRealizadosCloudResponse
+import com.helisur.helisurapp.databinding.ActivityListaPrevuelosRealizadosBinding
 import com.helisur.helisurapp.domain.util.BaseActivity
 import com.helisur.helisurapp.domain.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,20 +18,20 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListaPrevuelosRealizadosActivity  : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityListaFormatosBinding
+    private lateinit var binding: ActivityListaPrevuelosRealizadosBinding
 
-    var itemList = ArrayList<ObtieneListaFormatosCloudResponse>()
+    var itemList = ArrayList<ObtienePrevuelosRealizadosCloudResponse>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityListaFormatosBinding.inflate(layoutInflater)
+        binding = ActivityListaPrevuelosRealizadosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
         itemList = arrayListOf()
 
-        itemList.add(ObtieneListaFormatosCloudResponse(0,"priueba"))
-        itemList.add(ObtieneListaFormatosCloudResponse(0,"priueba2"))
+        itemList.add(ObtienePrevuelosRealizadosCloudResponse(0,"priueba"))
+        itemList.add(ObtienePrevuelosRealizadosCloudResponse(0,"priueba2"))
 
         setRecyclerView(itemList)
 
@@ -71,7 +68,7 @@ class ListaPrevuelosRealizadosActivity  : BaseActivity() {
     }
 
 
-    fun setRecyclerView(lista: ArrayList<ObtieneListaFormatosCloudResponse>) {
+    fun setRecyclerView(lista: ArrayList<ObtienePrevuelosRealizadosCloudResponse>) {
         val recyclerview = binding.rvFormatosPrevuelo
         recyclerview.layoutManager = LinearLayoutManager(baseContext)
         val adapter = ListaPreVuelosRealizadosAdapter(lista)

@@ -8,7 +8,12 @@ class Constants {
         const val OBTIENE_DATOS_USUARIO: String = "http://38.199.4.100:81/serviceintranetHLS/api/Usuario/GetByUsuario?usuarioAcceso="
         const val OBTIENE_AERONAVES: String = "serviceintranetHLS/api/ModeloPuestoTecnico/GetAll"
         const val OBTIENE_MODELO_AERONAVES: String = "http://38.199.4.100:81/serviceintranetHLS/api/PuestoTecnico/GetByModeloAeronave?codigoModeloAeronave="
+        const val OBTIENE_ESTACIONES: String = "serviceintranetHLS/api/Estacion/GetAll"
+        const val OBTIENE_FORMATOS: String = "serviceintranetHLS/api/Formato/GetAll"
 
+        const val OBTIENE_SISTEMAS: String = "serviceintranetHLS/api/FormatoSistema/GetFormatoSistemaBy"
+        const val OBTIENE_TAREAS: String = "serviceintranetHLS/api/FormatoTarea/GetFormatoTareaBy"
+        const val OBTIENE_REPORTAJES: String = "serviceintranetHLS/api/Formato/GetAll"
     }
 
     object ERROR {
@@ -24,6 +29,7 @@ class Constants {
         const val MESSAGE_403: String = ""
         const val MESSAGE_404: String = "Servicio no encontrado o no disponible"
         const val MESSAGE_500: String = "Error interno del servidor"
+        const val MESSAGE_503: String = "Servicio no disponible"
         const val MESSAGE_OTHER: String = "Error desconocido"
     }
 
@@ -36,6 +42,7 @@ class Constants {
         const val _403: Int = 403
         const val _404: Int = 404
         const val _500: Int = 500
+        const val _503: Int = 503
     }
 
     object TABS_VENDEDOR {
@@ -65,5 +72,9 @@ class Constants {
         const val AERONAVE: String = "AERONAVE"
         const val ID_AERONAVE: String = "ID_AERONAVE"
         const val NOMBRE_AERONAVE: String = "NOMBRE_AERONAVE"
+
+        const val FORMATO: String = "FORMATO"
+        const val ID_FORMATO: String = "ID_FORMATO"
+        const val NOMBRE_FORMATO: String = "NOMBRE_FORMATO"
     }
 }

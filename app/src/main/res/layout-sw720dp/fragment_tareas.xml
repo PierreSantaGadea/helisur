@@ -29,6 +29,16 @@
                 android:textColor="@color/titulo_pantalla_general"
                 android:textSize="30dp" />
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSistemas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="10dp" />
+
             <LinearLayout
                 android:id="@+id/contenedorAbuelo"
                 android:layout_marginTop="40dp"
@@ -61,7 +71,7 @@
                     android:paddingBottom="20dp"
                     android:paddingTop="20dp"
                     android:paddingRight="20dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -76,15 +86,14 @@
                         android:id="@+id/contenedorMadre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2"
-                        android:visibility="gone">
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
 
                         <LinearLayout
                             android:id="@+id/contenedorHijo1"
                             android:layout_margin="20dp"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:background="@drawable/shape_contenedor_tarea_hijo"
@@ -107,92 +116,99 @@
                                 android:id="@+id/contenedorNieto1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:visibility="gone"
+                                android:orientation="horizontal"
+                                android:visibility="visible"
+                                android:weightSum="5"
                                 android:layout_marginTop="5dp">
 
-                                <CheckBox
-                                    android:layout_marginTop="5dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="No aplica (NA)"
-                                    android:fontFamily="@font/robotoregular"
-                                    android:textSize="17dp"
-                                    android:buttonTint="@color/titulo_pantalla_general"
-                                    android:textColor="@color/texto_simple_pantalla_general"/>
 
-                                <CheckBox
-                                    android:layout_marginTop="5dp"
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Reportaje para registro sólo en RTV"
-                                    android:fontFamily="@font/robotoregular"
-                                    android:textSize="15dp"
-                                    android:buttonTint="@color/titulo_pantalla_general"
-                                    android:textColor="@color/texto_simple_pantalla_general"/>
+                                    android:orientation="vertical">
 
-                                <CheckBox
-                                    android:layout_marginTop="5dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Reportaje en daños menores"
-                                    android:fontFamily="@font/robotoregular"
-                                    android:textSize="15dp"
-                                    android:buttonTint="@color/titulo_pantalla_general"
-                                    android:textColor="@color/texto_simple_pantalla_general"/>
+                                    <CheckBox
+                                        android:layout_marginTop="5dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="No aplica (NA)"
+                                        android:fontFamily="@font/robotoregular"
+                                        android:textSize="17dp"
+                                        android:buttonTint="@color/titulo_pantalla_general"
+                                        android:textColor="@color/texto_simple_pantalla_general"/>
 
-                                <CheckBox
-                                    android:layout_marginTop="5dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Reportaje MEL / MDS"
-                                    android:fontFamily="@font/robotoregular"
-                                    android:textSize="15dp"
-                                    android:buttonTint="@color/titulo_pantalla_general"
-                                    android:textColor="@color/texto_simple_pantalla_general"/>
+                                    <CheckBox
+                                        android:layout_marginTop="5dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Reportaje para registro sólo en RTV"
+                                        android:fontFamily="@font/robotoregular"
+                                        android:textSize="15dp"
+                                        android:buttonTint="@color/titulo_pantalla_general"
+                                        android:textColor="@color/texto_simple_pantalla_general"/>
+
+                                    <CheckBox
+                                        android:layout_marginTop="5dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Reportaje en daños menores"
+                                        android:fontFamily="@font/robotoregular"
+                                        android:textSize="15dp"
+                                        android:buttonTint="@color/titulo_pantalla_general"
+                                        android:textColor="@color/texto_simple_pantalla_general"/>
+
+                                    <CheckBox
+                                        android:layout_marginTop="5dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Reportaje MEL / MDS"
+                                        android:fontFamily="@font/robotoregular"
+                                        android:textSize="15dp"
+                                        android:buttonTint="@color/titulo_pantalla_general"
+                                        android:textColor="@color/texto_simple_pantalla_general"/>
+
+
+
+                                </LinearLayout>
 
 
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:orientation="vertical"
-                                    android:visibility="visible">
+                                    android:visibility="visible"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginRight="10dp">
 
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="20dp"
-                                        android:fontFamily="@font/robotoregular"
-                                        android:text="Motivo"
-                                        android:textColor="@color/titulo_pantalla_general"
-                                        android:textSize="15dp" />
 
                                     <RelativeLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="50dp"
+                                        android:layout_height="match_parent"
                                         android:layout_marginBottom="5dp"
-                                        android:layout_marginTop="10dp"
+                                        android:layout_marginTop="0dp"
                                         android:background="@drawable/shape_text_box"
                                         android:padding="0dip">
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
-                                            android:layout_height="50dp"
-                                            android:gravity="center"
+                                            android:layout_height="match_parent"
                                             android:orientation="vertical"
                                             android:paddingTop="0dp">
 
                                             <EditText
+                                                android:hint="Motivo"
+                                                android:textColorHint="@color/borde_cajatexto"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
-                                                android:layout_margin="10dp"
+                                                android:layout_margin="5dp"
                                                 android:background="@android:color/transparent"
                                                 android:paddingStart="0dp"
                                                 android:paddingTop="0dp"
-                                                android:paddingEnd="30dp"
+                                                android:paddingEnd="0dp"
                                                 android:paddingBottom="-5dp"
+                                                android:textSize="17dp"
+                                                android:gravity="top|left"
                                                 android:textColor="@color/color_texto_cajatexto"/>
 
                                         </LinearLayout>
@@ -221,11 +237,11 @@
 
                         </LinearLayout>
 
+
                         <LinearLayout
                             android:id="@+id/contenedorHijo2"
                             android:layout_margin="20dp"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/shape_contenedor_tarea_hijo"
                             android:orientation="vertical"

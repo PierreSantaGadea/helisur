@@ -95,6 +95,12 @@
     <color name="texto_contenedor_tarea_hijo">@color/black</color>
 
 
+    <!--  CONTENEDOR ANOTACIONES-->
+    <color name="fondo_contenedor_anotaciones">@color/almost_white</color>
+    <color name="borde_contenedor_anotaciones">@color/principal</color>
+    <color name="texto_contenedor_anotaciones">@color/black</color>
+
+
 
     <color name="green_labell">#1A8A1F</color>
     <color name="input_line">#666666</color>

@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.helisur.helisurapp.databinding.FragmentFirmasBinding
 import com.helisur.helisurapp.databinding.FragmentResponsableBinding
+import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
+import com.helisur.helisurapp.ui.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +21,10 @@ class PreVueloFirmasFragment : Fragment() {
     private lateinit var binding: FragmentFirmasBinding
     var loading: TransparentProgressDialog? = null
 
+    private val loginViewModel: LoginViewModel by viewModels()
+
+    var piloto_copiloto = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -24,7 +32,7 @@ class PreVueloFirmasFragment : Fragment() {
         binding = FragmentFirmasBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initUI()
-
+        clickListener()
         //   observers()
         return root
     }
@@ -47,7 +55,45 @@ class PreVueloFirmasFragment : Fragment() {
         df.show(requireFragmentManager(), "")
     }
 
-    override fun onDestroyView() {
+    fun clickListener() {
+
+        binding.tvAtras.setOnClickListener {
+            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ANOTACIONES)
+        }
+
+
+
+    }
+
+
+    fun observers()
+    {
+
+        loginViewModel.responseObtieneTokenCloud.observe(viewLifecycleOwner, Observer {
+            try {
+
+                if(piloto_copiloto.equals("PILOTO"))
+                {
+
+                }
+                else
+                {
+
+                }
+                binding.signaturePad!!.isEnabled = false
+               // dialogg!!.dismiss()
+
+            } catch (e: Exception) {
+                //  Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+    }
+
+        override fun onDestroyView() {
         super.onDestroyView()
       //  _binding = null
     }

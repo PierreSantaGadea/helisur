@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="10dp"
+    app:cardElevation="6dp"
+    android:background="@drawable/shape_contenedor_tarea_padre">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nombreSistema"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotobold"
+            android:text="Motores"
+            android:textColor="@color/texto_contenedor_tarea_padre"
+            android:textSize="18dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTareas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneListaFormatosCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtienePrevuelosRealizadosCloudResponse
 
-class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<ObtieneListaFormatosCloudResponse>) :
+class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<ObtienePrevuelosRealizadosCloudResponse>) :
     RecyclerView.Adapter<ListaPreVuelosRealizadosAdapter.MyViewHolder>() {
 
-    var onItemClick: ((ObtieneListaFormatosCloudResponse) -> Unit)? = null
+    var onItemClick: ((ObtienePrevuelosRealizadosCloudResponse) -> Unit)? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvItemNombre: TextView = view.findViewById(R.id.tvItemNombre)
@@ -27,7 +27,7 @@ class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<ObtieneLista
         parent: ViewGroup, viewType: Int
     ): ListaPreVuelosRealizadosAdapter.MyViewHolder {
         val vieww =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_lista_formatos_realizados, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_lista_prevuelos_realizados, parent, false)
         return MyViewHolder(vieww)
     }
 

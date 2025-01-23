@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="20dp"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:id="@+id/contenedorNieto1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="5"
+        android:layout_marginTop="5dp">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No aplica (NA)"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="17dp"
+                android:buttonTint="@color/titulo_pantalla_general"
+                android:textColor="@color/texto_simple_pantalla_general"/>
+
+            <CheckBox
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reportaje para registro sólo en RTV"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="15dp"
+                android:buttonTint="@color/titulo_pantalla_general"
+                android:textColor="@color/texto_simple_pantalla_general"/>
+
+            <CheckBox
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reportaje en daños menores"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="15dp"
+                android:buttonTint="@color/titulo_pantalla_general"
+                android:textColor="@color/texto_simple_pantalla_general"/>
+
+            <CheckBox
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reportaje MEL / MDS"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="15dp"
+                android:buttonTint="@color/titulo_pantalla_general"
+                android:textColor="@color/texto_simple_pantalla_general"/>
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/shape_text_box"
+                android:padding="0dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="0dp">
+
+                    <EditText
+                        android:hint="Motivo"
+                        android:textColorHint="@color/borde_cajatexto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="0dp"
+                        android:paddingBottom="-5dp"
+                        android:textSize="17dp"
+                        android:gravity="top|left"
+                        android:textColor="@color/color_texto_cajatexto"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:src="@drawable/ic_down"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

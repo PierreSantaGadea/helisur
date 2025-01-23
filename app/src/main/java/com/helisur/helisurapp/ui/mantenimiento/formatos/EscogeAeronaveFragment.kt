@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Contacts.SettingsColumns.KEY
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +15,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentEscogeAeronaveBinding
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
-import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaPrevuelosRealizadosActivity
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemAeronave
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,13 +35,16 @@ class EscogeAeronaveFragment  : Fragment() {
     private val binding get() = _binding!!
 
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
+    private val formatosViewModel: FormatosViewModel by viewModels()
 
     private var aeronavesList: ArrayList<ObtieneAeronavesDataTableCloudResponse>? = null
+    private var formatosList: ArrayList<ObtieneFormatosDataTableCloudResponse>? = null
 
     var loading: TransparentProgressDialog? = null
     private var idAeronave:String = ""
     private var nombreAeronave:String = ""
     private var idFormato:String = ""
+    private var nombreFormato:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -61,6 +62,7 @@ class EscogeAeronaveFragment  : Fragment() {
         binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_control_disabled)
         binding.rlFormato!!.setBackgroundResource(R.drawable.shape_control_disabled)
         aeronavesViewModel.obtieneAeronaves()
+        formatosViewModel.obtieneFormatos()
     }
 
 
@@ -70,8 +72,6 @@ class EscogeAeronaveFragment  : Fragment() {
 
             if(idAeronave.equals(""))
             {
-              //  val intent = Intent (getActivity(), PreVueloActivity::class.java)
-              //  getActivity()?.startActivity(intent)
                 showErrorDialog("Escoja aeronave")
             }
             else
@@ -84,8 +84,8 @@ class EscogeAeronaveFragment  : Fragment() {
                 {
 
                     saveAeronave(requireContext(),idAeronave,nombreAeronave)
+                    saveFormato(requireContext(),idFormato,nombreFormato)
                     val intent = Intent (getActivity(), ListaPrevuelosRealizadosActivity::class.java)
-              //      val intent = Intent (getActivity(), PreVueloActivity::class.java)
                     getActivity()?.startActivity(intent)
                 }
             }
@@ -98,6 +98,15 @@ class EscogeAeronaveFragment  : Fragment() {
         val editor = sharedPreferences.edit()
         editor.putString(Constants.SHARED_PREFERENCES.ID_AERONAVE, idAeronave)
         editor.putString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, nombreAeronave)
+        editor.apply()
+    }
+
+
+    fun saveFormato(context: Context,idFormato:String,nombreFormato:String) {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.FORMATO, MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Constants.SHARED_PREFERENCES.ID_FORMATO, idFormato)
+        editor.putString(Constants.SHARED_PREFERENCES.NOMBRE_FORMATO, nombreFormato)
         editor.apply()
     }
 
@@ -141,7 +150,6 @@ class EscogeAeronaveFragment  : Fragment() {
 
         val adapter = SpinenrItemAeronave(requireContext(),0,
             spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
-
     //    val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
      //   adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo.adapter = adapter
@@ -152,55 +160,71 @@ class EscogeAeronaveFragment  : Fragment() {
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
+
                 if (position == 0) {
-                      idAeronave = ""
-                    nombreAeronave = ""
-                    binding.spiFormato.adapter = null
-                    binding.rlFormato!!.setBackgroundResource(R.drawable.shape_control_disabled)
                 } else {
-                    idAeronave = aeronavesList!![position].codigoModeloPuesto
-                    nombreAeronave = aeronavesList!![position].descripcion
-                    setSpinnerFormato()
-                    binding.rlFormato!!.setBackgroundResource(R.drawable.shape_text_box)
-                    val sessionManager = SessionUserManager(requireContext())
-                    //  concursosList = ArrayList()
-                    //  cocursosViewModel.listaConcursos(sessionManager.getToken()!!,periodoSelected)
                 }
+
+                idAeronave = aeronavesList!![position].codigoModeloPuesto
+                nombreAeronave = aeronavesList!![position].descripcion
+                setSpinnerFormato(idAeronave)
             }
         }
     }
 
 
 
-    fun setSpinnerFormato(
+    fun setSpinnerFormato(idModeloAeronave:String
     ) {
         var spinnerTipo = binding.spiFormato
         val spinnerArray: MutableList<String> = ArrayList()
         spinnerArray.add("Seleccione formato")
-        spinnerArray.add("Pre-Vuelo")
 
-        //   for(item in periodosList)
-        //   { spinnerArray.add(item.detalle) }
-
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.spinner_item)
-        spinnerTipo.adapter = adapter
-
-        spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
-                if (position == 0) {
-                      idFormato = ""
-                } else {
-                    idFormato = "op"
-                    //  periodoSelected = periodosList[position-1].id
+        if(formatosList!=null)
+        {
+            if(formatosList!!.size>0)
+            {
+                for(item in formatosList!!)
+                {
+                    if(item.codigoModeloAeronave.equals(idModeloAeronave))
+                    {
+                        spinnerArray.add(item.nombreFormato)
+                    }
                 }
             }
         }
+
+
+        if(spinnerArray.size>1)
+        {
+            binding.rlFormato!!.setBackgroundResource(R.drawable.shape_text_box)
+
+            val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+            adapter.setDropDownViewResource(R.layout.spinner_item)
+            spinnerTipo.adapter = adapter
+
+            spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?, view: View?, position: Int, id: Long
+                ) {
+                    if (position == 0) {
+                        idFormato = ""
+                    } else {
+                        idFormato = formatosList!![position-1].codigoFormato
+                        nombreFormato = formatosList!![position-1].nombreFormato
+                    }
+                }
+            }
+        }
+        else
+        {
+            binding.rlFormato!!.setBackgroundResource(R.drawable.shape_control_disabled)
+        }
+
+
     }
 
     private fun observers()
@@ -224,7 +248,7 @@ class EscogeAeronaveFragment  : Fragment() {
             }
         })
 
-        aeronavesViewModel.loginState.observe(viewLifecycleOwner, Observer {
+        aeronavesViewModel.aeronavesState.observe(viewLifecycleOwner, Observer {
             try {
                 if (it.toString().contains(Constants.ERROR.SUCCESS)) {
                 } else {
@@ -254,6 +278,65 @@ class EscogeAeronaveFragment  : Fragment() {
                 showErrorDialog(e.toString())
             }
         })
+
+
+
+        formatosViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it) {
+                    if (!loading!!.isShowing) {
+                        loading!!.show()
+                    }
+                } else {
+                    if (loading!!.isShowing) {
+                        loading!!.dismiss()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+
+        formatosViewModel.responseObtieneFormatos.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    formatosList = ArrayList(it.data!!.table)
+                    binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+                   // setSpinnerAeronave()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        formatosViewModel.formatosState.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it.toString().contains(Constants.ERROR.SUCCESS)) {
+                } else {
+                    if (it.toString().contains(Constants.ERROR.FAILURE)) {
+                        var messageError = it.toString().replace("FAILURE","ERROR")
+                        //    var messageWithoutFormat = it.toString().replace("FAILURE(message=","")
+                        //    var messageFormat = messageWithoutFormat.replace(")","")
+                        Log.e(className,messageError )
+                        showErrorDialog(messageError)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
 
 
     }

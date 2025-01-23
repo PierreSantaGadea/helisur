@@ -15,7 +15,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="70dp"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="0dp">
@@ -43,7 +43,7 @@
                     android:fontFamily="@font/robotoregular"
                     android:text="Formatos"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="15dp"
+                    android:textSize="25dp"
                     android:layout_centerInParent="true"/>
 
 
@@ -58,9 +58,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/robotobold"
-                android:text="Pre-Vuelo"
+                android:text="PRE-VUELO"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="25dp"
+                android:textSize="35dp"
                 android:layout_centerInParent="true"/>
 
 
@@ -79,7 +79,7 @@
             android:fontFamily="@font/robotobold"
             android:text=""
             android:textColor="@color/titulo_pantalla_general"
-            android:textSize="20dp"
+            android:textSize="30dp"
             android:layout_centerInParent="true"/>
 
 
@@ -103,10 +103,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:layout_marginRight="25dp"
-        app:fabSize="normal"
+        app:fabCustomSize="150dp"
+        app:maxImageSize="70dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/ic_add"
         app:tint="@color/white"
         android:tint="@color/white"
         android:backgroundTint="@color/titulo_pantalla_general"

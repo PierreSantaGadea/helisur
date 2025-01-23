@@ -3,20 +3,17 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
-import android.provider.Contacts.SettingsColumns.KEY
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
+import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentDatosAeronaveBinding
 import com.helisur.helisurapp.domain.util.Constants
@@ -37,8 +34,8 @@ class DatosAeronaveFragment : Fragment() {
     private lateinit var binding: FragmentDatosAeronaveBinding
 
     var loading: TransparentProgressDialog? = null
-    private var modelosAeronavesList: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? =
-        null
+    private var modelosAeronavesList: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? = null
+    private var estacionesList: ArrayList<ObtieneEstacionesDataTableCloudResponse>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -46,8 +43,8 @@ class DatosAeronaveFragment : Fragment() {
         binding = FragmentDatosAeronaveBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initUI()
-        setSpinnerUbicacion()
         observers()
+        clickListener()
         return root
     }
 
@@ -57,13 +54,16 @@ class DatosAeronaveFragment : Fragment() {
         binding.etDiscrepancias!!.isEnabled = false
         var idAeronave = getAeronave(requireContext())
         aeronavesViewModel.obtieneModelosAeronave(idAeronave!!)
+        aeronavesViewModel.obtieneEstaciones()
         setCheckBox()
-        ///   val sessionManager = SessionUserManager(requireContext())
-        //  val tokennn = sessionManager.getToken()!!
-        //  cocursosViewModel.listaPeriodos(sessionManager.getToken()!!)
-        //   llenaLista()
-        //   setRecyclerView(concursosList)
-        //   setSpinnerPeriodo()
+    }
+
+    fun clickListener()
+    {
+        binding.tvSiguiente.setOnClickListener {
+            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+        }
+
     }
 
     fun setCheckBox() {
@@ -93,6 +93,19 @@ class DatosAeronaveFragment : Fragment() {
     fun getNombreAeronave(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
         val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, "")
+        return text
+    }
+
+
+    fun getFormato(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.FORMATO, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_FORMATO, "")
+        return text
+    }
+
+    fun getNombreFormato(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.FORMATO, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_FORMATO, "")
         return text
     }
 
@@ -178,11 +191,11 @@ class DatosAeronaveFragment : Fragment() {
         var spinnerTipo = binding.spiUbicacion
         val spinnerArray: MutableList<String> = ArrayList()
         spinnerArray.add("Seleccione ubicación")
-        spinnerArray.add("Base principal")
-        spinnerArray.add("UFA")
+     //   spinnerArray.add("Base principal")
+     //   spinnerArray.add("UFA")
 
-        //   for(item in periodosList)
-        //   { spinnerArray.add(item.detalle) }
+           for(item in estacionesList!!)
+           { spinnerArray.add(item.nombre) }
 
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
         adapter.setDropDownViewResource(R.layout.spinner_item)
@@ -229,12 +242,14 @@ class DatosAeronaveFragment : Fragment() {
             }
         })
 
-        aeronavesViewModel.loginState.observe(viewLifecycleOwner, Observer {
+        aeronavesViewModel.aeronavesState.observe(viewLifecycleOwner, Observer {
             try {
                 if (it.toString().contains(Constants.ERROR.SUCCESS)) {
                 } else {
                     if (it.toString().contains(Constants.ERROR.FAILURE)) {
-                        Log.e(className, Constants.ERROR.ERROR)
+                        var messageError = it.toString().replace("FAILURE","ERROR")
+                        Log.e(className,messageError )
+                        showErrorDialog(messageError)
                     }
                 }
             } catch (e: Exception) {
@@ -250,6 +265,23 @@ class DatosAeronaveFragment : Fragment() {
                     modelosAeronavesList = ArrayList(it.data!!.table)
                //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerAeronave()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        aeronavesViewModel.responseObtieneEstaciones.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    estacionesList = ArrayList(it.data!!.table)
+                    //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+                    setSpinnerUbicacion()
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
                 }

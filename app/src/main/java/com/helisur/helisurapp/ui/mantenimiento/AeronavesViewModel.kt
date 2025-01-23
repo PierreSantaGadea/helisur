@@ -4,8 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesCloudResponse
+import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveCloudResponse
 import com.helisur.helisurapp.domain.util.Constants
+import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel.FormatosState
 import com.helisur.helisurapp.usercases.AeronavesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,8 +21,9 @@ class AeronavesViewModel @Inject constructor(
 
     val responseObtieneAeronaves = MutableLiveData<ObtieneAeronavesCloudResponse>()
     val responseModelosAeronave = MutableLiveData<ObtieneModelosAeronaveCloudResponse>()
+    val responseObtieneEstaciones = MutableLiveData<ObtieneEstacionesCloudResponse>()
     val isLoading = MutableLiveData<Boolean>()
-    val loginState = MutableLiveData<AeronavesState>(AeronavesState.START)
+    val aeronavesState = MutableLiveData<AeronavesState>(AeronavesState.START)
 
 
     fun obtieneAeronaves() {
@@ -28,12 +31,21 @@ class AeronavesViewModel @Inject constructor(
             isLoading.postValue(true)
             val result = aeronavesUseCase.obtieneAeronaves()
             if (result != null) {
-                isLoading.postValue(false)
-                loginState.postValue(AeronavesState.SUCCESS)
-                responseObtieneAeronaves.postValue(result)
+                if(result.success == Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    aeronavesState.postValue(AeronavesState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    aeronavesState.postValue(AeronavesState.SUCCESS)
+                    responseObtieneAeronaves.postValue(result)
+                }
+
             } else {
                 isLoading.postValue(false)
-                loginState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
+                aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
             }
         }
     }
@@ -44,12 +56,47 @@ class AeronavesViewModel @Inject constructor(
             isLoading.postValue(true)
             val result = aeronavesUseCase.obtieneModelosAeronave(aeronave)
             if (result != null) {
-                isLoading.postValue(false)
-                loginState.postValue(AeronavesState.SUCCESS)
-                responseModelosAeronave.postValue(result)
+
+                if(result.success == Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    aeronavesState.postValue(AeronavesState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    aeronavesState.postValue(AeronavesState.SUCCESS)
+                    responseModelosAeronave.postValue(result)
+                }
+
             } else {
                 isLoading.postValue(false)
-                loginState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
+                aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun obtieneEstaciones() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = aeronavesUseCase.obtieneEstaciones()
+            if (result != null) {
+                if(result.success == Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    aeronavesState.postValue(AeronavesState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    aeronavesState.postValue(AeronavesState.SUCCESS)
+                    responseObtieneEstaciones.postValue(result)
+                }
+
+            } else {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
             }
         }
     }
