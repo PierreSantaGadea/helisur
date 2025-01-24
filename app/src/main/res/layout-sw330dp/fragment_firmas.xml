@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
+                android:layout_marginTop="25dp"
                 android:fontFamily="@font/robotomedium"
                 android:text="Entrega de la aeronave a operaciones"
                 android:textColor="@color/titulo_pantalla_general"
@@ -182,7 +182,7 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnClear"
+                        android:id="@+id/btnBorrarFirmaCopiloto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -196,7 +196,7 @@
                         android:textSize="14sp" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnComplete"
+                        android:id="@+id/btnGuardarFirmaCopiloto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -359,6 +359,7 @@
                     android:fontFamily="@font/robotolight"/>
 
                 <com.github.gcacace.signaturepad.views.SignaturePad
+                    android:id="@+id/signaturePadPiloto"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_margin="24dp"
@@ -374,6 +375,7 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnBorrarFirmaPiloto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -387,6 +389,7 @@
                         android:textSize="14sp" />
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnGuardarFirmaPiloto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -406,7 +409,7 @@
 
 
             <RelativeLayout
-                android:id="@+id/btnlogin"
+                android:id="@+id/btnGuardarTodo"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center"

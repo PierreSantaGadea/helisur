@@ -13,17 +13,23 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
 import android.widget.RelativeLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.FragmentResponsableBinding
+import com.helisur.helisurapp.domain.model.Anotacion
+import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.TareasFragment.Companion.sistemasList
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 
@@ -42,6 +48,13 @@ class PreVueloResponsableFragment : Fragment() {
     var showDetail1 = false
     var showDetail2 = false
 
+    var hasReportajes = false
+
+    var sistemasObservados: ArrayList<Sistema>? = null
+
+    var recyclerview:RecyclerView?=null
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -55,6 +68,10 @@ class PreVueloResponsableFragment : Fragment() {
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
+
+        recyclerview = binding.rvAnotaciones
+        recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
+
         ///   val sessionManager = SessionUserManager(requireContext())
         //  val tokennn = sessionManager.getToken()!!
         //  cocursosViewModel.listaPeriodos(sessionManager.getToken()!!)
@@ -182,41 +199,6 @@ class PreVueloResponsableFragment : Fragment() {
 
 
 
-        binding.llitem1!!.setOnClickListener {
-
-            if(showDetail1)
-            {
-                showDetail1 = false
-                binding.llDetalle1!!.visibility = View.GONE
-                binding.llDetalle1!!.visibility = View.GONE
-            }
-            else
-            {
-                showDetail1 = true
-                binding.llDetalle1!!.visibility = View.VISIBLE
-                binding.llDetalle1!!.visibility = View.VISIBLE
-            }
-
-
-        }
-
-        binding.llitem2!!.setOnClickListener {
-
-            if(showDetail2)
-            {
-                showDetail2 = false
-                binding.llDetalle2!!.visibility = View.GONE
-                binding.llDetalle2!!.visibility = View.GONE
-            }
-            else
-            {
-                showDetail2 = true
-                binding.llDetalle2!!.visibility = View.VISIBLE
-                binding.llDetalle2!!.visibility = View.VISIBLE
-            }
-
-        }
-
     }
 
     fun showDialog()
@@ -258,10 +240,72 @@ class PreVueloResponsableFragment : Fragment() {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser) {
-            //  val sessionManager = SessionUserManager(requireContext())
-            //  cocursosViewModel.listaPeriodos(sessionManager!!.getToken()!!)
+
+            var listaAnotaciones:ArrayList<Anotacion> = arrayListOf()
+
+            for(itemSistema in TareasFragment.sistemasList!!)
+            {
+                if(itemSistema.tareas!=null)
+                {
+                    for(itemTarea in itemSistema.tareas!!)
+                    {
+                        if(itemTarea.reportaje_NoAplica || itemTarea.reportaje_RTV || itemTarea.reportaje_DanosMenores || itemTarea.reportaje_MELMDS)
+                        {
+                            //si tiene reportajes
+                            var anotacion = Anotacion()
+
+                            anotacion.codigoSistema = itemSistema.codigoSistema
+                            anotacion.nombreSistema = itemSistema.nombrePosicion
+                            anotacion.codigoTarea = itemTarea.codigoTarea
+                            anotacion.nombreTarea = itemTarea.nombreTarea
+
+                            anotacion.reportaje_NoAplica = itemTarea.reportaje_NoAplica
+                            anotacion.reportaje_RTV = itemTarea.reportaje_RTV
+                            anotacion.reportaje_DanosMenores = itemTarea.reportaje_DanosMenores
+                            anotacion.reportaje_MELMDS = itemTarea.reportaje_MELMDS
+
+                            anotacion.reportaje_Motivo = itemTarea.reportaje_Motivo
+
+                            listaAnotaciones.add(anotacion)
+
+                        }
+
+                    }
+                }
+            }
+
+            if(listaAnotaciones.size>0)
+            {
+                setRecyclerViewSistemas(listaAnotaciones)
+                binding.rvAnotaciones!!.visibility = View.VISIBLE
+                binding.tituloAnotaciones!!.visibility = View.VISIBLE
+                binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición no satisfactoria"
+                binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#e11f21"));
+            }
+            else
+            {
+                binding.rvAnotaciones!!.visibility = View.GONE
+                binding.tituloAnotaciones!!.visibility = View.GONE
+                binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición satisfactoria"
+                binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#1A4905"));
+            }
+
+
+
         } else {
         }
+    }
+
+
+    fun setRecyclerViewSistemas(
+        listaAnotaciones: ArrayList<Anotacion>
+    ) {
+        val adapter = ListaAnotacionesAdapter( listaAnotaciones)
+        recyclerview!!.adapter = adapter
+        adapter.onItemClick = { sistema ->
+
+        }
+
     }
 
     private fun showDialogLogin() {

@@ -140,4 +140,8 @@ class ListaTareasAdapter(private val mList: ArrayList<Tarea>) :
 
     override fun getItemCount() = mList.size
 
+    fun getTareasRevisadas(): ArrayList<Tarea> {
+        return mList
+    }
+
 }

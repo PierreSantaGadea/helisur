@@ -27,11 +27,18 @@ class TareasFragment : Fragment() {
     private lateinit var binding: FragmentTareasBinding
     var loading: TransparentProgressDialog? = null
     private val formatosViewModel: FormatosViewModel by viewModels()
-    private var sistemasList: ArrayList<Sistema>? = null
-    private var tareasList: ArrayList<Tarea>? = null
+  //  private var sistemasList: ArrayList<Sistema>? = null
+ //   private var tareasList: ArrayList<Tarea>? = null
     var adapaterSistemas: ListaSistemasAdapter? = null
     var showDetailSistemas = false
     var posicionClick: Int? = null
+
+    companion object {
+        var sistemasList: ArrayList<Sistema>? = null
+        var tareasList: ArrayList<Tarea>? = null
+        fun getTareasRealizadas():ArrayList<Tarea> { return tareasList!! }
+        fun getSistemasRealizadas():ArrayList<Sistema> { return sistemasList!! }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
