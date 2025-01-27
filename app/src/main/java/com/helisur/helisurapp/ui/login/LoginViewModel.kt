@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneDatosUsuarioCloudResponse
+import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneTokenCloudResponse
 import com.helisur.helisurapp.domain.model.Usuario
 import com.helisur.helisurapp.domain.util.Constants
@@ -21,6 +22,7 @@ class LoginViewModel @Inject constructor
 
     val responseObtieneTokenCloud = MutableLiveData<ObtieneTokenCloudResponse>()
     val responseObtieneDatosUsuario = MutableLiveData<ObtieneDatosUsuarioCloudResponse>()
+    val responseObtieneEmpleados = MutableLiveData<List<ObtieneEmpleadosDataTableCloudResponse>>()
     val isLoading = MutableLiveData<Boolean>()
     val loginState = MutableLiveData<LoginState>(LoginState.START)
 
@@ -30,9 +32,18 @@ class LoginViewModel @Inject constructor
             isLoading.postValue(true)
             val result = usuarioUseCase.obtieneTokenCloud(usuario, contrasenia)
             if (result != null) {
-                isLoading.postValue(false)
-                loginState.postValue(LoginState.SUCCESS)
-                responseObtieneTokenCloud.postValue(result)
+                if(result.success==Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    loginState.postValue(LoginState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    loginState.postValue(LoginState.SUCCESS)
+                    responseObtieneTokenCloud.postValue(result)
+                }
+
             } else {
                 isLoading.postValue(false)
                 loginState.postValue(LoginState.FAILURE(Constants.ERROR.ERROR))
@@ -57,11 +68,37 @@ class LoginViewModel @Inject constructor
     }
 
 
+    fun obtieneEmpleados(area: String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = usuarioUseCase.obtieneEmpleados(area)
+            if (result != null) {
+
+                if(result.success==Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    loginState.postValue(LoginState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    loginState.postValue(LoginState.SUCCESS)
+                    responseObtieneEmpleados.postValue(result.data!!.table)
+                }
+
+            } else {
+                isLoading.postValue(false)
+                loginState.postValue(LoginState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
     sealed class LoginState {
         object START : LoginState()
         object LOADING : LoginState()
         object SUCCESS : LoginState()
-        data class FAILURE(val message: String?) : LoginState()
+        data class FAILURE(val Error: String?) : LoginState()
     }
 
 

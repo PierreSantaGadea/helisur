@@ -1,7 +1,9 @@
 package com.helisur.helisurapp.data.cloud.formatos.apis
 
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneSistemasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneTareasCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
@@ -131,6 +133,49 @@ class FormatosService @Inject constructor(private val api: FormatosApiClient) {
 
                 else -> { // Note the block
                     ObtieneTareasCloudResponse(
+                        Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_OTHER
+                    )
+                }
+            }
+        }
+    }
+
+
+
+    suspend fun grabaFormato(
+        parameterBody: GuardaFormatoCloudParameter
+    ): GrabaFormatoCloudResponse {
+        return withContext(Dispatchers.IO) {
+            val response = api.grabaFormato(parameterBody)
+            when (response.code()) {
+                Constants.RESPONSE_CODE._200 -> response.body()!!
+
+                Constants.RESPONSE_CODE._400 -> GrabaFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_400
+                )
+
+                Constants.RESPONSE_CODE._401 -> GrabaFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_401
+                )
+
+                Constants.RESPONSE_CODE._403 -> GrabaFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_403
+                )
+
+                Constants.RESPONSE_CODE._404 -> GrabaFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_404
+                )
+
+                Constants.RESPONSE_CODE._500 -> GrabaFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_500
+                )
+
+                Constants.RESPONSE_CODE._503 -> GrabaFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_503
+                )
+
+                else -> { // Note the block
+                    GrabaFormatoCloudResponse(
                         Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_OTHER
                     )
                 }

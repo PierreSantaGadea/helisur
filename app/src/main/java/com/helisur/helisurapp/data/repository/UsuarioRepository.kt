@@ -2,6 +2,7 @@ package com.helisur.helisurapp.data.repository
 
 import com.helisur.helisurapp.data.cloud.usuario.apis.UsuarioService
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneDatosUsuarioCloudResponse
+import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadoCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneTokenCloudResponse
 import com.helisur.helisurapp.data.database.dao.UsuarioDao
 import com.helisur.helisurapp.domain.model.Usuario
@@ -23,6 +24,13 @@ class UsuarioRepository @Inject constructor(
         usuario: String
     ): ObtieneDatosUsuarioCloudResponse {
         val response: ObtieneDatosUsuarioCloudResponse = api.obtieneDatosUsuarioCloud(usuario)
+        return response
+    }
+
+    suspend fun obtieneEmpleados(
+        area: String
+    ): ObtieneEmpleadoCloudResponse {
+        val response: ObtieneEmpleadoCloudResponse = api.obtieneEmpleados(area)
         return response
     }
 

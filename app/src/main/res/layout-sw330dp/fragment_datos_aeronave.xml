@@ -108,6 +108,7 @@
                     android:paddingTop="0dp">
 
                     <EditText
+                        android:id="@+id/etRTV"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
@@ -263,6 +264,7 @@
 
 
             <CheckBox
+                android:id="@+id/chbx_AccionesMantenimiento"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -273,6 +275,7 @@
                 android:textColor="@color/texto_simple_pantalla_general" />
 
             <CheckBox
+                android:id="@+id/chbx_SolicitaEncendidoPrevio"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

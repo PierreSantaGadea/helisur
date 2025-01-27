@@ -1,14 +1,18 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
+
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -22,6 +26,8 @@ import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Timer
+import java.util.TimerTask
 
 
 @AndroidEntryPoint
@@ -56,6 +62,45 @@ class DatosAeronaveFragment : Fragment() {
         aeronavesViewModel.obtieneModelosAeronave(idAeronave!!)
         aeronavesViewModel.obtieneEstaciones()
         setCheckBox()
+        editTextEvent()
+
+        TabsPreVuelo.formatoParameter.existenDiscrepancias = "0"
+        TabsPreVuelo.formatoParameter.accionesMantenimiento = "0"
+        TabsPreVuelo.formatoParameter.solicitaEncMotores = "0"
+    }
+
+
+    fun editTextEvent()
+    {
+        binding.etRTV!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int) {}
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                if (s.length >= 1) {
+                    TabsPreVuelo.formatoParameter.numeroRTV = s.toString()
+                }
+            }
+        })
+
+
+        binding.etDiscrepancias!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int) {}
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                if (s.length >= 1) {
+                    TabsPreVuelo.formatoParameter.numeroRTVDiscrepancias = s.toString()
+                }
+            }
+        })
+
     }
 
     fun clickListener()
@@ -70,14 +115,33 @@ class DatosAeronaveFragment : Fragment() {
 
         binding.chxDiscrepancias!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                //Do Whatever you want in isChecked
                 binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_text_box)
                 binding.etDiscrepancias!!.isEnabled = true
+                TabsPreVuelo.formatoParameter.existenDiscrepancias = "1"
             } else {
                 binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
                 binding.etDiscrepancias!!.isEnabled = false
+                TabsPreVuelo.formatoParameter.existenDiscrepancias = "0"
             }
         }
+
+        binding.chbxAccionesMantenimiento!!.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                TabsPreVuelo.formatoParameter.accionesMantenimiento = "1"
+            } else {
+                TabsPreVuelo.formatoParameter.accionesMantenimiento = "0"
+            }
+        }
+
+
+        binding.chbxSolicitaEncendidoPrevio!!.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                TabsPreVuelo.formatoParameter.solicitaEncMotores = "1"
+            } else {
+                TabsPreVuelo.formatoParameter.solicitaEncMotores = "0"
+            }
+        }
+
     }
 
 
@@ -116,17 +180,9 @@ class DatosAeronaveFragment : Fragment() {
         var spinnerTipo = binding.spiAeronave
         val spinnerArrayImages: MutableList<Int> = ArrayList()
         val spinnerArray: MutableList<String> = ArrayList()
-   //     spinnerArray.add("Seleccione modelo")
-   //     spinnerArrayImages.add(R.drawable.ic_down)
-     //   spinnerArray.add("Aeronave 1")
-     //   spinnerArray.add("Aeronave 2")
 
            for(item in modelosAeronavesList!!) {
-             //  if (item.nombre.equals("")) {
 
-             //  } else {
-
-             //  }
                var itemName = getNombreAeronave(requireContext())
                spinnerArray.add(item.nombre)
 
@@ -170,12 +226,9 @@ class DatosAeronaveFragment : Fragment() {
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
-                    ///  periodoSelected = ""
+                    TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  ""
                 } else {
-                    //  periodoSelected = periodosList[position-1].id
-                    val sessionManager = SessionUserManager(requireContext())
-                    //  concursosList = ArrayList()
-                    //  cocursosViewModel.listaConcursos(sessionManager.getToken()!!,periodoSelected)
+                    TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position].codigoPuestoTecnico
                 }
             }
         }
@@ -191,9 +244,6 @@ class DatosAeronaveFragment : Fragment() {
         var spinnerTipo = binding.spiUbicacion
         val spinnerArray: MutableList<String> = ArrayList()
         spinnerArray.add("Seleccione ubicación")
-     //   spinnerArray.add("Base principal")
-     //   spinnerArray.add("UFA")
-
            for(item in estacionesList!!)
            { spinnerArray.add(item.nombre) }
 
@@ -209,12 +259,9 @@ class DatosAeronaveFragment : Fragment() {
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
-                    ///  periodoSelected = ""
+                    TabsPreVuelo.formatoParameter.codigoEstacion = ""
                 } else {
-                    //  periodoSelected = periodosList[position-1].id
-                    val sessionManager = SessionUserManager(requireContext())
-                    //  concursosList = ArrayList()
-                    //  cocursosViewModel.listaConcursos(sessionManager.getToken()!!,periodoSelected)
+                    TabsPreVuelo.formatoParameter.codigoEstacion =  estacionesList!![position-1].id
                 }
             }
         }

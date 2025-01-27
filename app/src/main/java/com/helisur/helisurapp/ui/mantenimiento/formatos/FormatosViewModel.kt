@@ -3,6 +3,8 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
@@ -21,6 +23,7 @@ class FormatosViewModel @Inject constructor(
 
 
     val responseObtieneFormatos= MutableLiveData<ObtieneFormatosCloudResponse>()
+    val responseGrabaFormato= MutableLiveData<GrabaFormatoCloudResponse>()
     val responseObtieneSistemas= MutableLiveData<ArrayList<Sistema>>()
     val responseObtieneTareas= MutableLiveData<ArrayList<Tarea>>()
     val isLoading = MutableLiveData<Boolean>()
@@ -160,6 +163,30 @@ class FormatosViewModel @Inject constructor(
                     formatosState.postValue(FormatosState.FAILURE("No se encontraron resultados"))
                 }
 
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun grabaFormato(parameter: GuardaFormatoCloudParameter) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.grabaFormato(parameter)
+            if (result != null) {
+                if(result.success == Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.SUCCESS)
+                    responseGrabaFormato.postValue(result)
+                }
             } else {
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))

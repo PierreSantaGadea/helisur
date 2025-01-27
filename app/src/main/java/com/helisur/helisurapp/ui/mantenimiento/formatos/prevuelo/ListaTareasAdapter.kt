@@ -50,6 +50,28 @@ class ListaTareasAdapter(private val mList: ArrayList<Tarea>) :
         val appItem = mList[position]
         holder.nombreTarea.text = appItem.nombreTarea
 
+        if(appItem.reportaje_NoAplica)
+            holder.reportaje_NoAplica.isChecked = true
+        else
+            holder.reportaje_NoAplica.isChecked = false
+
+        if(appItem.reportaje_RTV)
+            holder.reportaje_RTV.isChecked = true
+        else
+            holder.reportaje_RTV.isChecked = false
+
+        if(appItem.reportaje_DanosMenores)
+            holder.reportaje_DanosMenores.isChecked = true
+        else
+            holder.reportaje_DanosMenores.isChecked = false
+
+        if(appItem.reportaje_MELMDS)
+            holder.reportaje_MELMDS.isChecked = true
+        else
+            holder.reportaje_MELMDS.isChecked = false
+
+        holder.reportaje_Motivo.setText(appItem.reportaje_Motivo)
+
 
         holder.viewItem.setOnClickListener {
             if (holder.contenedorReportajes.isVisible) {

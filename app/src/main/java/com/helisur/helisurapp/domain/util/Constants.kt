@@ -14,11 +14,15 @@ class Constants {
         const val OBTIENE_SISTEMAS: String = "serviceintranetHLS/api/FormatoSistema/GetFormatoSistemaBy"
         const val OBTIENE_TAREAS: String = "serviceintranetHLS/api/FormatoTarea/GetFormatoTareaBy"
         const val OBTIENE_REPORTAJES: String = "serviceintranetHLS/api/Formato/GetAll"
+
+        const val OBTIENE_EMPLEADOS: String = "serviceintranetHLS/api/Empleado/GetEmpleadoAreaBy"
+
+        const val GRABA_FORMATO: String = "serviceintranetHLS/api/FormatoRegistro/Insertar"
     }
 
     object ERROR {
         const val ERROR: String = "ERROR INESPERADO"
-        const val FAILURE: String = "FAILURE"
+        const val FAILURE: String = "Error"
         const val SUCCESS: String = "SUCCESS"
         const val ERROR_EN_CODIGO: String = "ERROR : "
 
@@ -72,6 +76,8 @@ class Constants {
         const val AERONAVE: String = "AERONAVE"
         const val ID_AERONAVE: String = "ID_AERONAVE"
         const val NOMBRE_AERONAVE: String = "NOMBRE_AERONAVE"
+
+        const val RTV: String = "RTV"
 
         const val FORMATO: String = "FORMATO"
         const val ID_FORMATO: String = "ID_FORMATO"

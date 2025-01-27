@@ -1,6 +1,8 @@
 package com.helisur.helisurapp.usercases
 
 import android.util.Log
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
@@ -72,6 +74,20 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
             return lista
         }
     }
+
+
+    suspend fun grabaFormato(parameter: GuardaFormatoCloudParameter): GrabaFormatoCloudResponse {
+        try {
+            val respuesta = repository.grabaFormato(parameter)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            val grabacionFailed = GrabaFormatoCloudResponse()
+            grabacionFailed.message = e.message.toString()
+            return grabacionFailed
+        }
+    }
+
 
 
 

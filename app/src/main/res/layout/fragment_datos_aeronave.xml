@@ -259,6 +259,7 @@
 
 
             <CheckBox
+                android:id="@+id/chbx_AccionesMantenimiento"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -268,6 +269,7 @@
                 android:buttonTint="@color/titulo_pantalla_general" />
 
             <CheckBox
+                android:id="@+id/chbx_SolicitaEncendidoPrevio"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

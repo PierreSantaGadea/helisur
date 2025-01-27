@@ -68,10 +68,12 @@ class ListaSistemasAdapter(
 
 
     fun updateItem(position: Int, tareas: ArrayList<Tarea>?) {
-        mListSistemas.get(position).tareas = tareas
+        if(mListSistemas.get(position).tareas==null)
+        {
+            mListSistemas.get(position).tareas = tareas
 
+        }
         notifyItemChanged(position)
-
     }
 
     fun getPosition(): Int {

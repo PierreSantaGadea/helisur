@@ -1,6 +1,7 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,15 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.helisur.helisurapp.R;
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter;
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter;
 import com.helisur.helisurapp.domain.util.Constants;
+import com.helisur.helisurapp.domain.util.SessionUserManager;
+
+import org.checkerframework.checker.units.qual.A;
+
+import java.net.ConnectException;
+import java.util.ArrayList;
 
 public class TabsPreVuelo extends Fragment {
     public static TabLayout tabLayout;
@@ -25,6 +34,11 @@ public class TabsPreVuelo extends Fragment {
     public static Context generalContext;
     public static String FRAGMENT = "";
     public View view = null;
+
+    public static GuardaFormatoCloudParameter formatoParameter;
+    public static ArrayList<GuardaTareaCloudParameter> tareasParameter;
+
+    public static String idUsuario;
 
     public LinearLayout llBack;
 
@@ -50,6 +64,12 @@ public class TabsPreVuelo extends Fragment {
         view = x;
         generalContext = getContext();
         viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
+
+        tareasParameter = new ArrayList<>();
+        formatoParameter = new GuardaFormatoCloudParameter();
+        formatoParameter.setCodigoFormato(getFormato(getContext()));
+
+        idUsuario = new SessionUserManager(getContext()).getId();
         //  final BottomNavigationView navigation = (BottomNavigationView) x.findViewById(R.id.bottom_navigation);
         //  navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -59,6 +79,13 @@ public class TabsPreVuelo extends Fragment {
 
       //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
         viewPager.setOffscreenPageLimit(int_items);
+    }
+
+    public String getFormato(Context context)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.FORMATO,Context.MODE_PRIVATE);
+        String textoFormsto = sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_FORMATO,"");
+        return  textoFormsto;
     }
 
 

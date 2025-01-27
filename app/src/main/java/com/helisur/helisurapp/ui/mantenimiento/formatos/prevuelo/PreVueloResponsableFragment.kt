@@ -7,12 +7,16 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.helisur.helisurapp.R
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
+import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentResponsableBinding
 import com.helisur.helisurapp.domain.model.Anotacion
 import com.helisur.helisurapp.domain.model.Sistema
@@ -37,22 +43,19 @@ import java.io.ByteArrayOutputStream
 @AndroidEntryPoint
 class PreVueloResponsableFragment : Fragment() {
 
-
+    var className = "PreVueloResponsableFragment"
     private lateinit var binding: FragmentResponsableBinding
     var loading: TransparentProgressDialog? = null
-
     private val loginViewModel: LoginViewModel by viewModels()
-
     var dialogg:Dialog? = null
-
-    var showDetail1 = false
-    var showDetail2 = false
-
-    var hasReportajes = false
-
-    var sistemasObservados: ArrayList<Sistema>? = null
-
+    var tareasObservados: ArrayList<GuardaTareaCloudParameter>? = null
     var recyclerview:RecyclerView?=null
+
+    var empleadosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
+
+    var idResponsable = ""
+    var licenciaResponsable = ""
+    var urlFirmaResponsable = ""
 
 
     override fun onCreateView(
@@ -68,6 +71,8 @@ class PreVueloResponsableFragment : Fragment() {
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
+
+        loginViewModel.obtieneEmpleados("00091")
 
         recyclerview = binding.rvAnotaciones
         recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
@@ -86,7 +91,7 @@ class PreVueloResponsableFragment : Fragment() {
 
         loginViewModel.responseObtieneTokenCloud.observe(viewLifecycleOwner, Observer {
             try {
-
+                Toast.makeText(getActivity(),"Firma validada",Toast.LENGTH_SHORT).show()
                 binding.signaturePad!!.isEnabled = false
                 dialogg!!.dismiss()
 
@@ -98,7 +103,85 @@ class PreVueloResponsableFragment : Fragment() {
         })
 
 
+
+        loginViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                if (!loading!!.isShowing) {
+                    loading!!.show()
+                }
+            } else {
+                if (loading!!.isShowing) {
+                    loading!!.dismiss()
+                }
+            }
+        })
+
+        loginViewModel.loginState.observe(viewLifecycleOwner, Observer {
+            if (it.toString().contains(Constants.ERROR.SUCCESS)) {
+            } else {
+                if (it.toString().contains(Constants.ERROR.FAILURE)) {
+                    dialogg!!.dismiss()
+                    var mensaje = it.toString().replace("FAILURE(Error=","")
+                    showErrorDialog(mensaje.replace(")",""))
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            }
+        })
+
+
+
+        loginViewModel.responseObtieneEmpleados.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    empleadosList = ArrayList(it)
+                    //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+                    setSpinnerEmpleados()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
     }
+
+    fun setSpinnerEmpleados(
+    ) {
+        var spinnerTipo = binding.spiEmpleados
+        val spinnerArray: MutableList<String> = ArrayList()
+        spinnerArray.add("Seleccione empleado")
+        for(item in empleadosList!!)
+        { spinnerArray.add(item.nombreCompleto) }
+
+        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+        adapter.setDropDownViewResource(R.layout.spinner_item)
+        spinnerTipo!!.adapter = adapter
+
+        spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+                if (position == 0) {
+                    idResponsable = ""
+                    binding.etLicencia!!.setText("")
+                } else {
+                    idResponsable  =  empleadosList!![position-1].codigoEmpleado
+                    licenciaResponsable = empleadosList!![position-1].licencia
+                    TabsPreVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
+                    TabsPreVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
+                    binding.etLicencia!!.setText(licenciaResponsable)
+                }
+            }
+        }
+    }
+
 
 
     fun sendToStorage()
@@ -167,18 +250,32 @@ class PreVueloResponsableFragment : Fragment() {
         }
 
 
+        binding.chxNo!!.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                showDialogFormatoSeCerrar()
+                binding.chxSi.isChecked = false
+                binding.tvSiguiente.visibility = View.GONE
+                binding.btnCerrarMomentaneamente!!.visibility = View.VISIBLE
+            } else {
 
-
-
-        binding.chxNo.setOnClickListener {
-            showDialog()
+            }
         }
 
 
-        binding.chxSi.setOnClickListener {
+        binding.chxSi!!.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                binding.chxNo.isChecked = false
+                binding.tvSiguiente.visibility = View.VISIBLE
+                binding.btnCerrarMomentaneamente!!.visibility = View.GONE
+            } else {
 
-            binding.tvSiguiente.visibility = View.VISIBLE
+            }
         }
+
+        binding.btnCerrarMomentaneamente!!.setOnClickListener {
+            requireActivity().finish()
+        }
+
 
 
 
@@ -201,22 +298,6 @@ class PreVueloResponsableFragment : Fragment() {
 
     }
 
-    fun showDialog()
-    {
-
-        val dialogClickListener =
-            DialogInterface.OnClickListener { dialog, which ->
-                when (which) {
-                    DialogInterface.BUTTON_POSITIVE -> {}
-                    DialogInterface.BUTTON_NEGATIVE -> {}
-                }
-            }
-
-        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-        builder.setMessage("Este prevuelo se cerrara sin entrega a operaciones").setPositiveButton("Ok", dialogClickListener)
-            .setNegativeButton("Cancelar", dialogClickListener).show()
-
-    }
 
     fun showErrorDialog(message: String?) {
         val bundle = Bundle()
@@ -276,11 +357,52 @@ class PreVueloResponsableFragment : Fragment() {
 
             if(listaAnotaciones.size>0)
             {
-                setRecyclerViewSistemas(listaAnotaciones)
+                setRecyclerViewAnotaciones(listaAnotaciones)
                 binding.rvAnotaciones!!.visibility = View.VISIBLE
                 binding.tituloAnotaciones!!.visibility = View.VISIBLE
-                binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición no satisfactoria"
-                binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#e11f21"));
+
+                tareasObservados = arrayListOf()
+                var iduser = TabsPreVuelo.idUsuario
+                var helicopteroAPTO = true
+                for(tareaObservada in listaAnotaciones)
+                {
+                    if(tareaObservada.reportaje_NoAplica)
+                    {
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_NoAplica,"1",iduser,tareaObservada.reportaje_Motivo!!))
+                    }
+
+                    if(tareaObservada.reportaje_RTV)
+                    {
+                        helicopteroAPTO = false
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_RTV,"1",iduser,tareaObservada.reportaje_Motivo!!))
+                    }
+
+                    if(tareaObservada.reportaje_DanosMenores)
+                    {
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_DanosMenores,"1",iduser,tareaObservada.reportaje_Motivo!!))
+                    }
+
+                    if(tareaObservada.reportaje_MELMDS)
+                    {
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_MELMDS,"1",iduser,tareaObservada.reportaje_Motivo!!))
+                    }
+
+                }
+
+                if(helicopteroAPTO)
+                {
+                    binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición satisfactoria"
+                    binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#1A4905"));
+                }
+                else
+                {
+                    binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición no satisfactoria"
+                    binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#e11f21"));
+                }
+
+
+                TabsPreVuelo.formatoParameter.listaTareas = tareasObservados
+
             }
             else
             {
@@ -288,8 +410,8 @@ class PreVueloResponsableFragment : Fragment() {
                 binding.tituloAnotaciones!!.visibility = View.GONE
                 binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición satisfactoria"
                 binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#1A4905"));
-            }
 
+            }
 
 
         } else {
@@ -297,13 +419,12 @@ class PreVueloResponsableFragment : Fragment() {
     }
 
 
-    fun setRecyclerViewSistemas(
+    fun setRecyclerViewAnotaciones(
         listaAnotaciones: ArrayList<Anotacion>
     ) {
         val adapter = ListaAnotacionesAdapter( listaAnotaciones)
         recyclerview!!.adapter = adapter
-        adapter.onItemClick = { sistema ->
-
+        adapter.onItemClick = { anotacion ->
         }
 
     }
@@ -381,6 +502,32 @@ class PreVueloResponsableFragment : Fragment() {
         }
         dialog.show()
     }
+
+
+    private fun showDialogFormatoSeCerrar() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_formato_se_cerrara)
+        dialog.getWindow()!!.getAttributes().windowAnimations = R.style.DialogAnimation
+
+        if (dialog != null) {
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.WRAP_CONTENT
+            dialog.window!!.setLayout(width, height)
+            dialog.window!!.attributes.alpha = 1f
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+
+        val btnOk = dialog.findViewById(R.id.btnOk) as RelativeLayout
+        btnOk.setOnClickListener {
+
+            dialog.dismiss()
+
+        }
+        dialog.show()
+    }
+
 
 
 }

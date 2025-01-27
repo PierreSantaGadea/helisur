@@ -2,6 +2,7 @@ package com.helisur.helisurapp.usercases
 
 import android.util.Log
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneDatosUsuarioCloudResponse
+import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadoCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneTokenCloudResponse
 import com.helisur.helisurapp.data.repository.UsuarioRepository
 import com.helisur.helisurapp.domain.model.Usuario
@@ -34,6 +35,21 @@ class UsuarioUseCase  @Inject constructor
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
             val userFail = ObtieneDatosUsuarioCloudResponse()
+            userFail.success = Constants.ERROR.ERROR_ENTERO
+            userFail.message = e.message.toString()
+            return userFail
+        }
+    }
+
+
+
+    suspend fun obtieneEmpleados(area:String): ObtieneEmpleadoCloudResponse {
+        try {
+            val respuesta = repository.obtieneEmpleados(area)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            var userFail = ObtieneEmpleadoCloudResponse()
             userFail.success = Constants.ERROR.ERROR_ENTERO
             userFail.message = e.message.toString()
             return userFail
