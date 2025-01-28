@@ -6,15 +6,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtienePrevuelosRealizadosCloudResponse
 
-class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<ObtienePrevuelosRealizadosCloudResponse>) :
+class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<ObtieneFormatosRealizadosDataTableCloudResponse>) :
     RecyclerView.Adapter<ListaPreVuelosRealizadosAdapter.MyViewHolder>() {
 
-    var onItemClick: ((ObtienePrevuelosRealizadosCloudResponse) -> Unit)? = null
+    var onItemClick: ((ObtieneFormatosRealizadosDataTableCloudResponse) -> Unit)? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvItemNombre: TextView = view.findViewById(R.id.tvItemNombre)
+
+        val tvModeloAeronave: TextView = view.findViewById(R.id.tvModeloAeronave)
+        val tvAeronave: TextView = view.findViewById(R.id.tvAeronave)
+        val tvFecha: TextView = view.findViewById(R.id.tvFecha)
 
         init {
             itemView.setOnClickListener {
@@ -33,7 +38,11 @@ class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<ObtienePrevu
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val appItem = mList[position]
-        holder.tvItemNombre.text = appItem.message
+     //   holder.tvItemNombre.text = appItem.message
+
+        holder.tvModeloAeronave.text = appItem.modeloAeronave
+        holder.tvAeronave.text = appItem.aeronave
+        holder.tvFecha.text = appItem.fechaHoraFinRegistro
 
     }
 

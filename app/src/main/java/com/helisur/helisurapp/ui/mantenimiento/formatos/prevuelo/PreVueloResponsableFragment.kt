@@ -386,7 +386,7 @@ class PreVueloResponsableFragment : Fragment() {
                     {
                         tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_MELMDS,"1",iduser,tareaObservada.reportaje_Motivo!!))
                     }
-
+0
                 }
 
                 if(helicopteroAPTO)

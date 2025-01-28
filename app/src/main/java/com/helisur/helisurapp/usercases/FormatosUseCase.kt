@@ -4,6 +4,7 @@ import android.util.Log
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.data.repository.FormatosRepository
@@ -83,6 +84,19 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
             val grabacionFailed = GrabaFormatoCloudResponse()
+            grabacionFailed.message = e.message.toString()
+            return grabacionFailed
+        }
+    }
+
+
+    suspend fun obtieneFormatosRealizados(codigoFormato:String,formatosHoy:String): ObtieneFormatosRealizadosCloudResponse {
+        try {
+            val respuesta = repository.obtieneFormatosRealizados(codigoFormato,formatosHoy)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            val grabacionFailed = ObtieneFormatosRealizadosCloudResponse()
             grabacionFailed.message = e.message.toString()
             return grabacionFailed
         }

@@ -53,12 +53,13 @@
 
 
             <TextView
+                android:id="@+id/tvTituloFormato"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/robotobold"
-                android:text="PRE-VUELO"
+                android:text=""
                 android:textColor="@color/titulo_pantalla_general"
                 android:textSize="25dp"
                 android:layout_centerInParent="true"/>

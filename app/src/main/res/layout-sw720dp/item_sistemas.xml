@@ -4,19 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginLeft="0dp"
     android:layout_marginTop="20dp"
+    android:layout_marginBottom="10dp"
     app:cardElevation="6dp"
     android:background="@drawable/shape_contenedor_tarea_padre">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
+        android:paddingLeft="10dp"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:paddingRight="20dp"
+        android:paddingRight="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -26,16 +27,17 @@
             android:fontFamily="@font/robotobold"
             android:text="Motores"
             android:textColor="@color/texto_contenedor_tarea_padre"
-            android:textSize="25dp" />
+            android:textSize="18dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTareas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"/>
+            android:layout_marginEnd="0dp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

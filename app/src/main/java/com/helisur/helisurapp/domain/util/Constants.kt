@@ -18,6 +18,7 @@ class Constants {
         const val OBTIENE_EMPLEADOS: String = "serviceintranetHLS/api/Empleado/GetEmpleadoAreaBy"
 
         const val GRABA_FORMATO: String = "serviceintranetHLS/api/FormatoRegistro/Insertar"
+        const val OBTIENE_FORMATOS_REALIZADOS: String = "serviceintranetHLS/api/FormatoRegistro/GetFormatoSelBy"
     }
 
     object ERROR {

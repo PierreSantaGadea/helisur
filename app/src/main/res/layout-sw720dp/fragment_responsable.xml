@@ -21,178 +21,37 @@
 
 
             <TextView
+                android:id="@+id/tituloAnotaciones"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/robotomedium"
                 android:text="Anotaciones"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="30dp" />
+                android:textSize="20dp"
+                android:visibility="gone"/>
 
 
-            <RelativeLayout
-                android:id="@+id/llitem1"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAnotaciones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/shape_item_anotaciones"
-                android:padding="15dp">
-
-                <LinearLayout
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/robotoregular"
-                        android:text="Lavar motor"
-                        android:textColor="@color/color_texto_cajatexto"
-                        android:textSize="25dp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/llDetalle1"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-
-                        <TextView
-                            android:layout_marginTop="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/robotoregular"
-                            android:text="Reportaje en daños menores"
-                            android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
-                        <TextView
-                            android:layout_marginTop="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/robotoregular"
-                            android:text="Reportaje MEL/MDS"
-                            android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
-                        <TextView
-                            android:layout_marginTop="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/robotoregular"
-                            android:text="Se observo daño menor en los componentes prinicpales"
-                            android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-
-
-
-                <ImageView
-                    android:layout_marginRight="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="40dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_fail" />
-
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/llitem2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/shape_item_anotaciones"
-                android:padding="15dp">
-
-                <LinearLayout
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/robotoregular"
-                        android:text="Lubricación eje"
-                        android:textColor="@color/color_texto_cajatexto"
-                        android:textSize="25dp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/llDetalle2"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-
-                        <TextView
-                            android:layout_marginTop="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/robotoregular"
-                            android:text="Reportaje en daños menores"
-                            android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
-                        <TextView
-                            android:layout_marginTop="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/robotoregular"
-                            android:text="Reportaje MEL/MDS"
-                            android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
-                        <TextView
-                            android:layout_marginTop="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/robotoregular"
-                            android:text="Se detectaron fallas en controles"
-                            android:textColor="@color/color_texto_cajatexto"
-                            android:textSize="21dp" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-
-
-
-                <ImageView
-                    android:layout_marginRight="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="40dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_fail" />
-
-
-
-            </RelativeLayout>
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:visibility="gone"/>
 
 
             <TextView
+                android:id="@+id/condicionhelicoptero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
                 android:fontFamily="@font/robotobold"
-                android:text="El helicóptero se encuentra en condición no satisfactoria"
+                android:text=""
                 android:textColor="@color/third"
-                android:textSize="32dp"
+                android:textSize="22dp"
                 android:layout_gravity="center"
                 android:gravity="center"/>
 
@@ -229,7 +88,8 @@
                     android:orientation="vertical"
                     android:paddingTop="0dp">
 
-                    <EditText
+                    <Spinner
+                        android:id="@+id/spiEmpleados"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
@@ -282,6 +142,7 @@
                     android:paddingTop="0dp">
 
                     <EditText
+                        android:id="@+id/etLicencia"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
@@ -407,6 +268,29 @@
                 android:buttonTint="@color/titulo_pantalla_general"
                 android:textColor="@color/texto_simple_pantalla_general" />
 
+
+            <RelativeLayout
+                android:id="@+id/btnCerrarMomentaneamente"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/shape_button_principal"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoregular"
+                    android:text="Guardar"
+                    android:textColor="@color/texto_boton_principal"
+                    android:textSize="17dp" />
+
+
+            </RelativeLayout>
 
 
             <RelativeLayout

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoC
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter;
 import com.helisur.helisurapp.domain.util.Constants;
 import com.helisur.helisurapp.domain.util.SessionUserManager;
+import com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable;
 
 import org.checkerframework.checker.units.qual.A;
 
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 public class TabsPreVuelo extends Fragment {
     public static TabLayout tabLayout;
     // @BindView(R.id.viewpager)
-    public static ViewPager viewPager;
+    public static ViewPagerNoSwipeable viewPager;
     public static int int_items = 4;
     public static Context generalContext;
     public static String FRAGMENT = "";
@@ -42,11 +44,14 @@ public class TabsPreVuelo extends Fragment {
 
     public LinearLayout llBack;
 
+    public TextView tituloFDormato;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View x = inflater.inflate(R.layout.fragment_tabs_prevuelo, null);
         llBack = (LinearLayout) x.findViewById(R.id.llBack);
+        tituloFDormato = (TextView) x.findViewById(R.id.tvTituloFormato);
 
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,9 +63,13 @@ public class TabsPreVuelo extends Fragment {
         return x;
     }
 
+
     private void initUI(View x) {
+
+        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCES.FORMATO, Context.MODE_PRIVATE);
+        tituloFDormato.setText(preferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_FORMATO, ""));
         //   tabLayout = (TabLayout) x.findViewById(R.id.tabs);
-        viewPager = (ViewPager) x.findViewById(R.id.viewpager);
+        viewPager = (ViewPagerNoSwipeable) x.findViewById(R.id.viewpager);
         view = x;
         generalContext = getContext();
         viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
@@ -75,7 +84,7 @@ public class TabsPreVuelo extends Fragment {
 
         //  SessionUserManager sesion = new SessionUserManager(generalContext);
         //  viewPager.setCurrentItem(sesion.getUserCurrentTabPosition());
-        //  viewPager.setEnableSwipe(false);
+          viewPager.setEnableSwipe(false);
 
       //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
         viewPager.setOffscreenPageLimit(int_items);

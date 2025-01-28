@@ -1,10 +1,12 @@
 package com.helisur.helisurapp.data.cloud.formatos.apis
 
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneFormatosRealizadosCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneSistemasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneTareasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 
@@ -28,6 +30,9 @@ interface FormatosApiClient {
 
     @POST(Constants.URLS.GRABA_FORMATO)
     suspend fun grabaFormato(@Body parameterBody: GuardaFormatoCloudParameter): Response<GrabaFormatoCloudResponse>
+
+    @POST(Constants.URLS.OBTIENE_FORMATOS_REALIZADOS)
+    suspend fun obtieneFormatosRealizados(@Body parameterBody: ObtieneFormatosRealizadosCloudParameter): Response<ObtieneFormatosRealizadosCloudResponse>
 
 
 }

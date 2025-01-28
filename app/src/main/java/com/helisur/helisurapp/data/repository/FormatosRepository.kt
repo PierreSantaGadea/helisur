@@ -2,8 +2,10 @@ package com.helisur.helisurapp.data.repository
 
 import com.helisur.helisurapp.data.cloud.formatos.apis.FormatosService
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneFormatosRealizadosCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.domain.model.Sistema
@@ -79,6 +81,14 @@ class FormatosRepository @Inject constructor(
         parameter: GuardaFormatoCloudParameter
     ): GrabaFormatoCloudResponse {
         val response: GrabaFormatoCloudResponse = api.grabaFormato(parameter)
+        return response
+    }
+
+    suspend fun obtieneFormatosRealizados(
+        codigoFormato:String,formatosHoy:String
+    ): ObtieneFormatosRealizadosCloudResponse {
+        var parameterBody = ObtieneFormatosRealizadosCloudParameter(codigoFormato,formatosHoy)
+        val response: ObtieneFormatosRealizadosCloudResponse = api.obtieneFormatosRealizados(parameterBody)
         return response
     }
 

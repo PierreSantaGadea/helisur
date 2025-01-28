@@ -191,6 +191,9 @@ class PreVueloFirmasFragment : Fragment() {
                 //grabacion correcta
                 requireActivity().finish()
 
+                val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                requireActivity().startActivity(intent)
+
 
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())

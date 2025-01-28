@@ -46,12 +46,13 @@
 
 
         <TextView
+            android:id="@+id/tvTituloFormato"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/robotobold"
-            android:text="PRE-VUELO"
+            android:text=""
             android:textColor="@color/titulo_pantalla_general"
             android:textSize="25dp"
             android:layout_centerInParent="true"/>
@@ -71,12 +72,12 @@
         android:layout_marginBottom="1dp"
         android:background="@color/white">
 
-        <androidx.viewpager.widget.ViewPager
+        <com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </androidx.viewpager.widget.ViewPager>
+        </com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable>
     </FrameLayout>
 
 

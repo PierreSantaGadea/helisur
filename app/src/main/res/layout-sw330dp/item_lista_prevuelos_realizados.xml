@@ -30,16 +30,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Estado"
+                    android:text="Modelo aeronave"
                     android:textSize="17sp"
                     android:gravity="center"
                     android:fontFamily="@font/robotoregular"
                     android:textColor="@color/titulo_pantalla_general"/>
 
                 <TextView
+                    android:id="@+id/tvModeloAeronave"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="INCONCLUSO"
+                    android:text=""
                     android:textSize="16sp"
                     android:gravity="center"
                     android:fontFamily="@font/robotoregular"
@@ -63,9 +64,10 @@
                     android:textColor="@color/titulo_pantalla_general"/>
 
                 <TextView
+                    android:id="@+id/tvAeronave"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="modeloabc"
+                    android:text=""
                     android:textSize="16sp"
                     android:gravity="center"
                     android:fontFamily="@font/robotoregular"
@@ -98,9 +100,10 @@
                     android:textColor="@color/titulo_pantalla_general"/>
 
                 <TextView
+                    android:id="@+id/tvFecha"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="22 / 01 2025"
+                    android:text=""
                     android:textSize="16sp"
                     android:gravity="center"
                     android:fontFamily="@font/robotoregular"

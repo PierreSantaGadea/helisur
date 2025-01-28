@@ -7,16 +7,19 @@
 
     <LinearLayout
         android:id="@+id/contenedorHijo1"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_contenedor_tarea_hijo"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
+        android:paddingLeft="10dp"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:paddingRight="20dp"
+        android:paddingRight="10dp"
         android:visibility="visible">
 
         <TextView
@@ -26,7 +29,7 @@
             android:fontFamily="@font/robotobold"
             android:text="Lavar Motor"
             android:textColor="@color/texto_contenedor_tarea_hijo"
-            android:textSize="23dp" />
+            android:textSize="18dp" />
 
         <LinearLayout
             android:id="@+id/contenedorReportajes"
@@ -39,11 +42,12 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <CheckBox
+                    android:id="@+id/chbx_Reportaje_No_Aplica"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,6 +58,7 @@
                     android:textColor="@color/texto_simple_pantalla_general"/>
 
                 <CheckBox
+                    android:id="@+id/chbx_Reportaje_RTV"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,6 +69,7 @@
                     android:textColor="@color/texto_simple_pantalla_general"/>
 
                 <CheckBox
+                    android:id="@+id/chbx_Reportaje_DanosMenores"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -74,6 +80,7 @@
                     android:textColor="@color/texto_simple_pantalla_general"/>
 
                 <CheckBox
+                    android:id="@+id/chbx_Reportaje_MELMDS"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,67 +91,71 @@
                     android:textColor="@color/texto_simple_pantalla_general"/>
 
 
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="visible"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp">
 
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="0dp"
-                    android:background="@drawable/shape_text_box"
-                    android:padding="0dip">
-
-                    <LinearLayout
+                    <RelativeLayout
+                        android:id="@+id/rl_Reportaje_Motivo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingTop="0dp">
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/shape_control_disabled"
+                        android:padding="0dip">
 
-                        <EditText
-                            android:hint="Motivo"
-                            android:textColorHint="@color/borde_cajatexto"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:background="@android:color/transparent"
-                            android:paddingStart="0dp"
+                            android:orientation="vertical"
+                            android:paddingTop="0dp">
+
+                            <EditText
+                                android:id="@+id/et_Reportaje_Motivo"
+                                android:hint="Motivo"
+                                android:textColorHint="@color/borde_cajatexto"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/transparent"
+                                android:paddingStart="10dp"
+                                android:paddingTop="10dp"
+                                android:paddingEnd="10dp"
+                                android:paddingBottom="10dp"
+                                android:textSize="17dp"
+                                android:gravity="top|left"
+                                android:textColor="@color/color_texto_cajatexto"
+                                android:enabled="false"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
                             android:paddingTop="0dp"
-                            android:paddingEnd="0dp"
-                            android:paddingBottom="-5dp"
-                            android:textSize="17dp"
-                            android:gravity="top|left"
-                            android:textColor="@color/color_texto_cajatexto"/>
+                            android:paddingBottom="0dp"
+                            android:src="@drawable/ic_down"
+                            android:visibility="gone"/>
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="15dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-                        android:paddingTop="0dp"
-                        android:paddingBottom="0dp"
-                        android:src="@drawable/ic_down"
-                        android:visibility="gone"/>
 
-                </RelativeLayout>
+
+                </LinearLayout>
 
 
 
             </LinearLayout>
+
+
+
 
 
 
