@@ -94,4 +94,15 @@
     <color name="borde_contenedor_anotaciones">@color/secondary</color>
     <color name="texto_contenedor_anotaciones">@color/almost_white</color>
 
+
+    <!--BUTTON VALIDAR FIRMA-->
+    <color name="fondo_boton_validar_firma">@color/black</color>
+    <color name="borde_boton_validar_firma">@color/secondary</color>
+    <color name="texto_boton_validar_firma">@color/almost_white</color>
+
+    <!--BUTTON BORRAR FIRMA-->
+    <color name="fondo_boton_borrar_firma">@color/black</color>
+    <color name="borde_boton_borrar_firma">@color/secondary</color>
+    <color name="texto_boton_borrar_firma">@color/almost_white</color>
+
 </resources>

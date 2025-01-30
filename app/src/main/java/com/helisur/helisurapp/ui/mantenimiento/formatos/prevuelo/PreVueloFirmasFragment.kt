@@ -232,12 +232,20 @@ class PreVueloFirmasFragment : Fragment() {
     ) {
         var spinnerTipo = binding.spiCopilotos
         val spinnerArray: MutableList<String> = ArrayList()
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
         spinnerArray.add("Seleccione copiloto")
+        spinnerArrayImages.add(R.drawable.empty)
         for(item in copilotosList!!)
-        { spinnerArray.add(item.nombreCompleto) }
+        {
+            spinnerArray.add(item.nombreCompleto)
+            spinnerArrayImages.add(R.drawable.ic_user)
+        }
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.spinner_item)
+        val adapter = SpinenrItemEmpleado(requireContext(),0,
+            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+
+        //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+     //   adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo!!.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -265,12 +273,19 @@ class PreVueloFirmasFragment : Fragment() {
     ) {
         var spinnerTipo = binding.spiPilotos
         val spinnerArray: MutableList<String> = ArrayList()
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
         spinnerArray.add("Seleccione piloto")
+        spinnerArrayImages.add(R.drawable.empty)
         for(item in pilotosList!!)
-        { spinnerArray.add(item.nombreCompleto) }
+        {
+            spinnerArray.add(item.nombreCompleto)
+            spinnerArrayImages.add(R.drawable.ic_user)
+        }
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.spinner_item)
+     //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+      //  adapter.setDropDownViewResource(R.layout.spinner_item)
+        val adapter = SpinenrItemEmpleado(requireContext(),0,
+            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
         spinnerTipo!!.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -339,10 +354,10 @@ class PreVueloFirmasFragment : Fragment() {
         val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
         yesBtn.setOnClickListener {
 
-            var user = etUsuario.text
-            var pass = etPass.text
-            //     var user = "analista_app"
-            //     var pass = "helisur2024."
+         //   var user = etUsuario.text
+         //   var pass = etPass.text
+                 var user = "analista_app"
+                 var pass = "helisur2024."
 
             loginViewModel.login(
                 user.toString().trim(), pass.toString().trim()

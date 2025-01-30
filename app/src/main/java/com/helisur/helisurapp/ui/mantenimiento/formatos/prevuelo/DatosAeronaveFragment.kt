@@ -34,14 +34,15 @@ import java.util.TimerTask
 class DatosAeronaveFragment : Fragment() {
 
     var className = "ConcursosAvancesFragment"
-
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
-
     private lateinit var binding: FragmentDatosAeronaveBinding
-
     var loading: TransparentProgressDialog? = null
     private var modelosAeronavesList: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? = null
     private var estacionesList: ArrayList<ObtieneEstacionesDataTableCloudResponse>? = null
+
+    var idAeronave:String = ""
+    var idUbicacion:String = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -109,6 +110,40 @@ class DatosAeronaveFragment : Fragment() {
             TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
         }
 
+    }
+
+    fun validationsNextScreen():Boolean
+    {
+        var isOk = true
+
+        if(idAeronave.equals(""))
+        {
+            showErrorDialog("Escoja aeronave")
+            isOk = false
+        }
+        else
+        {
+            if(binding.etRTV!!.text.equals(""))
+            {
+                showErrorDialog("Ingrese RTV")
+                isOk = false
+            }
+            else
+            {
+                if(idUbicacion.equals(""))
+                {
+                    showErrorDialog("Escoja ubicación")
+                    isOk = false
+                }
+                else
+                {
+                    isOk = true
+                }
+            }
+        }
+
+
+        return isOk
     }
 
     fun setCheckBox() {
@@ -180,7 +215,8 @@ class DatosAeronaveFragment : Fragment() {
         var spinnerTipo = binding.spiAeronave
         val spinnerArrayImages: MutableList<Int> = ArrayList()
         val spinnerArray: MutableList<String> = ArrayList()
-
+        spinnerArray.add("Seleccione aeronave")
+        spinnerArrayImages.add(R.drawable.empty)
            for(item in modelosAeronavesList!!) {
 
                var itemName = getNombreAeronave(requireContext())
@@ -226,9 +262,11 @@ class DatosAeronaveFragment : Fragment() {
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
+                    idAeronave = ""
                     TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  ""
                 } else {
-                    TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position].codigoPuestoTecnico
+                    idAeronave = modelosAeronavesList!![position-1].codigoPuestoTecnico
+                    TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoPuestoTecnico
                 }
             }
         }
@@ -243,12 +281,20 @@ class DatosAeronaveFragment : Fragment() {
     ) {
         var spinnerTipo = binding.spiUbicacion
         val spinnerArray: MutableList<String> = ArrayList()
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
         spinnerArray.add("Seleccione ubicación")
+        spinnerArrayImages.add(R.drawable.empty)
            for(item in estacionesList!!)
-           { spinnerArray.add(item.nombre) }
+           {
+               spinnerArray.add(item.nombre)
+               spinnerArrayImages.add(R.drawable.ic_location)
+           }
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.spinner_item)
+        val adapter = SpinenrItemUbicacion(requireContext(),0,
+            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+
+        //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+     //   adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -259,8 +305,10 @@ class DatosAeronaveFragment : Fragment() {
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
+                    idUbicacion = ""
                     TabsPreVuelo.formatoParameter.codigoEstacion = ""
                 } else {
+                    idUbicacion = estacionesList!![position-1].id
                     TabsPreVuelo.formatoParameter.codigoEstacion =  estacionesList!![position-1].id
                 }
             }

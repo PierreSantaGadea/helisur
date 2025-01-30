@@ -23,6 +23,8 @@ import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaPrevuelosRealizadosActivity
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemAeronave
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemEmpleado
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemFormato
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -178,7 +180,9 @@ class EscogeAeronaveFragment  : Fragment() {
     ) {
         var spinnerTipo = binding.spiFormato
         val spinnerArray: MutableList<String> = ArrayList()
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
         spinnerArray.add("Seleccione formato")
+        spinnerArrayImages.add(R.drawable.empty)
 
         if(formatosList!=null)
         {
@@ -189,6 +193,7 @@ class EscogeAeronaveFragment  : Fragment() {
                     if(item.codigoModeloAeronave.equals(idModeloAeronave))
                     {
                         spinnerArray.add(item.nombreFormato)
+                        spinnerArrayImages.add(R.drawable.ic_form)
                     }
                 }
             }
@@ -199,8 +204,11 @@ class EscogeAeronaveFragment  : Fragment() {
         {
             binding.rlFormato!!.setBackgroundResource(R.drawable.shape_text_box)
 
-            val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-            adapter.setDropDownViewResource(R.layout.spinner_item)
+         //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+         //   adapter.setDropDownViewResource(R.layout.spinner_item)
+            val adapter = SpinenrItemFormato(requireContext(),0,
+                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+
             spinnerTipo.adapter = adapter
 
             spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

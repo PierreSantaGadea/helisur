@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_weight="9.3"
             android:orientation="vertical"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp">
@@ -41,12 +41,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_contenedor_tarea_abuelo"
-                android:minHeight="70dp"
+                android:minHeight="90dp"
                 android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingBottom="0dp"
+                android:paddingLeft="20dp"
+                android:paddingBottom="20dp"
                 android:paddingTop="20dp"
-                android:paddingRight="15dp">
+                android:paddingRight="20dp"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -55,7 +56,7 @@
                     android:fontFamily="@font/robotobold"
                     android:text="Sistemas"
                     android:textColor="@color/texto_contenedor_tarea_abuelo"
-                    android:textSize="19dp" />
+                    android:textSize="27dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvSistemas"
@@ -86,7 +87,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.7"
             android:orientation="horizontal"
             android:paddingRight="20dp"
             android:paddingLeft="15dp">
@@ -113,7 +114,7 @@
                     android:fontFamily="@font/robotomedium"
                     android:text="Atrás"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="19dp" />
+                    android:textSize="25dp" />
 
             </LinearLayout>
 
@@ -134,12 +135,12 @@
                     android:text="Siguiente"
 
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="19dp" />
+                    android:textSize="25dp" />
 
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
                     android:layout_marginLeft="5dp"
                     android:src="@drawable/ic_arrow_rigth" />
 

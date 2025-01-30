@@ -124,10 +124,11 @@
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:background="@android:color/transparent"
-                        android:paddingStart="0dp"
+                        android:paddingStart="10dp"
                         android:paddingTop="0dp"
                         android:paddingEnd="30dp"
                         android:paddingBottom="-5dp"
+                        android:textSize="21dp"
                         android:textColor="@color/color_texto_cajatexto"/>
 
                 </LinearLayout>
@@ -166,7 +167,7 @@
                 <com.github.gcacace.signaturepad.views.SignaturePad
                     android:id="@+id/signaturePadCopiloto"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="350dp"
                     android:layout_margin="24dp"
                     android:background="@drawable/shape_signature_pad"
                     app:penColor="@color/texto_firma_digital" />
@@ -179,35 +180,55 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatButton
+                    <RelativeLayout
                         android:id="@+id/btnBorrarFirmaCopiloto"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="#C4C4C4"
+                        android:layout_height="85dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/shape_button_borrar_firma"
                         android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Borrar"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:layout_weight="1">
 
-                    <androidx.appcompat.widget.AppCompatButton
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoregular"
+                            android:text="Borrar firma"
+                            android:textColor="@color/texto_boton_borrar_firma"
+                            android:textSize="22dp" />
+
+                    </RelativeLayout>
+
+
+
+                    <RelativeLayout
                         android:id="@+id/btnGuardarFirmaCopiloto"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="@color/input_line"
+                        android:layout_height="85dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="0dp"
+                        android:background="@drawable/shape_button_validar_firma"
                         android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Guardar"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                        android:layout_weight="1">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoregular"
+                            android:text="Validar Firma"
+                            android:textColor="@color/texto_boton_validar_firma"
+                            android:textSize="22dp" />
+
+                    </RelativeLayout>
+
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -319,10 +340,11 @@
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:background="@android:color/transparent"
-                        android:paddingStart="0dp"
+                        android:paddingStart="10dp"
                         android:paddingTop="0dp"
                         android:paddingEnd="30dp"
                         android:paddingBottom="-5dp"
+                        android:textSize="21dp"
                         android:textColor="@color/color_texto_cajatexto"/>
 
                 </LinearLayout>
@@ -360,11 +382,10 @@
                 <com.github.gcacace.signaturepad.views.SignaturePad
                     android:id="@+id/signaturePadPiloto"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="350dp"
                     android:layout_margin="24dp"
                     android:background="@drawable/shape_signature_pad"
                     app:penColor="@color/texto_firma_digital" />
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -373,33 +394,54 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatButton
+                    <RelativeLayout
                         android:id="@+id/btnBorrarFirmaPiloto"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="#C4C4C4"
+                        android:layout_height="85dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/shape_button_secundary"
                         android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Borrar"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:layout_weight="1">
 
-                    <androidx.appcompat.widget.AppCompatButton
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoregular"
+                            android:text="Borrar firma"
+                            android:textColor="@color/texto_boton_secundario"
+                            android:textSize="22dp" />
+
+                    </RelativeLayout>
+
+
+
+                    <RelativeLayout
                         android:id="@+id/btnGuardarFirmaPiloto"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="@color/input_line"
+                        android:layout_height="85dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="0dp"
+                        android:background="@drawable/shape_button_principal"
                         android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Guardar"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoregular"
+                            android:text="Validar Firma"
+                            android:textColor="@color/texto_boton_principal"
+                            android:textSize="22dp" />
+
+                    </RelativeLayout>
+
+
+
                 </LinearLayout>
 
 
@@ -450,8 +492,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="45dp"
+                        android:layout_height="35dp"
                         android:src="@drawable/ic_arrow_left" />
 
                     <TextView

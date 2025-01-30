@@ -1,12 +1,17 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -56,7 +61,8 @@ public class TabsPreVuelo extends Fragment {
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().finish();
+               // getActivity().finish();
+                showDialog();
             }
         });
         initUI(x);
@@ -131,6 +137,42 @@ public class TabsPreVuelo extends Fragment {
         public CharSequence getPageTitle(int position) {
             return null;
         }
+    }
+
+
+    private void showDialog() {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_cerrar_formato);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            dialog.getWindow().setLayout(width, height);
+            dialog.getWindow().getAttributes().alpha = 1f;
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        RelativeLayout yesBtn = dialog.findViewById(R.id.btnSi);
+        yesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+                //dialog.dismiss();
+            }
+        });
+
+        RelativeLayout noBtn = dialog.findViewById(R.id.btnNo);
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
 

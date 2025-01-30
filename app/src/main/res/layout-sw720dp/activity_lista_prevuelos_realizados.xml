@@ -8,10 +8,12 @@
 
 
     <LinearLayout
+        android:id="@+id/listaFormatosPendientes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/fondo_pantalla_general">
+        android:background="@color/fondo_pantalla_general"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -84,8 +86,6 @@
             android:layout_centerInParent="true"/>
 
 
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFormatosPrevuelo"
             android:layout_width="match_parent"
@@ -98,21 +98,243 @@
     </LinearLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageView
         android:id="@+id/addNewPreVuelo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="25dp"
-        app:fabCustomSize="150dp"
-        app:maxImageSize="70dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="30dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_add"
-        app:tint="@color/white"
-        android:tint="@color/white"
-        android:backgroundTint="@color/titulo_pantalla_general"
-        app:backgroundTint="@color/titulo_pantalla_general" />
+        android:src="@drawable/ic_pluss" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/llEditarFormato"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:clickable="true"
+                android:id="@+id/llBackEditarFormato"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="Regresar"
+                    android:src="@drawable/ic_back"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:text="lista"
+                    android:textColor="@color/titulo_pantalla_general"
+                    android:textSize="25dp"
+                    android:layout_centerInParent="true"/>
+
+
+            </LinearLayout>
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/robotobold"
+                android:text="Editar"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="35dp"
+                android:layout_centerInParent="true"/>
+
+
+
+
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/robotoregular"
+                android:text="RTV"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="25dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_text_box"
+                android:padding="0dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="0dp">
+
+                    <EditText
+                        android:id="@+id/etRTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="30dp"
+                        android:paddingBottom="-5dp"
+                        android:textSize="22dp"
+                        android:textColor="@color/color_texto_cajatexto"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:src="@drawable/ic_down"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/robotoregular"
+                android:text="Ubicación"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="25dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_text_box"
+                android:padding="0dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="0dp">
+
+                    <Spinner
+                        android:id="@+id/spiUbicacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="30dp"
+                        android:paddingBottom="-5dp"
+                        android:textColor="@color/color_texto_cajatexto"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:src="@drawable/ic_down"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/robotomedium"
+                android:text="Anotaciones"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="30dp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAnotaciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+
+            <RelativeLayout
+                android:id="@+id/btnGuardarTodo"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="90dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/shape_button_principal"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoregular"
+                    android:text="Guardar"
+                    android:textColor="@color/texto_boton_principal"
+                    android:textSize="25dp" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>

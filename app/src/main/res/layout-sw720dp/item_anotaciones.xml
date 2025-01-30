@@ -16,10 +16,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_contenedor_anotaciones"
         android:orientation="vertical"
-        android:paddingLeft="10dp"
+        android:paddingLeft="20dp"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:paddingRight="10dp"
+        android:paddingRight="40dp"
         android:visibility="visible">
 
         <LinearLayout
@@ -41,7 +41,7 @@
                     android:fontFamily="@font/robotobold"
                     android:text="Lavar Motor"
                     android:textColor="@color/texto_contenedor_tarea_hijo"
-                    android:textSize="18dp" />
+                    android:textSize="23dp" />
 
 
                 <RelativeLayout
@@ -52,8 +52,8 @@
                     <ImageView
                         android:layout_marginRight="10dp"
                         android:layout_alignParentRight="true"
-                        android:layout_width="40dp"
-                        android:layout_height="25dp"
+                        android:layout_width="45dp"
+                        android:layout_height="35dp"
                         android:src="@drawable/ic_fail" />
 
 
@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:text="No aplica (NA)"
                         android:fontFamily="@font/robotoregular"
-                        android:textSize="17dp"
+                        android:textSize="21dp"
                         android:textColor="@color/texto_simple_pantalla_general"/>
 
                     <TextView
@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:text="Reportaje para registro sólo en RTV"
                         android:fontFamily="@font/robotoregular"
-                        android:textSize="17dp"
+                        android:textSize="21dp"
                         android:textColor="@color/texto_simple_pantalla_general"/>
 
                     <TextView
@@ -106,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:text="Reportaje en daños menores"
                         android:fontFamily="@font/robotoregular"
-                        android:textSize="17dp"
+                        android:textSize="21dp"
                         android:textColor="@color/texto_simple_pantalla_general"/>
 
                     <TextView
@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:text="Reportaje MEL / MDS"
                         android:fontFamily="@font/robotoregular"
-                        android:textSize="17dp"
+                        android:textSize="21dp"
                         android:textColor="@color/texto_simple_pantalla_general"/>
 
                     <TextView
@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:fontFamily="@font/robotoregular"
-                        android:textSize="17dp"
+                        android:textSize="21dp"
                         android:textColor="@color/texto_simple_pantalla_general"/>
 
 

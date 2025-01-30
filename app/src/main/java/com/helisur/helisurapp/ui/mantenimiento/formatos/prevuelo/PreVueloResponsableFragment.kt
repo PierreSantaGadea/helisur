@@ -152,13 +152,23 @@ class PreVueloResponsableFragment : Fragment() {
     fun setSpinnerEmpleados(
     ) {
         var spinnerTipo = binding.spiEmpleados
+
+      //  val spinnerArray: MutableList<String> = ArrayList()
+        val spinnerArrayImages: MutableList<Int> = ArrayList()
+
         val spinnerArray: MutableList<String> = ArrayList()
         spinnerArray.add("Seleccione empleado")
+        spinnerArrayImages.add(R.drawable.empty)
         for(item in empleadosList!!)
-        { spinnerArray.add(item.nombreCompleto) }
+        {
+            spinnerArray.add(item.nombreCompleto)
+            spinnerArrayImages.add(R.drawable.ic_user)
+        }
+        val adapter = SpinenrItemEmpleado(requireContext(),0,
+            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-        adapter.setDropDownViewResource(R.layout.spinner_item)
+      //  val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+      //  adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo!!.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -392,12 +402,14 @@ class PreVueloResponsableFragment : Fragment() {
                 if(helicopteroAPTO)
                 {
                     binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición satisfactoria"
-                    binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#1A4905"));
+                    binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#1A4905"))
+                    binding.ivCondicionHelicoptero!!.setBackgroundResource(R.drawable.ic_success)
                 }
                 else
                 {
                     binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición no satisfactoria"
-                    binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#e11f21"));
+                    binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#e11f21"))
+                    binding.ivCondicionHelicoptero!!.setBackgroundResource(R.drawable.ic_failed)
                 }
 
 
@@ -410,6 +422,7 @@ class PreVueloResponsableFragment : Fragment() {
                 binding.tituloAnotaciones!!.visibility = View.GONE
                 binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición satisfactoria"
                 binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#1A4905"));
+                binding.ivCondicionHelicoptero!!.setBackgroundResource(R.drawable.ic_success)
 
             }
 
@@ -451,10 +464,10 @@ class PreVueloResponsableFragment : Fragment() {
         val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
         yesBtn.setOnClickListener {
 
-            var user = etUsuario.text
-            var pass = etPass.text
-       //     var user = "analista_app"
-       //     var pass = "helisur2024."
+       //     var user = etUsuario.text
+       //     var pass = etPass.text
+            var user = "analista_app"
+            var pass = "helisur2024."
 
             loginViewModel.login(
                 user.toString().trim(), pass.toString().trim()

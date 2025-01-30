@@ -14,10 +14,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="20dp"
+        android:paddingBottom="30dp"
+        android:paddingTop="30dp"
+        android:paddingRight="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -27,7 +27,7 @@
             android:fontFamily="@font/robotobold"
             android:text="Motores"
             android:textColor="@color/texto_contenedor_tarea_padre"
-            android:textSize="18dp" />
+            android:textSize="25dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTareas"

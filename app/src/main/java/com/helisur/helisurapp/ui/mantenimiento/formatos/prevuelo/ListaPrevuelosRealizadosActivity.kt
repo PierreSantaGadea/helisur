@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,6 +20,7 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.login.ModulesActivity
+import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +35,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     var className = "ListaPrevuelosRealizadosActivity"
 
     private val formatosViewModel: FormatosViewModel by viewModels()
+    private val aeronavesViewModel: AeronavesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,6 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         initUI()
         clicListener()
         observers()
-
     }
 
     fun initUI() {
@@ -49,6 +51,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         binding.tvTituloFormato.setText(getNombreFormato(baseContext))
         binding.nombreAeronave.text = getNombreAeronave(baseContext)
         var codFormato = getFormato(baseContext)
+        aeronavesViewModel.obtieneEstaciones()
         formatosViewModel.obtieneFormatosRealizados(codFormato!!, "S")
     }
 
@@ -64,6 +67,25 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
                 if (loading!!.isShowing) {
                     loading!!.dismiss()
                 }
+            }
+        })
+
+
+        aeronavesViewModel.isLoading.observe(this, Observer {
+            try {
+                if (it) {
+                    if (!loading!!.isShowing) {
+                        loading!!.show()
+                    }
+                } else {
+                    if (loading!!.isShowing) {
+                        loading!!.dismiss()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
             }
         })
 

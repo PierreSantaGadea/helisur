@@ -29,7 +29,7 @@
             android:fontFamily="@font/robotobold"
             android:text="Lavar Motor"
             android:textColor="@color/texto_contenedor_tarea_hijo"
-            android:textSize="18dp" />
+            android:textSize="23dp" />
 
         <LinearLayout
             android:id="@+id/contenedorReportajes"
@@ -37,63 +37,72 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone"
-            android:weightSum="5"
             android:layout_marginTop="5dp">
 
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:weightSum="7">
 
-                <CheckBox
-                    android:id="@+id/chbx_Reportaje_No_Aplica"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="No aplica (NA)"
-                    android:fontFamily="@font/robotoregular"
-                    android:textSize="17dp"
-                    android:buttonTint="@color/titulo_pantalla_general"
-                    android:textColor="@color/texto_simple_pantalla_general"/>
+                    android:orientation="vertical"
+                    android:layout_weight="4">
 
-                <CheckBox
-                    android:id="@+id/chbx_Reportaje_RTV"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Reportaje para registro sólo en RTV"
-                    android:fontFamily="@font/robotoregular"
-                    android:textSize="15dp"
-                    android:buttonTint="@color/titulo_pantalla_general"
-                    android:textColor="@color/texto_simple_pantalla_general"/>
+                    <CheckBox
+                        android:id="@+id/chbx_Reportaje_No_Aplica"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No aplica (NA)"
+                        android:fontFamily="@font/robotoregular"
+                        android:textSize="21dp"
+                        android:buttonTint="@color/titulo_pantalla_general"
+                        android:textColor="@color/texto_simple_pantalla_general"/>
 
-                <CheckBox
-                    android:id="@+id/chbx_Reportaje_DanosMenores"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Reportaje en daños menores"
-                    android:fontFamily="@font/robotoregular"
-                    android:textSize="15dp"
-                    android:buttonTint="@color/titulo_pantalla_general"
-                    android:textColor="@color/texto_simple_pantalla_general"/>
+                    <CheckBox
+                        android:id="@+id/chbx_Reportaje_RTV"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reportaje para registro sólo en RTV"
+                        android:fontFamily="@font/robotoregular"
+                        android:textSize="21dp"
+                        android:buttonTint="@color/titulo_pantalla_general"
+                        android:textColor="@color/texto_simple_pantalla_general"/>
 
-                <CheckBox
-                    android:id="@+id/chbx_Reportaje_MELMDS"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Reportaje MEL / MDS"
-                    android:fontFamily="@font/robotoregular"
-                    android:textSize="15dp"
-                    android:buttonTint="@color/titulo_pantalla_general"
-                    android:textColor="@color/texto_simple_pantalla_general"/>
+                    <CheckBox
+                        android:id="@+id/chbx_Reportaje_DanosMenores"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reportaje en daños menores"
+                        android:fontFamily="@font/robotoregular"
+                        android:textSize="21dp"
+                        android:buttonTint="@color/titulo_pantalla_general"
+                        android:textColor="@color/texto_simple_pantalla_general"/>
+
+                    <CheckBox
+                        android:id="@+id/chbx_Reportaje_MELMDS"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reportaje MEL / MDS"
+                        android:fontFamily="@font/robotoregular"
+                        android:textSize="21dp"
+                        android:buttonTint="@color/titulo_pantalla_general"
+                        android:textColor="@color/texto_simple_pantalla_general"/>
+
+                </LinearLayout>
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:visibility="visible"
                     android:layout_marginLeft="5dp"
@@ -126,7 +135,7 @@
                                 android:paddingTop="10dp"
                                 android:paddingEnd="10dp"
                                 android:paddingBottom="10dp"
-                                android:textSize="17dp"
+                                android:textSize="21dp"
                                 android:gravity="top|left"
                                 android:textColor="@color/color_texto_cajatexto"
                                 android:enabled="false"/>
@@ -151,8 +160,9 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
+
+
 
 
 
