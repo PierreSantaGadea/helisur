@@ -58,6 +58,7 @@ class PreVueloFirmasFragment : Fragment() {
         binding = FragmentFirmasBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initUI()
+        setCheckBox()
         clickListener()
          observers()
         return root
@@ -225,6 +226,17 @@ class PreVueloFirmasFragment : Fragment() {
 
 
 
+    }
+
+    fun setCheckBox()
+    {
+        binding.chxTripulacionEfectuoPrevuelo!!.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                binding.llFormularioPilotoCopiloto!!.visibility = View.VISIBLE
+            } else {
+                binding.llFormularioPilotoCopiloto!!.visibility = View.GONE
+            }
+        }
     }
 
 

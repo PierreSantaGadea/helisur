@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/fondo_pantalla_general"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/llEditarFormato"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <RelativeLayout

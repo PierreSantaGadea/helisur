@@ -404,12 +404,14 @@ class PreVueloResponsableFragment : Fragment() {
                     binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición satisfactoria"
                     binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#1A4905"))
                     binding.ivCondicionHelicoptero!!.setBackgroundResource(R.drawable.ic_success)
+                    binding.chxSi.isEnabled = true
                 }
                 else
                 {
                     binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición no satisfactoria"
                     binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#e11f21"))
                     binding.ivCondicionHelicoptero!!.setBackgroundResource(R.drawable.ic_failed)
+                    binding.chxSi.isEnabled = false
                 }
 
 
@@ -423,6 +425,7 @@ class PreVueloResponsableFragment : Fragment() {
                 binding.condicionhelicoptero!!.text = "El helicóptero se encuentra en condición satisfactoria"
                 binding.condicionhelicoptero!!.setTextColor(Color.parseColor("#1A4905"));
                 binding.ivCondicionHelicoptero!!.setBackgroundResource(R.drawable.ic_success)
+                binding.chxSi.isEnabled = true
 
             }
 

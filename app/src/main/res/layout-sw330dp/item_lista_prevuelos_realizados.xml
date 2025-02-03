@@ -25,7 +25,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="0dp">
+                android:layout_marginTop="0dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
                     android:id="@+id/tvAeronave"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
+                    android:text="dddd"
                     android:textSize="16sp"
                     android:gravity="center"
                     android:fontFamily="@font/robotoregular"
@@ -88,7 +89,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,10 +115,11 @@
 
 
             <ImageView
-                android:layout_marginTop="20dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_edit"/>
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_levantar_disc"/>
 
 
 

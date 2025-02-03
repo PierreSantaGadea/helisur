@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -151,6 +152,15 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             finish()
 
         }
+
+
+        binding.llBackEditarFormato.setOnClickListener {
+
+            binding.llBackEditarFormato.visibility = View.GONE
+            binding.listaFormatosPendientes.visibility = View.VISIBLE
+            binding.addNewPreVuelo.visibility = View.VISIBLE
+
+        }
     }
 
 
@@ -171,6 +181,10 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         recyclerview.addItemDecoration(dividerItemDecoration)
 
         adapter.onItemClick = { contact ->
+
+            binding.llBackEditarFormato.visibility = View.VISIBLE
+            binding.listaFormatosPendientes.visibility = View.GONE
+            binding.addNewPreVuelo.visibility = View.GONE
         }
     }
 

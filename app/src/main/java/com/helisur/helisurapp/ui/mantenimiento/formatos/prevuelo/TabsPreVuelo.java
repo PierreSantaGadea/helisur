@@ -32,6 +32,7 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TabsPreVuelo extends Fragment {
     public static TabLayout tabLayout;
@@ -158,7 +159,8 @@ public class TabsPreVuelo extends Fragment {
         yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+               // dialog.dismiss();
+                requireActivity().finish();
                 //dialog.dismiss();
             }
         });

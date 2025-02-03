@@ -33,406 +33,434 @@
                 android:textColor="@color/titulo_pantalla_general"
                 android:textSize="20dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/robotomedium"
-                android:text="El copiloto y el piloto que suscriben, verificaron la NO EXISTENCIA de objetos extraños y/o peligrosos, que atenten contra la Seguridad de la Aviación, en los compartimientos internos y externos de la Aeronave, descritos en la Lista de Verificación del Prevuelo de Operaciones"
-                android:textSize="16dp"
-                android:justificationMode="inter_word"
-                android:textColor="@color/color_texto_cajatexto"/>
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/robotoregular"
-                android:text="Nombre del copiloto"
-                android:textColor="@color/titulo_pantalla_general"
-                android:textSize="15dp" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_text_box"
-                android:padding="0dip">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="0dp">
-
-                    <Spinner
-                        android:id="@+id/spiCopilotos"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@android:color/transparent"
-                        android:paddingStart="0dp"
-                        android:paddingTop="0dp"
-                        android:paddingEnd="30dp"
-                        android:paddingBottom="-5dp"
-                        android:textColor="@color/color_texto_cajatexto"/>
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="15dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:paddingTop="0dp"
-                    android:paddingBottom="0dp"
-                    android:src="@drawable/ic_down"
-                    android:visibility="gone"/>
-
-            </RelativeLayout>
-
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <CheckBox
+                android:id="@+id/chxTripulacionEfectuoPrevuelo"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/robotoregular"
-                android:text="Licencia"
-                android:textColor="@color/titulo_pantalla_general"
-                android:textSize="15dp" />
-
-            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_text_box"
-                android:padding="0dip">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="0dp">
-
-                    <EditText
-                        android:id="@+id/etLicenciaCopiloto"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@android:color/transparent"
-                        android:paddingStart="0dp"
-                        android:paddingTop="0dp"
-                        android:paddingEnd="30dp"
-                        android:paddingBottom="-5dp"
-                        android:textColor="@color/color_texto_cajatexto"/>
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="15dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:paddingTop="0dp"
-                    android:paddingBottom="0dp"
-                    android:src="@drawable/ic_down"
-                    android:visibility="gone"/>
-
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:text="La tripulación efectuó el Pre-Vuelo de Operaciones de acuerdo a la lista de verificaci{on vigente"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="15dp"
+                android:buttonTint="@color/titulo_pantalla_general"
+                android:textColor="@color/texto_simple_pantalla_general" />
 
 
             <LinearLayout
+                android:id="@+id/llFormularioPilotoCopiloto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
+
 
                 <TextView
-                    android:id="@+id/tvBSign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Firma dentro del recuadro"
-                    android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="16sp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/robotomedium"
+                    android:text="El copiloto y el piloto que suscriben, verificaron la NO EXISTENCIA de objetos extraños y/o peligrosos, que atenten contra la Seguridad de la Aviación, en los compartimientos internos y externos de la Aeronave, descritos en la Lista de Verificación del Prevuelo de Operaciones"
+                    android:textSize="16dp"
+                    android:justificationMode="inter_word"
+                    android:textColor="@color/color_texto_cajatexto"/>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:fontFamily="@font/robotolight"/>
-
-                <com.github.gcacace.signaturepad.views.SignaturePad
-                    android:id="@+id/signaturePadCopiloto"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_margin="24dp"
-                    android:background="@drawable/shape_signature_pad"
-                    app:penColor="@color/texto_firma_digital" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnBorrarFirmaCopiloto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="#C4C4C4"
-                        android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Borrar"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnGuardarFirmaCopiloto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="@color/input_line"
-                        android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Guardar"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
-                android:fontFamily="@font/robotomedium"
-                android:text="El piloto al mando de la Aeronave certifica que :"
-                android:textSize="17dp"
-                android:textColor="@color/black"/>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/robotobold"
-                android:text="EL HELICÓPTERO SE ENCUENTRA LISTO PARA EL VUELO"
-                android:textColor="@color/green_labell"
-                android:textSize="19dp"
-                android:textStyle="bold"
-                />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/robotoregular"
-                android:text="Nombres y apellidos"
-                android:textColor="@color/titulo_pantalla_general"
-                android:textSize="15dp" />
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_text_box"
-                android:padding="0dip">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="0dp">
-
-                    <Spinner
-                        android:id="@+id/spiPilotos"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@android:color/transparent"
-                        android:paddingStart="0dp"
-                        android:paddingTop="0dp"
-                        android:paddingEnd="30dp"
-                        android:paddingBottom="-5dp"
-                        android:textColor="@color/color_texto_cajatexto"/>
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="15dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:paddingTop="0dp"
-                    android:paddingBottom="0dp"
-                    android:src="@drawable/ic_down"
-                    android:visibility="gone"/>
-
-            </RelativeLayout>
-
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/robotoregular"
-                android:text="Licencia"
-                android:textColor="@color/titulo_pantalla_general"
-                android:textSize="15dp" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_text_box"
-                android:padding="0dip">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="0dp">
-
-                    <EditText
-                        android:id="@+id/etLicenciaPiloto"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:background="@android:color/transparent"
-                        android:paddingStart="0dp"
-                        android:paddingTop="0dp"
-                        android:paddingEnd="30dp"
-                        android:paddingBottom="-5dp"
-                        android:textColor="@color/color_texto_cajatexto"/>
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="15dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:paddingTop="0dp"
-                    android:paddingBottom="0dp"
-                    android:src="@drawable/ic_down"
-                    android:visibility="gone"/>
-
-            </RelativeLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Firma dentro del recuadro"
-                    android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="16sp"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/robotolight"/>
-
-                <com.github.gcacace.signaturepad.views.SignaturePad
-                    android:id="@+id/signaturePadPiloto"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_margin="24dp"
-                    android:background="@drawable/shape_signature_pad"
-                    app:penColor="@color/texto_firma_digital" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnBorrarFirmaPiloto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="#C4C4C4"
-                        android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Borrar"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnGuardarFirmaPiloto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="@color/input_line"
-                        android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Guardar"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/btnGuardarTodo"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginRight="0dp"
-                android:background="@drawable/shape_button_principal"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:fontFamily="@font/robotoregular"
-                    android:text="Guardar"
-                    android:textColor="@color/texto_boton_principal"
-                    android:textSize="17dp" />
+                    android:text="Nombre del copiloto"
+                    android:textColor="@color/titulo_pantalla_general"
+                    android:textSize="15dp" />
 
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shape_text_box"
+                    android:padding="0dip">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="0dp">
+
+                        <Spinner
+                            android:id="@+id/spiCopilotos"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@android:color/transparent"
+                            android:paddingStart="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="30dp"
+                            android:paddingBottom="-5dp"
+                            android:textColor="@color/color_texto_cajatexto"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:src="@drawable/ic_down"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:text="Licencia"
+                    android:textColor="@color/titulo_pantalla_general"
+                    android:textSize="15dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shape_text_box"
+                    android:padding="0dip">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="0dp">
+
+                        <EditText
+                            android:id="@+id/etLicenciaCopiloto"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@android:color/transparent"
+                            android:paddingStart="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="30dp"
+                            android:paddingBottom="-5dp"
+                            android:textColor="@color/color_texto_cajatexto"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:src="@drawable/ic_down"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tvBSign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Firma dentro del recuadro"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="16sp"
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/robotolight"/>
+
+                    <com.github.gcacace.signaturepad.views.SignaturePad
+                        android:id="@+id/signaturePadCopiloto"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="24dp"
+                        android:background="@drawable/shape_signature_pad"
+                        app:penColor="@color/texto_firma_digital" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnBorrarFirmaCopiloto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="#C4C4C4"
+                            android:gravity="center"
+                            android:paddingHorizontal="24dp"
+                            android:paddingVertical="8dp"
+                            android:text="Borrar"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnGuardarFirmaCopiloto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@color/input_line"
+                            android:gravity="center"
+                            android:paddingHorizontal="24dp"
+                            android:paddingVertical="8dp"
+                            android:text="Guardar"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="55dp"
+                    android:fontFamily="@font/robotomedium"
+                    android:text="El piloto al mando de la Aeronave certifica que :"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/robotobold"
+                    android:text="EL HELICÓPTERO SE ENCUENTRA LISTO PARA EL VUELO"
+                    android:textColor="@color/green_labell"
+                    android:textSize="19dp"
+                    android:textStyle="bold"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:text="Nombre del piloto al mando de la aeronave"
+                    android:textColor="@color/titulo_pantalla_general"
+                    android:textSize="15dp" />
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shape_text_box"
+                    android:padding="0dip">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="0dp">
+
+                        <Spinner
+                            android:id="@+id/spiPilotos"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@android:color/transparent"
+                            android:paddingStart="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="30dp"
+                            android:paddingBottom="-5dp"
+                            android:textColor="@color/color_texto_cajatexto"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:src="@drawable/ic_down"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:text="Licencia"
+                    android:textColor="@color/titulo_pantalla_general"
+                    android:textSize="15dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shape_text_box"
+                    android:padding="0dip">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="0dp">
+
+                        <EditText
+                            android:id="@+id/etLicenciaPiloto"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@android:color/transparent"
+                            android:paddingStart="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="30dp"
+                            android:paddingBottom="-5dp"
+                            android:textColor="@color/color_texto_cajatexto"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:src="@drawable/ic_down"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Firma dentro del recuadro"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="16sp"
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/robotolight"/>
+
+                    <com.github.gcacace.signaturepad.views.SignaturePad
+                        android:id="@+id/signaturePadPiloto"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="24dp"
+                        android:background="@drawable/shape_signature_pad"
+                        app:penColor="@color/texto_firma_digital" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnBorrarFirmaPiloto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="#C4C4C4"
+                            android:gravity="center"
+                            android:paddingHorizontal="24dp"
+                            android:paddingVertical="8dp"
+                            android:text="Borrar"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnGuardarFirmaPiloto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@color/input_line"
+                            android:gravity="center"
+                            android:paddingHorizontal="24dp"
+                            android:paddingVertical="8dp"
+                            android:text="Guardar"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/btnGuardarTodo"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginRight="0dp"
+                    android:background="@drawable/shape_button_principal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="Guardar"
+                        android:textColor="@color/texto_boton_principal"
+                        android:textSize="17dp" />
+
+
+                </RelativeLayout>
+
+
+
+
+            </LinearLayout>
+
 
 
 
