@@ -2,10 +2,12 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,15 +60,23 @@ public class TabsPreVuelo extends Fragment {
         View x = inflater.inflate(R.layout.fragment_tabs_prevuelo, null);
         llBack = (LinearLayout) x.findViewById(R.id.llBack);
         tituloFDormato = (TextView) x.findViewById(R.id.tvTituloFormato);
-
+        initUI(x);
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // getActivity().finish();
+             /*   new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                }, 4000);
+
+              */
+             //   getActivity().finish();
                 showDialog();
             }
         });
-        initUI(x);
+
         return x;
     }
 
@@ -142,7 +152,7 @@ public class TabsPreVuelo extends Fragment {
 
 
     private void showDialog() {
-        Dialog dialog = new Dialog(requireContext());
+        Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.dialog_cerrar_formato);
@@ -162,6 +172,9 @@ public class TabsPreVuelo extends Fragment {
                // dialog.dismiss();
                 requireActivity().finish();
                 //dialog.dismiss();
+
+       //         Intent intent = new Intent(getActivity(), ListaPrevuelosRealizadosActivity.class);
+       //         startActivity(intent);
             }
         });
 

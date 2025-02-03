@@ -1,26 +1,28 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataTableCloudResponse
-import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtienePrevuelosRealizadosCloudResponse
 import com.helisur.helisurapp.databinding.ActivityListaPrevuelosRealizadosBinding
 import com.helisur.helisurapp.domain.util.BaseActivity
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
-import com.helisur.helisurapp.ui.login.LoginViewModel
-import com.helisur.helisurapp.ui.login.ModulesActivity
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -156,9 +158,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
         binding.llBackEditarFormato.setOnClickListener {
 
-            binding.llBackEditarFormato.visibility = View.GONE
-            binding.listaFormatosPendientes.visibility = View.VISIBLE
-            binding.addNewPreVuelo.visibility = View.VISIBLE
+           showDialog()
 
         }
     }
@@ -182,10 +182,44 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
         adapter.onItemClick = { contact ->
 
-            binding.llBackEditarFormato.visibility = View.VISIBLE
+            binding.llEditarFormato.visibility = View.VISIBLE
             binding.listaFormatosPendientes.visibility = View.GONE
             binding.addNewPreVuelo.visibility = View.GONE
         }
+    }
+
+
+    private fun showDialog() {
+        val dialog = Dialog(this)
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setCancelable(true)
+        dialog!!.setContentView(R.layout.dialog_cerrar_editar_formato)
+        dialog!!.window!!.attributes.windowAnimations = R.style.DialogAnimation
+
+        if (dialog != null) {
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.WRAP_CONTENT
+            dialog.window!!.setLayout(width, height)
+            dialog.window!!.attributes.alpha = 1f
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        val yesBtn = dialog!!.findViewById<RelativeLayout>(R.id.btnSi)
+        yesBtn.setOnClickListener {
+             dialog.dismiss();
+
+            binding.llEditarFormato.visibility = View.GONE
+            binding.listaFormatosPendientes.visibility = View.VISIBLE
+            binding.addNewPreVuelo.visibility = View.VISIBLE
+            //dialog.dismiss();
+
+            //         Intent intent = new Intent(getActivity(), ListaPrevuelosRealizadosActivity.class);
+            //         startActivity(intent);
+        }
+
+        val noBtn = dialog!!.findViewById<RelativeLayout>(R.id.btnNo)
+        noBtn.setOnClickListener { dialog!!.dismiss() }
+
+        dialog!!.show()
     }
 
 

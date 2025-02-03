@@ -240,6 +240,7 @@ class PreVueloFirmasFragment : Fragment() {
     }
 
 
+
     fun setSpinnerCopilotos(
     ) {
         var spinnerTipo = binding.spiCopilotos
