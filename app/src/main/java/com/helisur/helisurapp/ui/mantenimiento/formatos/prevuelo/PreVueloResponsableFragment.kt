@@ -2,6 +2,8 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -66,6 +68,7 @@ class PreVueloResponsableFragment : Fragment() {
         initUI()
         clicListener()
         observers()
+        validatePOSTVUELO()
         return root
     }
 
@@ -542,6 +545,28 @@ class PreVueloResponsableFragment : Fragment() {
 
         }
         dialog.show()
+    }
+
+    fun getNombreFormato(context: Context): String? {
+        val sharedPreferences =
+            context.getSharedPreferences(Constants.SHARED_PREFERENCES.FORMATO, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_FORMATO, "")
+        return text
+    }
+
+
+    fun validatePOSTVUELO()
+    {
+        if(getNombreFormato(requireContext()).equals("POST-VUELO"))
+        {
+            binding.btnCerrarMomentaneamente!!.visibility = View.VISIBLE
+            binding.llEntregaraAOperaciones!!.visibility = View.GONE
+        }
+        else
+        {
+            binding.btnCerrarMomentaneamente!!.visibility = View.GONE
+            binding.llEntregaraAOperaciones!!.visibility = View.VISIBLE
+        }
     }
 
 

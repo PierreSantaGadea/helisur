@@ -118,6 +118,8 @@ class EscogeAeronaveFragment  : Fragment() {
         var spinnerTipo = binding.spiAeronave
         val spinnerArray: MutableList<String> = ArrayList()
         val spinnerArrayImages: MutableList<Int> = ArrayList()
+        spinnerArray.add("Seleccione modelo aeronave")
+        spinnerArrayImages.add(R.drawable.empty)
     //    spinnerArray.add("Seleccione modelo")
     //    spinnerArrayImages.add(R.drawable.ic_down)
 
@@ -164,12 +166,16 @@ class EscogeAeronaveFragment  : Fragment() {
             ) {
 
                 if (position == 0) {
+                    idAeronave = ""
+                    nombreAeronave = ""
                 } else {
+
+                    idAeronave = aeronavesList!![position-1].codigoModeloPuesto
+                    nombreAeronave = aeronavesList!![position-1].descripcion
+                    setSpinnerFormato(idAeronave)
                 }
 
-                idAeronave = aeronavesList!![position].codigoModeloPuesto
-                nombreAeronave = aeronavesList!![position].descripcion
-                setSpinnerFormato(idAeronave)
+
             }
         }
     }

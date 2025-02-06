@@ -7,6 +7,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoC
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.domain.model.Sistema
@@ -28,6 +29,7 @@ class FormatosViewModel @Inject constructor(
     val responseObtieneSistemas= MutableLiveData<ArrayList<Sistema>>()
     val responseObtieneTareas= MutableLiveData<ArrayList<Tarea>>()
     val responseObtieneFormatosRealizados= MutableLiveData<ObtieneFormatosRealizadosCloudResponse>()
+    val responseObtieneReportajesFormato= MutableLiveData<ObtieneReportajesFormatoCloudResponse>()
     val isLoading = MutableLiveData<Boolean>()
     val formatosState = MutableLiveData<FormatosState>(FormatosState.START)
 
@@ -213,6 +215,30 @@ class FormatosViewModel @Inject constructor(
                     isLoading.postValue(false)
                     formatosState.postValue(FormatosState.SUCCESS)
                     responseObtieneFormatosRealizados.postValue(result)
+                }
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun obtieneReportajesFormato(codigoFormato:String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.obtieneReportajesFormato(codigoFormato)
+            if (result != null) {
+                if(result.success == Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.SUCCESS)
+                    responseObtieneReportajesFormato.postValue(result)
                 }
             } else {
                 isLoading.postValue(false)

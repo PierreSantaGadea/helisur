@@ -53,7 +53,7 @@ class ListaSistemasAdapter(
                 if (appItem.tareas != null) {
                     if (appItem.tareas!!.size > 0) {
                         holder.rvTareas.layoutManager = LinearLayoutManager(ctx)
-                        val adapter = ListaTareasAdapter(appItem.tareas!!)
+                        val adapter = ListaTareasAdapter(ctx,appItem.tareas!!)
                         holder.rvTareas.adapter = adapter
                         holder.rvTareas.visibility = View.VISIBLE
                     } else {

@@ -19,6 +19,16 @@ open class BaseActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun isTablet():Boolean
+    {
+        var tablet = false
+  //      val configuration = LocalConfiguration.current
+    //    val expanded = configuration.screenWidthDp > 840
+
+        return  tablet
+    }
+
+
 
     fun isOnline(): Boolean {
         try {

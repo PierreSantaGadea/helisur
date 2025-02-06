@@ -55,24 +55,22 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Aeronave : "
-                    android:textSize="25sp"
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:gravity="center"
-                    android:fontFamily="@font/robotoregular"
-                    android:textColor="@color/titulo_pantalla_general"/>
+                    android:src="@drawable/ic_helicopter"/>
 
                 <TextView
                     android:id="@+id/tvAeronave"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
-                    android:textSize="25sp"
+                    android:text="dddd"
+                    android:textSize="26sp"
                     android:gravity="center"
                     android:fontFamily="@font/robotoregular"
-                    android:textColor="@color/color_texto_cajatexto"/>
+                    android:textColor="@color/color_texto_cajatexto"
+                    android:layout_marginLeft="30dp"/>
 
             </LinearLayout>
 
@@ -115,7 +113,7 @@
 
 
             <ImageView
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

@@ -1,5 +1,8 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
+import android.content.Context
+import android.provider.Settings.Secure
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +16,18 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.domain.model.Tarea
+import com.helisur.helisurapp.domain.util.SessionUserManager
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 
-class ListaTareasAdapter(private val mList: ArrayList<Tarea>) :
+class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) :
     RecyclerView.Adapter<ListaTareasAdapter.MyViewHolder>() {
 
     var onItemClick: ((Tarea) -> Unit)? = null
@@ -49,6 +62,8 @@ class ListaTareasAdapter(private val mList: ArrayList<Tarea>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val appItem = mList[position]
         holder.nombreTarea.text = appItem.nombreTarea
+
+
 
         if(appItem.reportaje_NoAplica)
             holder.reportaje_NoAplica.isChecked = true
@@ -165,5 +180,61 @@ class ListaTareasAdapter(private val mList: ArrayList<Tarea>) :
     fun getTareasRevisadas(): ArrayList<Tarea> {
         return mList
     }
+
+
+    fun listaReportajes(ctx:Context,idTarea:String) {
+
+        var sessionUserManager = SessionUserManager(context = ctx)
+      //  val idDevice = Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID)
+      //  var usuario = sessionUserManager.getUser()!!
+     //   var pass = sessionUserManager.getPass()!!
+
+        var urlApi = "http://localhost:5628/api/FormatoRegistro/GetFormatoAnotaciones"
+        val payload = "{'cadena': '"+idTarea+"'}"
+
+        val okHttpClient = OkHttpClient()
+        val requestBody = payload.toRequestBody()
+
+        val request = Request.Builder()
+            .post(requestBody)
+            .url(urlApi)
+            .header("Content-Type", "application/json")
+            .build()
+
+        okHttpClient.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("ERROR LOGIN TOKEN",e.toString())
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                var responseData = response.body!!.string()
+                try {
+                    var json = JSONObject(responseData)
+                    Log.i("JSON RESPONSE: ", json.toString())
+                    val responseObject = json.getJSONObject("data")
+                    val contArray = responseObject.getJSONObject("obj")
+                    val arrayReportajes = contArray.getJSONArray("table")
+
+                    for(i in 0 until arrayReportajes.length())
+                    {
+                        val itemReportaje = arrayReportajes.getJSONObject(i)
+
+                        val codigoRegistroFormato = itemReportaje.getJSONObject("codigoRegistroFormato")
+                        val codigoTarea = itemReportaje.getJSONObject("codigoTarea")
+                        val nombreTarea = itemReportaje.getJSONObject("nombreTarea")
+
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        })
+
+
+    }
+
+
+
+
 
 }

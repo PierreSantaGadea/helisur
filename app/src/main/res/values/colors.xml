@@ -12,6 +12,7 @@
     <color name="grey">#C4C4C4</color>
     <color name="dark_grey">#2C2C2C</color>
     <color name="disabled">#D3D3D3</color>
+    <color name="hums">#0F558E</color>
 
     <!--  COLORES PRINCIPALES DE LA ORGANIZACION -->
     <color name="principal">#002f5e</color>
@@ -110,6 +111,12 @@
     <color name="fondo_boton_borrar_firma">@color/almost_white</color>
     <color name="borde_boton_borrar_firma">@color/principal</color>
     <color name="texto_boton_borrar_firma">@color/principal</color>
+
+
+    <!--  CONTENEDOR TAREA HUMS -->
+    <color name="fondo_contenedor_tarea_abuelo_hums">@color/hums</color>
+    <color name="borde_contenedor_tarea_abuelo_hums">@color/hums</color>
+    <color name="texto_contenedor_tarea_abuelo_hums">@color/white</color>
 
 
 

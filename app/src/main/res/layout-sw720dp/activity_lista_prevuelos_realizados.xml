@@ -94,7 +94,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:fontFamily="@font/robotolight"
-            android:text="Inspecciones realizadas con discrepancias por levantar"
+            android:text="Formatos con discrepancias"
             android:textColor="@color/titulo_pantalla_general"
             android:textSize="27dp"
             android:justificationMode="inter_word"
@@ -105,7 +105,7 @@
             android:id="@+id/rvFormatosPrevuelo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="5dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"/>
@@ -194,42 +194,44 @@
             android:layout_marginRight="30dp">
 
             <TextView
+                android:id="@+id/tvTituloFormatoeditar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/robotomedium"
-                android:text="Pre Vuelo"
+                android:text=""
                 android:textColor="@color/titulo_pantalla_general"
                 android:textSize="32dp"
                 android:justificationMode="inter_word"
                 android:layout_gravity="center"/>
 
             <TextView
+                android:id="@+id/tvTituloAeronave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/robotomedium"
-                android:text="MBB-BK117 B-2  /  OB2227P"
+                android:text=""
                 android:textColor="@color/titulo_pantalla_general"
                 android:textSize="30dp"
                 android:justificationMode="inter_word"
                 android:layout_gravity="center"/>
 
+            <ImageView
+                android:id="@+id/tvDocumentacion"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_document"
+                android:layout_marginRight="20dp"/>
+
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/robotolight"
-                android:text="A continuación las discrepancias registradas por el personal responsable. Proceder a levantar las discrepancias y luego darle al botón Guardar"
-                android:textColor="@color/titulo_pantalla_general"
-                android:textSize="27dp"
-                android:justificationMode="inter_word"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/robotoregular"
                 android:text="RTV"
                 android:textColor="@color/titulo_pantalla_general"
@@ -339,6 +341,16 @@
                 android:textColor="@color/titulo_pantalla_general"
                 android:textSize="30dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llContenedorReportajes"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp">
+
+
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAnotaciones"

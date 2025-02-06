@@ -48,6 +48,7 @@ class TareasFragment : Fragment() {
         initUI()
         observers()
         clickListener()
+        validateHUMS()
         return root
     }
 
@@ -78,6 +79,18 @@ class TareasFragment : Fragment() {
             }
         }
 
+    }
+
+    fun validateHUMS()
+    {
+        if(getNombreFormato(requireContext()).equals("POST-VUELO"))
+        {
+            binding.llHums!!.visibility = View.VISIBLE
+        }
+        else
+        {
+            binding.llHums!!.visibility = View.GONE
+        }
     }
 
 

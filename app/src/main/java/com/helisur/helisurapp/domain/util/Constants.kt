@@ -13,12 +13,17 @@ class Constants {
 
         const val OBTIENE_SISTEMAS: String = "serviceintranetHLS/api/FormatoSistema/GetFormatoSistemaBy"
         const val OBTIENE_TAREAS: String = "serviceintranetHLS/api/FormatoTarea/GetFormatoTareaBy"
-        const val OBTIENE_REPORTAJES: String = "serviceintranetHLS/api/Formato/GetAll"
+        const val OBTIENE_REPORTAJES: String = "serviceintranetHLS/api/FormatoRegistro/GetFormatoAnotaciones"
 
         const val OBTIENE_EMPLEADOS: String = "serviceintranetHLS/api/Empleado/GetEmpleadoAreaBy"
 
         const val GRABA_FORMATO: String = "serviceintranetHLS/api/FormatoRegistro/Insertar"
-        const val OBTIENE_FORMATOS_REALIZADOS: String = "serviceintranetHLS/api/FormatoRegistro/GetFormatoSelBy"
+        const val OBTIENE_FORMATOS_REALIZADOS: String = "serviceintranetHLS/api/FormatoRegistro/GetFormatoSel"
+
+        const val OBTIENE_REPORTAJES_FORMATOS: String = "serviceintranetHLS/api/FormatoRegistro/GetFormatoReportajeSelBy" //Cadena = [Nro de registro de formato char(10)]
+        const val ACTUALIZA_REPORTAJE_FORMATO: String = "serviceintranetHLS/api/FormatoRegistro/actualizaEstadoReportaje" //codigoRegistroFormato, codigoTarea, codigoReportaje, indicadorSN, usuarioRegistro
+
+
     }
 
     object ERROR {

@@ -29,10 +29,18 @@
                 android:textColor="@color/titulo_pantalla_general"
                 android:textSize="30dp" />
 
+            <ImageView
+                android:id="@+id/tvDocumentacion"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_document"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/robotoregular"
                 android:text="Aeronave"
                 android:textColor="@color/titulo_pantalla_general"
