@@ -1,5 +1,6 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
+
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -16,6 +18,7 @@ import android.widget.AdapterView
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.widget.CompoundButtonCompat
@@ -133,7 +136,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         binding.nombreAeronave.text = getNombreAeronave(baseContext)
 
         var codFormato = getFormato(baseContext)
-        aeronavesViewModel.obtieneEstaciones()
+        aeronavesViewModel.getEstacionesListCloud()
         formatosViewModel.obtieneFormatosRealizados(codFormato!!, "S")
     }
 
@@ -202,7 +205,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
                 for(reportajeItem in listaReportajesFormato)
                 {
-                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!)
+                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
                 }
 
             } else {
@@ -212,7 +215,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         })
 
 
-        aeronavesViewModel.responseObtieneEstaciones.observe(this, Observer {
+        aeronavesViewModel.responseGetEstacionesListCloud.observe(this, Observer {
             if (it != null) {
 
                 listaUbicaciones = ArrayList(it!!.data!!.table)
@@ -242,9 +245,15 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             showDialogCerrarEditarFormato()
         }
 
-        binding.tvDocumentacion!!.setOnClickListener {
+        binding.btnDocumentacionAeronaves!!.setOnClickListener {
 
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://airbusworld.helicopters.airbus.com/c/portal/login?redirect=%2Fgroup%2Fguest&refererPlid=13195661&p_l_id=13195493"))
+            startActivity(browserIntent)
+        }
+
+        binding.btnDocumentacionMotores!!.setOnClickListener {
+
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.intermountainturbine.com/"))
             startActivity(browserIntent)
         }
     }
@@ -269,7 +278,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         adapter.onItemClick = { formato ->
 
             binding.etRTV.setText(formato.numeroRTV)
-            setSpinnerUbicacion(formato.codigoFormato)
+            setSpinnerUbicacion(formato.codigoEstacion)
 
             binding.tvTituloAeronave.text = getNombreAeronave(baseContext) + "  /  "+formato.aeronave
 
@@ -397,11 +406,24 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     }
 
 
-    fun newCheckBox(nombre:String,id:String,contenedor:LinearLayout,indicadorSN:String,indicadorBloqueo:String)
+    fun newCheckBox(nombre:String,id:String,contenedor:LinearLayout,indicadorSN:String,indicadorBloqueo:String,nombreTarea:String)
     {
+
+        val tituloTarea = TextView(applicationContext)
+        tituloTarea.setText(nombreTarea)
+
         val cb = CheckBox(applicationContext)
         cb.setTextColor( resources.getColor(R.color.texto_simple_pantalla_general))
-        CompoundButtonCompat.setButtonTintList(cb, ColorStateList.valueOf(getResources().getColor(R.color.texto_simple_pantalla_general)))
+
+
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        if (tabletSize) {
+            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f);
+        } else {
+            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+        }
+
+        CompoundButtonCompat.setButtonTintList(cb, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
 
         if(indicadorBloqueo.equals("0"))
         {
@@ -441,7 +463,17 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         cb.tag = id!!
        // cb.setTag(1,id)
       //  cb.setTag(2,)
+
+        tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f);
+
+      //  val param = cb.layoutParams as ViewGroup.MarginLayoutParams
+      //  param.setMargins(0,10,0,0)
+      //  cb.layoutParams = param
+
+        contenedor.addView(tituloTarea)
         contenedor.addView(cb)
+
+
 
         cb.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {

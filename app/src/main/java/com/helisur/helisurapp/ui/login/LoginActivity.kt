@@ -8,9 +8,12 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.helisur.helisurapp.databinding.ActivityLoginBinding
 import com.helisur.helisurapp.domain.util.BaseActivity
+import com.helisur.helisurapp.domain.util.ConnectivityRepository
 import com.helisur.helisurapp.domain.util.Constants
+import com.helisur.helisurapp.domain.util.InternetViewModel
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
+import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,9 +21,13 @@ class LoginActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
+    private val aeronaveViewModel: AeronavesViewModel by viewModels()
     var passView: Boolean = false
     var loading: TransparentProgressDialog? = null
     var className = "LoginActivity"
+    var online:Boolean?=null
+
+    private var internetViewModel: InternetViewModel?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +37,15 @@ class LoginActivity : BaseActivity() {
         clickListener()
         observers()
         disableBackButton()
+
     }
 
     fun initUI() {
         binding.etEmail.setText("analista_app")
         binding.etPass.setText("helisur2024.")
         loading = TransparentProgressDialog(this)
+        internetViewModel = InternetViewModel(ConnectivityRepository(baseContext))
+
     }
 
     fun clickListener() {
@@ -54,6 +64,22 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun observers() {
+
+
+
+
+
+        internetViewModel!!.isOnline.observe(this) { isOnline ->
+            if (isOnline) {
+                // Handle online state
+                online= true
+                //intent to syncActivity
+            } else {
+                // Handle offline state
+                online= false
+            }
+        }
+
 
         loginViewModel.isLoading.observe(this, Observer {
             if (it) {

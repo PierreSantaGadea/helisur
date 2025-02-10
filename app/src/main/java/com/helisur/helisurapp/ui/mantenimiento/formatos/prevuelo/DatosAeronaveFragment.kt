@@ -57,8 +57,8 @@ class DatosAeronaveFragment : Fragment() {
         binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
         binding.etDiscrepancias!!.isEnabled = false
         var idAeronave = getAeronave(requireContext())
-        aeronavesViewModel.obtieneModelosAeronave(idAeronave!!)
-        aeronavesViewModel.obtieneEstaciones()
+        aeronavesViewModel.getAeronaveListCloud(idAeronave!!)
+        aeronavesViewModel.getEstacionesListCloud()
         setCheckBox()
         editTextEvent()
 
@@ -357,7 +357,7 @@ class DatosAeronaveFragment : Fragment() {
             }
         })
 
-        aeronavesViewModel.responseModelosAeronave.observe(viewLifecycleOwner, Observer {
+        aeronavesViewModel.responseGetAeronaveListCloud.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
                     modelosAeronavesList = ArrayList(it.data!!.table)
@@ -374,7 +374,7 @@ class DatosAeronaveFragment : Fragment() {
         })
 
 
-        aeronavesViewModel.responseObtieneEstaciones.observe(viewLifecycleOwner, Observer {
+        aeronavesViewModel.responseGetEstacionesListCloud.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
                     estacionesList = ArrayList(it.data!!.table)

@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RoomModule {
 
-    private const val DATABASE_NAME = "helisur_db"
+    private const val DATABASE_NAME = "HELISUR_DATABASE"
 
     @Singleton
     @Provides
@@ -24,5 +24,10 @@ object RoomModule {
     @Singleton
     @Provides
     fun provideUserDao(db: HelisurDatabase) = db.getUserDao()
+
+
+    @Singleton
+    @Provides
+    fun provideModeloAeronaveDao(db: HelisurDatabase) = db.getModeloAeronaveDao()
 
 }

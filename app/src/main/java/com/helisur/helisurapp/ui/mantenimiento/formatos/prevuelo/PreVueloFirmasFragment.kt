@@ -1,17 +1,23 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
+
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
@@ -20,7 +26,6 @@ import androidx.lifecycle.Observer
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentFirmasBinding
-import com.helisur.helisurapp.databinding.FragmentResponsableBinding
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
@@ -28,6 +33,7 @@ import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class PreVueloFirmasFragment : Fragment() {
@@ -67,6 +73,40 @@ class PreVueloFirmasFragment : Fragment() {
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
         loginViewModel.obtieneEmpleados("00020")
+
+
+        val bm = BitmapFactory.decodeResource(requireActivity().resources, R.drawable.shape_button_login)
+
+        binding.signaturePadPiloto!!.signatureBitmap = bm
+        binding.signaturePadCopiloto!!.signatureBitmap = bm
+    }
+
+    private fun getBitmapFromString(text: String, fontSizeSP: Float, context: Context): Bitmap {
+        val fontSizePX: Int = convertDiptoPix(context, fontSizeSP)
+        val pad = (fontSizePX / 9)
+        val paint = Paint()
+
+        paint.isAntiAlias = true
+        paint.color = Color.WHITE
+        paint.textSize = fontSizePX.toFloat()
+
+        val textWidth = (paint.measureText(text) + pad * 2).toInt()
+        val height = (fontSizePX / 0.75).toInt()
+        val bitmap = Bitmap.createBitmap(textWidth, height, Bitmap.Config.ARGB_4444)
+        val canvas = Canvas(bitmap)
+        val xOriginal = pad.toFloat()
+        canvas.drawText(text, xOriginal, fontSizePX.toFloat(), paint)
+
+        return bitmap
+    }
+
+    fun convertDiptoPix(context: Context, dip: Float): Int {
+        val value = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dip,
+            context.resources.displayMetrics
+        ).toInt()
+        return value
     }
 
     fun showErrorDialog(message: String?) {

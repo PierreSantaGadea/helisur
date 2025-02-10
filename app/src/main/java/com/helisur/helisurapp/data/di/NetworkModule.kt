@@ -6,6 +6,7 @@ import com.helisur.helisurapp.data.cloud.aeronaves.apis.AeronavesApiClient
 import com.helisur.helisurapp.data.cloud.formatos.apis.FormatosApiClient
 import com.helisur.helisurapp.data.cloud.usuario.apis.UsuarioApiClient
 import com.helisur.helisurapp.data.cloud.usuario.model.parameter.LoginCloudParameter
+import com.helisur.helisurapp.domain.util.ConnectivityRepository
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import dagger.Module

@@ -67,7 +67,6 @@ public class TabsPreVuelo extends Fragment {
              /*   new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
                     }
                 }, 4000);
 

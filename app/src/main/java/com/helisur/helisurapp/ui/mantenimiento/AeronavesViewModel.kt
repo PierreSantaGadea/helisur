@@ -6,8 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveCloudResponse
+import com.helisur.helisurapp.data.database.entities.response.DeleteModeloAeronaveListResponse
+import com.helisur.helisurapp.data.database.entities.response.InsertModeloAeronaveListResponse
+import com.helisur.helisurapp.data.database.entities.response.ListModeloAeronaveResponse
+import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.util.Constants
-import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel.FormatosState
 import com.helisur.helisurapp.usercases.AeronavesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,18 +21,70 @@ class AeronavesViewModel @Inject constructor(
     private val aeronavesUseCase: AeronavesUseCase
 ) : ViewModel() {
 
+    val responseGetModeloAeronaveListCloud = MutableLiveData<ObtieneAeronavesCloudResponse>()
+    val responseGetAeronaveListCloud = MutableLiveData<ObtieneModelosAeronaveCloudResponse>()
+    val responseGetEstacionesListCloud = MutableLiveData<ObtieneEstacionesCloudResponse>()
 
-    val responseObtieneAeronaves = MutableLiveData<ObtieneAeronavesCloudResponse>()
-    val responseModelosAeronave = MutableLiveData<ObtieneModelosAeronaveCloudResponse>()
-    val responseObtieneEstaciones = MutableLiveData<ObtieneEstacionesCloudResponse>()
+    val responseGetModeloAeronaveListDB = MutableLiveData<ListModeloAeronaveResponse>()
+    val responseInsertModeloAeronaveListDB = MutableLiveData<InsertModeloAeronaveListResponse>()
+    val responseDeleteModeloAeronaveListDB = MutableLiveData<DeleteModeloAeronaveListResponse>()
+
     val isLoading = MutableLiveData<Boolean>()
     val aeronavesState = MutableLiveData<AeronavesState>(AeronavesState.START)
 
 
-    fun obtieneAeronaves() {
+    fun getModelosAeronaves() {
         viewModelScope.launch {
             isLoading.postValue(true)
-            val result = aeronavesUseCase.obtieneAeronaves()
+            val result = aeronavesUseCase.getModelosAeronavesListDB()
+            if (result.success) {
+                    isLoading.postValue(false)
+                    aeronavesState.postValue(AeronavesState.SUCCESS)
+                responseGetModeloAeronaveListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.FAILURE(result.message))
+            }
+        }
+    }
+
+
+    fun insertModeloAeronaveListDB(listaModelosAeronave:List<ModeloAeronave>) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = aeronavesUseCase.insertModeloAeronaveListDB(listaModelosAeronave)
+            if (result.success) {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.SUCCESS)
+                responseInsertModeloAeronaveListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.FAILURE(result.message))
+            }
+        }
+    }
+
+    fun deleteTableModeloAeronaveDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = aeronavesUseCase.deleteTableModeloAeronaveDB()
+            if (result.success) {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.SUCCESS)
+                responseDeleteModeloAeronaveListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.FAILURE(result.message))
+            }
+        }
+    }
+
+
+
+    fun getModeloAeronaveListCloud() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = aeronavesUseCase.getModeloAeronaveListCloud()
             if (result != null) {
                 if(result.success == Constants.ERROR.ERROR_ENTERO)
                 {
@@ -40,7 +95,7 @@ class AeronavesViewModel @Inject constructor(
                 {
                     isLoading.postValue(false)
                     aeronavesState.postValue(AeronavesState.SUCCESS)
-                    responseObtieneAeronaves.postValue(result)
+                    responseGetModeloAeronaveListCloud.postValue(result)
                 }
 
             } else {
@@ -51,12 +106,11 @@ class AeronavesViewModel @Inject constructor(
     }
 
 
-    fun obtieneModelosAeronave(aeronave: String) {
+    fun getAeronaveListCloud(aeronave: String) {
         viewModelScope.launch {
             isLoading.postValue(true)
-            val result = aeronavesUseCase.obtieneModelosAeronave(aeronave)
+            val result = aeronavesUseCase.getAeromaveListCloud(aeronave)
             if (result != null) {
-
                 if(result.success == Constants.ERROR.ERROR_ENTERO)
                 {
                     isLoading.postValue(false)
@@ -66,7 +120,7 @@ class AeronavesViewModel @Inject constructor(
                 {
                     isLoading.postValue(false)
                     aeronavesState.postValue(AeronavesState.SUCCESS)
-                    responseModelosAeronave.postValue(result)
+                    responseGetAeronaveListCloud.postValue(result)
                 }
 
             } else {
@@ -77,10 +131,10 @@ class AeronavesViewModel @Inject constructor(
     }
 
 
-    fun obtieneEstaciones() {
+    fun getEstacionesListCloud() {
         viewModelScope.launch {
             isLoading.postValue(true)
-            val result = aeronavesUseCase.obtieneEstaciones()
+            val result = aeronavesUseCase.getEstacionesListCloud()
             if (result != null) {
                 if(result.success == Constants.ERROR.ERROR_ENTERO)
                 {
@@ -91,7 +145,7 @@ class AeronavesViewModel @Inject constructor(
                 {
                     isLoading.postValue(false)
                     aeronavesState.postValue(AeronavesState.SUCCESS)
-                    responseObtieneEstaciones.postValue(result)
+                    responseGetEstacionesListCloud.postValue(result)
                 }
 
             } else {

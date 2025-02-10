@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,13 +16,14 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentEscogeAeronaveBinding
+import com.helisur.helisurapp.domain.model.ModeloAeronave
+import com.helisur.helisurapp.domain.model.toDomain
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaPrevuelosRealizadosActivity
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemAeronave
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemEmpleado
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemFormato
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,7 +63,7 @@ class EscogeAeronaveFragment  : Fragment() {
         loading = TransparentProgressDialog(requireContext())
         binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_control_disabled)
         binding.rlFormato!!.setBackgroundResource(R.drawable.shape_control_disabled)
-        aeronavesViewModel.obtieneAeronaves()
+        aeronavesViewModel.getModeloAeronaveListCloud()
         formatosViewModel.obtieneFormatos()
     }
 
@@ -277,10 +277,19 @@ class EscogeAeronaveFragment  : Fragment() {
             }
         })
 
-        aeronavesViewModel.responseObtieneAeronaves.observe(viewLifecycleOwner, Observer {
+        aeronavesViewModel.responseGetModeloAeronaveListCloud.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
                     aeronavesList = ArrayList(it.data!!.table)
+
+                    var modeloAeronaveEntityList: ArrayList<ModeloAeronave> = arrayListOf()
+                    for(item in aeronavesList!!)
+                    {
+                        modeloAeronaveEntityList.add(item.toDomain())
+                    }
+                    aeronavesViewModel.insertModeloAeronaveListDB(modeloAeronaveEntityList)
+
+
                     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerAeronave()
                 } else {

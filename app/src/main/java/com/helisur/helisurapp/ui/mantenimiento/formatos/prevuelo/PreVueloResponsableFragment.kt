@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -37,6 +38,7 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
+import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.TareasFragment.Companion.sistemasList
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
@@ -74,6 +76,7 @@ class PreVueloResponsableFragment : Fragment() {
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
+//        binding.signaturePad!!.autofillId!!
 
         loginViewModel.obtieneEmpleados("00091")
 
@@ -286,7 +289,11 @@ class PreVueloResponsableFragment : Fragment() {
         }
 
         binding.btnCerrarMomentaneamente!!.setOnClickListener {
+
             requireActivity().finish()
+
+            val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+            requireActivity().startActivity(intent)
         }
 
 

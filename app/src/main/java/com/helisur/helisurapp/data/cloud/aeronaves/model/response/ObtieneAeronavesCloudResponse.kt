@@ -1,6 +1,8 @@
 package com.helisur.helisurapp.data.cloud.aeronaves.model.response
 
 import com.google.gson.annotations.SerializedName
+import com.helisur.helisurapp.data.database.entities.ModeloAeronaveEntity
+import com.helisur.helisurapp.domain.model.ModeloAeronave
 
 class ObtieneAeronavesCloudResponse (
     @SerializedName("success") var success: Int,
@@ -13,4 +15,7 @@ class ObtieneAeronavesCloudResponse (
         null,
         ""
     )
+
+
+
 }

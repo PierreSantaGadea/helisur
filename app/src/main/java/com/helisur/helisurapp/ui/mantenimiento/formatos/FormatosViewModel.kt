@@ -2,6 +2,7 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
@@ -12,6 +13,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemas
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
+import com.helisur.helisurapp.domain.util.ConnectivityRepository
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.usercases.FormatosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

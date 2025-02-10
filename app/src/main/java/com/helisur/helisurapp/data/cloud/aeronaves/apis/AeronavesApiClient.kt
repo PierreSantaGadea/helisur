@@ -12,12 +12,12 @@ import retrofit2.http.Url
 interface AeronavesApiClient {
 
     @GET(Constants.URLS.OBTIENE_AERONAVES)
-    suspend fun obtieneAeronaves(): Response<ObtieneAeronavesCloudResponse>
+    suspend fun getModeloAeronaveList(): Response<ObtieneAeronavesCloudResponse>
 
     @GET
-    suspend fun obtieneModelosAeronave(@Url url:String):Response<ObtieneModelosAeronaveCloudResponse>
+    suspend fun getAeromaveList(@Url url:String):Response<ObtieneModelosAeronaveCloudResponse>
 
     @GET(Constants.URLS.OBTIENE_ESTACIONES)
-    suspend fun obtieneEstaciones(): Response<ObtieneEstacionesCloudResponse>
+    suspend fun getEstacionesList(): Response<ObtieneEstacionesCloudResponse>
 
 }

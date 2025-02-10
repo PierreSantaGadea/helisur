@@ -11,10 +11,10 @@ import javax.inject.Inject
 class AeronavesService @Inject constructor(private val api: AeronavesApiClient) {
 
 
-    suspend fun obtieneAeronaves(
+    suspend fun getModeloAeronaveList(
     ): ObtieneAeronavesCloudResponse {
         return withContext(Dispatchers.IO) {
-            val response = api.obtieneAeronaves()
+            val response = api.getModeloAeronaveList()
             when (response.code()) {
                 Constants.RESPONSE_CODE._200 -> response.body()!!
 
@@ -48,12 +48,12 @@ class AeronavesService @Inject constructor(private val api: AeronavesApiClient) 
     }
 
 
-    suspend fun obtieneModelosAeronave(
+    suspend fun getAeromaveList(
         aeronave: String
     ): ObtieneModelosAeronaveCloudResponse {
         var url: String = Constants.URLS.OBTIENE_MODELO_AERONAVES + aeronave
         return withContext(Dispatchers.IO) {
-            val response = api.obtieneModelosAeronave(url)
+            val response = api.getAeromaveList(url)
             when (response.code()) {
                 Constants.RESPONSE_CODE._200 -> response.body()!!
 
@@ -87,10 +87,10 @@ class AeronavesService @Inject constructor(private val api: AeronavesApiClient) 
     }
 
 
-    suspend fun obtieneEstaciones(
+    suspend fun getEstacionesList(
     ): ObtieneEstacionesCloudResponse {
         return withContext(Dispatchers.IO) {
-            val response = api.obtieneEstaciones()
+            val response = api.getEstacionesList()
             when (response.code()) {
                 Constants.RESPONSE_CODE._200 -> response.body()!!
 
