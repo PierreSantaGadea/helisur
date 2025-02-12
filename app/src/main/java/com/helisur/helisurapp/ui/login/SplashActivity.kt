@@ -24,7 +24,6 @@ class SplashActivity  : BaseActivity() {
     }
 
 
-
     fun timerSplash() {
         val handler = Handler()
         handler.postDelayed({
@@ -32,6 +31,7 @@ class SplashActivity  : BaseActivity() {
             conditionToLogIn()
         }, 3000)
     }
+
 
     fun conditionToLogIn() {
         val sessionManager = SessionUserManager(baseContext)

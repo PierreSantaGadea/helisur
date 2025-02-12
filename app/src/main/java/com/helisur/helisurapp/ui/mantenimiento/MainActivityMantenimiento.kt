@@ -62,24 +62,7 @@ class MainActivityMantenimiento : BaseActivity() {
 
     fun observers()
     {
-        internetViewModel!!.isOnline.observe(this) { isOnline ->
-            if (isOnline) {
-                // Handle online state
-                online= true
-                //intent to syncActivity
-                if(syncNow)
-                {
-                  //  next(SyncActivity::class.java,null)
-                    beginService()
-                    syncNow = false
-                }
 
-            } else {
-                // Handle offline state
-                online= false
-                syncNow = true
-            }
-        }
     }
 
 

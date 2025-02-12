@@ -2,9 +2,11 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.RelativeLayout
@@ -81,6 +83,30 @@ class PreVueloActivity  : BaseActivity() {
     }
 
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Example: If you're creating a Bitmap from a View called 'myView'
+        val myView: View = findViewById(R.id.signaturePad) // Replace with your actual View ID
+
+        myView.post {
+            // This code will run after the View has been measured and laid out
+            if (myView.width > 0 && myView.height > 0) {
+                val bitmap: Bitmap? = loadBitmapFromView(myView)
+                // ... do something with the bitmap ...
+            }
+        }
+    }
+
+    private fun loadBitmapFromView(view: View): Bitmap? {
+        // Check if the view is valid and has dimensions
+        if (view.width <= 0 || view.height <= 0) {
+            return null
+        }
+        // ... your code to create a Bitmap from the View ...
+        return null
+    }
 
 
     fun playWithItemsMenu() {

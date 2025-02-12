@@ -110,18 +110,27 @@ class ServiceSyncData : Service() {
     suspend fun syncModeloAeronave() {
         try {
             withContext(Dispatchers.Main) {
-                modelosAeronaveListDB = arrayListOf()
-                modelosAeronaveListCloud =
-                    ArrayList(aeronavesRepository.getModeloAeronaveListCloud().data!!.table)
-                aeronavesRepository.deleteTableModeloAeronaveDB()
+                modelosAeronaveListDB = ArrayList(aeronavesRepository.getModelosAeronavesListDB())
+                modelosAeronaveListCloud = ArrayList(aeronavesRepository.getModeloAeronaveListCloud().data!!.table)
+          //      aeronavesRepository.deleteTableModeloAeronaveDB()
                 if (modelosAeronaveListCloud != null) {
                     for (itemcloud in modelosAeronaveListCloud!!) {
-                        modelosAeronaveListDB!!.add(itemcloud.toDomain())
+
+                        for(itemDB in modelosAeronaveListDB!!)
+                        {
+                            if(itemcloud.codigoModeloPuesto.equals(itemDB.id_cloud))
+                            {
+                                if(itemcloud.fechaModificacion!!>itemDB.fechaModificacion!!)
+                                {
+                                    modelosAeronaveListDB!!.add(itemcloud.toDomain())
+                                }
+                            }
+                        }
+                      //  modelosAeronaveListDB!!.add(itemcloud.toDomain())
                     }
                 }
                 aeronavesRepository.insertModeloAeronaveListDB(modelosAeronaveListDB!!)
             }
-
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }

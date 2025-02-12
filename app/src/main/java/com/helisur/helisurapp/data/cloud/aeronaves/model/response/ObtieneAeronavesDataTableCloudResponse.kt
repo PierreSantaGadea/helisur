@@ -7,7 +7,9 @@ import com.helisur.helisurapp.domain.model.ModeloAeronave
 class ObtieneAeronavesDataTableCloudResponse (
     @SerializedName("codigoModeloPuesto") var codigoModeloPuesto: String,
     @SerializedName("codigoTipoPuesto") var codigoTipoPuesto: String,
-    @SerializedName("descripcion") var descripcion: String
+    @SerializedName("descripcion") var descripcion: String,
+    @SerializedName("fechaRegistro") var fechaRegistro: String? ,
+    @SerializedName("fechaModificacion") var fechaModificacion: String?
 )
 
-fun ModeloAeronaveEntity.toDB() = ObtieneAeronavesDataTableCloudResponse(codigoModeloPuesto = id_cloud!!,"" , descripcion = nombre!!)
+fun ModeloAeronaveEntity.toDB() = ObtieneAeronavesDataTableCloudResponse(codigoModeloPuesto = id_cloud!!,"" , descripcion = nombre!!, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)

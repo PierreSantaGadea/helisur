@@ -23,6 +23,7 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.github.gcacace.signaturepad.views.SignaturePad
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentFirmasBinding
@@ -74,6 +75,8 @@ class PreVueloFirmasFragment : Fragment() {
         loading = TransparentProgressDialog(requireContext())
         loginViewModel.obtieneEmpleados("00020")
 
+
+        firmapiloto = binding.signaturePadPiloto
 
         val bm = BitmapFactory.decodeResource(requireActivity().resources, R.drawable.shape_button_login)
 
@@ -362,10 +365,46 @@ class PreVueloFirmasFragment : Fragment() {
         }
     }
 
-        override fun onDestroyView() {
-        super.onDestroyView()
-      //  _binding = null
+    var firmapiloto:SignaturePad? = null
+
+    companion object {
+
+        fun destruye(){
+
+        }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Example: If you're creating a Bitmap from 'myView'
+        binding.signaturePadPiloto!!.post {
+            // This code will run after the View has been measured and laid out
+            if (binding.signaturePadPiloto!!.width > 0 && binding.signaturePadPiloto!!.height > 0) {
+                val bitmap: Bitmap? = loadBitmapFromView(binding.signaturePadPiloto!!)
+                // ... do something with the bitmap ...
+            }
+        }
+
+        binding.signaturePadCopiloto!!.post {
+            // This code will run after the View has been measured and laid out
+            if (binding.signaturePadCopiloto!!.width > 0 && binding.signaturePadCopiloto!!.height > 0) {
+                val bitmap: Bitmap? = loadBitmapFromView(binding.signaturePadCopiloto!!)
+                // ... do something with the bitmap ...
+            }
+        }
+
+    }
+
+    private fun loadBitmapFromView(view: View): Bitmap? {
+        // Check if the view is valid and has dimensions
+        if (view.width <= 0 || view.height <= 0) {
+            return null
+        }
+        // ... your code to create a Bitmap from the View ...
+        return null
+    }
+
 
 
     override fun onResume() {

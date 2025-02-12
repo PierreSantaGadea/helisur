@@ -13,9 +13,11 @@ class ModeloAeronaveEntity (
     @ColumnInfo(name = "id_cloud") val id_cloud: String?,
     @ColumnInfo(name = "nombre") val nombre: String?,
     @ColumnInfo(name = "sync") val sync: Boolean?,
+    @ColumnInfo(name = "fechaRegistro") val fechaRegistro: String?,
+    @ColumnInfo(name = "fechaModificacion") val fechaModificacion: String?,
 )
 
-fun ModeloAeronave.toDB() = ModeloAeronaveEntity(id_cloud = id_cloud, nombre =  nombre, sync = true)
+fun ModeloAeronave.toDB() = ModeloAeronaveEntity(id_cloud = id_cloud, nombre =  nombre, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
 
 //fun ObtieneAeronavesDataTableCloudResponse.toDB() = ModeloAeronaveEntity(id_cloud = codigoModeloPuesto, nombre =  descripcion)
 

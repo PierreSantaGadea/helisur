@@ -329,8 +329,26 @@ class PreVueloResponsableFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-      //  _binding = null
+
+        // Example: If you're creating a Bitmap from 'myView'
+        binding.signaturePad!!.post {
+            // This code will run after the View has been measured and laid out
+            if (binding.signaturePad!!.width > 0 && binding.signaturePad!!.height > 0) {
+                val bitmap: Bitmap? = loadBitmapFromView(binding.signaturePad!!)
+                // ... do something with the bitmap ...
+            }
+        }
     }
+
+    private fun loadBitmapFromView(view: View): Bitmap? {
+        // Check if the view is valid and has dimensions
+        if (view.width <= 0 || view.height <= 0) {
+            return null
+        }
+        // ... your code to create a Bitmap from the View ...
+        return null
+    }
+
 
 
     override fun onResume() {
