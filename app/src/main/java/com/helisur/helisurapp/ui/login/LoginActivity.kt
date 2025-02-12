@@ -14,6 +14,7 @@ import com.helisur.helisurapp.domain.util.InternetViewModel
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
+import com.helisur.helisurapp.ui.sync.SyncActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -74,6 +75,7 @@ class LoginActivity : BaseActivity() {
                 // Handle online state
                 online= true
                 //intent to syncActivity
+             //   next(SyncActivity::class.java,null)
             } else {
                 // Handle offline state
                 online= false
@@ -126,7 +128,8 @@ class LoginActivity : BaseActivity() {
                             it.data.table.get(0).apellidoMaterno,
                             it.data.table.get(0).cargo
                         )
-                        next(ModulesActivity::class.java, null)
+                        next(ModulesActivity::class.java,null)
+
                     }
                 }
             } catch (e: Exception) {

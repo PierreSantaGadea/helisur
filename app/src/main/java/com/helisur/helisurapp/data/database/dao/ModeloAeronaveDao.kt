@@ -18,4 +18,8 @@ interface ModeloAeronaveDao {
 
     @Query("DELETE FROM ModeloAeronave")
      fun deleteAll()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'ModeloAeronave'")
+     fun deleteIndexModeloAeronave()
+
 }

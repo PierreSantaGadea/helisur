@@ -19,8 +19,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.ActivityMantenimientoBinding
 import com.helisur.helisurapp.domain.util.BaseActivity
+import com.helisur.helisurapp.domain.util.InternetViewModel
+import com.helisur.helisurapp.domain.util.ServiceSyncData
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.ui.login.LoginActivity
+import com.helisur.helisurapp.ui.sync.SyncActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,8 +31,9 @@ class MainActivityMantenimiento : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMantenimientoBinding
-
-
+    private var internetViewModel: InternetViewModel?=null
+    var online:Boolean?=null
+    var syncNow:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +44,42 @@ class MainActivityMantenimiento : BaseActivity() {
         drawerSetHeader()
         disableBackButton()
         drawersetRedirections()
+        observers()
+    }
+
+    fun beginService()
+    {
+
+        Intent(applicationContext, ServiceSyncData::class.java).also{
+            it.action = ServiceSyncData.Actions.START.toString()
+            startService(it)
+        }
+
+
+
+    }
+
+
+    fun observers()
+    {
+        internetViewModel!!.isOnline.observe(this) { isOnline ->
+            if (isOnline) {
+                // Handle online state
+                online= true
+                //intent to syncActivity
+                if(syncNow)
+                {
+                  //  next(SyncActivity::class.java,null)
+                    beginService()
+                    syncNow = false
+                }
+
+            } else {
+                // Handle offline state
+                online= false
+                syncNow = true
+            }
+        }
     }
 
 

@@ -33,7 +33,7 @@ class AeronavesViewModel @Inject constructor(
     val aeronavesState = MutableLiveData<AeronavesState>(AeronavesState.START)
 
 
-    fun getModelosAeronaves() {
+    fun getModelosAeronavesListDB() {
         viewModelScope.launch {
             isLoading.postValue(true)
             val result = aeronavesUseCase.getModelosAeronavesListDB()

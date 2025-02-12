@@ -79,6 +79,7 @@ class AeronavesRepository @Inject constructor(
         try {
             return withContext(Dispatchers.IO) {
                 localData.deleteAll()
+                localData.deleteIndexModeloAeronave()
                 var error : Boolean = true
             }
         } catch (e: Exception) {
