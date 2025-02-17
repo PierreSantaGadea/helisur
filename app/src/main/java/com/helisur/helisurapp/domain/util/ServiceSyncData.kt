@@ -8,6 +8,8 @@ import android.os.IBinder
 import android.provider.Settings.Secure
 import android.util.Log
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
+import com.helisur.helisurapp.data.database.entities.ModeloAeronaveEntity
+import com.helisur.helisurapp.data.database.entities.toDB
 import com.helisur.helisurapp.data.repository.AeronavesRepository
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.model.toDomain
@@ -70,6 +72,7 @@ class ServiceSyncData : Service() {
         START, STOP
     }
 
+
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "onCreate")
@@ -122,14 +125,15 @@ class ServiceSyncData : Service() {
                             {
                                 if(itemcloud.fechaModificacion!!>itemDB.fechaModificacion!!)
                                 {
-                                    modelosAeronaveListDB!!.add(itemcloud.toDomain())
+                                    aeronavesRepository.updateModeloAeronave(itemcloud.codigoModeloPuesto,itemcloud.descripcion,itemcloud.fechaRegistro!!,itemcloud.fechaModificacion!!,true)
+                                  //  modelosAeronaveListDB!!.add(itemcloud.toDomain())
                                 }
                             }
                         }
                       //  modelosAeronaveListDB!!.add(itemcloud.toDomain())
                     }
                 }
-                aeronavesRepository.insertModeloAeronaveListDB(modelosAeronaveListDB!!)
+               // aeronavesRepository.insertModeloAeronaveListDB(modelosAeronaveListDB!!)
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())

@@ -13,41 +13,41 @@ import com.helisur.helisurapp.domain.model.toDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-
 import javax.inject.Inject
 
 class AeronavesRepository @Inject constructor(
-    private val cloudData: AeronavesService,
-    private val localData: ModeloAeronaveDao
+    private val aeronavescloudData: AeronavesService,
+    private val modeloAeronavelocalData: ModeloAeronaveDao
 ) {
 
     var className = "AeronavesRepository"
 
     suspend fun getModeloAeronaveListCloud(
     ): ObtieneAeronavesCloudResponse {
-        val response: ObtieneAeronavesCloudResponse = cloudData.getModeloAeronaveList()
+        val response: ObtieneAeronavesCloudResponse = aeronavescloudData.getModeloAeronaveList()
         return response
     }
 
     suspend fun getAeromaveListCloud(
         aeronave: String
     ): ObtieneModelosAeronaveCloudResponse {
-        val response: ObtieneModelosAeronaveCloudResponse = cloudData.getAeromaveList(aeronave)
+        val response: ObtieneModelosAeronaveCloudResponse =
+            aeronavescloudData.getAeromaveList(aeronave)
         return response
     }
 
     suspend fun getEstacionesListCloud(
     ): ObtieneEstacionesCloudResponse {
-        val response: ObtieneEstacionesCloudResponse = cloudData.getEstacionesList()
+        val response: ObtieneEstacionesCloudResponse = aeronavescloudData.getEstacionesList()
         return response
     }
 
 
     suspend fun getModelosAeronavesListDB(): List<ModeloAeronave> {
         try {
-           return withContext(Dispatchers.IO) {
-                val response: List<ModeloAeronaveEntity> = localData.getAll()
-                 response.map { it.toDomain() }
+            return withContext(Dispatchers.IO) {
+                val response: List<ModeloAeronaveEntity> = modeloAeronavelocalData.getAll()
+                response.map { it.toDomain() }
             }
         } catch (e: Exception) {
             val response: List<ModeloAeronave> = arrayListOf()
@@ -63,13 +63,13 @@ class AeronavesRepository @Inject constructor(
                 for (modeloAeronave in modelosAeronave) {
                     modeloAeronaveEntityList.add(modeloAeronave.toDB())
                 }
-                localData.insertList(modeloAeronaveEntityList)
-                var error : Boolean = true
+                modeloAeronavelocalData.insertList(modeloAeronaveEntityList)
+                var error: Boolean = true
             }
         } catch (e: Exception) {
             Log.e(className, e.toString())
             return withContext(Dispatchers.IO) {
-                var error : Boolean = false
+                var error: Boolean = false
             }
         }
     }
@@ -78,17 +78,61 @@ class AeronavesRepository @Inject constructor(
     suspend fun deleteTableModeloAeronaveDB() {
         try {
             return withContext(Dispatchers.IO) {
-                localData.deleteAll()
-                localData.deleteIndexModeloAeronave()
-                var error : Boolean = true
+                modeloAeronavelocalData.deleteAll()
+                modeloAeronavelocalData.deleteIndexModeloAeronave()
+                var error: Boolean = true
             }
         } catch (e: Exception) {
             Log.e(className, e.toString())
             return withContext(Dispatchers.IO) {
-                var error : Boolean = false
+                var error: Boolean = false
             }
         }
 
+    }
+
+
+    suspend fun updateModeloAeronave(idCloud: String,nombre:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                modeloAeronavelocalData.updateItem(idCloud,nombre,fechaRegistro,fechaModificacion, sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    suspend fun deleteModeloAeronave(idCloud: String) {
+        try {
+            return withContext(Dispatchers.IO) {
+                modeloAeronavelocalData.deleteItem(idCloud)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+    suspend fun updateSyncModeloAeronave(idCloud: String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                modeloAeronavelocalData.updateItemSync(idCloud = idCloud, sync = sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
     }
 
 

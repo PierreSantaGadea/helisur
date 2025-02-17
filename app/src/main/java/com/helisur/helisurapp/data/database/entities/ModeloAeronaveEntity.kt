@@ -19,6 +19,6 @@ class ModeloAeronaveEntity (
 
 fun ModeloAeronave.toDB() = ModeloAeronaveEntity(id_cloud = id_cloud, nombre =  nombre, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
 
-//fun ObtieneAeronavesDataTableCloudResponse.toDB() = ModeloAeronaveEntity(id_cloud = codigoModeloPuesto, nombre =  descripcion)
+fun ObtieneAeronavesDataTableCloudResponse.toDB() = ModeloAeronaveEntity(id_cloud = codigoModeloPuesto, nombre =  descripcion, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
 
 
