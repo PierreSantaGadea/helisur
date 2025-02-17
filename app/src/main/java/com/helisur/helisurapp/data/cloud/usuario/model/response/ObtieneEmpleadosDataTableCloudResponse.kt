@@ -15,5 +15,7 @@ class ObtieneEmpleadosDataTableCloudResponse (
     @SerializedName("estado") var estado: String,
     @SerializedName("cargo") var cargo: String,
     @SerializedName("fechaIngreso") var fechaIngreso: String,
-    @SerializedName("licencia") var licencia: String
+    @SerializedName("licencia") var licencia: String,
+    @SerializedName("fechaRegistro") var fechaRegistro: String,
+    @SerializedName("fechaModificacion") var fechaModificacion: String
 )

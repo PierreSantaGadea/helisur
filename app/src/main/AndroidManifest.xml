@@ -28,6 +28,12 @@
             android:exported="false">
         </service>
 
+        <service
+            android:name=".domain.util.ServiceSyncDataFirstTime"
+            android:foregroundServiceType="dataSync|remoteMessaging|connectedDevice"
+            android:exported="false">
+        </service>
+
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"

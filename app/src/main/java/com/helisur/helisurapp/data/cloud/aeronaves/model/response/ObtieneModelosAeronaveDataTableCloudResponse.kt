@@ -9,5 +9,7 @@ class ObtieneModelosAeronaveDataTableCloudResponse (
     @SerializedName("nombre") var nombre: String,
     @SerializedName("placa") var placa: String,
     @SerializedName("comentario") var comentario: String,
-    @SerializedName("html") var html: String
+    @SerializedName("html") var html: String,
+    @SerializedName("fechaRegistro") var fechaRegistro: String,
+    @SerializedName("fechaModificacion") var fechaModificacion: String
 )

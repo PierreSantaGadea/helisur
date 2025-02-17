@@ -81,10 +81,10 @@ class AeronavesViewModel @Inject constructor(
         }
     }
 
-    fun deleteModeloAeronaveDB(modeloAeronave: ModeloAeronave) {
+    fun deleteModeloAeronaveDB(id: String) {
         viewModelScope.launch {
             isLoading.postValue(true)
-            val result = aeronavesUseCase.deleteModeloAeronaveDB(modeloAeronave)
+            val result = aeronavesUseCase.deleteModeloAeronaveDB(id)
             if (result.success) {
                 isLoading.postValue(false)
                 aeronavesState.postValue(AeronavesState.SUCCESS)
@@ -96,10 +96,10 @@ class AeronavesViewModel @Inject constructor(
         }
     }
 
-    fun updateModeloAeronaveDB(modeloAeronave: ModeloAeronave) {
+    fun updateModeloAeronaveDB(idCloud: String,nombre:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
         viewModelScope.launch {
             isLoading.postValue(true)
-            val result = aeronavesUseCase.updateModeloAeronaveDB(modeloAeronave)
+            val result = aeronavesUseCase.updateModeloAeronaveDB(idCloud,nombre,fechaRegistro,fechaModificacion, sync)
             if (result.success) {
                 isLoading.postValue(false)
                 aeronavesState.postValue(AeronavesState.SUCCESS)

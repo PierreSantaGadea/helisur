@@ -5,9 +5,15 @@ import com.helisur.helisurapp.data.cloud.aeronaves.apis.AeronavesService
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveCloudResponse
+import com.helisur.helisurapp.data.database.dao.AeronaveDao
+import com.helisur.helisurapp.data.database.dao.EstacionDao
 import com.helisur.helisurapp.data.database.dao.ModeloAeronaveDao
+import com.helisur.helisurapp.data.database.entities.AeronaveEntity
+import com.helisur.helisurapp.data.database.entities.EstacionEntity
 import com.helisur.helisurapp.data.database.entities.ModeloAeronaveEntity
 import com.helisur.helisurapp.data.database.entities.toDB
+import com.helisur.helisurapp.domain.model.Aeronave
+import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.model.toDomain
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +23,9 @@ import javax.inject.Inject
 
 class AeronavesRepository @Inject constructor(
     private val aeronavescloudData: AeronavesService,
-    private val modeloAeronavelocalData: ModeloAeronaveDao
+    private val modeloAeronavelocalData: ModeloAeronaveDao,
+    private val aeronaveslocalData: AeronaveDao,
+    private val estacionLocalData: EstacionDao,
 ) {
 
     var className = "AeronavesRepository"
@@ -42,6 +50,8 @@ class AeronavesRepository @Inject constructor(
         return response
     }
 
+
+    // modelo aeronave
 
     suspend fun getModelosAeronavesListDB(): List<ModeloAeronave> {
         try {
@@ -95,7 +105,7 @@ class AeronavesRepository @Inject constructor(
     suspend fun updateModeloAeronave(idCloud: String,nombre:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
         try {
             return withContext(Dispatchers.IO) {
-                modeloAeronavelocalData.updateItem(idCloud,nombre,fechaRegistro,fechaModificacion, sync)
+             //   modeloAeronavelocalData.updateItem(idCloud,nombre,fechaRegistro,fechaModificacion, sync)
                 var error: Boolean = true
             }
         } catch (e: Exception) {
@@ -135,5 +145,195 @@ class AeronavesRepository @Inject constructor(
         }
     }
 
+
+    // aeronave
+
+    suspend fun getAeronavesListDB(): List<Aeronave> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<AeronaveEntity> = aeronaveslocalData.getAll()
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<Aeronave> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
+    suspend fun insertAeronaveListDB(aeronaves: List<Aeronave>) {
+        try {
+            return withContext(Dispatchers.IO) {
+                var modeloAeronaveEntityList: ArrayList<AeronaveEntity> = arrayListOf()
+                for (modeloAeronave in aeronaves) {
+                    modeloAeronaveEntityList.add(modeloAeronave.toDB())
+                }
+                aeronaveslocalData.insertList(modeloAeronaveEntityList)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    suspend fun deleteTableAeronaveDB() {
+        try {
+            return withContext(Dispatchers.IO) {
+                aeronaveslocalData.deleteAll()
+                aeronaveslocalData.deleteIndexAeronave()
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+
+    }
+
+
+    suspend fun updateAeronave(idCloud: String,codigoPuestoTecnico:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+           //     aeronaveslocalData.updateItem(idCloud,codigoPuestoTecnico,codigoCliente,nombre,placa,comentario,html,fechaRegistro,fechaModificacion, sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    suspend fun deleteAeronave(idCloud: String) {
+        try {
+            return withContext(Dispatchers.IO) {
+                aeronaveslocalData.deleteItem(idCloud)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+    suspend fun updateSyncAeronave(idCloud: String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                aeronaveslocalData.updateItemSync(idCloud = idCloud, sync = sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    // estacion
+
+
+    suspend fun getEstacionesListDB(): List<Estacion> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<EstacionEntity> = estacionLocalData.getAll()
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<Estacion> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
+    suspend fun insertEstacionListDB(estaciones: List<Estacion>) {
+        try {
+            return withContext(Dispatchers.IO) {
+                var modeloAeronaveEntityList: ArrayList<EstacionEntity> = arrayListOf()
+                for (modeloAeronave in estaciones) {
+                    modeloAeronaveEntityList.add(modeloAeronave.toDB())
+                }
+                estacionLocalData.insertList(modeloAeronaveEntityList)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    suspend fun deleteTableEstacionDB() {
+        try {
+            return withContext(Dispatchers.IO) {
+                estacionLocalData.deleteAll()
+                estacionLocalData.deleteIndexEstacion()
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+
+    }
+
+
+    suspend fun updateEstacion(idCloud: String,codigoPuestoTecnico:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+              //  aeronaveslocalData.updateItem(idCloud,codigoPuestoTecnico,codigoCliente,nombre,placa,comentario,html,fechaRegistro,fechaModificacion, sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    suspend fun deleteEstacion(idCloud: String) {
+        try {
+            return withContext(Dispatchers.IO) {
+                estacionLocalData.deleteItem(idCloud)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+    suspend fun updateSyncEstacion(idCloud: String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                estacionLocalData.updateItemSync(idCloud = idCloud, sync = sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
 
 }

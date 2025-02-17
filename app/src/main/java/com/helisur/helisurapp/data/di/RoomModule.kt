@@ -30,4 +30,32 @@ object RoomModule {
     @Provides
     fun provideModeloAeronaveDao(db: HelisurDatabase) = db.getModeloAeronaveDao()
 
+    @Singleton
+    @Provides
+    fun provideAeronaveDao(db: HelisurDatabase) = db.getAeronaveDao()
+
+    @Singleton
+    @Provides
+    fun provideEstacionDao(db: HelisurDatabase) = db.getEstacionDao()
+
+
+    @Singleton
+    @Provides
+    fun provideFormatoDao(db: HelisurDatabase) = db.getFormatoDao()
+
+
+    @Singleton
+    @Provides
+    fun provideSistemaDao(db: HelisurDatabase) = db.getSistemaDao()
+
+
+    @Singleton
+    @Provides
+    fun provideTareaDao(db: HelisurDatabase) = db.getTareaDao()
+
+
+    @Singleton
+    @Provides
+    fun provideEmpleadoDao(db: HelisurDatabase) = db.getEmpleadoDao()
+
 }

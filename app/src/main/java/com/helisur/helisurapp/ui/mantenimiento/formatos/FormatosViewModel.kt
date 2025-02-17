@@ -58,6 +58,7 @@ class FormatosViewModel @Inject constructor(
             }
         }
     }
+
 /*
     fun obtieneSistemas(codigoFormato:String) {
         viewModelScope.launch {
@@ -128,7 +129,6 @@ class FormatosViewModel @Inject constructor(
             }
         }
     }
-
 
 
     fun obtieneTareas(codigoSistema:String) {

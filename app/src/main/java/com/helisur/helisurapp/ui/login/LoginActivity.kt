@@ -1,5 +1,6 @@
 package com.helisur.helisurapp.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -11,6 +12,8 @@ import com.helisur.helisurapp.domain.util.BaseActivity
 import com.helisur.helisurapp.domain.util.ConnectivityRepository
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.InternetViewModel
+import com.helisur.helisurapp.domain.util.ServiceSyncData
+import com.helisur.helisurapp.domain.util.ServiceSyncDataFirstTime
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
@@ -107,6 +110,7 @@ class LoginActivity : BaseActivity() {
         loginViewModel.responseObtieneTokenCloud.observe(this, Observer {
             if (it != null) {
                 saveTokenUser(it.token)
+                beginService()
                // loginViewModel.obtieneDatosUsuarioCloud(binding.etEmail.text.toString().trim())
                 loginViewModel.obtieneDatosUsuarioCloud("chroman")
             } else {
@@ -177,6 +181,14 @@ class LoginActivity : BaseActivity() {
 
         return isValid
     }
+
+    fun beginService() {
+        Intent(applicationContext, ServiceSyncDataFirstTime::class.java).also {
+            it.action = ServiceSyncData.Actions.START.toString()
+            startService(it)
+        }
+    }
+
 
     fun saveDatosUser(
         idUser: String,

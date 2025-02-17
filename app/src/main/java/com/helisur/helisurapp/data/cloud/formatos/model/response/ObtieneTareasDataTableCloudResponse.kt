@@ -5,5 +5,7 @@ import com.google.gson.annotations.SerializedName
 class ObtieneTareasDataTableCloudResponse (
     @SerializedName("codigoTarea") var codigoTarea: String,
     @SerializedName("codigoSistema") var codigoSistema: String,
-    @SerializedName("nombreTarea") var nombreTarea: String
+    @SerializedName("nombreTarea") var nombreTarea: String,
+    @SerializedName("fechaRegistro") var fechaRegistro: String,
+    @SerializedName("fechaModificacion") var fechaModificacion: String
 )
