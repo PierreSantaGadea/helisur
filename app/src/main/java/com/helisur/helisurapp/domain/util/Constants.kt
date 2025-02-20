@@ -13,7 +13,7 @@ class Constants {
 
         const val OBTIENE_SISTEMAS: String = "serviceintranetHLS/api/FormatoSistema/GetFormatoSistemaBy"
         const val OBTIENE_TAREAS: String = "serviceintranetHLS/api/FormatoTarea/GetFormatoTareaBy"
-        const val OBTIENE_REPORTAJES: String = "serviceintranetHLS/api/FormatoRegistro/GetFormatoAnotaciones"
+        const val OBTIENE_REPORTAJES: String = "serviceintranetHLS/api/FormatoTareaReportaje/GetTareaReportajeBy"
 
         const val OBTIENE_EMPLEADOS: String = "serviceintranetHLS/api/Empleado/GetEmpleadoAreaBy"
 
@@ -82,6 +82,9 @@ class Constants {
         const val AERONAVE: String = "AERONAVE"
         const val ID_AERONAVE: String = "ID_AERONAVE"
         const val NOMBRE_AERONAVE: String = "NOMBRE_AERONAVE"
+
+      //  const val ID_MODELO_AERONAVE: String = "ID_MODELO_AERONAVE"
+     //   const val NOMBRE_MODELO_AERONAVE: String = "NOMBRE_MODELO_AERONAVE"
 
         const val RTV: String = "RTV"
 

@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtienePrevuelosRealizadosCloudResponse
+import com.helisur.helisurapp.domain.model.FormatoRegistro
 
-class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<ObtieneFormatosRealizadosDataTableCloudResponse>) :
+class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<FormatoRegistro>) :
     RecyclerView.Adapter<ListaPreVuelosRealizadosAdapter.MyViewHolder>() {
 
-    var onItemClick: ((ObtieneFormatosRealizadosDataTableCloudResponse) -> Unit)? = null
+    var onItemClick: ((FormatoRegistro) -> Unit)? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvItemNombre: TextView = view.findViewById(R.id.tvItemNombre)
@@ -40,8 +41,8 @@ class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<ObtieneForma
         val appItem = mList[position]
      //   holder.tvItemNombre.text = appItem.message
 
-        holder.tvModeloAeronave.text = appItem.modeloAeronave
-        holder.tvAeronave.text = appItem.aeronave
+        holder.tvModeloAeronave.text = appItem.codigoEstacion
+        holder.tvAeronave.text = appItem.codigoPuestoTecnico
         holder.tvFecha.text = appItem.fechaHoraFinRegistro
 
     }

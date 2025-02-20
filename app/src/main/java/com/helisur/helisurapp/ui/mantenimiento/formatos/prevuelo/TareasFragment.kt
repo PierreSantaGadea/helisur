@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.databinding.FragmentTareasBinding
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
@@ -19,9 +20,12 @@ import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TareasFragment : Fragment() {
+
+
 
     var className = "TareasFragment"
     private lateinit var binding: FragmentTareasBinding
@@ -36,6 +40,7 @@ class TareasFragment : Fragment() {
     companion object {
         var sistemasList: ArrayList<Sistema>? = null
         var tareasList: ArrayList<Tarea>? = null
+
         fun getTareasRealizadas():ArrayList<Tarea> { return tareasList!! }
         fun getSistemasRealizadas():ArrayList<Sistema> { return sistemasList!! }
     }
@@ -54,7 +59,8 @@ class TareasFragment : Fragment() {
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
-        formatosViewModel.obtieneSistemas(getFormato(requireContext())!!)
+      //  formatosViewModel.obtieneSistemas(getFormato(requireContext())!!)
+        formatosViewModel.getSistemnasByFormatoDB(getFormato(requireContext())!!)
     }
 
 
@@ -164,11 +170,41 @@ class TareasFragment : Fragment() {
             }
         })
 
+        formatosViewModel.responseGetSistemaByFormatoDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    sistemasList = ArrayList(it)
+                    setRecyclerViewSistemas(sistemasList!!)
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
 
         formatosViewModel.responseObtieneTareas.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
                     tareasList = it
+                    adapaterSistemas!!.updateItem(posicionClick!!, tareasList!!)
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+        formatosViewModel.responseGetTareaBySistemaListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    tareasList = ArrayList(it)
                     adapaterSistemas!!.updateItem(posicionClick!!, tareasList!!)
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
@@ -196,7 +232,8 @@ class TareasFragment : Fragment() {
             for (item in sistemasList!!) {
                 if (item.codigoSistema.equals(sistema.codigoSistema)) {
                     item.isSelected = true
-                    formatosViewModel.obtieneTareas(sistema.codigoSistema!!)
+                  //  formatosViewModel.obtieneTareas(sistema.codigoSistema!!)
+                    formatosViewModel.getTareasBySistema(sistema.codigoSistema!!)
                 } else {
                     item.isSelected = false
                     adapaterSistemas!!.notifyItemChanged(posicionClick!!)

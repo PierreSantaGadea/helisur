@@ -58,4 +58,19 @@ object RoomModule {
     @Provides
     fun provideEmpleadoDao(db: HelisurDatabase) = db.getEmpleadoDao()
 
+
+    @Singleton
+    @Provides
+    fun provideReportajeDao(db: HelisurDatabase) = db.getReportajeDao()
+
+
+    @Singleton
+    @Provides
+    fun provideFormatoRegistroDao(db: HelisurDatabase) = db.getFormatoRegistroDao()
+
+
+    @Singleton
+    @Provides
+    fun provideDetalleFormatoRegistroDao(db: HelisurDatabase) = db.getDetalleFormatoRegistroDao()
+
 }

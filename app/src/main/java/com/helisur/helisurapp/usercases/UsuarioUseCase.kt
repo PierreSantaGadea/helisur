@@ -5,6 +5,8 @@ import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneDatosUsua
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadoCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneTokenCloudResponse
 import com.helisur.helisurapp.data.repository.UsuarioRepository
+import com.helisur.helisurapp.domain.model.Empleado
+import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.Usuario
 import com.helisur.helisurapp.domain.util.Constants
 import javax.inject.Inject
@@ -53,6 +55,17 @@ class UsuarioUseCase  @Inject constructor
             userFail.success = Constants.ERROR.ERROR_ENTERO
             userFail.message = e.message.toString()
             return userFail
+        }
+    }
+
+
+    suspend fun getEmpleadosListDB(): List<Empleado>? {
+        try {
+            val respuesta = repository.getEmpleadosListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
         }
     }
 

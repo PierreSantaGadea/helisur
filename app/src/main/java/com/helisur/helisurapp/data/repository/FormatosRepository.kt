@@ -8,22 +8,33 @@ import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReporta
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasDataTableCloudResponse
+import com.helisur.helisurapp.data.database.dao.DetalleFormatoRegistroDao
 import com.helisur.helisurapp.data.database.dao.FormatoDao
+import com.helisur.helisurapp.data.database.dao.FormatoRegistroDao
+import com.helisur.helisurapp.data.database.dao.ReportajeDao
 import com.helisur.helisurapp.data.database.dao.SistemaDao
 import com.helisur.helisurapp.data.database.dao.TareaDao
 import com.helisur.helisurapp.data.database.entities.AeronaveEntity
+import com.helisur.helisurapp.data.database.entities.DetalleFormatoRegistroEntity
 import com.helisur.helisurapp.data.database.entities.FormatoEntity
+import com.helisur.helisurapp.data.database.entities.FormatoRegistroEntity
+import com.helisur.helisurapp.data.database.entities.ReportajeEntity
 import com.helisur.helisurapp.data.database.entities.TareaEntity
 import com.helisur.helisurapp.data.database.entities.response.SistemaEntity
 import com.helisur.helisurapp.data.database.entities.response.toDB
 import com.helisur.helisurapp.data.database.entities.toDB
 import com.helisur.helisurapp.domain.model.Aeronave
+import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Formato
+import com.helisur.helisurapp.domain.model.FormatoRegistro
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.model.toDomain
@@ -36,7 +47,10 @@ class FormatosRepository @Inject constructor(
     private val formatosCloudData: FormatosService,
     private val formatoslocalData: FormatoDao,
     private val sistemaslocalData: SistemaDao,
-    private val tareasLocalData: TareaDao
+    private val tareasLocalData: TareaDao,
+    private val reportajeLocalData: ReportajeDao,
+    private val formatoRegistroLocalData: FormatoRegistroDao,
+    private val detalleFormatoRegistroLocalData: DetalleFormatoRegistroDao
 ) {
 
     var className = "FormatosRepository"
@@ -111,6 +125,14 @@ class FormatosRepository @Inject constructor(
         obtieneTareas: String
     ): ArrayList<ObtieneTareasDataTableCloudResponse> {
         val response: ObtieneTareasCloudResponse = formatosCloudData.obtieneTareas(obtieneTareas)
+        return ArrayList(response.data!!.table)
+    }
+
+
+
+    suspend fun obtieneReportajes(
+    ): ArrayList<ObtieneReportajesDataTableCloudResponse> {
+        val response: ObtieneReportajesCloudResponse = formatosCloudData.obtieneReportajes()
         return ArrayList(response.data!!.table)
     }
 
@@ -255,6 +277,19 @@ class FormatosRepository @Inject constructor(
         }
     }
 
+    suspend fun getSistemnasByFormato(idFormato: String): List<Sistema> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<SistemaEntity> = sistemaslocalData.getSistemnasByFormato(idFormato)
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<Sistema> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
     suspend fun insertSistemaListDB(sistemas: List<Sistema>) {
         try {
             return withContext(Dispatchers.IO) {
@@ -338,6 +373,19 @@ class FormatosRepository @Inject constructor(
         }
     }
 
+    suspend fun getTareasBySistema(idSistema: String): List<Tarea> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<TareaEntity> = tareasLocalData.getTareasBySistema(idSistema)
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<Tarea> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
     suspend fun insertTareaListDB(tareas: List<Tarea>) {
         try {
             return withContext(Dispatchers.IO) {
@@ -401,6 +449,180 @@ class FormatosRepository @Inject constructor(
         }
     }
 
+
+
+    // reportajes
+
+    suspend fun getReportajesListDB(): List<Reportaje> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<ReportajeEntity> = reportajeLocalData.getAll()
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<Reportaje> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
+    suspend fun getReportajesByTarea(idTarea: String): List<Reportaje> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<ReportajeEntity> = reportajeLocalData.getReportajesByTarea(idTarea)
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<Reportaje> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
+    suspend fun insertReportajeListDB(reportajes: List<Reportaje>) {
+        try {
+            return withContext(Dispatchers.IO) {
+                var modeloAeronaveEntityList: ArrayList<ReportajeEntity> = arrayListOf()
+                for (modeloAeronave in reportajes) {
+                    modeloAeronaveEntityList.add(modeloAeronave.toDB())
+                }
+                reportajeLocalData.insertList(modeloAeronaveEntityList)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    suspend fun deleteTabReportajeDB() {
+        try {
+            return withContext(Dispatchers.IO) {
+                tareasLocalData.deleteAll()
+                tareasLocalData.deleteIndexTarea()
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+
+    }
+
+    suspend fun deleteReportaje(idCloud: String) {
+        try {
+            return withContext(Dispatchers.IO) {
+                tareasLocalData.deleteItem(idCloud)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+    suspend fun updateSyReportaje(idCloud: String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                tareasLocalData.updateItemSync(idCloud = idCloud, sync = sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+
+    // formato registro
+
+
+    suspend fun getFormatosRegistroListDB(): List<FormatoRegistro> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<FormatoRegistroEntity> = formatoRegistroLocalData.getAll()
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<FormatoRegistro> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
+
+    suspend fun insertFormatoRegistroDB(formatoRegistro:FormatoRegistro) {
+        try {
+            return withContext(Dispatchers.IO) {
+                formatoRegistroLocalData.insertItem(formatoRegistro.toDB())
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    // detalle formato registro
+
+    suspend fun getDetalleFormatosRegistroListDB(): List<DetalleFormatoRegistro> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<DetalleFormatoRegistroEntity> = detalleFormatoRegistroLocalData.getAll()
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<DetalleFormatoRegistro> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
+
+    suspend fun getDetalleFormatoRegistroByFormatoRegistroDB(idFormatoRegistroDb: String): List<DetalleFormatoRegistro> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<DetalleFormatoRegistroEntity> = detalleFormatoRegistroLocalData.getDetalleFormatoRegistroByFormatoRegistro(idFormatoRegistroDb)
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<DetalleFormatoRegistro> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
+
+    suspend fun insertDetalleFormatoRegistroListDB(detalles: List<DetalleFormatoRegistro>) {
+        try {
+            return withContext(Dispatchers.IO) {
+                var modeloAeronaveEntityList: ArrayList<DetalleFormatoRegistroEntity> = arrayListOf()
+                for (modeloAeronave in detalles) {
+                    modeloAeronaveEntityList.add(modeloAeronave.toDB())
+                }
+                detalleFormatoRegistroLocalData.insertList(modeloAeronaveEntityList)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
 
 
 }

@@ -25,21 +25,22 @@ class Empleado(
     val sync: Boolean?,
     val fechaRegistro: String?,
     val fechaModificacion: String?,
+    val codigoUsuario:String?
 ) {
     constructor() : this(
-         "","","","","","","","","","","","",null,"",""
+         "","","","","","","","","","","","",null,"","",""
     )
 }
 
 //entidadDB pasa modelo
 fun EmpleadoEntity.toDomain() = Empleado(
-     id_cloud, codigoArea, numeroDocumento, nombre, apellidoPaterno, apellidoMaterno, nombreCompleto, email, estado, cargo, fechaIngreso, licencia, sync, fechaRegistro, fechaModificacion
+     id_cloud, codigoArea, numeroDocumento, nombre, apellidoPaterno, apellidoMaterno, nombreCompleto, email, estado, cargo, fechaIngreso, licencia, sync, fechaRegistro, fechaModificacion,codigoUsuario
 )
 
 //entidadCLOUD pasa a modelo
 fun ObtieneEmpleadosDataTableCloudResponse.toDomain() = Empleado(
      id_cloud = codigoEmpleado, codigoArea = codigoArea, numeroDocumento = numeroDocumento, nombre = nombre, apellidoPaterno = apellidoPaterno, apellidoMaterno = apellidoMaterno, nombreCompleto = nombreCompleto, email = email,estado = estado,
-    cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion
+    cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion,codigoUsuario = codigoUsuario
 )
 
 

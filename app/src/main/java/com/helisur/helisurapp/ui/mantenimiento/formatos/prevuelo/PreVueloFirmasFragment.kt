@@ -3,6 +3,7 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -25,8 +26,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.github.gcacace.signaturepad.views.SignaturePad
 import com.helisur.helisurapp.R
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentFirmasBinding
+import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
@@ -34,6 +39,7 @@ import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 
 
 @AndroidEntryPoint
@@ -78,10 +84,10 @@ class PreVueloFirmasFragment : Fragment() {
 
         firmapiloto = binding.signaturePadPiloto
 
-        val bm = BitmapFactory.decodeResource(requireActivity().resources, R.drawable.shape_button_login)
+    //    val bm = BitmapFactory.decodeResource(requireActivity().resources, R.drawable.shape_button_login)
 
-        binding.signaturePadPiloto!!.signatureBitmap = bm
-        binding.signaturePadCopiloto!!.signatureBitmap = bm
+    //    binding.signaturePadPiloto!!.signatureBitmap = bm
+    //    binding.signaturePadCopiloto!!.signatureBitmap = bm
     }
 
     private fun getBitmapFromString(text: String, fontSizeSP: Float, context: Context): Bitmap {
@@ -152,9 +158,41 @@ class PreVueloFirmasFragment : Fragment() {
 
         binding.btnGuardarTodo!!.setOnClickListener{
             if(validaciones())
-            formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
+            {
+                var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
+                var nombreAeronave:String = getNombreAeronave(requireContext())!!
+                val uniqueID: String = UUID.randomUUID().toString()
+                var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
+                    parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
+                    parameter.solicitaEncMotores,parameter.idEmpleadoResponsable,parameter.urlFirmaResponsable,parameter.idEmpleadoPiloto,
+                    parameter.urlFirmaPiloto,parameter.idEmpleadoCoPiloto,parameter.urlFirmaCoPiloto,parameter.fechaHoraInicioRegistro,
+                    parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,"","")
+
+                formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
+
+                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
+                var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
+                for(item in listaDetalle)
+                {
+                    var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro("",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
+                        "",item.indicadorSN,"","","")
+
+                    listaDetalleDB.add(detalle)
+                }
+
+                formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
+
+            }
+
+            //formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
         }
 
+    }
+
+    fun getNombreAeronave(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, "")
+        return text
     }
 
     fun validaciones():Boolean

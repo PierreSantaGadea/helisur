@@ -20,6 +20,8 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentDatosAeronaveBinding
+import com.helisur.helisurapp.domain.model.Aeronave
+import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
@@ -34,8 +36,10 @@ class DatosAeronaveFragment : Fragment() {
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
     private lateinit var binding: FragmentDatosAeronaveBinding
     var loading: TransparentProgressDialog? = null
-    private var modelosAeronavesList: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? = null
-    private var estacionesList: ArrayList<ObtieneEstacionesDataTableCloudResponse>? = null
+ //   private var modelosAeronavesList: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? = null
+    private var modelosAeronavesList: ArrayList<Aeronave>? = null
+  //  private var estacionesList: ArrayList<ObtieneEstacionesDataTableCloudResponse>? = null
+    private var estacionesList: ArrayList<Estacion>? = null
 
     var idAeronave:String = ""
     var idUbicacion:String = ""
@@ -57,8 +61,10 @@ class DatosAeronaveFragment : Fragment() {
         binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
         binding.etDiscrepancias!!.isEnabled = false
         var idAeronave = getAeronave(requireContext())
-        aeronavesViewModel.getAeronaveListCloud(idAeronave!!)
-        aeronavesViewModel.getEstacionesListCloud()
+      //  aeronavesViewModel.getAeronaveListCloud(idAeronave!!)
+        aeronavesViewModel.getAeronavesByModeloDB(idAeronave!!)
+      //  aeronavesViewModel.getEstacionesListCloud()
+        aeronavesViewModel.getEstacionesListDB()
         setCheckBox()
         editTextEvent()
 
@@ -183,9 +189,6 @@ class DatosAeronaveFragment : Fragment() {
     }
 
 
-
-
-
     fun getAeronave(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
         val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_AERONAVE, "")
@@ -280,6 +283,7 @@ class DatosAeronaveFragment : Fragment() {
 
 
 
+
     fun setSpinnerUbicacion(
     ) {
         var spinnerTipo = binding.spiUbicacion
@@ -289,7 +293,7 @@ class DatosAeronaveFragment : Fragment() {
         spinnerArrayImages.add(R.drawable.empty)
            for(item in estacionesList!!)
            {
-               spinnerArray.add(item.nombre)
+               spinnerArray.add(item.nombre!!)
                spinnerArrayImages.add(R.drawable.ic_location)
            }
 
@@ -311,8 +315,8 @@ class DatosAeronaveFragment : Fragment() {
                     idUbicacion = ""
                     TabsPreVuelo.formatoParameter.codigoEstacion = ""
                 } else {
-                    idUbicacion = estacionesList!![position-1].id
-                    TabsPreVuelo.formatoParameter.codigoEstacion =  estacionesList!![position-1].id
+                    idUbicacion = estacionesList!![position-1].id_cloud!!
+                    TabsPreVuelo.formatoParameter.codigoEstacion =  estacionesList!![position-1].id_cloud!!
                 }
             }
         }
@@ -360,8 +364,25 @@ class DatosAeronaveFragment : Fragment() {
         aeronavesViewModel.responseGetAeronaveListCloud.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-                    modelosAeronavesList = ArrayList(it.data!!.table)
+                //    modelosAeronavesList = ArrayList(it.data!!.table)
                //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+                    setSpinnerAeronave()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        aeronavesViewModel.responseGetAeronaveByModeloListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    modelosAeronavesList = ArrayList(it)
+                    //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerAeronave()
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
@@ -377,7 +398,7 @@ class DatosAeronaveFragment : Fragment() {
         aeronavesViewModel.responseGetEstacionesListCloud.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-                    estacionesList = ArrayList(it.data!!.table)
+                 //   estacionesList = ArrayList(it.data!!.table)
                     //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerUbicacion()
                 } else {
@@ -389,6 +410,25 @@ class DatosAeronaveFragment : Fragment() {
                 showErrorDialog(e.toString())
             }
         })
+
+
+        aeronavesViewModel.responseGetEstacionListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    estacionesList = ArrayList(it)
+                    //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+                    setSpinnerUbicacion()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
 
 
     }

@@ -9,5 +9,5 @@ class ObtieneReportajesFormatoDataTableCloudResponse (
     @SerializedName("codigoReportaje") var codigoReportaje: String,
     @SerializedName("nombreReportaje") var nombreReportaje: String,
     @SerializedName("indicadorSN") var indicadorSN: String,
-    @SerializedName("indicadorBloqueo") var indicadorBloqueo: String,
+    @SerializedName("indicadorBloqueo") var indicadorBloqueo: String
 )

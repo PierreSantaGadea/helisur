@@ -1,7 +1,6 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
 import android.content.Context
-import android.provider.Settings.Secure
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,13 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
+import com.helisur.helisurapp.data.database.HelisurDatabase
+import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.SessionUserManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -26,9 +30,16 @@ import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import javax.inject.Inject
 
 class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) :
     RecyclerView.Adapter<ListaTareasAdapter.MyViewHolder>() {
+
+
+    @Inject
+    lateinit var formatosRepository: FormatosRepository
+
+    private val coroutineScope = CoroutineScope(Job())
 
     var onItemClick: ((Tarea) -> Unit)? = null
 
@@ -46,8 +57,10 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
 
         init {
             itemView.setOnClickListener {
+
+              //  formatosRepository.getReportajesByTarea(mList[adapterPosition].codigoTarea!!)
                 onItemClick?.invoke(mList[adapterPosition])
-                contenedorReportajes.visibility = View.VISIBLE
+             //   contenedorReportajes.visibility = View.VISIBLE
             }
         }
     }
@@ -57,6 +70,15 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
     ): ListaTareasAdapter.MyViewHolder {
         val vieww = LayoutInflater.from(parent.context).inflate(R.layout.item_tareas, parent, false)
         return MyViewHolder(vieww)
+    }
+
+    suspend fun cargaReportajes(idTarea:String)
+    {
+      //  val db: HelisurDatabase = HelisurDatabase.getInstance(this@ListaTareasAdapter)
+
+        formatosRepository.getReportajesByTarea(idTarea)
+        var nose:String = ""
+
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -92,6 +114,9 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
             if (holder.contenedorReportajes.isVisible) {
                 holder.contenedorReportajes.visibility = View.GONE
             } else {
+                coroutineScope.launch {
+                    cargaReportajes(appItem.codigoTarea!!)
+                }
                 holder.contenedorReportajes.visibility = View.VISIBLE
             }
         }

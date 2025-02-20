@@ -20,7 +20,6 @@ class GuardaFormatoCloudParameter (
     @SerializedName("fechaHoraInicioRegistro") var fechaHoraInicioRegistro : String,
     @SerializedName("fechaHoraFinRegistro") var fechaHoraFinRegistro : String,
     @SerializedName("usuarioRegistro") var usuarioRegistro : String,
-
     @SerializedName("listaDetalleFormato") var listaTareas:List<GuardaTareaCloudParameter>?
 )
 

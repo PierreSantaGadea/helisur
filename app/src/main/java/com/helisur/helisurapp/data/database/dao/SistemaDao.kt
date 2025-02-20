@@ -18,6 +18,9 @@ interface SistemaDao {
     @Query("SELECT * FROM Sistema ORDER BY id DESC")
     fun getAll(): List<SistemaEntity>
 
+    @Query("SELECT * FROM Sistema WHERE  codigoFormato = :idFormato ORDER BY id DESC")
+    fun getSistemnasByFormato(idFormato: String): List<SistemaEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertList(sistemas: List<SistemaEntity>)
 
@@ -37,5 +40,6 @@ interface SistemaDao {
 
     @Query("UPDATE Sistema SET sync = :sync WHERE id_cloud = :idCloud")
     fun updateItemSync(idCloud: String, sync: Boolean): Int
+
 
 }

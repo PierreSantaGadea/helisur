@@ -406,23 +406,23 @@ class PreVueloResponsableFragment : Fragment() {
                 {
                     if(tareaObservada.reportaje_NoAplica)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_NoAplica,"1",iduser,tareaObservada.reportaje_Motivo!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_NoAplica,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!))
                     }
 
                     if(tareaObservada.reportaje_RTV)
                     {
                         helicopteroAPTO = false
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_RTV,"1",iduser,tareaObservada.reportaje_Motivo!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_RTV,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!))
                     }
 
                     if(tareaObservada.reportaje_DanosMenores)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_DanosMenores,"1",iduser,tareaObservada.reportaje_Motivo!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_DanosMenores,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!))
                     }
 
                     if(tareaObservada.reportaje_MELMDS)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_MELMDS,"1",iduser,tareaObservada.reportaje_Motivo!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_MELMDS,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!))
                     }
 0
                 }

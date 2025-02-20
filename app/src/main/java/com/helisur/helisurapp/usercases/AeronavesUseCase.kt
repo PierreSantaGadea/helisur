@@ -7,6 +7,8 @@ import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelos
 import com.helisur.helisurapp.data.database.entities.response.SimpleResponse
 import com.helisur.helisurapp.data.database.entities.response.ListModeloAeronaveResponse
 import com.helisur.helisurapp.data.repository.AeronavesRepository
+import com.helisur.helisurapp.domain.model.Aeronave
+import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.util.Constants
 import javax.inject.Inject
@@ -125,6 +127,40 @@ class AeronavesUseCase @Inject constructor(private val repository: AeronavesRepo
             return response
         }
     }
+
+
+
+    suspend fun getAeronavesListDB(): List<Aeronave>? {
+        try {
+            val respuesta = repository.getAeronavesListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+    suspend fun getAeronavesByModeloDB(idModelo:String): List<Aeronave>? {
+        try {
+            val respuesta = repository.getAeronavesByModeloDB(idModelo)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+    suspend fun getEstacionesListDB(): List<Estacion>? {
+        try {
+            val respuesta = repository.getEstacionesListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
 
 
 }

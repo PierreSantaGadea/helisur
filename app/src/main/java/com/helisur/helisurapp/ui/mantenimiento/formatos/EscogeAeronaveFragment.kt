@@ -16,6 +16,7 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentEscogeAeronaveBinding
+import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.model.toDomain
 import com.helisur.helisurapp.domain.util.Constants
@@ -39,8 +40,10 @@ class EscogeAeronaveFragment  : Fragment() {
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
     private val formatosViewModel: FormatosViewModel by viewModels()
 
-    private var aeronavesList: ArrayList<ObtieneAeronavesDataTableCloudResponse>? = null
-    private var formatosList: ArrayList<ObtieneFormatosDataTableCloudResponse>? = null
+  //  private var aeronavesList: ArrayList<ObtieneAeronavesDataTableCloudResponse>? = null
+    private var aeronavesList: ArrayList<ModeloAeronave>? = null
+ //   private var formatosList: ArrayList<ObtieneFormatosDataTableCloudResponse>? = null
+    private var formatosList: ArrayList<Formato>? = null
 
     var loading: TransparentProgressDialog? = null
     private var idAeronave:String = ""
@@ -63,8 +66,10 @@ class EscogeAeronaveFragment  : Fragment() {
         loading = TransparentProgressDialog(requireContext())
         binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_control_disabled)
         binding.rlFormato!!.setBackgroundResource(R.drawable.shape_control_disabled)
-        aeronavesViewModel.getModeloAeronaveListCloud()
-        formatosViewModel.obtieneFormatos()
+      //  aeronavesViewModel.getModeloAeronaveListCloud()
+       // formatosViewModel.obtieneFormatos()
+        formatosViewModel.getFormatosListDB()
+        aeronavesViewModel.getModelosAeronavesListDB()
     }
 
 
@@ -125,7 +130,7 @@ class EscogeAeronaveFragment  : Fragment() {
 
            for(item in aeronavesList!!)
            {
-               var itemName = item.descripcion
+               var itemName = item.nombre!!
                spinnerArray.add(itemName)
 
                if(itemName.contains("MI"))
@@ -170,8 +175,8 @@ class EscogeAeronaveFragment  : Fragment() {
                     nombreAeronave = ""
                 } else {
 
-                    idAeronave = aeronavesList!![position-1].codigoModeloPuesto
-                    nombreAeronave = aeronavesList!![position-1].descripcion
+                    idAeronave = aeronavesList!![position-1].id_cloud!!
+                    nombreAeronave = aeronavesList!![position-1].nombre!!
                     setSpinnerFormato(idAeronave)
                 }
 
@@ -198,7 +203,7 @@ class EscogeAeronaveFragment  : Fragment() {
                 {
                     if(item.codigoModeloAeronave.equals(idModeloAeronave))
                     {
-                        spinnerArray.add(item.nombreFormato)
+                        spinnerArray.add(item.nombreFormato!!)
                         spinnerArrayImages.add(R.drawable.ic_form)
                     }
                 }
@@ -227,8 +232,8 @@ class EscogeAeronaveFragment  : Fragment() {
                     if (position == 0) {
                         idFormato = ""
                     } else {
-                        idFormato = formatosList!![position-1].codigoFormato
-                        nombreFormato = formatosList!![position-1].nombreFormato
+                        idFormato = formatosList!![position-1].id_cloud!!
+                        nombreFormato = formatosList!![position-1].nombreFormato!!
                     }
                 }
             }
@@ -280,14 +285,46 @@ class EscogeAeronaveFragment  : Fragment() {
         aeronavesViewModel.responseGetModeloAeronaveListCloud.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-                    aeronavesList = ArrayList(it.data!!.table)
+                 //   aeronavesList = ArrayList(it.data!!.table)
 
+                    /*
                     var modeloAeronaveEntityList: ArrayList<ModeloAeronave> = arrayListOf()
                     for(item in aeronavesList!!)
                     {
                         modeloAeronaveEntityList.add(item.toDomain())
                     }
                     aeronavesViewModel.insertModeloAeronaveListDB(modeloAeronaveEntityList)
+
+                     */
+
+
+                    binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+                    setSpinnerAeronave()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        aeronavesViewModel.responseGetModeloAeronaveListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    aeronavesList = ArrayList(it.data!!)
+
+                    /*
+                    var modeloAeronaveEntityList: ArrayList<ModeloAeronave> = arrayListOf()
+                    for(item in aeronavesList!!)
+                    {
+                        modeloAeronaveEntityList.add(item.toDomain())
+                    }
+                    aeronavesViewModel.insertModeloAeronaveListDB(modeloAeronaveEntityList)
+
+                     */
 
 
                     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
@@ -327,9 +364,26 @@ class EscogeAeronaveFragment  : Fragment() {
         formatosViewModel.responseObtieneFormatos.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-                    formatosList = ArrayList(it.data!!.table)
+               //     formatosList = ArrayList(it.data!!.table)
                     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                    // setSpinnerAeronave()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        formatosViewModel.responseGetFormatoListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    formatosList = ArrayList(it)
+                    binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+                    // setSpinnerAeronave()
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
                 }

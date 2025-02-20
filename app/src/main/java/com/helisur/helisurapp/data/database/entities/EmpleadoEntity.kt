@@ -18,6 +18,7 @@ class EmpleadoEntity (
     @ColumnInfo(name = "codigoArea") val codigoArea: String?,
     @ColumnInfo(name = "numeroDocumento") val numeroDocumento: String?,
     @ColumnInfo(name = "nombre") val nombre: String?,
+    @ColumnInfo(name = "codigoUsuario") val codigoUsuario: String?,
     @ColumnInfo(name = "apellidoPaterno") val apellidoPaterno: String?,
     @ColumnInfo(name = "apellidoMaterno") val apellidoMaterno: String?,
     @ColumnInfo(name = "nombreCompleto") val nombreCompleto: String?,
@@ -28,13 +29,14 @@ class EmpleadoEntity (
     @ColumnInfo(name = "licencia") val licencia: String?,
     @ColumnInfo(name = "sync") val sync: Boolean?,
     @ColumnInfo(name = "fechaRegistro") val fechaRegistro: String?,
-    @ColumnInfo(name = "fechaModificacion") val fechaModificacion: String?,
+    @ColumnInfo(name = "fechaModificacion") val fechaModificacion: String?
+
 )
 
 fun Empleado.toDB() = EmpleadoEntity(id_cloud = id_cloud, codigoArea = codigoArea, numeroDocumento = numeroDocumento, nombre = nombre, apellidoPaterno = apellidoPaterno, apellidoMaterno = apellidoMaterno, nombreCompleto = nombreCompleto, email = email,
-    estado = estado, cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = sync, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
+    estado = estado, cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = sync, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion,codigoUsuario = codigoUsuario)
 
 fun ObtieneEmpleadosDataTableCloudResponse.toDB() = EmpleadoEntity(id_cloud = codigoEmpleado, codigoArea = codigoArea, numeroDocumento = numeroDocumento, nombre = nombre, apellidoPaterno = apellidoPaterno, apellidoMaterno = apellidoMaterno, nombreCompleto = nombreCompleto, email = email,
-    estado = estado, cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
+    estado = estado, cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion,codigoUsuario = codigoUsuario)
 
 

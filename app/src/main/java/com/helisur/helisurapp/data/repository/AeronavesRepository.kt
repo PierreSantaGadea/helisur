@@ -161,6 +161,21 @@ class AeronavesRepository @Inject constructor(
         }
     }
 
+
+
+    suspend fun getAeronavesByModeloDB(idModelo:String): List<Aeronave> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<AeronaveEntity> = aeronaveslocalData.getAeronavesByModelo(idModelo)
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<Aeronave> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
     suspend fun insertAeronaveListDB(aeronaves: List<Aeronave>) {
         try {
             return withContext(Dispatchers.IO) {

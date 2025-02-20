@@ -9,18 +9,22 @@ import androidx.room.Query
 import androidx.room.Update
 import com.helisur.helisurapp.data.database.entities.AeronaveEntity
 import com.helisur.helisurapp.data.database.entities.ModeloAeronaveEntity
+import com.helisur.helisurapp.data.database.entities.ReportajeEntity
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 
 @Dao
-interface AeronaveDao {
+interface ReportajeDao {
 
-    @Query("SELECT * FROM Aeronave ORDER BY id DESC")
-    fun getAll(): List<AeronaveEntity>
+    @Query("SELECT * FROM Reportaje ORDER BY id DESC")
+    fun getAll(): List<ReportajeEntity>
+
+    @Query("SELECT * FROM Reportaje WHERE  codigoTarea = :idTarea ORDER BY id DESC")
+    fun getReportajesByTarea(idTarea: String): List<ReportajeEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertList(aeronaves: List<AeronaveEntity>)
+    fun insertList(reportajes: List<ReportajeEntity>)
 
-    @Query("DELETE FROM Aeronave")
+    @Query("DELETE FROM Reportaje")
     fun deleteAll()
 /*
     @Query("UPDATE Aeronave SET codigoPuestoTecnico = :codigoPuestoTecnico, codigoCliente = :codigoCliente, nombre = :nombre, placa = :placa, comentario = :comentario, html = :html, sync = :sync")
@@ -28,16 +32,15 @@ interface AeronaveDao {
 
 
  */
-    @Query("DELETE FROM Aeronave WHERE  id_cloud = :idCloud")
+    @Query("DELETE FROM Reportaje WHERE  id_cloud = :idCloud")
     fun deleteItem(idCloud: String)
 
-    @Query("DELETE FROM sqlite_sequence WHERE name = 'Aeronave'")
-    fun deleteIndexAeronave()
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'Reportaje'")
+    fun deleteIndexReportaje()
 
-    @Query("UPDATE Aeronave SET sync = :sync WHERE id_cloud = :idCloud")
+    @Query("UPDATE Reportaje SET sync = :sync WHERE id_cloud = :idCloud")
     fun updateItemSync(idCloud: String, sync: Boolean): Int
 
-    @Query("SELECT * FROM Aeronave WHERE  id_cloud = :idModelo ORDER BY id DESC")
-    fun getAeronavesByModelo(idModelo: String): List<AeronaveEntity>
+
 
 }

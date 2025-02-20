@@ -31,6 +31,8 @@ import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacio
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesFormatoDataTableCloudResponse
 import com.helisur.helisurapp.databinding.ActivityListaPrevuelosRealizadosBinding
+import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.util.BaseActivity
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.SessionUserManager
@@ -55,9 +57,11 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityListaPrevuelosRealizadosBinding
 
-    var listaFormatosRealizados = ArrayList<ObtieneFormatosRealizadosDataTableCloudResponse>()
+    var listaFormatosRealizados = ArrayList<FormatoRegistro>()
+ //   var listaFormatosRealizados = ArrayList<ObtieneFormatosRealizadosDataTableCloudResponse>()
     var listaUbicaciones = ArrayList<ObtieneEstacionesDataTableCloudResponse>()
-    var listaReportajesFormato = ArrayList<ObtieneReportajesFormatoDataTableCloudResponse>()
+ //   var listaReportajesFormato = ArrayList<ObtieneReportajesFormatoDataTableCloudResponse>()
+    var listaReportajesFormato = ArrayList<DetalleFormatoRegistro>()
     var idUbicacion = ""
     var loading: TransparentProgressDialog? = null
     var className = "ListaPrevuelosRealizadosActivity"
@@ -137,7 +141,8 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
         var codFormato = getFormato(baseContext)
         aeronavesViewModel.getEstacionesListCloud()
-        formatosViewModel.obtieneFormatosRealizados(codFormato!!, "S")
+        formatosViewModel.getFormatosRegistroListDB()
+      //  formatosViewModel.obtieneFormatosRealizados(codFormato!!, "S")
     }
 
 
@@ -189,7 +194,19 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         formatosViewModel.responseObtieneFormatosRealizados.observe(this, Observer {
             if (it != null) {
 
-                listaFormatosRealizados = ArrayList(it!!.data!!.table)
+               // listaFormatosRealizados = ArrayList(it!!.data!!.table)
+                setRecyclerViewFormatosRealizados(listaFormatosRealizados!!)
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        formatosViewModel.responseGetFormatosRegistroListDB.observe(this, Observer {
+            if (it != null) {
+
+                listaFormatosRealizados = ArrayList(it)
                 setRecyclerViewFormatosRealizados(listaFormatosRealizados!!)
             } else {
                 Log.e(className, Constants.ERROR.ERROR)
@@ -201,7 +218,24 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         formatosViewModel.responseObtieneReportajesFormato.observe(this, Observer {
             if (it != null) {
 
-                listaReportajesFormato = ArrayList(it!!.data!!.table)
+            //    listaReportajesFormato = ArrayList(it!!.data!!.table)
+
+                for(reportajeItem in listaReportajesFormato)
+                {
+                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
+                }
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        formatosViewModel.responseGetDetalleFormatosRegistroByFormatoRegistroListDB.observe(this, Observer {
+            if (it != null) {
+
+                listaReportajesFormato = ArrayList(it)
 
                 for(reportajeItem in listaReportajesFormato)
                 {
@@ -259,7 +293,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     }
 
 
-    fun setRecyclerViewFormatosRealizados(lista: ArrayList<ObtieneFormatosRealizadosDataTableCloudResponse>) {
+    fun setRecyclerViewFormatosRealizados(lista: ArrayList<FormatoRegistro>) {
         val recyclerview = binding.rvFormatosPrevuelo
         recyclerview.layoutManager = LinearLayoutManager(baseContext)
         val adapter = ListaPreVuelosRealizadosAdapter(lista)
@@ -275,14 +309,17 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
         recyclerview.addItemDecoration(dividerItemDecoration)
 
-        adapter.onItemClick = { formato ->
+        adapter.onItemClick = { formatoRegistro ->
 
-            binding.etRTV.setText(formato.numeroRTV)
-            setSpinnerUbicacion(formato.codigoEstacion)
+            binding.etRTV.setText(formatoRegistro.numeroRTV)
+            setSpinnerUbicacion(formatoRegistro.codigoEstacion)
 
-            binding.tvTituloAeronave.text = getNombreAeronave(baseContext) + "  /  "+formato.aeronave
+            binding.tvTituloAeronave.text = getNombreAeronave(baseContext) + "  /  "+formatoRegistro.nombreAeronave
 
-            formatosViewModel.obtieneReportajesFormato(formato.id)
+
+            //getDetalleFormateRegistro By idFormatoRegistro
+            formatosViewModel.getDetalleFormatoRegistroByFormatoRegistroDB(formatoRegistro.id_db!!)
+        //    formatosViewModel.obtieneReportajesFormato(formatoRegistro.id_cloud!!)
 
             binding.llEditarFormato.visibility = View.VISIBLE
             binding.listaFormatosPendientes.visibility = View.GONE

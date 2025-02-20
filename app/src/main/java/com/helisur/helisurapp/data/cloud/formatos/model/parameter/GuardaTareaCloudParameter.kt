@@ -8,5 +8,7 @@ class GuardaTareaCloudParameter (
     @SerializedName("codigoReportaje") var codigoReportaje : String,
     @SerializedName("indicadorSN") var indicadorSN : String,
     @SerializedName("usuarioRegistro") var usuarioRegistro : String,
-    @SerializedName("motivoReportaje") var motivoReportaje : String
+    @SerializedName("motivoReportaje") var motivoReportaje : String,
+    var nombreTarea:String,
+    //var nombreReportaje:String
 )

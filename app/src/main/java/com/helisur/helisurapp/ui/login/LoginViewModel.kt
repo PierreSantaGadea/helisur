@@ -6,8 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneDatosUsuarioCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneTokenCloudResponse
+import com.helisur.helisurapp.domain.model.Aeronave
+import com.helisur.helisurapp.domain.model.Empleado
 import com.helisur.helisurapp.domain.model.Usuario
 import com.helisur.helisurapp.domain.util.Constants
+import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel.AeronavesState
 import com.helisur.helisurapp.usercases.UsuarioUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +28,8 @@ class LoginViewModel @Inject constructor
     val responseObtieneEmpleados = MutableLiveData<List<ObtieneEmpleadosDataTableCloudResponse>>()
     val isLoading = MutableLiveData<Boolean>()
     val loginState = MutableLiveData<LoginState>(LoginState.START)
+
+    val responseGetEmpleadoListDB = MutableLiveData<List<Empleado>?>()
 
 
     fun login(usuario: String, contrasenia: String) {
@@ -86,6 +91,21 @@ class LoginViewModel @Inject constructor
                     responseObtieneEmpleados.postValue(result.data!!.table)
                 }
 
+            } else {
+                isLoading.postValue(false)
+                loginState.postValue(LoginState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getEmpleadosListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = usuarioUseCase.getEmpleadosListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                loginState.postValue(LoginState.SUCCESS)
+                responseGetEmpleadoListDB.postValue(result)
             } else {
                 isLoading.postValue(false)
                 loginState.postValue(LoginState.FAILURE(Constants.ERROR.ERROR))

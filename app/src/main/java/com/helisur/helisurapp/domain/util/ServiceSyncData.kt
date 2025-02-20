@@ -141,6 +141,12 @@ class ServiceSyncData : Service() {
     }
 
 
+
+    suspend fun syncFormatosRefistrados()
+    {
+
+    }
+
     //PRIMERO ENVIAR DATA
     fun sendDataToCloud() {
         //ORDEN

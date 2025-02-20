@@ -3,11 +3,13 @@ package com.helisur.helisurapp.data.cloud.formatos.apis
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneFormatosRealizadosCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesFormatoParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneSistemasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneTareasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
@@ -29,6 +31,9 @@ interface FormatosApiClient {
 
     @POST(Constants.URLS.OBTIENE_TAREAS)
     suspend fun obtieneTareas(@Body parameterBody: ObtieneTareasCloudParameter): Response<ObtieneTareasCloudResponse>
+
+    @POST(Constants.URLS.OBTIENE_REPORTAJES)
+    suspend fun obtieneReportajes(@Body parameterBody: ObtieneReportajesParameter): Response<ObtieneReportajesCloudResponse>
 
     @POST(Constants.URLS.GRABA_FORMATO)
     suspend fun grabaFormato(@Body parameterBody: GuardaFormatoCloudParameter): Response<GrabaFormatoCloudResponse>

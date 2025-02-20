@@ -11,6 +11,7 @@ import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronav
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosDataTableCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
@@ -24,6 +25,7 @@ import com.helisur.helisurapp.domain.model.Empleado
 import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.ModeloAeronave
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.model.toDomain
@@ -87,6 +89,9 @@ class ServiceSyncDataFirstTime : Service() {
     private var tareaListDB: ArrayList<Tarea>? = null
     private var tareaListCloud: ArrayList<ObtieneTareasDataTableCloudResponse>? = null
 
+    private var reportajeListDB: ArrayList<Reportaje>? = null
+    private var reportajeListCloud: ArrayList<ObtieneReportajesDataTableCloudResponse>? = null
+
     private var empleadoListDB: ArrayList<Empleado>? = null
     private var empleadoListCloud: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
 
@@ -143,6 +148,7 @@ class ServiceSyncDataFirstTime : Service() {
             syncSistemas()
             syncTareas()
             syncEmpleados()
+            syncReportajes()
         }
 
         /*
@@ -258,6 +264,25 @@ class ServiceSyncDataFirstTime : Service() {
                         tareaListDB!!.add(itemcloud.toDomain())
                     }
                     formatosRepository.insertTareaListDB(tareaListDB!!)
+                }
+
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+        }
+    }
+
+
+    suspend fun syncReportajes() {
+        try {
+            withContext(Dispatchers.Main) {
+                reportajeListDB = arrayListOf()
+                reportajeListCloud = ArrayList(formatosRepository.obtieneReportajes())
+                if (reportajeListCloud != null) {
+                    for (itemcloud in reportajeListCloud!!) {
+                        reportajeListDB!!.add(itemcloud.toDomain())
+                    }
+                    formatosRepository.insertReportajeListDB(reportajeListDB!!)
                 }
 
             }

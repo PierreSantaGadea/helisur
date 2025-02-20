@@ -10,6 +10,7 @@ import androidx.room.Update
 import com.helisur.helisurapp.data.database.entities.AeronaveEntity
 import com.helisur.helisurapp.data.database.entities.ModeloAeronaveEntity
 import com.helisur.helisurapp.data.database.entities.TareaEntity
+import com.helisur.helisurapp.data.database.entities.response.SistemaEntity
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 
 @Dao
@@ -17,6 +18,9 @@ interface TareaDao {
 
     @Query("SELECT * FROM Tarea ORDER BY id DESC")
     fun getAll(): List<TareaEntity>
+
+    @Query("SELECT * FROM Tarea WHERE  codigoSistema = :idSistema ORDER BY id DESC")
+    fun getTareasBySistema(idSistema: String): List<TareaEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertList(aeronaves: List<TareaEntity>)

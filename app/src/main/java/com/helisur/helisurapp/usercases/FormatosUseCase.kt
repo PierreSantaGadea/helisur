@@ -9,6 +9,10 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportaj
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.data.repository.FormatosRepository
+import com.helisur.helisurapp.domain.model.Aeronave
+import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.Formato
+import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.model.toDomain
@@ -112,6 +116,112 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
             val grabacionFailed = ObtieneReportajesFormatoCloudResponse()
             grabacionFailed.message = e.message.toString()
             return grabacionFailed
+        }
+    }
+
+
+    suspend fun getFormatosListDB(): List<Formato>? {
+        try {
+            val respuesta = repository.getFormatosListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+    suspend fun getSistemasListDB(): List<Sistema>? {
+        try {
+            val respuesta = repository.getSistemasListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+    suspend fun getSistemnasByFormato(idFormato: String): List<Sistema>? {
+        try {
+            val respuesta = repository.getSistemnasByFormato(idFormato)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+    suspend fun getTareasListDB(): List<Tarea>? {
+        try {
+            val respuesta = repository.getTareasListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+    suspend fun getTareasBySistema(idSistema: String): List<Tarea>? {
+        try {
+            val respuesta = repository.getTareasBySistema(idSistema)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+
+    suspend fun insertFormatoRegistroDB(formatoRegistro: FormatoRegistro): Boolean? {
+        try {
+            val respuesta = repository.insertFormatoRegistroDB(formatoRegistro)
+            return true
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+    suspend fun getFormatosRegistroListDB(): List<FormatoRegistro>? {
+        try {
+            val respuesta = repository.getFormatosRegistroListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+    suspend fun insertDetalleFormatoRegistroDB(detalles: List<DetalleFormatoRegistro>): Boolean? {
+        try {
+            val respuesta = repository.insertDetalleFormatoRegistroListDB(detalles)
+            return true
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+    suspend fun getDetalleFormatosRegistroListDB(): List<DetalleFormatoRegistro>? {
+        try {
+            val respuesta = repository.getDetalleFormatosRegistroListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+    suspend fun getDetalleFormatoRegistroByFormatoRegistroDB(idFormatoRegistroDb: String): List<DetalleFormatoRegistro>? {
+        try {
+            val respuesta = repository.getDetalleFormatoRegistroByFormatoRegistroDB(idFormatoRegistroDb)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
         }
     }
 

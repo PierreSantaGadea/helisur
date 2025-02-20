@@ -11,10 +11,15 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatos
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
+import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.Estacion
+import com.helisur.helisurapp.domain.model.Formato
+import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.ConnectivityRepository
 import com.helisur.helisurapp.domain.util.Constants
+import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel.AeronavesState
 import com.helisur.helisurapp.usercases.FormatosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -34,6 +39,20 @@ class FormatosViewModel @Inject constructor(
     val responseObtieneReportajesFormato= MutableLiveData<ObtieneReportajesFormatoCloudResponse>()
     val isLoading = MutableLiveData<Boolean>()
     val formatosState = MutableLiveData<FormatosState>(FormatosState.START)
+
+    val responseGetFormatoListDB = MutableLiveData<List<Formato>?>()
+    val responseGetSistemaListDB = MutableLiveData<List<Sistema>?>()
+    val responseGetSistemaByFormatoDB = MutableLiveData<List<Sistema>?>()
+    val responseGetTareaListDB = MutableLiveData<List<Tarea>?>()
+
+    val responseGetTareaBySistemaListDB = MutableLiveData<List<Tarea>?>()
+
+    val responseGetFormatosRegistroListDB = MutableLiveData<List<FormatoRegistro>?>()
+    val responseGetDetalleFormatosRegistroListDB = MutableLiveData<List<DetalleFormatoRegistro>?>()
+    val responsInsertFormatoRegistroDB = MutableLiveData<Boolean?>()
+    val responsInsertDetalleFormatoRegistroDB = MutableLiveData<Boolean?>()
+
+    val responseGetDetalleFormatosRegistroByFormatoRegistroListDB = MutableLiveData<List<DetalleFormatoRegistro>?>()
 
 
     fun obtieneFormatos() {
@@ -249,6 +268,160 @@ class FormatosViewModel @Inject constructor(
         }
     }
 
+
+    fun getFormatosListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getFormatosListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetFormatoListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getSistemasListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getSistemasListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetSistemaListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun getSistemnasByFormatoDB(idFormato: String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getSistemnasByFormato(idFormato)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetSistemaByFormatoDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+
+    fun getTareasListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getTareasListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetTareaListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getTareasBySistema(idSistema: String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getTareasBySistema(idSistema)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetTareaBySistemaListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun getFormatosRegistroListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getFormatosRegistroListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetFormatosRegistroListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getDetalleFormatosRegistroListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getDetalleFormatosRegistroListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetDetalleFormatosRegistroListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getDetalleFormatoRegistroByFormatoRegistroDB(idFormatoRegistroDb: String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getDetalleFormatoRegistroByFormatoRegistroDB(idFormatoRegistroDb)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetDetalleFormatosRegistroByFormatoRegistroListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun insertFormatoRegistroDB(formatosRegistro: FormatoRegistro) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.insertFormatoRegistroDB(formatosRegistro)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responsInsertFormatoRegistroDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun insertDetalleFormatoRegistroDB(detalles:List<DetalleFormatoRegistro>) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.insertDetalleFormatoRegistroDB(detalles)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responsInsertDetalleFormatoRegistroDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
 
 
 

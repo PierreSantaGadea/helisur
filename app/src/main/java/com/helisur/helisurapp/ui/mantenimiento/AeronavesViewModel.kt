@@ -8,6 +8,8 @@ import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacio
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveCloudResponse
 import com.helisur.helisurapp.data.database.entities.response.SimpleResponse
 import com.helisur.helisurapp.data.database.entities.response.ListModeloAeronaveResponse
+import com.helisur.helisurapp.domain.model.Aeronave
+import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.usercases.AeronavesUseCase
@@ -30,6 +32,11 @@ class AeronavesViewModel @Inject constructor(
     val responseDeleteModeloAeronaveDB = MutableLiveData<SimpleResponse>()
     val responseUpdateModeloAeronaveDB = MutableLiveData<SimpleResponse>()
     val responseUpdateSyncModeloAeronaveDB = MutableLiveData<SimpleResponse>()
+
+    val responseGetAeronaveListDB = MutableLiveData<List<Aeronave>?>()
+    val responseGetEstacionListDB = MutableLiveData<List<Estacion>?>()
+
+    val responseGetAeronaveByModeloListDB = MutableLiveData<List<Aeronave>?>()
 
     val isLoading = MutableLiveData<Boolean>()
     val aeronavesState = MutableLiveData<AeronavesState>(AeronavesState.START)
@@ -185,6 +192,53 @@ class AeronavesViewModel @Inject constructor(
                     responseGetEstacionesListCloud.postValue(result)
                 }
 
+            } else {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+
+    fun getAeronavesListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = aeronavesUseCase.getAeronavesListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.SUCCESS)
+                responseGetAeronaveListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getAeronavesByModeloDB(idModelo:String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = aeronavesUseCase.getAeronavesByModeloDB(idModelo)
+            if (result!=null) {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.SUCCESS)
+                responseGetAeronaveByModeloListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getEstacionesListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = aeronavesUseCase.getEstacionesListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.SUCCESS)
+                responseGetEstacionListDB.postValue(result)
             } else {
                 isLoading.postValue(false)
                 aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
