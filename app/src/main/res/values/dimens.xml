@@ -9,4 +9,7 @@
     <dimen name="size_text_nav_header">14dp</dimen>
 
     <dimen name="marginrecyclwe">0dp</dimen>
+
+    <dimen name="nombretarea_formatos_realizados">15dp</dimen>
+
 </resources>

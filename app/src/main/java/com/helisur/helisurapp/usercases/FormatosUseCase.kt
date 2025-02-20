@@ -13,6 +13,7 @@ import com.helisur.helisurapp.domain.model.Aeronave
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.FormatoRegistro
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.model.toDomain
@@ -153,6 +154,17 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
     suspend fun getTareasListDB(): List<Tarea>? {
         try {
             val respuesta = repository.getTareasListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+    suspend fun getReportajesListDB(): List<Reportaje>? {
+        try {
+            val respuesta = repository.getReportajesListDB()
             return respuesta
         } catch (e: Exception) {
             Log.e(TAG, e.toString())

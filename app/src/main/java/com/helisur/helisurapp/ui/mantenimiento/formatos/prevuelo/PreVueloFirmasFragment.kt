@@ -31,6 +31,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaClo
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentFirmasBinding
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.Empleado
 import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
@@ -39,6 +40,8 @@ import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.GregorianCalendar
 import java.util.UUID
 
 
@@ -56,8 +59,12 @@ class PreVueloFirmasFragment : Fragment() {
 
     var dialogg:Dialog? = null
 
-    var copilotosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
-    var pilotosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
+   // var copilotosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
+   // var pilotosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
+
+
+    var copilotosList: ArrayList<Empleado>? = null
+    var pilotosList: ArrayList<Empleado>? = null
 
     var idCopiloto = ""
     var urlFirmaCopiloto = ""
@@ -79,8 +86,8 @@ class PreVueloFirmasFragment : Fragment() {
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
-        loginViewModel.obtieneEmpleados("00020")
-
+       // loginViewModel.obtieneEmpleados("00020")
+        loginViewModel.getEmpleadosListDB()
 
         firmapiloto = binding.signaturePadPiloto
 
@@ -162,11 +169,19 @@ class PreVueloFirmasFragment : Fragment() {
                 var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
                 var nombreAeronave:String = getNombreAeronave(requireContext())!!
                 val uniqueID: String = UUID.randomUUID().toString()
+
+                var fechaHoy: String = ""
+                val gc: GregorianCalendar = GregorianCalendar()
+                val pattern = "yyyy-MM-dd HH:mm:ss"
+                val simpleDateFormat = SimpleDateFormat(pattern)
+                simpleDateFormat.calendar = gc
+                fechaHoy = simpleDateFormat.format(gc.time)
+
                 var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
                     parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
                     parameter.solicitaEncMotores,parameter.idEmpleadoResponsable,parameter.urlFirmaResponsable,parameter.idEmpleadoPiloto,
                     parameter.urlFirmaPiloto,parameter.idEmpleadoCoPiloto,parameter.urlFirmaCoPiloto,parameter.fechaHoraInicioRegistro,
-                    parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,"","")
+                    parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,fechaHoy,"")
 
                 formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
 
@@ -175,7 +190,7 @@ class PreVueloFirmasFragment : Fragment() {
                 for(item in listaDetalle)
                 {
                     var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro("",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
-                        "",item.indicadorSN,"","","")
+                        "",item.indicadorSN,"",fechaHoy,"")
 
                     listaDetalleDB.add(detalle)
                 }
@@ -234,8 +249,38 @@ class PreVueloFirmasFragment : Fragment() {
         loginViewModel.responseObtieneEmpleados.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-                    copilotosList = ArrayList(it)
-                    pilotosList = ArrayList(it)
+                //    copilotosList = ArrayList(it)
+                //    pilotosList = ArrayList(it)
+                    setSpinnerCopilotos()
+                    setSpinnerPilotos()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        loginViewModel.responseGetEmpleadoListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+
+                    copilotosList = arrayListOf()
+                    pilotosList = arrayListOf()
+                    var empleadosListaTotal: ArrayList<Empleado>? = ArrayList(it)
+
+                    for(item in empleadosListaTotal!!)
+                    {
+                        if(item.codigoArea.equals("00020"))
+                        {
+                            copilotosList!!.add(item)
+                            pilotosList!!.add(item)
+                        }
+
+                    }
                     setSpinnerCopilotos()
                     setSpinnerPilotos()
                 } else {
@@ -285,6 +330,33 @@ class PreVueloFirmasFragment : Fragment() {
         })
 
 
+        formatosViewModel.responsInsertFormatoRegistroDB.observe(viewLifecycleOwner, Observer {
+            try {
+
+                if(isOnline())
+                {
+                    formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
+                }
+                else
+                {
+                    //grabacion correcta
+                    requireActivity().finish()
+
+                    val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                    requireActivity().startActivity(intent)
+                }
+
+
+
+
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
         formatosViewModel.isLoading.observe(viewLifecycleOwner, Observer {
             try {
                 if (it) {
@@ -309,6 +381,18 @@ class PreVueloFirmasFragment : Fragment() {
 
     }
 
+    fun isOnline(): Boolean {
+        try {
+            val p1 = Runtime.getRuntime().exec("ping -c 1 www.google.com")
+            val returnVal = p1.waitFor()
+            val reachable = (returnVal == 0)
+            return reachable
+        } catch (e: Exception) {
+            //  e.printStackTrace();
+        }
+        return false
+    }
+
     fun setCheckBox()
     {
         binding.chxTripulacionEfectuoPrevuelo!!.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -331,7 +415,7 @@ class PreVueloFirmasFragment : Fragment() {
         spinnerArrayImages.add(R.drawable.empty)
         for(item in copilotosList!!)
         {
-            spinnerArray.add(item.nombreCompleto)
+            spinnerArray.add(item.nombreCompleto!!)
             spinnerArrayImages.add(R.drawable.ic_user)
         }
 
@@ -353,7 +437,7 @@ class PreVueloFirmasFragment : Fragment() {
                     idCopiloto = ""
                     binding.etLicenciaCopiloto!!.setText("")
                 } else {
-                    idCopiloto  =  copilotosList!![position-1].codigoEmpleado
+                    idCopiloto  =  copilotosList!![position-1].id_cloud!!
                     TabsPreVuelo.formatoParameter.idEmpleadoCoPiloto = idCopiloto
                     TabsPreVuelo.formatoParameter.urlFirmaCoPiloto = urlFirmaCopiloto
                     binding.etLicenciaCopiloto!!.setText(copilotosList!![position-1].licencia)
@@ -372,7 +456,7 @@ class PreVueloFirmasFragment : Fragment() {
         spinnerArrayImages.add(R.drawable.empty)
         for(item in pilotosList!!)
         {
-            spinnerArray.add(item.nombreCompleto)
+            spinnerArray.add(item.nombreCompleto!!)
             spinnerArrayImages.add(R.drawable.ic_user)
         }
 
@@ -393,7 +477,7 @@ class PreVueloFirmasFragment : Fragment() {
                     idPiloto = ""
                     binding.etLicenciaPiloto!!.setText("")
                 } else {
-                    idPiloto  =  pilotosList!![position-1].codigoEmpleado
+                    idPiloto  =  pilotosList!![position-1].id_cloud!!
                     TabsPreVuelo.formatoParameter.idEmpleadoPiloto = idPiloto
                     TabsPreVuelo.formatoParameter.urlFirmaPiloto = urlFirmaPiloto
 
@@ -414,6 +498,16 @@ class PreVueloFirmasFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+/*
+        try {
+            var bise= ""
+        }
+        catch (e:Exception)
+        {
+            var bise= ""
+        }
+
+ */
 
         // Example: If you're creating a Bitmap from 'myView'
         binding.signaturePadPiloto!!.post {
@@ -431,6 +525,8 @@ class PreVueloFirmasFragment : Fragment() {
                 // ... do something with the bitmap ...
             }
         }
+
+
 
     }
 

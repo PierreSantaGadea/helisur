@@ -17,15 +17,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesDataTableCloudResponse
-import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneModelosAeronaveDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentDatosAeronaveBinding
 import com.helisur.helisurapp.domain.model.Aeronave
+import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Estacion
+import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -40,6 +41,13 @@ class DatosAeronaveFragment : Fragment() {
     private var modelosAeronavesList: ArrayList<Aeronave>? = null
   //  private var estacionesList: ArrayList<ObtieneEstacionesDataTableCloudResponse>? = null
     private var estacionesList: ArrayList<Estacion>? = null
+
+
+    private var formatoRegistroList: ArrayList<FormatoRegistro>? = null
+    private var detalleFormatoRegistroList: ArrayList<DetalleFormatoRegistro>? = null
+
+
+    private val formatoViewModel: FormatosViewModel by viewModels()
 
     var idAeronave:String = ""
     var idUbicacion:String = ""
@@ -60,7 +68,7 @@ class DatosAeronaveFragment : Fragment() {
         loading = TransparentProgressDialog(requireContext())
         binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
         binding.etDiscrepancias!!.isEnabled = false
-        var idAeronave = getAeronave(requireContext())
+        var idAeronave = getModeloAeronave(requireContext())
       //  aeronavesViewModel.getAeronaveListCloud(idAeronave!!)
         aeronavesViewModel.getAeronavesByModeloDB(idAeronave!!)
       //  aeronavesViewModel.getEstacionesListCloud()
@@ -71,6 +79,9 @@ class DatosAeronaveFragment : Fragment() {
         TabsPreVuelo.formatoParameter.existenDiscrepancias = "0"
         TabsPreVuelo.formatoParameter.accionesMantenimiento = "0"
         TabsPreVuelo.formatoParameter.solicitaEncMotores = "0"
+
+        formatoViewModel.getFormatosRegistroListDB()
+        formatoViewModel.getDetalleFormatosRegistroListDB()
     }
 
 
@@ -189,15 +200,15 @@ class DatosAeronaveFragment : Fragment() {
     }
 
 
-    fun getAeronave(context: Context): String? {
+    fun getModeloAeronave(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
-        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_AERONAVE, "")
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_MODELO_AERONAVE, "")
         return text
     }
 
-    fun getNombreAeronave(context: Context): String? {
+    fun getNombreModeloAeronave(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
-        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, "")
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_MODELO_AERONAVE, "")
         return text
     }
 
@@ -225,7 +236,7 @@ class DatosAeronaveFragment : Fragment() {
         spinnerArrayImages.add(R.drawable.empty)
            for(item in modelosAeronavesList!!) {
 
-               var itemName = getNombreAeronave(requireContext())
+               var itemName = getNombreModeloAeronave(requireContext())
                spinnerArray.add(item.nombre)
 
                if(itemName!!.contains("MI"))
@@ -273,6 +284,23 @@ class DatosAeronaveFragment : Fragment() {
                 } else {
                     idAeronave = modelosAeronavesList!![position-1].codigoPuestoTecnico
                     TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoPuestoTecnico
+                    saveAeronave(requireContext(),idAeronave,modelosAeronavesList!![position-1].nombre)
+               //     aeronavesViewModel.getCountDetallessByAeronave(idAeronave)
+                    if(getFormato(requireContext()).equals("00001"))
+                    {
+                        var conteoDiscre:Int = conteoDiscrepancias(idAeronave)
+                       if(conteoDiscre==0)
+                       {
+                           binding.llContenedorConteoDiscrepancias!!.visibility = View.GONE
+                       }
+                        else
+                       {
+                           binding.llContenedorConteoDiscrepancias!!.visibility = View.VISIBLE
+                           binding.tvConteoDiscrepancias!!.setText(conteoDiscre.toString())
+                       }
+                    }
+
+
                 }
             }
         }
@@ -281,7 +309,13 @@ class DatosAeronaveFragment : Fragment() {
 
     }
 
-
+    fun saveAeronave(context: Context, idAeronave:String, nombreAeronave:String) {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Constants.SHARED_PREFERENCES.ID_AERONAVE, idAeronave)
+        editor.putString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, nombreAeronave)
+        editor.apply()
+    }
 
 
     fun setSpinnerUbicacion(
@@ -430,9 +464,103 @@ class DatosAeronaveFragment : Fragment() {
 
 
 
+        aeronavesViewModel.responseCountDiscrepancias.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+
+                    var cuenta = it
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        formatoViewModel.responseGetFormatosRegistroListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    formatoRegistroList = ArrayList(it)
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        formatoViewModel.responseGetDetalleFormatosRegistroListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    detalleFormatoRegistroList = ArrayList(it)
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+
 
     }
 
+
+    fun conteoDiscrepancias(aeronaveCodPuestoTecnico:String):Int
+    {
+
+        var ultimoFormatoRegistroPostVuelo:FormatoRegistro? = null
+
+        for(item in formatoRegistroList!!)
+        {
+            if(item.codigoPuestoTecnico.equals(aeronaveCodPuestoTecnico))
+            {
+                if(item.codigoFormato.equals("00002"))
+                {
+                    ultimoFormatoRegistroPostVuelo = item
+                }
+
+            }
+            //obtengo el ultimo que tenga  el formato postvuelo y que tenga la aeronave
+        }
+
+        //una vez q tengo el ultimo de registroformato me voy al detalle
+
+        if(ultimoFormatoRegistroPostVuelo!=null)
+        {
+            var listaAVer:ArrayList<DetalleFormatoRegistro>? = arrayListOf()
+
+            for(item in detalleFormatoRegistroList!!)
+            {
+                if(item.idRegistroFormatoDB.equals(ultimoFormatoRegistroPostVuelo!!.id_db))
+                {
+                    listaAVer!!.add(item)
+                }
+                //obtengo la cantidad que tienen eel id que obtuve en el buicle anterior
+            }
+
+            return listaAVer!!.count()
+
+        }
+        else{
+            return 0
+        }
+
+
+
+
+
+
+    }
 
 
     fun showErrorDialog(message: String?) {

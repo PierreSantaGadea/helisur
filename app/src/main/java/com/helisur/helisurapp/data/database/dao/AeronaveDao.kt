@@ -40,4 +40,12 @@ interface AeronaveDao {
     @Query("SELECT * FROM Aeronave WHERE  id_cloud = :idModelo ORDER BY id DESC")
     fun getAeronavesByModelo(idModelo: String): List<AeronaveEntity>
 
+
+    @Query("SELECT COUNT(*)\n" +
+            "FROM DetalleFormatoRegistro dfr\n" +
+            "JOIN FormatoRegistro fr ON dfr.idRegistroFormatoDB = fr.id_db\n" +
+            "JOIN Aeronave a ON fr.codigoPuestoTecnico = a.codigoPuestoTecnico\n" +
+            "WHERE a.id_cloud = :idAeronave AND fr.codigoFormato = '00002'")
+    fun getCountDetallessByAeronave(idAeronave: String): Int //su ultimo registro en (FormatoRegistro) debe haber sido un postvuelo y ese registro debe tener detalles
+
 }

@@ -13,12 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
-import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentEscogeAeronaveBinding
 import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.ModeloAeronave
-import com.helisur.helisurapp.domain.model.toDomain
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
@@ -90,7 +87,7 @@ class EscogeAeronaveFragment  : Fragment() {
                 else
                 {
 
-                    saveAeronave(requireContext(),idAeronave,nombreAeronave)
+                    saveModeloAeronave(requireContext(),idAeronave,nombreAeronave)
                     saveFormato(requireContext(),idFormato,nombreFormato)
                     val intent = Intent (getActivity(), ListaPrevuelosRealizadosActivity::class.java)
                     getActivity()?.startActivity(intent)
@@ -100,11 +97,11 @@ class EscogeAeronaveFragment  : Fragment() {
         }
     }
 
-    fun saveAeronave(context: Context,idAeronave:String,nombreAeronave:String) {
+    fun saveModeloAeronave(context: Context, idAeronave:String, nombreAeronave:String) {
         val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString(Constants.SHARED_PREFERENCES.ID_AERONAVE, idAeronave)
-        editor.putString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, nombreAeronave)
+        editor.putString(Constants.SHARED_PREFERENCES.ID_MODELO_AERONAVE, idAeronave)
+        editor.putString(Constants.SHARED_PREFERENCES.NOMBRE_MODELO_AERONAVE, nombreAeronave)
         editor.apply()
     }
 

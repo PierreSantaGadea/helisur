@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.database.HelisurDatabase
 import com.helisur.helisurapp.data.repository.FormatosRepository
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import kotlinx.coroutines.CoroutineScope
@@ -72,19 +73,18 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
         return MyViewHolder(vieww)
     }
 
-    suspend fun cargaReportajes(idTarea:String)
+     fun cargaReportajes(idTarea:String)
     {
-      //  val db: HelisurDatabase = HelisurDatabase.getInstance(this@ListaTareasAdapter)
+     var listaReportajes:ArrayList<Reportaje> = TareasFragment.getReportajesByTarea(idTarea)
 
-        formatosRepository.getReportajesByTarea(idTarea)
-        var nose:String = ""
+        //cargar reportakes dinamicos
+        var nose = ""
 
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val appItem = mList[position]
         holder.nombreTarea.text = appItem.nombreTarea
-
 
 
         if(appItem.reportaje_NoAplica)
@@ -114,9 +114,12 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
             if (holder.contenedorReportajes.isVisible) {
                 holder.contenedorReportajes.visibility = View.GONE
             } else {
-                coroutineScope.launch {
+                cargaReportajes(appItem.codigoTarea!!)
+             /*   coroutineScope.launch {
                     cargaReportajes(appItem.codigoTarea!!)
                 }
+
+              */
                 holder.contenedorReportajes.visibility = View.VISIBLE
             }
         }

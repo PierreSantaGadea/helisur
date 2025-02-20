@@ -36,6 +36,8 @@ class AeronavesViewModel @Inject constructor(
     val responseGetAeronaveListDB = MutableLiveData<List<Aeronave>?>()
     val responseGetEstacionListDB = MutableLiveData<List<Estacion>?>()
 
+    val responseCountDiscrepancias = MutableLiveData<Int?>()
+
     val responseGetAeronaveByModeloListDB = MutableLiveData<List<Aeronave>?>()
 
     val isLoading = MutableLiveData<Boolean>()
@@ -239,6 +241,22 @@ class AeronavesViewModel @Inject constructor(
                 isLoading.postValue(false)
                 aeronavesState.postValue(AeronavesState.SUCCESS)
                 responseGetEstacionListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun getCountDetallessByAeronave(idAeronave: String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = aeronavesUseCase.getCountDetallessByAeronave(idAeronave)
+            if (result!=null) {
+                isLoading.postValue(false)
+                aeronavesState.postValue(AeronavesState.SUCCESS)
+                responseCountDiscrepancias.postValue(result)
             } else {
                 isLoading.postValue(false)
                 aeronavesState.postValue(AeronavesState.FAILURE(Constants.ERROR.ERROR))

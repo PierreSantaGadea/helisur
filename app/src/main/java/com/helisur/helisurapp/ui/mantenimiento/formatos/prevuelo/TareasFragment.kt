@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.databinding.FragmentTareasBinding
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.Constants
@@ -40,9 +41,35 @@ class TareasFragment : Fragment() {
     companion object {
         var sistemasList: ArrayList<Sistema>? = null
         var tareasList: ArrayList<Tarea>? = null
+        var reportajesList: ArrayList<Reportaje>? = null
 
         fun getTareasRealizadas():ArrayList<Tarea> { return tareasList!! }
         fun getSistemasRealizadas():ArrayList<Sistema> { return sistemasList!! }
+
+
+        fun getReportajesByTarea(idTarea:String):ArrayList<Reportaje> {
+
+            var listaReportajes:ArrayList<Reportaje> = arrayListOf()
+
+            for(item in reportajesList!!) {
+
+                if(item.codigoTarea.equals(idTarea))
+                {
+                    listaReportajes.add(item)
+                }
+            }
+
+            if(listaReportajes.size==0)
+            {
+                return reportajesList!!
+            }
+            else
+            {
+                return listaReportajes
+            }
+
+
+        }
     }
 
     override fun onCreateView(
@@ -53,7 +80,8 @@ class TareasFragment : Fragment() {
         initUI()
         observers()
         clickListener()
-        validateHUMS()
+     //   validateHUMS()
+        binding.llHums!!.visibility = View.GONE
         return root
     }
 
@@ -61,6 +89,7 @@ class TareasFragment : Fragment() {
         loading = TransparentProgressDialog(requireContext())
       //  formatosViewModel.obtieneSistemas(getFormato(requireContext())!!)
         formatosViewModel.getSistemnasByFormatoDB(getFormato(requireContext())!!)
+        formatosViewModel.getReportajesListDB()
     }
 
 
@@ -206,6 +235,21 @@ class TareasFragment : Fragment() {
                 if (it != null) {
                     tareasList = ArrayList(it)
                     adapaterSistemas!!.updateItem(posicionClick!!, tareasList!!)
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        formatosViewModel.responseGetReportajeListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    reportajesList = ArrayList(it)
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
                 }

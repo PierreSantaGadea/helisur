@@ -32,7 +32,9 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatos
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesFormatoDataTableCloudResponse
 import com.helisur.helisurapp.databinding.ActivityListaPrevuelosRealizadosBinding
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.FormatoRegistro
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.util.BaseActivity
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.SessionUserManager
@@ -59,9 +61,11 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
     var listaFormatosRealizados = ArrayList<FormatoRegistro>()
  //   var listaFormatosRealizados = ArrayList<ObtieneFormatosRealizadosDataTableCloudResponse>()
-    var listaUbicaciones = ArrayList<ObtieneEstacionesDataTableCloudResponse>()
+  //  var listaUbicaciones = ArrayList<ObtieneEstacionesDataTableCloudResponse>()
+    var listaUbicaciones = ArrayList<Estacion>()
  //   var listaReportajesFormato = ArrayList<ObtieneReportajesFormatoDataTableCloudResponse>()
     var listaReportajesFormato = ArrayList<DetalleFormatoRegistro>()
+    var listaReportajes = ArrayList<Reportaje>()
     var idUbicacion = ""
     var loading: TransparentProgressDialog? = null
     var className = "ListaPrevuelosRealizadosActivity"
@@ -80,67 +84,17 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     }
 
 
-    fun listaReportajes(ctx:Context,idTarea:String) {
-
-        var sessionUserManager = SessionUserManager(context = ctx)
-        //  val idDevice = Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID)
-        //  var usuario = sessionUserManager.getUser()!!
-        //   var pass = sessionUserManager.getPass()!!
-
-        var urlApi = "http://38.199.4.100:81/api/FormatoRegistro/GetFormatoAnotaciones"
-        val payload = "{'cadena': '"+idTarea+"'}"
-
-        val okHttpClient = OkHttpClient()
-        val requestBody = payload.toRequestBody()
-
-        val request = Request.Builder()
-            .post(requestBody)
-            .url(urlApi)
-            .header("Content-Type", "application/json")
-            .build()
-
-        okHttpClient.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("ERROR LOGIN TOKEN",e.toString())
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                var responseData = response.body!!.string()
-                try {
-                    var json = JSONObject(responseData)
-                    Log.i("JSON RESPONSE: ", json.toString())
-                    val responseObject = json.getJSONObject("data")
-                    val contArray = responseObject.getJSONObject("obj")
-                    val arrayReportajes = contArray.getJSONArray("table")
-
-                    for(i in 0 until arrayReportajes.length())
-                    {
-                        val itemReportaje = arrayReportajes.getJSONObject(i)
-
-                        val codigoRegistroFormato = itemReportaje.getJSONObject("codigoRegistroFormato")
-                        val codigoTarea = itemReportaje.getJSONObject("codigoTarea")
-                        val nombreTarea = itemReportaje.getJSONObject("nombreTarea")
-
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }
-        })
-
-
-    }
-
-
 
     fun initUI() {
         loading = TransparentProgressDialog(this)
         binding.tvTituloFormato.setText(getNombreFormato(baseContext))
         binding.tvTituloFormatoeditar!!.setText(getNombreFormato(baseContext))
-        binding.nombreAeronave.text = getNombreAeronave(baseContext)
+        binding.nombreAeronave.text = getNombreModeloAeronave(baseContext)
 
         var codFormato = getFormato(baseContext)
-        aeronavesViewModel.getEstacionesListCloud()
+        //  aeronavesViewModel.getEstacionesListCloud()
+        formatosViewModel.getReportajesListDB()
+        aeronavesViewModel.getEstacionesListDB()
         formatosViewModel.getFormatosRegistroListDB()
       //  formatosViewModel.obtieneFormatosRealizados(codFormato!!, "S")
     }
@@ -179,6 +133,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             }
         })
 
+
         formatosViewModel.formatosState.observe(this, Observer {
             if (it.toString().contains(Constants.ERROR.SUCCESS)) {
             } else {
@@ -190,6 +145,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
                 }
             }
         })
+
 
         formatosViewModel.responseObtieneFormatosRealizados.observe(this, Observer {
             if (it != null) {
@@ -206,7 +162,20 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         formatosViewModel.responseGetFormatosRegistroListDB.observe(this, Observer {
             if (it != null) {
 
-                listaFormatosRealizados = ArrayList(it)
+                listaFormatosRealizados = arrayListOf()
+                var codFormato = getFormato(baseContext)
+
+                var listaFormatosRealizadosWithoutFilter : ArrayList<FormatoRegistro> = ArrayList(it)
+
+                for(item in listaFormatosRealizadosWithoutFilter)
+                {
+                    if(item.codigoFormato.equals(codFormato))
+                    {
+                        listaFormatosRealizados.add(item)
+                    }
+                }
+
+              //  listaFormatosRealizados = ArrayList(it)
                 setRecyclerViewFormatosRealizados(listaFormatosRealizados!!)
             } else {
                 Log.e(className, Constants.ERROR.ERROR)
@@ -237,6 +206,17 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
                 listaReportajesFormato = ArrayList(it)
 
+                for(itemReportaje in listaReportajes)
+                {
+                    for(itemRepoFormato in listaReportajesFormato)
+                    {
+                        if(itemReportaje.id_cloud.equals(itemRepoFormato.codigoReportaje))
+                        {
+                            itemRepoFormato.nombreReportaje = itemReportaje.nombreReportaje
+                        }
+                    }
+                }
+
                 for(reportajeItem in listaReportajesFormato)
                 {
                     newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
@@ -252,7 +232,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         aeronavesViewModel.responseGetEstacionesListCloud.observe(this, Observer {
             if (it != null) {
 
-                listaUbicaciones = ArrayList(it!!.data!!.table)
+             //   listaUbicaciones = ArrayList(it!!.data!!.table)
 
             } else {
                 Log.e(className, Constants.ERROR.ERROR)
@@ -260,6 +240,29 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             }
         })
 
+
+        aeronavesViewModel.responseGetEstacionListDB.observe(this, Observer {
+            if (it != null) {
+
+                listaUbicaciones = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        formatosViewModel.responseGetReportajeListDB.observe(this, Observer {
+            if (it != null) {
+
+                listaReportajes = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
 
     }
 
@@ -314,7 +317,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             binding.etRTV.setText(formatoRegistro.numeroRTV)
             setSpinnerUbicacion(formatoRegistro.codigoEstacion)
 
-            binding.tvTituloAeronave.text = getNombreAeronave(baseContext) + "  /  "+formatoRegistro.nombreAeronave
+            binding.tvTituloAeronave.text = getNombreModeloAeronave(baseContext) + "  /  "+formatoRegistro.nombreAeronave
 
 
             //getDetalleFormateRegistro By idFormatoRegistro
@@ -364,10 +367,10 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     }
 
 
-    fun getNombreAeronave(context: Context): String? {
+    fun getNombreModeloAeronave(context: Context): String? {
         val sharedPreferences =
             context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
-        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, "")
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_MODELO_AERONAVE, "")
         return text
     }
 
@@ -395,7 +398,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         spinnerArrayImages.add(R.drawable.empty)
         for(item in listaUbicaciones!!)
         {
-            spinnerArray.add(item.nombre)
+            spinnerArray.add(item.nombre!!)
             spinnerArrayImages.add(R.drawable.ic_location)
         }
 
@@ -419,7 +422,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
                 if (position == 0) {
                     idUbicacion = ""
                 } else {
-                    idUbicacion = listaUbicaciones!![position-1].id
+                    idUbicacion = listaUbicaciones!![position-1].id_cloud!!
 
                 }
             }
@@ -430,7 +433,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         var conteo = 0
         for(item in listaUbicaciones)
         {
-            if(item.id.equals(codEstacion))
+            if(item.id_cloud.equals(codEstacion))
             {
                 binding.spiUbicacion.setSelection(conteo+1)
             }
@@ -447,20 +450,30 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     {
 
         val tituloTarea = TextView(applicationContext)
-        tituloTarea.setText(nombreTarea)
+        tituloTarea.setText("\n"+nombreTarea)
+
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        if (tabletSize) {
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+       //     tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
+        } else {
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+        //    tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+        }
 
         val cb = CheckBox(applicationContext)
         cb.setTextColor( resources.getColor(R.color.texto_simple_pantalla_general))
 
 
-        val tabletSize = resources.getBoolean(R.bool.isTablet)
-        if (tabletSize) {
-            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f);
+        val tabletSizee = resources.getBoolean(R.bool.isTablet)
+        if (tabletSizee) {
+            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
         } else {
-            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+            cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
         }
 
         CompoundButtonCompat.setButtonTintList(cb, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
+       // CompoundButtonCompat.setButtonTintList(tituloTarea, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
 
         if(indicadorBloqueo.equals("0"))
         {

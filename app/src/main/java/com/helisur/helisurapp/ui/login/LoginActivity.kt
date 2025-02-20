@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.helisur.helisurapp.databinding.ActivityLoginBinding
+import com.helisur.helisurapp.domain.model.Empleado
 import com.helisur.helisurapp.domain.util.BaseActivity
 import com.helisur.helisurapp.domain.util.ConnectivityRepository
 import com.helisur.helisurapp.domain.util.Constants
@@ -25,11 +26,12 @@ class LoginActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
-    private val aeronaveViewModel: AeronavesViewModel by viewModels()
     var passView: Boolean = false
     var loading: TransparentProgressDialog? = null
     var className = "LoginActivity"
     var online:Boolean?=null
+
+    var empeladosList:ArrayList<Empleado>?=null
 
     private var internetViewModel: InternetViewModel?=null
 
@@ -49,6 +51,7 @@ class LoginActivity : BaseActivity() {
         binding.etPass.setText("helisur2024.")
         loading = TransparentProgressDialog(this)
         internetViewModel = InternetViewModel(ConnectivityRepository(baseContext))
+        loginViewModel.getEmpleadosListDB()
 
     }
 
@@ -56,9 +59,85 @@ class LoginActivity : BaseActivity() {
 
         binding.btnlogin.setOnClickListener { view ->
             //     if(validations())
-            loginViewModel.login(
-                binding.etEmail.text.toString().trim(), binding.etPass.text.toString().trim()
-            )
+            var usuario = binding.etEmail.text.toString().trim()
+            var pass = binding.etPass.text.toString().trim()
+
+            if(isOnline())
+            {
+
+                if(usuario.equals("analista_app") && pass.equals("helisur2024."))
+                {
+                    loginViewModel.login(
+                        usuario, pass
+                    )
+                }
+                else
+                {
+                    var userExist = false
+
+                    for(empleado in empeladosList!!)
+                    {
+                        var empleadoWithoutDomain = empleado.email!!.replace("@helisur.com.pe","")
+                        if(usuario.equals(empleadoWithoutDomain)
+                            && pass.equals(empleado.numeroDocumento))
+                        {
+                            userExist = true
+                            saveDatosUser(
+                                empleado.codigoUsuario!!,
+                                empleado.nombreCompleto!!,
+                                empleado.apellidoPaterno!!,
+                                empleado.apellidoMaterno!!,
+                                empleado.cargo!!
+                            )
+                            next(ModulesActivity::class.java,null)
+
+                        }
+                    }
+
+                    if(!userExist)
+                    {
+                        showErrorDialog("Usuario o contraseña incorrectos")
+                    }
+                }
+            }
+            else
+            {
+
+                if(empeladosList!!.size==0)
+                {
+                    //error
+                }
+                else
+                {
+                    var userExist = false
+
+                    for(empleado in empeladosList!!)
+                    {
+                        var empleadoWithoutDomain = empleado.email!!.replace("@helisur.com.pe","")
+                        if(usuario.equals(empleadoWithoutDomain)
+                            && pass.equals(empleado.numeroDocumento))
+                        {
+                            userExist = true
+                            saveDatosUser(
+                                empleado.codigoUsuario!!,
+                                empleado.nombreCompleto!!,
+                                empleado.apellidoPaterno!!,
+                                empleado.apellidoMaterno!!,
+                                empleado.cargo!!
+                            )
+                            next(ModulesActivity::class.java,null)
+
+                        }
+                    }
+                    if(!userExist)
+                    {
+                        showErrorDialog("Usuario o contraseña incorrectos")
+                    }
+                }
+
+            }
+
+
         }
 
         binding.ivPass.setOnClickListener { view ->
@@ -141,6 +220,15 @@ class LoginActivity : BaseActivity() {
                 showErrorDialog(e.toString())
             }
 
+        })
+
+
+        loginViewModel.responseGetEmpleadoListDB.observe(this, Observer {
+            if (it != null) {
+                empeladosList = ArrayList(it)
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+            }
         })
 
 

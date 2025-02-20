@@ -97,6 +97,8 @@ class PreVueloActivity  : BaseActivity() {
                 // ... do something with the bitmap ...
             }
         }
+
+
     }
 
     private fun loadBitmapFromView(view: View): Bitmap? {

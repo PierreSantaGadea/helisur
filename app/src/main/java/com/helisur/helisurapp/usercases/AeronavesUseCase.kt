@@ -162,5 +162,16 @@ class AeronavesUseCase @Inject constructor(private val repository: AeronavesRepo
     }
 
 
+    suspend fun getCountDetallessByAeronave(idAeronave: String): Int {
+        try {
+            val respuesta = repository.getCountDetallessByAeronave(idAeronave)
+            return respuesta
+        } catch (e: Exception) {
+            //val response = SimpleResponse(false, e.toString())
+            return 0
+        }
+    }
+
+
 
 }

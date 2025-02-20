@@ -29,19 +29,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.helisur.helisurapp.R
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentResponsableBinding
 import com.helisur.helisurapp.domain.model.Anotacion
+import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.Empleado
+import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
+import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.TareasFragment.Companion.sistemasList
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.GregorianCalendar
+import java.util.UUID
+import kotlin.math.log
 
 
 @AndroidEntryPoint
@@ -51,11 +60,14 @@ class PreVueloResponsableFragment : Fragment() {
     private lateinit var binding: FragmentResponsableBinding
     var loading: TransparentProgressDialog? = null
     private val loginViewModel: LoginViewModel by viewModels()
+    private val formatosViewModel: FormatosViewModel by viewModels()
     var dialogg:Dialog? = null
     var tareasObservados: ArrayList<GuardaTareaCloudParameter>? = null
     var recyclerview:RecyclerView?=null
 
-    var empleadosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
+  //  var empleadosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
+    var empleadosList: ArrayList<Empleado>? = null
+    var empleadosListAll: ArrayList<Empleado>? = null
 
     var idResponsable = ""
     var licenciaResponsable = ""
@@ -78,7 +90,8 @@ class PreVueloResponsableFragment : Fragment() {
         loading = TransparentProgressDialog(requireContext())
 //        binding.signaturePad!!.autofillId!!
 
-        loginViewModel.obtieneEmpleados("00091")
+        loginViewModel.getEmpleadosListDB()
+    //    loginViewModel.obtieneEmpleados("00091")
 
         recyclerview = binding.rvAnotaciones
         recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
@@ -139,12 +152,86 @@ class PreVueloResponsableFragment : Fragment() {
         loginViewModel.responseObtieneEmpleados.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-                    empleadosList = ArrayList(it)
+               //     empleadosList = ArrayList(it)
                     //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerEmpleados()
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
                 }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        loginViewModel.responseGetEmpleadoListDB.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+
+                    empleadosList = arrayListOf()
+                    var empleadosListaTotal: ArrayList<Empleado>? = ArrayList(it)
+                    empleadosListAll=ArrayList(it)
+
+                    for(item in empleadosListaTotal!!)
+                    {
+                        if(item.codigoArea.equals("00091"))
+                        {
+                            empleadosList!!.add(item)
+                        }
+
+                    }
+                    setSpinnerEmpleados()
+                } else {
+                    Log.e(className, Constants.ERROR.ERROR)
+                }
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+
+        formatosViewModel.responsInsertFormatoRegistroDB.observe(viewLifecycleOwner, Observer {
+            try {
+
+                if(isOnline())
+                {
+                    formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
+                }
+                else
+                {
+                    //grabacion correcta
+                    requireActivity().finish()
+
+                    val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                    requireActivity().startActivity(intent)
+                }
+
+
+
+
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+
+        formatosViewModel.responseGrabaFormato.observe(viewLifecycleOwner, Observer {
+            try {
+
+                //grabacion correcta
+                requireActivity().finish()
+
+                val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                requireActivity().startActivity(intent)
+
+
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
                 e.printStackTrace();
@@ -167,7 +254,7 @@ class PreVueloResponsableFragment : Fragment() {
         spinnerArrayImages.add(R.drawable.empty)
         for(item in empleadosList!!)
         {
-            spinnerArray.add(item.nombreCompleto)
+            spinnerArray.add(item.nombreCompleto!!)
             spinnerArrayImages.add(R.drawable.ic_user)
         }
         val adapter = SpinenrItemEmpleado(requireContext(),0,
@@ -188,8 +275,8 @@ class PreVueloResponsableFragment : Fragment() {
                     idResponsable = ""
                     binding.etLicencia!!.setText("")
                 } else {
-                    idResponsable  =  empleadosList!![position-1].codigoEmpleado
-                    licenciaResponsable = empleadosList!![position-1].licencia
+                    idResponsable  =  empleadosList!![position-1].id_cloud!!
+                    licenciaResponsable = empleadosList!![position-1].licencia!!
                     TabsPreVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
                     TabsPreVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
                     binding.etLicencia!!.setText(licenciaResponsable)
@@ -198,6 +285,17 @@ class PreVueloResponsableFragment : Fragment() {
         }
     }
 
+    fun isOnline(): Boolean {
+        try {
+            val p1 = Runtime.getRuntime().exec("ping -c 1 www.google.com")
+            val returnVal = p1.waitFor()
+            val reachable = (returnVal == 0)
+            return reachable
+        } catch (e: Exception) {
+            //  e.printStackTrace();
+        }
+        return false
+    }
 
 
     fun sendToStorage()
@@ -290,10 +388,38 @@ class PreVueloResponsableFragment : Fragment() {
 
         binding.btnCerrarMomentaneamente!!.setOnClickListener {
 
-            requireActivity().finish()
 
-            val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
-            requireActivity().startActivity(intent)
+            var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
+            var nombreAeronave:String = getNombreAeronave(requireContext())!!
+            val uniqueID: String = UUID.randomUUID().toString()
+
+            var fechaHoy: String = ""
+            val gc: GregorianCalendar = GregorianCalendar()
+            val pattern = "yyyy-MM-dd HH:mm:ss"
+            val simpleDateFormat = SimpleDateFormat(pattern)
+            simpleDateFormat.calendar = gc
+            fechaHoy = simpleDateFormat.format(gc.time)
+
+            var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
+                parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
+                parameter.solicitaEncMotores,parameter.idEmpleadoResponsable,parameter.urlFirmaResponsable,parameter.idEmpleadoPiloto,
+                parameter.urlFirmaPiloto,parameter.idEmpleadoCoPiloto,parameter.urlFirmaCoPiloto,parameter.fechaHoraInicioRegistro,
+                parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,fechaHoy,"")
+
+            formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
+
+            var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
+            var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
+            for(item in listaDetalle)
+            {
+                var detalle: DetalleFormatoRegistro = DetalleFormatoRegistro("",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
+                    "",item.indicadorSN,"",fechaHoy,"")
+
+                listaDetalleDB.add(detalle)
+            }
+
+            formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
+
         }
 
 
@@ -318,6 +444,11 @@ class PreVueloResponsableFragment : Fragment() {
 
     }
 
+    fun getNombreAeronave(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_AERONAVE, "")
+        return text
+    }
 
     fun showErrorDialog(message: String?) {
         val bundle = Bundle()
@@ -329,6 +460,16 @@ class PreVueloResponsableFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+/*
+        try {
+            var bise= ""
+        }
+        catch (e:Exception)
+        {
+            var bise= ""
+        }
+
+ */
 
         // Example: If you're creating a Bitmap from 'myView'
         binding.signaturePad!!.post {
@@ -338,6 +479,8 @@ class PreVueloResponsableFragment : Fragment() {
                 // ... do something with the bitmap ...
             }
         }
+
+
     }
 
     private fun loadBitmapFromView(view: View): Bitmap? {
@@ -495,14 +638,35 @@ class PreVueloResponsableFragment : Fragment() {
         val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
         yesBtn.setOnClickListener {
 
-       //     var user = etUsuario.text
-       //     var pass = etPass.text
-            var user = "analista_app"
-            var pass = "helisur2024."
+            var user = etUsuario.text.toString().trim()
+            var pass = etPass.text.toString().trim()
+            //   var user = "analista_app"
+         //     var pass = "helisur2024."
 
-            loginViewModel.login(
-                user.toString().trim(), pass.toString().trim()
-            )
+
+            var userExist = false
+
+            for(empleado in empleadosListAll!!)
+            {
+                var empleadoWithoutDomain = empleado.email!!.replace("@helisur.com.pe","")
+                if(user.contains(empleado.email!!))
+                {
+                    if(pass.equals(empleado.numeroDocumento))
+                    {
+                        userExist = true
+                    }
+                }
+            }
+            if(userExist)
+            {
+                dialog.dismiss()
+            }
+            else
+            {
+                showErrorDialog("Usuario o contraseña incorrectos")
+            }
+
+
         }
 
         val noBtn = dialog.findViewById(R.id.btnNo) as RelativeLayout

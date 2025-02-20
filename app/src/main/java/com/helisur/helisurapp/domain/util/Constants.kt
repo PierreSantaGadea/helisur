@@ -83,8 +83,8 @@ class Constants {
         const val ID_AERONAVE: String = "ID_AERONAVE"
         const val NOMBRE_AERONAVE: String = "NOMBRE_AERONAVE"
 
-      //  const val ID_MODELO_AERONAVE: String = "ID_MODELO_AERONAVE"
-     //   const val NOMBRE_MODELO_AERONAVE: String = "NOMBRE_MODELO_AERONAVE"
+        const val ID_MODELO_AERONAVE: String = "ID_MODELO_AERONAVE"
+        const val NOMBRE_MODELO_AERONAVE: String = "NOMBRE_MODELO_AERONAVE"
 
         const val RTV: String = "RTV"
 

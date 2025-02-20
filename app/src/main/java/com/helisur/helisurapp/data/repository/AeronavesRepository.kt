@@ -351,4 +351,21 @@ class AeronavesRepository @Inject constructor(
         }
     }
 
+
+
+    // formato registro cant
+
+    suspend fun getCountDetallessByAeronave(idAeronave: String):Int {
+        try {
+            return withContext(Dispatchers.IO) {
+                aeronaveslocalData.getCountDetallessByAeronave(idAeronave)
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                 0
+            }
+        }
+    }
+
 }

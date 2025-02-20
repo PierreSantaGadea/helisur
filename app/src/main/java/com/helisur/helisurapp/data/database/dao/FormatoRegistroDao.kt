@@ -16,7 +16,7 @@ import com.helisur.helisurapp.domain.model.ModeloAeronave
 @Dao
 interface FormatoRegistroDao {
 
-    @Query("SELECT * FROM FormatoRegistro ORDER BY id DESC")
+    @Query("SELECT * FROM FormatoRegistro ORDER BY fechaRegistro ASC")
     fun getAll(): List<FormatoRegistroEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

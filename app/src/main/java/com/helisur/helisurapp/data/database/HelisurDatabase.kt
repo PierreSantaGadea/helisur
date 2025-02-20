@@ -37,7 +37,7 @@ import com.helisur.helisurapp.data.database.entities.response.SistemaEntity
     EmpleadoEntity::class,
     FormatoRegistroEntity::class,
     DetalleFormatoRegistroEntity::class],
-    version = 1)
+    version = 2)
 
 abstract class HelisurDatabase : RoomDatabase()  {
 

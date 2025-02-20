@@ -15,6 +15,7 @@ import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.FormatoRegistro
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.ConnectivityRepository
@@ -44,6 +45,7 @@ class FormatosViewModel @Inject constructor(
     val responseGetSistemaListDB = MutableLiveData<List<Sistema>?>()
     val responseGetSistemaByFormatoDB = MutableLiveData<List<Sistema>?>()
     val responseGetTareaListDB = MutableLiveData<List<Tarea>?>()
+    val responseGetReportajeListDB = MutableLiveData<List<Reportaje>?>()
 
     val responseGetTareaBySistemaListDB = MutableLiveData<List<Tarea>?>()
 
@@ -325,6 +327,21 @@ class FormatosViewModel @Inject constructor(
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.SUCCESS)
                 responseGetTareaListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getReportajesListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getReportajesListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetReportajeListDB.postValue(result)
             } else {
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))

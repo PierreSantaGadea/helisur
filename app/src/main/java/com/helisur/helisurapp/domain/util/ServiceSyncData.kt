@@ -98,7 +98,7 @@ class ServiceSyncData : Service() {
 
         syncJob?.cancel()
         syncJob = coroutineScope.launch {
-            syncModeloAeronave()
+         //   syncModeloAeronave()
         }
 
         /*
