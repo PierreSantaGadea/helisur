@@ -205,6 +205,16 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
         }
     }
 
+    suspend fun getFormatosRegistroIncompletedListDB(): List<FormatoRegistro>? {
+        try {
+            val respuesta = repository.getFormatosRegistroIncompletedListDB()
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
 
     suspend fun insertDetalleFormatoRegistroDB(detalles: List<DetalleFormatoRegistro>): Boolean? {
         try {
@@ -231,6 +241,17 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
         try {
             val respuesta = repository.getDetalleFormatoRegistroByFormatoRegistroDB(idFormatoRegistroDb)
             return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+    suspend fun updateCompleteFormatoRegistro(idFormatoRegistroDB: String): Boolean? {
+        try {
+            val respuesta = repository.updateCompleteFormatoRegistro(idFormatoRegistroDB)
+            return true
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
             return null

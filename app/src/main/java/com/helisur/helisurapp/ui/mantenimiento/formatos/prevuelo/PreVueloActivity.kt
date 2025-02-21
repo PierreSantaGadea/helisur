@@ -86,7 +86,7 @@ class PreVueloActivity  : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
+/*
         // Example: If you're creating a Bitmap from a View called 'myView'
         val myView: View = findViewById(R.id.signaturePad) // Replace with your actual View ID
 
@@ -97,6 +97,8 @@ class PreVueloActivity  : BaseActivity() {
                 // ... do something with the bitmap ...
             }
         }
+
+ */
 
 
     }

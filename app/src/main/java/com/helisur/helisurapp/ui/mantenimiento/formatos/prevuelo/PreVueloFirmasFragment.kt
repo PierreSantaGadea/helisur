@@ -170,6 +170,17 @@ class PreVueloFirmasFragment : Fragment() {
                 var nombreAeronave:String = getNombreAeronave(requireContext())!!
                 val uniqueID: String = UUID.randomUUID().toString()
 
+                var completado:Boolean = false
+
+                if(parameter.listaTareas!=null)
+                {
+                    completado = false
+                }
+                else
+                {
+                    completado = true
+                }
+
                 var fechaHoy: String = ""
                 val gc: GregorianCalendar = GregorianCalendar()
                 val pattern = "yyyy-MM-dd HH:mm:ss"
@@ -181,21 +192,27 @@ class PreVueloFirmasFragment : Fragment() {
                     parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
                     parameter.solicitaEncMotores,parameter.idEmpleadoResponsable,parameter.urlFirmaResponsable,parameter.idEmpleadoPiloto,
                     parameter.urlFirmaPiloto,parameter.idEmpleadoCoPiloto,parameter.urlFirmaCoPiloto,parameter.fechaHoraInicioRegistro,
-                    parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,fechaHoy,"")
+                    parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,fechaHoy,"",completado)
 
                 formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
 
-                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
-                var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
-                for(item in listaDetalle)
+                if(parameter.listaTareas!=null)
                 {
-                    var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro("",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
-                        "",item.indicadorSN,"",fechaHoy,"")
+                    var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
+                    var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
+                    for(item in listaDetalle)
+                    {
+                        var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro("",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
+                            "",item.indicadorSN,"",fechaHoy,"")
 
-                    listaDetalleDB.add(detalle)
+                        listaDetalleDB.add(detalle)
+                    }
+
+                    formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
                 }
 
-                formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
+
+
 
             }
 
@@ -495,7 +512,7 @@ class PreVueloFirmasFragment : Fragment() {
 
         }
     }
-
+/*
     override fun onDestroyView() {
         super.onDestroyView()
 /*
@@ -509,6 +526,7 @@ class PreVueloFirmasFragment : Fragment() {
 
  */
 
+        /*
         // Example: If you're creating a Bitmap from 'myView'
         binding.signaturePadPiloto!!.post {
             // This code will run after the View has been measured and laid out
@@ -526,10 +544,14 @@ class PreVueloFirmasFragment : Fragment() {
             }
         }
 
+         */
+
 
 
     }
 
+
+ */
     private fun loadBitmapFromView(view: View): Bitmap? {
         // Check if the view is valid and has dimensions
         if (view.width <= 0 || view.height <= 0) {

@@ -39,6 +39,7 @@ class FormatoRegistroEntity (
     @ColumnInfo(name = "sync") val sync: Boolean?,
     @ColumnInfo(name = "fechaRegistro") val fechaRegistro: String?,
     @ColumnInfo(name = "fechaModificacion") val fechaModificacion: String?,
+    @ColumnInfo(name = "completado") val completado: Boolean?,
 
     )
 
@@ -48,7 +49,7 @@ fun FormatoRegistro.toDB() = FormatoRegistroEntity(id_db = id_db, id_cloud = id_
     idEmpleadoResponsable = idEmpleadoResponsable, urlFirmaResponsable = urlFirmaResponsable, idEmpleadoPiloto = idEmpleadoPiloto,
     urlFirmaPiloto = urlFirmaPiloto, idEmpleadoCoPiloto = idEmpleadoCoPiloto, urlFirmaCoPiloto = urlFirmaCoPiloto,
     fechaHoraInicioRegistro = fechaHoraInicioRegistro, fechaHoraFinRegistro = fechaHoraFinRegistro, usuarioRegistro = usuarioRegistro,
-    sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
+    sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion, completado = completadado)
 
 
 /*

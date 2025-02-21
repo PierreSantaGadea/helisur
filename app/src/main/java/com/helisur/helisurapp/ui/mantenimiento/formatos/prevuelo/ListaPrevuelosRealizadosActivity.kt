@@ -70,6 +70,8 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     var loading: TransparentProgressDialog? = null
     var className = "ListaPrevuelosRealizadosActivity"
 
+    var ID_FORMATO_REGISTRO_A_EDITAR = ""
+
     private val formatosViewModel: FormatosViewModel by viewModels()
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
 
@@ -95,7 +97,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         //  aeronavesViewModel.getEstacionesListCloud()
         formatosViewModel.getReportajesListDB()
         aeronavesViewModel.getEstacionesListDB()
-        formatosViewModel.getFormatosRegistroListDB()
+        formatosViewModel.getFormatosRegistroIncompletedListDB()
       //  formatosViewModel.obtieneFormatosRealizados(codFormato!!, "S")
     }
 
@@ -184,6 +186,31 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         })
 
 
+        formatosViewModel.responseGetFormatosRegistroIncompletedListDB.observe(this, Observer {
+            if (it != null) {
+
+                listaFormatosRealizados = arrayListOf()
+                var codFormato = getFormato(baseContext)
+
+                var listaFormatosRealizadosWithoutFilter : ArrayList<FormatoRegistro> = ArrayList(it)
+
+                for(item in listaFormatosRealizadosWithoutFilter)
+                {
+                    if(item.codigoFormato.equals(codFormato))
+                    {
+                        listaFormatosRealizados.add(item)
+                    }
+                }
+
+                //  listaFormatosRealizados = ArrayList(it)
+                setRecyclerViewFormatosRealizados(listaFormatosRealizados!!)
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
         formatosViewModel.responseObtieneReportajesFormato.observe(this, Observer {
             if (it != null) {
 
@@ -264,6 +291,25 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             }
         })
 
+
+        formatosViewModel.responseUpdateCompleteFormatoRegistroDB.observe(this, Observer {
+            if (it != null) {
+
+                limpiarYEsconderEdicionFormatoRegistro()
+
+
+                listaFormatosRealizados = arrayListOf()
+                formatosViewModel.getFormatosRegistroIncompletedListDB()
+
+               //update lista  registro
+                //mostrar lista actualizada
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
     }
 
 
@@ -292,6 +338,14 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.intermountainturbine.com/"))
             startActivity(browserIntent)
+        }
+
+        binding.btnGuardarTodo!!.setOnClickListener {
+
+
+            formatosViewModel.updateCompleteFormatoRegistro(ID_FORMATO_REGISTRO_A_EDITAR)
+
+
         }
     }
 
@@ -324,6 +378,8 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             formatosViewModel.getDetalleFormatoRegistroByFormatoRegistroDB(formatoRegistro.id_db!!)
         //    formatosViewModel.obtieneReportajesFormato(formatoRegistro.id_cloud!!)
 
+            ID_FORMATO_REGISTRO_A_EDITAR = formatoRegistro.id_db!!
+
             binding.llEditarFormato.visibility = View.VISIBLE
             binding.listaFormatosPendientes.visibility = View.GONE
             binding.addNewPreVuelo.visibility = View.GONE
@@ -350,14 +406,8 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         yesBtn.setOnClickListener {
              dialog.dismiss();
 
-            binding.llEditarFormato.visibility = View.GONE
-            binding.listaFormatosPendientes.visibility = View.VISIBLE
-            binding.addNewPreVuelo.visibility = View.VISIBLE
+            limpiarYEsconderEdicionFormatoRegistro()
 
-            binding.llContenedorReportajes.removeAllViews()
-            listaReportajesFormato = arrayListOf()
-            binding.etRTV.setText("")
-          //  binding.spiUbicacion.adapter = null
         }
 
         val noBtn = dialog!!.findViewById<RelativeLayout>(R.id.btnNo)
@@ -365,6 +415,22 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
         dialog!!.show()
     }
+
+    fun limpiarYEsconderEdicionFormatoRegistro()
+    {
+        binding.llEditarFormato.visibility = View.GONE
+        binding.listaFormatosPendientes.visibility = View.VISIBLE
+        binding.addNewPreVuelo.visibility = View.VISIBLE
+
+        binding.llContenedorReportajes.removeAllViews()
+        listaReportajesFormato = arrayListOf()
+        binding.etRTV.setText("")
+
+        ID_FORMATO_REGISTRO_A_EDITAR = ""
+        //  binding.spiUbicacion.adapter = null
+    }
+
+
 
 
     fun getNombreModeloAeronave(context: Context): String? {

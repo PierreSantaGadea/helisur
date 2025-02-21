@@ -31,11 +31,12 @@ class FormatoRegistro(
     var usuarioRegistro : String,
     val fechaRegistro: String?,
     val fechaModificacion: String?,
+    val completadado: Boolean?
 ) {
     constructor() : this(
          "","","","","","","","",
         "","","","","","","",
-        "","","","","","",""
+        "","","","","","","",false
     )
 }
 
@@ -45,7 +46,7 @@ class FormatoRegistro(
 fun FormatoRegistroEntity.toDomain() = FormatoRegistro(
     id_db, id_cloud, codigoFormato,nombreAeronave, codigoPuestoTecnico, numeroRTV, codigoEstacion, existenDiscrepancias, numeroRTVDiscrepancias, accionesMantenimiento,
     solicitaEncMotores, idEmpleadoResponsable, urlFirmaResponsable, idEmpleadoPiloto, urlFirmaPiloto, idEmpleadoCoPiloto, urlFirmaCoPiloto, fechaHoraInicioRegistro,
-    fechaHoraFinRegistro, usuarioRegistro, fechaRegistro, fechaModificacion
+    fechaHoraFinRegistro, usuarioRegistro, fechaRegistro, fechaModificacion,completado
 )
 
 /*

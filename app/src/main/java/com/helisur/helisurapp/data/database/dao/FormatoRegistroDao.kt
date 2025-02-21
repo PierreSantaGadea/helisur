@@ -19,6 +19,9 @@ interface FormatoRegistroDao {
     @Query("SELECT * FROM FormatoRegistro ORDER BY fechaRegistro ASC")
     fun getAll(): List<FormatoRegistroEntity>
 
+    @Query("SELECT * FROM FormatoRegistro  WHERE completado = 0  ORDER BY fechaRegistro ASC ")
+    fun getAllIncompleted(): List<FormatoRegistroEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItem(formatoRegistro: FormatoRegistroEntity)
 
@@ -38,5 +41,8 @@ interface FormatoRegistroDao {
 
     @Query("UPDATE FormatoRegistro SET sync = :sync WHERE id_cloud = :idCloud")
     fun updateItemSync(idCloud: String, sync: Boolean): Int
+
+    @Query("UPDATE FormatoRegistro SET completado = :complete WHERE id_db = :idDB")
+    fun updateItemComplete(idDB: String, complete: Boolean): Int
 
 }

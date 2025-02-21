@@ -560,6 +560,19 @@ class FormatosRepository @Inject constructor(
         }
     }
 
+    suspend fun getFormatosRegistroIncompletedListDB(): List<FormatoRegistro> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<FormatoRegistroEntity> = formatoRegistroLocalData.getAllIncompleted()
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<FormatoRegistro> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
 
     suspend fun insertFormatoRegistroDB(formatoRegistro:FormatoRegistro) {
         try {
@@ -614,6 +627,21 @@ class FormatosRepository @Inject constructor(
                     modeloAeronaveEntityList.add(modeloAeronave.toDB())
                 }
                 detalleFormatoRegistroLocalData.insertList(modeloAeronaveEntityList)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    suspend fun updateCompleteFormatoRegistro(idFormatoRegistroDB:String) {
+        try {
+            return withContext(Dispatchers.IO) {
+                formatoRegistroLocalData.updateItemComplete(idFormatoRegistroDB,true)
                 var error: Boolean = true
             }
         } catch (e: Exception) {

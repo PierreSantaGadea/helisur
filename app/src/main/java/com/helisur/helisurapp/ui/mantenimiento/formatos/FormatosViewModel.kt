@@ -50,11 +50,14 @@ class FormatosViewModel @Inject constructor(
     val responseGetTareaBySistemaListDB = MutableLiveData<List<Tarea>?>()
 
     val responseGetFormatosRegistroListDB = MutableLiveData<List<FormatoRegistro>?>()
+    val responseGetFormatosRegistroIncompletedListDB = MutableLiveData<List<FormatoRegistro>?>()
     val responseGetDetalleFormatosRegistroListDB = MutableLiveData<List<DetalleFormatoRegistro>?>()
     val responsInsertFormatoRegistroDB = MutableLiveData<Boolean?>()
     val responsInsertDetalleFormatoRegistroDB = MutableLiveData<Boolean?>()
 
     val responseGetDetalleFormatosRegistroByFormatoRegistroListDB = MutableLiveData<List<DetalleFormatoRegistro>?>()
+
+    val responseUpdateCompleteFormatoRegistroDB = MutableLiveData<Boolean?>()
 
 
     fun obtieneFormatos() {
@@ -380,6 +383,21 @@ class FormatosViewModel @Inject constructor(
         }
     }
 
+    fun getFormatosRegistroIncompletedListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getFormatosRegistroIncompletedListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetFormatosRegistroIncompletedListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
     fun getDetalleFormatosRegistroListDB() {
         viewModelScope.launch {
             isLoading.postValue(true)
@@ -403,6 +421,22 @@ class FormatosViewModel @Inject constructor(
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.SUCCESS)
                 responseGetDetalleFormatosRegistroByFormatoRegistroListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun updateCompleteFormatoRegistro(idFormatoRegistroDb: String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.updateCompleteFormatoRegistro(idFormatoRegistroDb)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseUpdateCompleteFormatoRegistroDB.postValue(result)
             } else {
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))

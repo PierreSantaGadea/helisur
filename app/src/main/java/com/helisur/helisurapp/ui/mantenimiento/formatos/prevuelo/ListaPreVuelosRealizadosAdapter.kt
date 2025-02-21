@@ -42,7 +42,7 @@ class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<FormatoRegis
      //   holder.tvItemNombre.text = appItem.message
 
         holder.tvModeloAeronave.text = appItem.codigoEstacion
-        holder.tvAeronave.text = appItem.codigoPuestoTecnico
+        holder.tvAeronave.text = appItem.nombreAeronave
         holder.tvFecha.text = appItem.fechaHoraFinRegistro
 
     }
