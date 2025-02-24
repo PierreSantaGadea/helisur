@@ -316,8 +316,18 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     fun clicListener() {
 
         binding.addNewPreVuelo.setOnClickListener {
-            val intent = Intent(baseContext, PreVueloActivity::class.java)
-            startActivity(intent)
+            var format = getNombreFormato(baseContext)
+            if(format.equals("POST-VUELO"))
+            {
+                val intent = Intent(baseContext, PostVueloActivity::class.java)
+                startActivity(intent)
+            }
+            else
+            {
+                val intent = Intent(baseContext, PreVueloActivity::class.java)
+                startActivity(intent)
+            }
+
         }
 
         binding.llBack.setOnClickListener {

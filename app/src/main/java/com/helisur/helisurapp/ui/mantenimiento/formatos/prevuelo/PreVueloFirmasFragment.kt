@@ -55,6 +55,8 @@ class PreVueloFirmasFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val formatosViewModel: FormatosViewModel by viewModels()
 
+    var empleadosListAll: ArrayList<Empleado>? = null
+
     var piloto_copiloto = ""
 
     var dialogg:Dialog? = null
@@ -291,6 +293,7 @@ class PreVueloFirmasFragment : Fragment() {
                     copilotosList = arrayListOf()
                     pilotosList = arrayListOf()
                     var empleadosListaTotal: ArrayList<Empleado>? = ArrayList(it)
+                    empleadosListAll=ArrayList(it)
 
                     for(item in empleadosListaTotal!!)
                     {
@@ -605,14 +608,31 @@ class PreVueloFirmasFragment : Fragment() {
         val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
         yesBtn.setOnClickListener {
 
-         //   var user = etUsuario.text
-         //   var pass = etPass.text
-                 var user = "analista_app"
-                 var pass = "helisur2024."
+            var user = etUsuario.text.toString().trim()
+            var pass = etPass.text.toString().trim()
 
-            loginViewModel.login(
-                user.toString().trim(), pass.toString().trim()
-            )
+            var userExist = false
+
+            for(empleado in empleadosListAll!!)
+            {
+                var empleadoWithoutDomain = empleado.email!!.replace("@helisur.com.pe","")
+                if(empleado.email!!.contains(user))
+                {
+                    if(pass.equals(empleado.numeroDocumento))
+                    {
+                        userExist = true
+                    }
+                }
+            }
+            if(userExist)
+            {
+                dialog.dismiss()
+            }
+            else
+            {
+                showErrorDialog("Usuario o contraseña incorrectos")
+            }
+
         }
 
         val noBtn = dialog.findViewById(R.id.btnNo) as RelativeLayout

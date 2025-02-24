@@ -195,7 +195,7 @@
                         android:layout_height="180dp"
                         android:layout_margin="24dp"
                         android:background="@drawable/shape_signature_pad"
-                        app:penColor="@color/texto_firma_digital" />
+                     />
 
 
                     <LinearLayout
@@ -390,7 +390,7 @@
                         android:layout_height="180dp"
                         android:layout_margin="24dp"
                         android:background="@drawable/shape_signature_pad"
-                        app:penColor="@color/texto_firma_digital" />
+                      />
 
 
                     <LinearLayout

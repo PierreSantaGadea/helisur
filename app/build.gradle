@@ -80,6 +80,14 @@ dependencies {
     kapt "androidx.room:room-compiler:2.5.0"
 
     implementation 'androidx.core:core-ktx:1.0.0'
+
+
+
+  //  implementation 'com.kyanogen.signatureview:signature-view:1.2'
+
+  //  implementation 'se.warting.signature:signature-view:1.2' // legacy android views
+
+  //  implementation 'com.github.mrudultora:Colorpicker:1.2.0'
 }
 
 kapt {

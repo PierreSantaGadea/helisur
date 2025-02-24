@@ -47,7 +47,7 @@ import java.util.UUID
 
 
 @AndroidEntryPoint
-class PreVueloResponsableFragment : Fragment() {
+class PreVueloResponsablePostVueloFragment : Fragment() {
 
     var className = "PreVueloResponsableFragment"
     private lateinit var binding: FragmentResponsableBinding
@@ -202,7 +202,7 @@ class PreVueloResponsableFragment : Fragment() {
 
                 if(isOnline())
                 {
-                    formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
+                    formatosViewModel.grabaFormato(TabsPostVuelo.formatoParameter)
                 }
                 else
                 {
@@ -279,8 +279,8 @@ class PreVueloResponsableFragment : Fragment() {
                 } else {
                     idResponsable  =  empleadosList!![position-1].id_cloud!!
                     licenciaResponsable = empleadosList!![position-1].licencia!!
-                    TabsPreVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
-                    TabsPreVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
+                    TabsPostVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
+                    TabsPostVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
                     binding.etLicencia!!.setText(licenciaResponsable)
                 }
             }
@@ -358,11 +358,11 @@ class PreVueloResponsableFragment : Fragment() {
     {
 
         binding.tvAtras.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
         }
 
         binding.tvSiguiente.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
+            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
         }
 
 
@@ -391,7 +391,7 @@ class PreVueloResponsableFragment : Fragment() {
         binding.btnCerrarMomentaneamente!!.setOnClickListener {
 
 
-            var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
+            var parameter: GuardaFormatoCloudParameter = TabsPostVuelo.formatoParameter
             var nombreAeronave:String = getNombreAeronave(requireContext())!!
             val uniqueID: String = UUID.randomUUID().toString()
 
@@ -423,7 +423,7 @@ class PreVueloResponsableFragment : Fragment() {
 
             if(parameter.listaTareas!=null)
             {
-                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
+                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPostVuelo.formatoParameter.listaTareas)
                 var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
                 for(item in listaDetalle)
                 {
@@ -528,7 +528,7 @@ class PreVueloResponsableFragment : Fragment() {
 
             var listaAnotaciones:ArrayList<Anotacion> = arrayListOf()
 
-            for(itemSistema in TareasFragment.sistemasList!!)
+            for(itemSistema in TareasPostVueloFragment.sistemasList!!)
             {
                 if(itemSistema.tareas!=null)
                 {
@@ -566,7 +566,7 @@ class PreVueloResponsableFragment : Fragment() {
                 binding.tituloAnotaciones!!.visibility = View.VISIBLE
 
                 tareasObservados = arrayListOf()
-                var iduser = TabsPreVuelo.idUsuario
+                var iduser = TabsPostVuelo.idUsuario
                 var helicopteroAPTO = true
                 for(tareaObservada in listaAnotaciones)
                 {
@@ -609,7 +609,7 @@ class PreVueloResponsableFragment : Fragment() {
                 }
 
 
-                TabsPreVuelo.formatoParameter.listaTareas = tareasObservados
+                TabsPostVuelo.formatoParameter.listaTareas = tareasObservados
 
             }
             else

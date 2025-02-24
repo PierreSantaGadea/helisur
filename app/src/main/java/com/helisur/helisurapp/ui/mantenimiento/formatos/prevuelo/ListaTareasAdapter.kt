@@ -75,7 +75,7 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
 
      fun cargaReportajes(idTarea:String)
     {
-     var listaReportajes:ArrayList<Reportaje> = TareasFragment.getReportajesByTarea(idTarea)
+  //   var listaReportajes:ArrayList<Reportaje> = TareasFragment.getReportajesByTarea(idTarea)
 
         //cargar reportakes dinamicos
         var nose = ""
