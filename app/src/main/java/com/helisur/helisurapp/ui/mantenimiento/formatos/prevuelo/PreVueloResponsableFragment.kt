@@ -1,12 +1,11 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,11 +15,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -31,26 +28,22 @@ import com.google.firebase.storage.ktx.storage
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
-import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentResponsableBinding
 import com.helisur.helisurapp.domain.model.Anotacion
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Empleado
 import com.helisur.helisurapp.domain.model.FormatoRegistro
-import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.TareasFragment.Companion.sistemasList
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.GregorianCalendar
 import java.util.UUID
-import kotlin.math.log
 
 
 @AndroidEntryPoint
@@ -83,6 +76,10 @@ class PreVueloResponsableFragment : Fragment() {
         clicListener()
         observers()
         validatePOSTVUELO()
+        root!!.post {
+            binding.signaturePad!!.signatureBitmap.height = 20
+            binding.signaturePad!!.signatureBitmap.width = 20
+        }
         return root
     }
 
@@ -102,7 +99,12 @@ class PreVueloResponsableFragment : Fragment() {
         //   llenaLista()
         //   setRecyclerView(concursosList)
         //   setSpinnerPeriodo()
+
+    //    var bitt = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888)
+
+
     }
+
 
 
     fun observers()

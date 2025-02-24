@@ -89,13 +89,16 @@ class PreVueloFirmasFragment : Fragment() {
        // loginViewModel.obtieneEmpleados("00020")
         loginViewModel.getEmpleadosListDB()
 
-        firmapiloto = binding.signaturePadPiloto
+     //   firmapiloto = binding.signaturePadPiloto
 
-    //    val bm = BitmapFactory.decodeResource(requireActivity().resources, R.drawable.shape_button_login)
+       // var bitt = loadBitmapFromViewww(binding.btnBorrarFirmaPiloto!!)
+      //  binding.signaturePadPiloto!!.signatureBitmap = bitt
+      //  binding.signaturePadCopiloto!!.signatureBitmap = bitt
 
-    //    binding.signaturePadPiloto!!.signatureBitmap = bm
-    //    binding.signaturePadCopiloto!!.signatureBitmap = bm
+
     }
+
+
 
     private fun getBitmapFromString(text: String, fontSizeSP: Float, context: Context): Bitmap {
         val fontSizePX: Int = convertDiptoPix(context, fontSizeSP)

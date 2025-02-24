@@ -150,6 +150,34 @@ public class TabsPreVuelo extends Fragment {
     }
 
 
+    void espera()
+    {
+
+
+
+
+        Integer timeOut = 5;
+        Handler handler = new Handler();
+
+
+
+
+         Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                /* do what you need to do */
+                //Log.d(TAG,"starting nuclear in " + timeOut--);
+                /* and here comes the "trick" */
+                Intent intent = new Intent(getActivity(), ListaPrevuelosRealizadosActivity.class);
+                startActivity(intent);
+
+            }
+        };
+
+
+        handler.postDelayed(runnable, 4000);
+    }
+
     private void showDialog() {
         Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -170,6 +198,8 @@ public class TabsPreVuelo extends Fragment {
             public void onClick(View v) {
                // dialog.dismiss();
                 requireActivity().finish();
+             //   espera();
+             //   requireActivity().finish();
                 //dialog.dismiss();
 
        //         Intent intent = new Intent(getActivity(), ListaPrevuelosRealizadosActivity.class);
