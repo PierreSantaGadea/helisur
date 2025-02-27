@@ -7,6 +7,7 @@ class ObtieneReportajesDataTableCloudResponse (
     @SerializedName("codigoTarea") var codigoTarea: String,
     @SerializedName("nombreReportaje") var nombreReportaje: String,
     @SerializedName("bloqueoFormato") var bloqueoFormato: String,
+    @SerializedName("default") var defaultt: String,
     @SerializedName("fechaRegistro") var fechaRegistro: String,
     @SerializedName("fechaModificacion") var fechaModificacion: String
 )

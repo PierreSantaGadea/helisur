@@ -19,11 +19,6 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp">
 
-
-
-
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,16 +29,6 @@
                 android:textSize="20dp" />
 
 
-            <CheckBox
-                android:id="@+id/chxTripulacionEfectuoPrevuelo"
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="La tripulación efectuó el Pre-Vuelo de Operaciones de acuerdo a la lista de verificaci{on vigente"
-                android:fontFamily="@font/robotoregular"
-                android:textSize="15dp"
-                android:buttonTint="@color/titulo_pantalla_general"
-                android:textColor="@color/texto_simple_pantalla_general" />
 
 
             <LinearLayout
@@ -51,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <TextView
@@ -193,9 +178,36 @@
                         android:id="@+id/signaturePadCopiloto"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:layout_margin="24dp"
+                        android:layout_margin="10dp"
                         android:background="@drawable/shape_signature_pad"
                      />
+
+                    <LinearLayout
+                        android:id="@+id/llFirmaValidadaCopiloto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Firma validada"
+                            android:textColor="@color/green_labell"
+                            android:textSize="19sp"
+                            android:layout_marginBottom="0dp"
+                            android:gravity="center"
+                            android:fontFamily="@font/robotobold"/>
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_firma_valida"/>
+
+                    </LinearLayout>
 
 
                     <LinearLayout
@@ -203,7 +215,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnBorrarFirmaCopiloto"
@@ -388,9 +401,39 @@
                         android:id="@+id/signaturePadPiloto"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:layout_margin="24dp"
+                        android:layout_margin="10dp"
                         android:background="@drawable/shape_signature_pad"
-                      />
+                        />
+
+
+
+                    <LinearLayout
+                        android:id="@+id/llFirmaValidadaPiloto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Firma validada"
+                            android:textColor="@color/green_labell"
+                            android:textSize="19sp"
+                            android:layout_marginBottom="0dp"
+                            android:gravity="center"
+                            android:fontFamily="@font/robotobold"/>
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_firma_valida"/>
+
+                    </LinearLayout>
+
 
 
                     <LinearLayout
@@ -398,7 +441,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnBorrarFirmaPiloto"

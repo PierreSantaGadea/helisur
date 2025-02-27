@@ -1,11 +1,13 @@
 package com.helisur.helisurapp.data.cloud.formatos.apis
 
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneFormatosRealizadosCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesFormatoParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneSistemasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneTareasCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -225,6 +227,48 @@ class FormatosService @Inject constructor(private val api: FormatosApiClient) {
 
                 else -> { // Note the block
                     GrabaFormatoCloudResponse(
+                        Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_OTHER
+                    )
+                }
+            }
+        }
+    }
+
+
+    suspend fun actualizaFormato(
+        parameterBody: ActualizaReportajeFormatoCloudParameter
+    ): ActualizaReportajeFormatoCloudResponse {
+        return withContext(Dispatchers.IO) {
+            val response = api.actualizaFormato(parameterBody)
+            when (response.code()) {
+                Constants.RESPONSE_CODE._200 -> response.body()!!
+
+                Constants.RESPONSE_CODE._400 -> ActualizaReportajeFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_400
+                )
+
+                Constants.RESPONSE_CODE._401 -> ActualizaReportajeFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_401
+                )
+
+                Constants.RESPONSE_CODE._403 -> ActualizaReportajeFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_403
+                )
+
+                Constants.RESPONSE_CODE._404 -> ActualizaReportajeFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_404
+                )
+
+                Constants.RESPONSE_CODE._500 -> ActualizaReportajeFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_500
+                )
+
+                Constants.RESPONSE_CODE._503 -> ActualizaReportajeFormatoCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_503
+                )
+
+                else -> { // Note the block
+                    ActualizaReportajeFormatoCloudResponse(
                         Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_OTHER
                     )
                 }

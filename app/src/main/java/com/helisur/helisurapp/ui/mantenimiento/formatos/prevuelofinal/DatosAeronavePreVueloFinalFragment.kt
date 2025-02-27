@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal
 
 
 import android.content.Context
@@ -27,11 +27,13 @@ import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemAeronave
+import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemUbicacion
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class DatosAeronavePostVueloFragment : Fragment() {
+class DatosAeronavePreVueloFinalFragment : Fragment() {
 
     var className = "ConcursosAvancesFragment"
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
@@ -76,9 +78,9 @@ class DatosAeronavePostVueloFragment : Fragment() {
         setCheckBox()
         editTextEvent()
 
-        TabsPostVuelo.formatoParameter.existenDiscrepancias = "0"
-        TabsPostVuelo.formatoParameter.accionesMantenimiento = "0"
-        TabsPostVuelo.formatoParameter.solicitaEncMotores = "0"
+        TabsPreVueloFinal.formatoParameter.existenDiscrepancias = "0"
+        TabsPreVueloFinal.formatoParameter.accionesMantenimiento = "0"
+        TabsPreVueloFinal.formatoParameter.solicitaEncMotores = "0"
 
         formatoViewModel.getFormatosRegistroListDB()
         formatoViewModel.getDetalleFormatosRegistroListDB()
@@ -96,7 +98,7 @@ class DatosAeronavePostVueloFragment : Fragment() {
                 count: Int) {}
             override fun afterTextChanged(s: Editable) {
                 if (s.length >= 1) {
-                    TabsPostVuelo.formatoParameter.numeroRTV = s.toString()
+                    TabsPreVueloFinal.formatoParameter.numeroRTV = s.toString()
                 }
             }
         })
@@ -111,7 +113,7 @@ class DatosAeronavePostVueloFragment : Fragment() {
                 count: Int) {}
             override fun afterTextChanged(s: Editable) {
                 if (s.length >= 1) {
-                    TabsPostVuelo.formatoParameter.numeroRTVDiscrepancias = s.toString()
+                    TabsPreVueloFinal.formatoParameter.numeroRTVDiscrepancias = s.toString()
                 }
             }
         })
@@ -121,7 +123,12 @@ class DatosAeronavePostVueloFragment : Fragment() {
     fun clickListener()
     {
         binding.tvSiguiente.setOnClickListener {
-            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+
+            if(validationsNextScreen())
+            {
+                TabsPreVueloFinal.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+            }
+
         }
 
         binding.tvDocumentacion!!.setOnClickListener {
@@ -143,7 +150,7 @@ class DatosAeronavePostVueloFragment : Fragment() {
         }
         else
         {
-            if(binding.etRTV!!.text.equals(""))
+            if(binding.etRTV!!.text.toString().trim().equals(""))
             {
                 showErrorDialog("Ingrese RTV")
                 isOk = false
@@ -172,28 +179,28 @@ class DatosAeronavePostVueloFragment : Fragment() {
             if (isChecked) {
                 binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_text_box)
                 binding.etDiscrepancias!!.isEnabled = true
-                TabsPostVuelo.formatoParameter.existenDiscrepancias = "1"
+                TabsPreVueloFinal.formatoParameter.existenDiscrepancias = "1"
             } else {
                 binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
                 binding.etDiscrepancias!!.isEnabled = false
-                TabsPostVuelo.formatoParameter.existenDiscrepancias = "0"
+                TabsPreVueloFinal.formatoParameter.existenDiscrepancias = "0"
             }
         }
 
         binding.chbxAccionesMantenimiento!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                TabsPostVuelo.formatoParameter.accionesMantenimiento = "1"
+                TabsPreVueloFinal.formatoParameter.accionesMantenimiento = "1"
             } else {
-                TabsPostVuelo.formatoParameter.accionesMantenimiento = "0"
+                TabsPreVueloFinal.formatoParameter.accionesMantenimiento = "0"
             }
         }
 
 
         binding.chbxSolicitaEncendidoPrevio!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                TabsPostVuelo.formatoParameter.solicitaEncMotores = "1"
+                TabsPreVueloFinal.formatoParameter.solicitaEncMotores = "1"
             } else {
-                TabsPostVuelo.formatoParameter.solicitaEncMotores = "0"
+                TabsPreVueloFinal.formatoParameter.solicitaEncMotores = "0"
             }
         }
 
@@ -265,8 +272,11 @@ class DatosAeronavePostVueloFragment : Fragment() {
            }
 
      //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-        val adapter = SpinenrItemAeronave(requireContext(),0,
-            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+        val adapter =
+            SpinenrItemAeronave(
+                requireContext(), 0,
+                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
+            )
      //   adapter.setDropDownViewResource(R.layout.spinner_item_aeronave)
 
         spinnerTipo.adapter = adapter
@@ -280,10 +290,10 @@ class DatosAeronavePostVueloFragment : Fragment() {
             ) {
                 if (position == 0) {
                     idAeronave = ""
-                    TabsPostVuelo.formatoParameter.codigoPuestoTecnico =  ""
+                    TabsPreVueloFinal.formatoParameter.codigoPuestoTecnico =  ""
                 } else {
                     idAeronave = modelosAeronavesList!![position-1].codigoPuestoTecnico
-                    TabsPostVuelo.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoPuestoTecnico
+                    TabsPreVueloFinal.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoPuestoTecnico
                     saveAeronave(requireContext(),idAeronave,modelosAeronavesList!![position-1].nombre)
                //     aeronavesViewModel.getCountDetallessByAeronave(idAeronave)
                     if(getFormato(requireContext()).equals("00001"))
@@ -331,8 +341,11 @@ class DatosAeronavePostVueloFragment : Fragment() {
                spinnerArrayImages.add(R.drawable.ic_location)
            }
 
-        val adapter = SpinenrItemUbicacion(requireContext(),0,
-            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+        val adapter =
+            SpinenrItemUbicacion(
+                requireContext(), 0,
+                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
+            )
 
         //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
      //   adapter.setDropDownViewResource(R.layout.spinner_item)
@@ -347,10 +360,10 @@ class DatosAeronavePostVueloFragment : Fragment() {
             ) {
                 if (position == 0) {
                     idUbicacion = ""
-                    TabsPostVuelo.formatoParameter.codigoEstacion = ""
+                    TabsPreVueloFinal.formatoParameter.codigoEstacion = ""
                 } else {
                     idUbicacion = estacionesList!![position-1].id_cloud!!
-                    TabsPostVuelo.formatoParameter.codigoEstacion =  estacionesList!![position-1].id_cloud!!
+                    TabsPreVueloFinal.formatoParameter.codigoEstacion =  estacionesList!![position-1].id_cloud!!
                 }
             }
         }
@@ -526,7 +539,11 @@ class DatosAeronavePostVueloFragment : Fragment() {
             {
                 if(item.codigoFormato.equals("00002"))
                 {
-                    ultimoFormatoRegistroPostVuelo = item
+                    if(!item.completadado!!)
+                    {
+                        ultimoFormatoRegistroPostVuelo = item
+                    }
+
                 }
 
             }

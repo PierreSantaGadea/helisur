@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -28,7 +27,6 @@ import com.github.gcacace.signaturepad.views.SignaturePad
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
-import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentFirmasBinding
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Empleado
@@ -39,6 +37,7 @@ import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.GregorianCalendar
@@ -80,9 +79,10 @@ class PreVueloFirmasFragment : Fragment() {
         binding = FragmentFirmasBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initUI()
-        setCheckBox()
+     //   setCheckBox()
         clickListener()
          observers()
+        signatureEvents()
         return root
     }
 
@@ -138,16 +138,74 @@ class PreVueloFirmasFragment : Fragment() {
         df.show(requireFragmentManager(), "")
     }
 
+    var responsableFirmoPiloto = false
+    var responsableFirmoCoPiloto = false
+    fun signatureEvents()
+    {
+
+        binding.signaturePadPiloto!!.setOnSignedListener(object : SignaturePad.OnSignedListener {
+            override fun onStartSigning() {
+                //Event triggered when the pad is touched
+                responsableFirmoPiloto = true
+            }
+
+            override fun onSigned() {
+                //Event triggered when the pad is signed
+            }
+
+            override fun onClear() {
+                //Event triggered when the pad is cleared
+            }
+        })
+
+        binding.signaturePadCopiloto!!.setOnSignedListener(object : SignaturePad.OnSignedListener {
+            override fun onStartSigning() {
+                //Event triggered when the pad is touched
+                responsableFirmoCoPiloto = true
+            }
+
+            override fun onSigned() {
+                //Event triggered when the pad is signed
+            }
+
+            override fun onClear() {
+                //Event triggered when the pad is cleared
+            }
+        })
+    }
+
+
+
     fun clickListener() {
 
         binding.tvAtras.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ANOTACIONES)
+            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
         }
 
 
         binding.btnGuardarFirmaCopiloto!!.setOnClickListener{
-            piloto_copiloto = "COPILOTO"
-            showDialogLogin()
+
+
+
+            if(idCopiloto.equals(""))
+            {
+                showErrorDialog("Seleccione un copiloto")
+            }
+            else
+            {
+                if(responsableFirmoCoPiloto)
+                {
+                    piloto_copiloto = "COPILOTO"
+                    showDialogLogin()
+                }
+                else
+                {
+                    showErrorDialog("Firme por favor")
+                }
+            }
+
+
+
         }
 
 
@@ -157,8 +215,25 @@ class PreVueloFirmasFragment : Fragment() {
 
 
         binding.btnGuardarFirmaPiloto!!.setOnClickListener{
-            piloto_copiloto = "PILOTO"
-            showDialogLogin()
+
+
+            if(idPiloto.equals(""))
+            {
+                showErrorDialog("Seleccione un piloto")
+            }
+            else
+            {
+                if(responsableFirmoPiloto)
+                {
+                    piloto_copiloto = "PILOTO"
+                    showDialogLogin()
+                }
+                else
+                {
+                    showErrorDialog("Firme por favor")
+                }
+            }
+
 
         }
 
@@ -174,6 +249,7 @@ class PreVueloFirmasFragment : Fragment() {
                 var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
                 var nombreAeronave:String = getNombreAeronave(requireContext())!!
                 val uniqueID: String = UUID.randomUUID().toString()
+
 
                 var completado:Boolean = false
 
@@ -207,7 +283,8 @@ class PreVueloFirmasFragment : Fragment() {
                     var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
                     for(item in listaDetalle)
                     {
-                        var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro("",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
+                        val uniqueIDDetalle: String = UUID.randomUUID().toString()
+                        var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
                             "",item.indicadorSN,"",fechaHoy,"")
 
                         listaDetalleDB.add(detalle)
@@ -416,16 +493,7 @@ class PreVueloFirmasFragment : Fragment() {
         return false
     }
 
-    fun setCheckBox()
-    {
-        binding.chxTripulacionEfectuoPrevuelo!!.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                binding.llFormularioPilotoCopiloto!!.visibility = View.VISIBLE
-            } else {
-                binding.llFormularioPilotoCopiloto!!.visibility = View.GONE
-            }
-        }
-    }
+
 
 
 
@@ -442,8 +510,11 @@ class PreVueloFirmasFragment : Fragment() {
             spinnerArrayImages.add(R.drawable.ic_user)
         }
 
-        val adapter = SpinenrItemEmpleado(requireContext(),0,
-            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+        val adapter =
+            SpinenrItemEmpleado(
+                requireContext(), 0,
+                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
+            )
 
         //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
      //   adapter.setDropDownViewResource(R.layout.spinner_item)
@@ -464,6 +535,8 @@ class PreVueloFirmasFragment : Fragment() {
                     TabsPreVuelo.formatoParameter.idEmpleadoCoPiloto = idCopiloto
                     TabsPreVuelo.formatoParameter.urlFirmaCoPiloto = urlFirmaCopiloto
                     binding.etLicenciaCopiloto!!.setText(copilotosList!![position-1].licencia)
+
+
                 }
             }
         }
@@ -485,8 +558,11 @@ class PreVueloFirmasFragment : Fragment() {
 
      //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
       //  adapter.setDropDownViewResource(R.layout.spinner_item)
-        val adapter = SpinenrItemEmpleado(requireContext(),0,
-            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+        val adapter =
+            SpinenrItemEmpleado(
+                requireContext(), 0,
+                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
+            )
         spinnerTipo!!.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -505,6 +581,7 @@ class PreVueloFirmasFragment : Fragment() {
                     TabsPreVuelo.formatoParameter.urlFirmaPiloto = urlFirmaPiloto
 
                     binding.etLicenciaPiloto!!.setText(pilotosList!![position-1].licencia)
+
                 }
             }
         }
@@ -580,6 +657,7 @@ class PreVueloFirmasFragment : Fragment() {
             TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = ""
             TabsPreVuelo.formatoParameter.fechaHoraInicioRegistro = ""
             TabsPreVuelo.formatoParameter.usuarioRegistro = TabsPreVuelo.idUsuario
+
         } else {
         }
     }
@@ -620,7 +698,24 @@ class PreVueloFirmasFragment : Fragment() {
                 {
                     if(pass.equals(empleado.numeroDocumento))
                     {
-                        userExist = true
+                        if(piloto_copiloto.equals("PILOTO"))
+                        {
+                            if(empleado.id_cloud.equals(idPiloto))
+                            {
+                                userExist = true
+                                binding.signaturePadPiloto!!.isEnabled = false
+                                binding.llFirmaValidadaPiloto!!.visibility = View.VISIBLE
+                            }
+                        }
+                        else
+                        {
+                            if(empleado.id_cloud.equals(idCopiloto))
+                            {
+                                userExist = true
+                                binding.signaturePadCopiloto!!.isEnabled = false
+                                binding.llFirmaValidadaCopiloto!!.visibility = View.VISIBLE
+                            }
+                        }
                     }
                 }
             }
@@ -630,7 +725,17 @@ class PreVueloFirmasFragment : Fragment() {
             }
             else
             {
-                showErrorDialog("Usuario o contraseña incorrectos")
+                showErrorDialog("Usuario inválido")
+
+                if(piloto_copiloto.equals("PILOTO"))
+                {
+                    binding.llFirmaValidadaPiloto!!.visibility = View.GONE
+                }
+                else
+                {
+                    binding.llFirmaValidadaCopiloto!!.visibility = View.GONE
+                }
+
             }
 
         }
@@ -664,6 +769,8 @@ class PreVueloFirmasFragment : Fragment() {
 
             binding.signaturePadPiloto!!.isEnabled = true
             binding.signaturePadPiloto!!.clear()
+            binding.llFirmaValidadaPiloto!!.visibility = View.GONE
+            responsableFirmoPiloto = false
             dialog.dismiss()
 
         }
@@ -700,6 +807,8 @@ class PreVueloFirmasFragment : Fragment() {
 
             binding.signaturePadCopiloto!!.isEnabled = true
             binding.signaturePadCopiloto!!.clear()
+            binding.llFirmaValidadaCopiloto!!.visibility = View.GONE
+            responsableFirmoCoPiloto = false
             dialog.dismiss()
 
         }

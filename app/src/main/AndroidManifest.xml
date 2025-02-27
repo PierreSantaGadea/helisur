@@ -63,7 +63,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.mantenimiento.formatos.prevuelo.ListaPrevuelosRealizadosActivity"
+            android:name=".ui.mantenimiento.formatos.FormatosDiscrepanciasActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Design.NoActionBar"
@@ -77,7 +77,14 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.mantenimiento.formatos.prevuelo.PostVueloActivity"
+            android:name=".ui.mantenimiento.formatos.postvuelo.PostVueloActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.mantenimiento.formatos.prevuelofinal.PreVueloFinalActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Design.NoActionBar"

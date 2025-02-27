@@ -1,11 +1,13 @@
 package com.helisur.helisurapp.data.cloud.formatos.apis
 
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneFormatosRealizadosCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesFormatoParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneSistemasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneTareasCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -47,7 +49,7 @@ interface FormatosApiClient {
 
 
     @POST(Constants.URLS.ACTUALIZA_REPORTAJE_FORMATO)
-    suspend fun actualizaFormato(@Body parameterBody: ObtieneReportajesFormatoParameter): Response<ObtieneReportajesFormatoCloudResponse>
+    suspend fun actualizaFormato(@Body parameterBody: ActualizaReportajeFormatoCloudParameter): Response<ActualizaReportajeFormatoCloudResponse>
 
 
 }

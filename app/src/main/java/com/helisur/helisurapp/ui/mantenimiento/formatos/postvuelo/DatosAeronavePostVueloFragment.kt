@@ -1,12 +1,9 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo
 
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -15,35 +12,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.AdapterView
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.FragmentDatosAeronaveBinding
 import com.helisur.helisurapp.domain.model.Aeronave
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.FormatoRegistro
-import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.ListaAnotacionesPostVueloAdapter
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemAeronave
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemUbicacion
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class DatosAeronaveFragment : Fragment() {
+class DatosAeronavePostVueloFragment : Fragment() {
 
     var className = "ConcursosAvancesFragment"
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
@@ -58,21 +48,11 @@ class DatosAeronaveFragment : Fragment() {
     private var formatoRegistroList: ArrayList<FormatoRegistro>? = null
     private var detalleFormatoRegistroList: ArrayList<DetalleFormatoRegistro>? = null
 
-    private var listaAnotacionesPostVuelo: ArrayList<DetalleFormatoRegistro>? = null
-
-    var adapter : ListaAnotacionesPostVueloAdapter? = null
-
 
     private val formatoViewModel: FormatosViewModel by viewModels()
 
     var idAeronave:String = ""
     var idUbicacion:String = ""
-
-    var showDetalleCamapana = false
-    private var listaReportajes: ArrayList<Reportaje>? = null
-
-    var nombreAeronave = ""
-
 
 
     override fun onCreateView(
@@ -98,11 +78,10 @@ class DatosAeronaveFragment : Fragment() {
         setCheckBox()
         editTextEvent()
 
-        TabsPreVuelo.formatoParameter.existenDiscrepancias = "0"
-        TabsPreVuelo.formatoParameter.accionesMantenimiento = "0"
-        TabsPreVuelo.formatoParameter.solicitaEncMotores = "0"
+        TabsPostVuelo.formatoParameter.existenDiscrepancias = "0"
+        TabsPostVuelo.formatoParameter.accionesMantenimiento = "0"
+        TabsPostVuelo.formatoParameter.solicitaEncMotores = "0"
 
-        formatoViewModel.getReportajesListDB()
         formatoViewModel.getFormatosRegistroListDB()
         formatoViewModel.getDetalleFormatosRegistroListDB()
     }
@@ -119,7 +98,7 @@ class DatosAeronaveFragment : Fragment() {
                 count: Int) {}
             override fun afterTextChanged(s: Editable) {
                 if (s.length >= 1) {
-                    TabsPreVuelo.formatoParameter.numeroRTV = s.toString()
+                    TabsPostVuelo.formatoParameter.numeroRTV = s.toString()
                 }
             }
         })
@@ -134,139 +113,31 @@ class DatosAeronaveFragment : Fragment() {
                 count: Int) {}
             override fun afterTextChanged(s: Editable) {
                 if (s.length >= 1) {
-                    TabsPreVuelo.formatoParameter.numeroRTVDiscrepancias = s.toString()
+                    TabsPostVuelo.formatoParameter.numeroRTVDiscrepancias = s.toString()
                 }
             }
         })
 
     }
 
-    fun clickListener() {
+    fun clickListener()
+    {
         binding.tvSiguiente.setOnClickListener {
 
-            if(listaAnotacionesPostVuelo!=null)
+            if(validationsNextScreen())
             {
-                if(listaAnotacionesPostVuelo!!.size==0)
-                {
-                    if (validationsNextScreen()) {
-                        TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
-                    }
-                }
-                else
-                {
-                    showDialogCierreDiscrepancias("Para el cierre de discrepancias dirigirse al formato de Post-Vuelo de la aeronave "+nombreAeronave)
-                }
+                TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
             }
-            else
-            {
-                if (validationsNextScreen()) {
-                    TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
-                }
-            }
-
-
-
 
         }
 
         binding.tvDocumentacion!!.setOnClickListener {
 
-            val browserIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://airbusworld.helicopters.airbus.com/c/portal/login?redirect=%2Fgroup%2Fguest&refererPlid=13195661&p_l_id=13195493")
-            )
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://airbusworld.helicopters.airbus.com/c/portal/login?redirect=%2Fgroup%2Fguest&refererPlid=13195661&p_l_id=13195493"))
             startActivity(browserIntent)
         }
 
-
-        binding.llContenedorConteoDiscrepancias!!.setOnClickListener {
-
-            setRecyclerViewAnot(listaAnotacionesPostVuelo!!)
-
-            if(showDetalleCamapana)
-            {
-                binding.lldetalleCampana!!.visibility = View.GONE
-                showDetalleCamapana = false
-
-            }
-            else
-            {
-
-                binding.lldetalleCampana!!.visibility = View.VISIBLE
-                showDetalleCamapana = true
-            }
-
-
-        }
-
-
-        binding.ivCerrarDetalle!!.setOnClickListener {
-
-            binding.lldetalleCampana!!.visibility = View.GONE
-            showDetalleCamapana = false
-
-        }
-
-
-
     }
-
-    fun setRecyclerViewAnot(lista: ArrayList<DetalleFormatoRegistro>) {
-        val recyclerview = binding.rvAnotacionessPostVuelo
-        recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ListaAnotacionesPostVueloAdapter(lista)
-        recyclerview.adapter = adapter
-
-        adapter.onItemClick = { formatoRegistro ->
-
-        }
-    }
-
-
-
-    private fun showDialogCierreDiscrepancias(message:String) {
-        val dialog = Dialog(requireActivity())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.dialog_cierre_discrepancias)
-        dialog.getWindow()!!.getAttributes().windowAnimations = R.style.DialogAnimation
-
-        if (dialog != null) {
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.WRAP_CONTENT
-            dialog.window!!.setLayout(width, height)
-            dialog.window!!.attributes.alpha = 1f
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        val tvMensaje = dialog.findViewById(R.id.tvMensaje) as TextView
-
-        tvMensaje.setText(message)
-
-
-
-        val yesBtn = dialog.findViewById(R.id.btnCerrar) as RelativeLayout
-        yesBtn.setOnClickListener {
-
-            dialog.dismiss()
-
-        }
-
-        dialog.show()
-    }
-
-/*
-    fun showErrorDialodddg(message: String?) {
-        val bundle = Bundle()
-        bundle.putString("errorMessage", message)
-        bundle.putParcelableArray("",listaAnotacionesPostVuelo!!)
-        val df: ErrorMessageDialog = ErrorMessageDialog()
-        df.setArguments(bundle)
-        df.show(fragmentManager!!, "")
-    }
-
- */
-
-
 
     fun validationsNextScreen():Boolean
     {
@@ -308,28 +179,28 @@ class DatosAeronaveFragment : Fragment() {
             if (isChecked) {
                 binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_text_box)
                 binding.etDiscrepancias!!.isEnabled = true
-                TabsPreVuelo.formatoParameter.existenDiscrepancias = "1"
+                TabsPostVuelo.formatoParameter.existenDiscrepancias = "1"
             } else {
                 binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
                 binding.etDiscrepancias!!.isEnabled = false
-                TabsPreVuelo.formatoParameter.existenDiscrepancias = "0"
+                TabsPostVuelo.formatoParameter.existenDiscrepancias = "0"
             }
         }
 
         binding.chbxAccionesMantenimiento!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                TabsPreVuelo.formatoParameter.accionesMantenimiento = "1"
+                TabsPostVuelo.formatoParameter.accionesMantenimiento = "1"
             } else {
-                TabsPreVuelo.formatoParameter.accionesMantenimiento = "0"
+                TabsPostVuelo.formatoParameter.accionesMantenimiento = "0"
             }
         }
 
 
         binding.chbxSolicitaEncendidoPrevio!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                TabsPreVuelo.formatoParameter.solicitaEncMotores = "1"
+                TabsPostVuelo.formatoParameter.solicitaEncMotores = "1"
             } else {
-                TabsPreVuelo.formatoParameter.solicitaEncMotores = "0"
+                TabsPostVuelo.formatoParameter.solicitaEncMotores = "0"
             }
         }
 
@@ -419,14 +290,10 @@ class DatosAeronaveFragment : Fragment() {
             ) {
                 if (position == 0) {
                     idAeronave = ""
-                    nombreAeronave = ""
-                    listaAnotacionesPostVuelo = arrayListOf()
-                    TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  ""
+                    TabsPostVuelo.formatoParameter.codigoPuestoTecnico =  ""
                 } else {
                     idAeronave = modelosAeronavesList!![position-1].codigoPuestoTecnico
-                    nombreAeronave  = modelosAeronavesList!![position-1].nombre
-                    listaAnotacionesPostVuelo = arrayListOf()
-                    TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoPuestoTecnico
+                    TabsPostVuelo.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoPuestoTecnico
                     saveAeronave(requireContext(),idAeronave,modelosAeronavesList!![position-1].nombre)
                //     aeronavesViewModel.getCountDetallessByAeronave(idAeronave)
                     if(getFormato(requireContext()).equals("00001"))
@@ -435,7 +302,6 @@ class DatosAeronaveFragment : Fragment() {
                        if(conteoDiscre==0)
                        {
                            binding.llContenedorConteoDiscrepancias!!.visibility = View.GONE
-                           binding.lldetalleCampana!!.visibility = View.GONE
                        }
                         else
                        {
@@ -494,10 +360,10 @@ class DatosAeronaveFragment : Fragment() {
             ) {
                 if (position == 0) {
                     idUbicacion = ""
-                    TabsPreVuelo.formatoParameter.codigoEstacion = ""
+                    TabsPostVuelo.formatoParameter.codigoEstacion = ""
                 } else {
                     idUbicacion = estacionesList!![position-1].id_cloud!!
-                    TabsPreVuelo.formatoParameter.codigoEstacion =  estacionesList!![position-1].id_cloud!!
+                    TabsPostVuelo.formatoParameter.codigoEstacion =  estacionesList!![position-1].id_cloud!!
                 }
             }
         }
@@ -565,21 +431,6 @@ class DatosAeronaveFragment : Fragment() {
                     modelosAeronavesList = ArrayList(it)
                     //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerAeronave()
-                } else {
-                    Log.e(className, Constants.ERROR.ERROR)
-                }
-            } catch (e: Exception) {
-                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
-                e.printStackTrace();
-                showErrorDialog(e.toString())
-            }
-        })
-
-
-        formatoViewModel.responseGetReportajeListDB.observe(viewLifecycleOwner, Observer {
-            try {
-                if (it != null) {
-                    listaReportajes = ArrayList(it)
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
                 }
@@ -688,10 +539,7 @@ class DatosAeronaveFragment : Fragment() {
             {
                 if(item.codigoFormato.equals("00002"))
                 {
-                    if(!item.completadado!!)
-                    {
-                        ultimoFormatoRegistroPostVuelo = item
-                    }
+                    ultimoFormatoRegistroPostVuelo = item
                 }
 
             }
@@ -706,27 +554,12 @@ class DatosAeronaveFragment : Fragment() {
 
             for(item in detalleFormatoRegistroList!!)
             {
-
-                for(itemReportaje in listaReportajes!!)
-                {
-                    if(itemReportaje.id_cloud.equals(item.codigoReportaje))
-                    {
-                        item.nombreReportaje = itemReportaje.nombreReportaje
-                    }
-                }
-
-
                 if(item.idRegistroFormatoDB.equals(ultimoFormatoRegistroPostVuelo!!.id_db))
                 {
                     listaAVer!!.add(item)
                 }
                 //obtengo la cantidad que tienen eel id que obtuve en el buicle anterior
             }
-
-            listaAnotacionesPostVuelo = listaAVer
-
-
-
 
             return listaAVer!!.count()
 
@@ -741,7 +574,6 @@ class DatosAeronaveFragment : Fragment() {
 
 
     }
-
 
 
     fun showErrorDialog(message: String?) {

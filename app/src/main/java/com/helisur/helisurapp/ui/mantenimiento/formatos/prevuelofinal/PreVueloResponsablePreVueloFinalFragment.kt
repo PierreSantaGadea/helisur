@@ -1,11 +1,10 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal
 
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -39,6 +38,8 @@ import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaAnotacionesAdapter
+import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
@@ -47,7 +48,7 @@ import java.util.UUID
 
 
 @AndroidEntryPoint
-class PreVueloResponsablePostVueloFragment : Fragment() {
+class PreVueloResponsablePreVueloFinalFragment : Fragment() {
 
     var className = "PreVueloResponsableFragment"
     private lateinit var binding: FragmentResponsableBinding
@@ -202,7 +203,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
                 if(isOnline())
                 {
-                    formatosViewModel.grabaFormato(TabsPostVuelo.formatoParameter)
+                    formatosViewModel.grabaFormato(TabsPreVueloFinal.formatoParameter)
                 }
                 else
                 {
@@ -259,8 +260,11 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
             spinnerArray.add(item.nombreCompleto!!)
             spinnerArrayImages.add(R.drawable.ic_user)
         }
-        val adapter = SpinenrItemEmpleado(requireContext(),0,
-            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+        val adapter =
+            SpinenrItemEmpleado(
+                requireContext(), 0,
+                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
+            )
 
       //  val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
       //  adapter.setDropDownViewResource(R.layout.spinner_item)
@@ -279,8 +283,8 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
                 } else {
                     idResponsable  =  empleadosList!![position-1].id_cloud!!
                     licenciaResponsable = empleadosList!![position-1].licencia!!
-                    TabsPostVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
-                    TabsPostVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
+                    TabsPreVueloFinal.formatoParameter.idEmpleadoResponsable = idResponsable
+                    TabsPreVueloFinal.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
                     binding.etLicencia!!.setText(licenciaResponsable)
                 }
             }
@@ -358,11 +362,11 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
     {
 
         binding.tvAtras.setOnClickListener {
-            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+            TabsPreVueloFinal.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
         }
 
         binding.tvSiguiente.setOnClickListener {
-            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
+            TabsPreVueloFinal.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
         }
 
 
@@ -391,9 +395,11 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
         binding.btnCerrarMomentaneamente!!.setOnClickListener {
 
 
-            var parameter: GuardaFormatoCloudParameter = TabsPostVuelo.formatoParameter
+            var parameter: GuardaFormatoCloudParameter =
+                TabsPreVueloFinal.formatoParameter
             var nombreAeronave:String = getNombreAeronave(requireContext())!!
             val uniqueID: String = UUID.randomUUID().toString()
+
 
             var completado:Boolean = false
             if(parameter.listaTareas!=null)
@@ -423,11 +429,13 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
             if(parameter.listaTareas!=null)
             {
-                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPostVuelo.formatoParameter.listaTareas)
+                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVueloFinal.formatoParameter.listaTareas)
                 var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
                 for(item in listaDetalle)
                 {
-                    var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro("",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
+                    val uniqueIDDetalle: String = UUID.randomUUID().toString()
+
+                    var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
                         "",item.indicadorSN,"",fechaHoy,"")
 
                     listaDetalleDB.add(detalle)
@@ -528,7 +536,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
             var listaAnotaciones:ArrayList<Anotacion> = arrayListOf()
 
-            for(itemSistema in TareasPostVueloFragment.sistemasList!!)
+            for(itemSistema in TareasPreVueloFinalFragment.sistemasList!!)
             {
                 if(itemSistema.tareas!=null)
                 {
@@ -566,7 +574,8 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
                 binding.tituloAnotaciones!!.visibility = View.VISIBLE
 
                 tareasObservados = arrayListOf()
-                var iduser = TabsPostVuelo.idUsuario
+                var iduser =
+                    TabsPreVueloFinal.idUsuario
                 var helicopteroAPTO = true
                 for(tareaObservada in listaAnotaciones)
                 {
@@ -609,7 +618,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
                 }
 
 
-                TabsPostVuelo.formatoParameter.listaTareas = tareasObservados
+                TabsPreVueloFinal.formatoParameter.listaTareas = tareasObservados
 
             }
             else
@@ -673,17 +682,23 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
                 {
                     if(pass.equals(empleado.numeroDocumento))
                     {
-                        userExist = true
+                        if(idResponsable.equals(empleado.id_cloud))
+                        {
+                            userExist = true
+                        }
                     }
                 }
             }
             if(userExist)
             {
                 dialog.dismiss()
+                binding.signaturePad!!.isEnabled = false
+                binding.llFirmaValidada!!.visibility = View.VISIBLE
             }
             else
             {
-                showErrorDialog("Usuario o contraseña incorrectos")
+                showErrorDialog("Usuario inválido")
+                binding.llFirmaValidada!!.visibility = View.GONE
             }
 
 

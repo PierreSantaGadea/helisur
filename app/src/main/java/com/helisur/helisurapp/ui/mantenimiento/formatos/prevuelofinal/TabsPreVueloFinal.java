@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo;
+package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -29,14 +29,17 @@ import com.helisur.helisurapp.domain.util.Constants;
 import com.helisur.helisurapp.domain.util.SessionUserManager;
 import com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable;
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasActivity;
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.DatosAeronavePostVueloFragment;
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PreVueloResponsablePostVueloFragment;
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.TareasPostVueloFragment;
 
 import java.util.ArrayList;
 
-public class TabsPreVuelo extends Fragment {
+public class TabsPreVueloFinal extends Fragment {
     public static TabLayout tabLayout;
     // @BindView(R.id.viewpager)
     public static ViewPagerNoSwipeable viewPager;
-    public static int int_items = 5;
+    public static int int_items = 3;
     public static Context generalContext;
     public static String FRAGMENT = "";
     public View view = null;
@@ -99,7 +102,7 @@ public class TabsPreVuelo extends Fragment {
           viewPager.setEnableSwipe(false);
 
       //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
-      //  viewPager.setOffscreenPageLimit(int_items);
+        viewPager.setOffscreenPageLimit(int_items);
     }
 
     public String getFormato(Context context)
@@ -119,20 +122,15 @@ public class TabsPreVuelo extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case Constants.TABS_PRE_VUELO.AERONAVE_ANTECEDENTE_REQUERIMIENTO: {
-                    return new DatosAeronaveFragment();
+                    return new DatosAeronavePreVueloFinalFragment();
                 }
                 case Constants.TABS_PRE_VUELO.SISTEMAS: {
-                    return new TareasFragment();
+                    return new TareasPreVueloFinalFragment();
                 }
                 case Constants.TABS_PRE_VUELO.ANOTACIONES: {
-                    return new PreVueloResponsableFragment();
+                    return new PreVueloResponsablePreVueloFinalFragment();
                 }
-                case Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES: {
-                    return new PreVueloEntregaOperacionesFragment();
-                }
-                case Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE: {
-                    return new PreVueloFirmasFragment();
-                }
+
             }
             return null;
         }

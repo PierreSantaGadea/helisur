@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo;
+package com.helisur.helisurapp.ui.mantenimiento.formatos.spinners;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,12 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataTableCloudResponse
-import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtienePrevuelosRealizadosCloudResponse
 import com.helisur.helisurapp.domain.model.FormatoRegistro
 
-class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<FormatoRegistro>) :
-    RecyclerView.Adapter<ListaPreVuelosRealizadosAdapter.MyViewHolder>() {
+class ListaFormatosDiscrepanciasAdapter (private val mList: ArrayList<FormatoRegistro>) :
+    RecyclerView.Adapter<ListaFormatosDiscrepanciasAdapter.MyViewHolder>() {
 
     var onItemClick: ((FormatoRegistro) -> Unit)? = null
 
@@ -31,7 +29,7 @@ class ListaPreVuelosRealizadosAdapter (private val mList: ArrayList<FormatoRegis
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): ListaPreVuelosRealizadosAdapter.MyViewHolder {
+    ): MyViewHolder {
         val vieww =
             LayoutInflater.from(parent.context).inflate(R.layout.item_lista_prevuelos_realizados, parent, false)
         return MyViewHolder(vieww)

@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -58,6 +60,11 @@ class FormatosViewModel @Inject constructor(
     val responseGetDetalleFormatosRegistroByFormatoRegistroListDB = MutableLiveData<List<DetalleFormatoRegistro>?>()
 
     val responseUpdateCompleteFormatoRegistroDB = MutableLiveData<Boolean?>()
+
+    val responseUpdateFormatoRegistroDB = MutableLiveData<Boolean?>()
+    val responseUpdateDetalleFormatoRegistroDB = MutableLiveData<Boolean?>()
+
+    val responseActualizaFormato= MutableLiveData<ActualizaReportajeFormatoCloudResponse>()
 
 
     fun obtieneFormatos() {
@@ -216,6 +223,30 @@ class FormatosViewModel @Inject constructor(
                     isLoading.postValue(false)
                     formatosState.postValue(FormatosState.SUCCESS)
                     responseGrabaFormato.postValue(result)
+                }
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun actualizaFormato(parameter: ActualizaReportajeFormatoCloudParameter) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.actualizaFormato(parameter)
+            if (result != null) {
+                if(result.success == Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.SUCCESS)
+                    responseActualizaFormato.postValue(result)
                 }
             } else {
                 isLoading.postValue(false)
@@ -437,6 +468,36 @@ class FormatosViewModel @Inject constructor(
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.SUCCESS)
                 responseUpdateCompleteFormatoRegistroDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun updateFormatoRegistro(idFormatoRegistroDb: String,numeroRTV:String,idUbicacion:String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.updateFormatoRegistro(idFormatoRegistroDb,numeroRTV,idUbicacion)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseUpdateFormatoRegistroDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun updateDetalleFormatoRegistro(idFormatoRegistroDb: String,indicadorSN:String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.updateDetalleFormatoRegistro(idFormatoRegistroDb,indicadorSN)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseUpdateDetalleFormatoRegistroDB.postValue(result)
             } else {
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))

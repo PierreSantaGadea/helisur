@@ -43,4 +43,9 @@ interface DetalleFormatoRegistroDao {
     @Query("UPDATE DetalleFormatoRegistro SET sync = :sync WHERE id_cloud = :idCloud")
     fun updateItemSync(idCloud: String, sync: Boolean): Int
 
+
+    @Query("UPDATE DetalleFormatoRegistro SET indicadorSN = :indicadorSN WHERE id_db = :idDB")
+    fun updateDetalleFormatoRegistro(idDB: String, indicadorSN: String): Int
+
+
 }

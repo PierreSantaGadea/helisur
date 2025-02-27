@@ -48,7 +48,7 @@ class LoginActivity : BaseActivity() {
 
     fun initUI() {
         binding.etEmail.setText("analista_app")
-        binding.etPass.setText("helisur2024.")
+        binding.etPass.setText("helisur2025.")
         loading = TransparentProgressDialog(this)
         internetViewModel = InternetViewModel(ConnectivityRepository(baseContext))
         loginViewModel.getEmpleadosListDB()
@@ -65,7 +65,7 @@ class LoginActivity : BaseActivity() {
             if(isOnline())
             {
 
-                if(usuario.equals("analista_app") && pass.equals("helisur2024."))
+                if(usuario.equals("analista_app") && pass.equals("helisur2025."))
                 {
                     loginViewModel.login(
                         usuario, pass

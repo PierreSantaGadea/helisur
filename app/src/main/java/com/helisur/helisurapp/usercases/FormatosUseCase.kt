@@ -1,7 +1,9 @@
 package com.helisur.helisurapp.usercases
 
 import android.util.Log
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -90,6 +92,18 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
             val grabacionFailed = GrabaFormatoCloudResponse()
+            grabacionFailed.message = e.message.toString()
+            return grabacionFailed
+        }
+    }
+
+    suspend fun actualizaFormato(parameter: ActualizaReportajeFormatoCloudParameter): ActualizaReportajeFormatoCloudResponse {
+        try {
+            val respuesta = repository.actualizaFormato(parameter)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            val grabacionFailed = ActualizaReportajeFormatoCloudResponse()
             grabacionFailed.message = e.message.toString()
             return grabacionFailed
         }
@@ -251,6 +265,27 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
     suspend fun updateCompleteFormatoRegistro(idFormatoRegistroDB: String): Boolean? {
         try {
             val respuesta = repository.updateCompleteFormatoRegistro(idFormatoRegistroDB)
+            return true
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+    suspend fun updateFormatoRegistro(idFormatoRegistroDB: String,numeroRTV:String,idUbicacion:String): Boolean? {
+        try {
+            val respuesta = repository.updateFormatoRegistro(idFormatoRegistroDB,numeroRTV,idUbicacion)
+            return true
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+    suspend fun updateDetalleFormatoRegistro(idDetalleFormatoRegistroDB: String,indicadorSN:String): Boolean? {
+        try {
+            val respuesta = repository.updateDetalleFormatoRegistro(idDetalleFormatoRegistroDB,indicadorSN)
             return true
         } catch (e: Exception) {
             Log.e(TAG, e.toString())

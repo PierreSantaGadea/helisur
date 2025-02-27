@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo;
+package com.helisur.helisurapp.ui.mantenimiento.formatos.spinners;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,15 +10,15 @@ import android.widget.TextView;
 
 import com.helisur.helisurapp.R;
 
-public class SpinenrItemAeronave extends ArrayAdapter<String> {
+public class SpinenrItemEmpleado extends ArrayAdapter<String> {
 
     private Context ctx;
     private String[] contentArray;
     private Integer[] imageArray;
 
-    public SpinenrItemAeronave(Context context, int resource, String[] objects,
-                          Integer[] imageArray) {
-        super(context,  R.layout.spinner_item_aeronave, R.id.lapinga, objects);
+    public SpinenrItemEmpleado(Context context, int resource, String[] objects,
+                               Integer[] imageArray) {
+        super(context,  R.layout.spinner_item_empleado, R.id.textoo, objects);
         this.ctx = context;
         this.contentArray = objects;
         this.imageArray = imageArray;
@@ -38,12 +38,12 @@ public class SpinenrItemAeronave extends ArrayAdapter<String> {
     public View getCustomView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.spinner_item_aeronave, parent, false);
+        View row = inflater.inflate(R.layout.spinner_item_empleado, parent, false);
 
-        TextView textView = (TextView) row.findViewById(R.id.lapinga);
+        TextView textView = (TextView) row.findViewById(R.id.textoo);
         textView.setText(contentArray[position]);
 
-        ImageView imageView = (ImageView)row.findViewById(R.id.aeronaveImagen);
+        ImageView imageView = (ImageView)row.findViewById(R.id.ivImagen);
         imageView.setImageResource(imageArray[position]);
 
         return row;

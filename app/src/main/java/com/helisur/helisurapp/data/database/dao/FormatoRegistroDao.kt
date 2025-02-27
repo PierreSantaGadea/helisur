@@ -45,4 +45,10 @@ interface FormatoRegistroDao {
     @Query("UPDATE FormatoRegistro SET completado = :complete WHERE id_db = :idDB")
     fun updateItemComplete(idDB: String, complete: Boolean): Int
 
+
+    @Query("UPDATE FormatoRegistro SET numeroRTV = :numeroRTV, codigoEstacion = :idUbicacion WHERE id_db = :idDB")
+    fun updateFormatoRegistro(idDB: String, numeroRTV: String,idUbicacion:String): Int
+
+
+
 }

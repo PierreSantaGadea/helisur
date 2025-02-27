@@ -2,9 +2,11 @@ package com.helisur.helisurapp.data.repository
 
 import android.util.Log
 import com.helisur.helisurapp.data.cloud.formatos.apis.FormatosService
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneFormatosRealizadosCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesFormatoParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -144,6 +146,16 @@ class FormatosRepository @Inject constructor(
         val response: GrabaFormatoCloudResponse = formatosCloudData.grabaFormato(parameter)
         return response
     }
+
+
+    suspend fun actualizaFormato(
+        parameter: ActualizaReportajeFormatoCloudParameter
+    ): ActualizaReportajeFormatoCloudResponse {
+        val response: ActualizaReportajeFormatoCloudResponse = formatosCloudData.actualizaFormato(parameter)
+        return response
+    }
+
+
 
     suspend fun obtieneFormatosRealizados(
         codigoFormato:String,formatosHoy:String
@@ -642,6 +654,36 @@ class FormatosRepository @Inject constructor(
         try {
             return withContext(Dispatchers.IO) {
                 formatoRegistroLocalData.updateItemComplete(idFormatoRegistroDB,true)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+    suspend fun updateFormatoRegistro(idFormatoRegistroDB:String,numeroRTV:String,idUbicacion:String) {
+        try {
+            return withContext(Dispatchers.IO) {
+                formatoRegistroLocalData.updateFormatoRegistro(idFormatoRegistroDB,numeroRTV,idUbicacion)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+
+    suspend fun updateDetalleFormatoRegistro(idFormatoRegistroDB:String,indicadorSN:String) {
+        try {
+            return withContext(Dispatchers.IO) {
+                detalleFormatoRegistroLocalData.updateDetalleFormatoRegistro(idFormatoRegistroDB,indicadorSN)
                 var error: Boolean = true
             }
         } catch (e: Exception) {

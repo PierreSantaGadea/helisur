@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.databinding.FragmentTareasBinding
 import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Sistema
@@ -20,11 +19,11 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaSistemasAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class TareasFragment : Fragment() {
+class TareasPreVueloFinalFragment : Fragment() {
 
 
 
@@ -34,7 +33,7 @@ class TareasFragment : Fragment() {
     private val formatosViewModel: FormatosViewModel by viewModels()
   //  private var sistemasList: ArrayList<Sistema>? = null
  //   private var tareasList: ArrayList<Tarea>? = null
-    var adapaterSistemas: ListaSistemasAdapter? = null
+    var adapaterSistemas: ListaSistemasPreVueloFinalAdapter? = null
     var showDetailSistemas = false
     var posicionClick: Int? = null
 
@@ -96,11 +95,11 @@ class TareasFragment : Fragment() {
     fun clickListener() {
 
         binding.tvAtras.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.AERONAVE_ANTECEDENTE_REQUERIMIENTO)
+            TabsPreVueloFinal.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.AERONAVE_ANTECEDENTE_REQUERIMIENTO)
         }
 
         binding.tvSiguiente.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ANOTACIONES)
+            TabsPreVueloFinal.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ANOTACIONES)
         }
 
         binding.contenedorSistemas!!.setOnClickListener {
@@ -260,6 +259,7 @@ class TareasFragment : Fragment() {
             }
         })
 
+
     }
 
 
@@ -268,7 +268,7 @@ class TareasFragment : Fragment() {
     ) {
         val recyclerview = binding.rvSistemas
         recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ListaSistemasAdapter(requireContext(), listaSistemas)
+        val adapter = ListaSistemasPreVueloFinalAdapter(requireContext(), listaSistemas)
         recyclerview.adapter = adapter
         adapter.onItemClick = { sistema ->
             posicionClick = adapter.getPosition()

@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo
 
 import android.content.Context
 import android.util.Log
@@ -33,8 +33,8 @@ import org.json.JSONObject
 import java.io.IOException
 import javax.inject.Inject
 
-class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) :
-    RecyclerView.Adapter<ListaTareasAdapter.MyViewHolder>() {
+class ListaTareasPostVueloAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) :
+    RecyclerView.Adapter<ListaTareasPostVueloAdapter.MyViewHolder>() {
 
 
     @Inject
@@ -68,19 +68,12 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): ListaTareasAdapter.MyViewHolder {
+    ): ListaTareasPostVueloAdapter.MyViewHolder {
         val vieww = LayoutInflater.from(parent.context).inflate(R.layout.item_tareas, parent, false)
         return MyViewHolder(vieww)
     }
 
-     fun cargaReportajes(idTarea:String,position: Int)
-    {
-     var listaReportajes:ArrayList<Reportaje> = TareasFragment.getReportajesByTarea(idTarea)
 
-        //cargar reportakes dinamicos
-        var nose = ""
-
-    }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val appItem = mList[position]
@@ -115,7 +108,7 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
                 holder.contenedorReportajes.visibility = View.GONE
             } else {
 
-                var listaReportajes:ArrayList<Reportaje> = TareasFragment.getReportajesByTarea(appItem.codigoTarea!!)
+                var listaReportajes:ArrayList<Reportaje> = TareasPostVueloFragment.getReportajesByTarea(appItem.codigoTarea!!)
 
                 for(item in listaReportajes)
                 {

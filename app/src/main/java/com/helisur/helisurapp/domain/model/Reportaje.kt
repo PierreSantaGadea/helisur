@@ -12,25 +12,31 @@ class Reportaje(
     var codigoTarea: String,
     var nombreReportaje: String,
     var bloqueoFormato: String,
+    var defaultt:String?,
     var fechaRegistro:String?,
     var fechaModificacion:String?
 
 ) {
     constructor() : this(
-      "","","","","", ""
+      "","","","","","", ""
     )
 }
 
 
-
 //entidadDB pasa modelo
 fun ReportajeEntity.toDomain() = Reportaje(
-    id_cloud, codigoTarea!!,nombreReportaje!!,bloqueoFormato!!,fechaRegistro,fechaModificacion
+    id_cloud,
+    codigoTarea!!,
+    nombreReportaje!!,
+    bloqueoFormato!!,
+    defaultt,
+    fechaRegistro,
+    fechaModificacion
 )
 
 //entidadCLOUD pasa a modelo
 fun ObtieneReportajesDataTableCloudResponse.toDomain() = Reportaje(
-    id_cloud = codigoReportaje,codigoTarea = codigoTarea,nombreReportaje = nombreReportaje,bloqueoFormato = bloqueoFormato,fechaRegistro = fechaRegistro,fechaModificacion = fechaModificacion
+    id_cloud = codigoReportaje,codigoTarea = codigoTarea,nombreReportaje = nombreReportaje,bloqueoFormato = bloqueoFormato, defaultt = defaultt, fechaRegistro = fechaRegistro,fechaModificacion = fechaModificacion
 )
 
 

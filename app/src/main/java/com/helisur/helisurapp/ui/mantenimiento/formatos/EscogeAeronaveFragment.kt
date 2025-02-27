@@ -20,9 +20,8 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaPrevuelosRealizadosActivity
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemAeronave
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.SpinenrItemFormato
+import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemAeronave
+import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemFormato
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -89,12 +88,17 @@ class EscogeAeronaveFragment  : Fragment() {
 
                     saveModeloAeronave(requireContext(),idAeronave,nombreAeronave)
                     saveFormato(requireContext(),idFormato,nombreFormato)
-                    val intent = Intent (getActivity(), ListaPrevuelosRealizadosActivity::class.java)
+                    val intent = Intent (getActivity(), FormatosDiscrepanciasActivity::class.java)
                     getActivity()?.startActivity(intent)
                 }
             }
 
         }
+
+
+
+
+
     }
 
     fun saveModeloAeronave(context: Context, idAeronave:String, nombreAeronave:String) {
@@ -154,8 +158,11 @@ class EscogeAeronaveFragment  : Fragment() {
                }
            }
 
-        val adapter = SpinenrItemAeronave(requireContext(),0,
-            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+        val adapter =
+            SpinenrItemAeronave(
+                requireContext(), 0,
+                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
+            )
     //    val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
      //   adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo.adapter = adapter
@@ -214,8 +221,11 @@ class EscogeAeronaveFragment  : Fragment() {
 
          //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
          //   adapter.setDropDownViewResource(R.layout.spinner_item)
-            val adapter = SpinenrItemFormato(requireContext(),0,
-                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+            val adapter =
+                SpinenrItemFormato(
+                    requireContext(), 0,
+                    spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
+                )
 
             spinnerTipo.adapter = adapter
 

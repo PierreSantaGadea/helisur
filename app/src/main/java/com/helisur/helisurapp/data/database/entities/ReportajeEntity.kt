@@ -18,13 +18,14 @@ class ReportajeEntity (
     @ColumnInfo(name = "codigoTarea") val codigoTarea: String?,
     @ColumnInfo(name = "nombreReportaje") val nombreReportaje: String?,
     @ColumnInfo(name = "bloqueoFormato") val bloqueoFormato: String?,
+    @ColumnInfo(name = "defaultt") val defaultt: String?,
     @ColumnInfo(name = "sync") val sync: Boolean?,
     @ColumnInfo(name = "fechaRegistro") val fechaRegistro: String?,
     @ColumnInfo(name = "fechaModificacion") val fechaModificacion: String?,
 )
 
-fun Reportaje.toDB() = ReportajeEntity(id_cloud = id_cloud, codigoTarea = codigoTarea, nombreReportaje = nombreReportaje, bloqueoFormato = bloqueoFormato, sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
+fun Reportaje.toDB() = ReportajeEntity(id_cloud = id_cloud, codigoTarea = codigoTarea, nombreReportaje = nombreReportaje, bloqueoFormato = bloqueoFormato, defaultt = defaultt, sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
 
-fun ObtieneReportajesDataTableCloudResponse.toDB() = ReportajeEntity(id_cloud = codigoReportaje,  codigoTarea = codigoTarea, nombreReportaje = nombreReportaje, bloqueoFormato = bloqueoFormato, sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
+fun ObtieneReportajesDataTableCloudResponse.toDB() = ReportajeEntity(id_cloud = codigoReportaje,  codigoTarea = codigoTarea, nombreReportaje = nombreReportaje, bloqueoFormato = bloqueoFormato, defaultt = defaultt, sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
 
 

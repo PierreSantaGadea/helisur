@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -19,7 +19,7 @@ import com.helisur.helisurapp.domain.util.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PostVueloActivity  : BaseActivity() {
+class PreVueloFinalActivity  : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityPrevueloBinding
@@ -46,7 +46,8 @@ class PostVueloActivity  : BaseActivity() {
     fun loadTabHomeFragment() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val homeFragment: TabsPostVuelo = TabsPostVuelo()
+        val homeFragment: TabsPreVueloFinal =
+            TabsPreVueloFinal()
         fragmentTransaction.replace(binding.containerView.id, homeFragment)
         fragmentTransaction.commit()
     }

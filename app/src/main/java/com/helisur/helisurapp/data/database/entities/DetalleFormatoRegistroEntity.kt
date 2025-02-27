@@ -14,6 +14,7 @@ import com.helisur.helisurapp.domain.model.ModeloAeronave
 class DetalleFormatoRegistroEntity (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id: Int? = null,
+    @ColumnInfo(name = "id_db") val id_db: String?,
     @ColumnInfo(name = "id_cloud") val id_cloud: String?,
     @ColumnInfo(name = "idRegistroFormatoDB") val idRegistroFormatoDB: String?,
     @ColumnInfo(name = "codigoRegistroFormato") var codigoRegistroFormato: String,
@@ -32,7 +33,7 @@ class DetalleFormatoRegistroEntity (
 
     )
 
-fun DetalleFormatoRegistro.toDB() = DetalleFormatoRegistroEntity(id_cloud = id_cloud, idRegistroFormatoDB = idRegistroFormatoDB, codigoRegistroFormato = codigoRegistroFormato,
+fun DetalleFormatoRegistro.toDB() = DetalleFormatoRegistroEntity(id_db = id_db,id_cloud = id_cloud, idRegistroFormatoDB = idRegistroFormatoDB, codigoRegistroFormato = codigoRegistroFormato,
     codigoTarea = codigoTarea, nombreTarea = nombreTarea, codigoReportaje = codigoReportaje, nombreReportaje = nombreReportaje,
     indicadorSN = indicadorSN,indicadorBloqueo = indicadorBloqueo, sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
 

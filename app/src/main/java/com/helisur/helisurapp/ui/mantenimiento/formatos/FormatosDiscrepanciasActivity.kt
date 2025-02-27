@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos
 
 
 import android.app.Dialog
@@ -27,9 +27,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneEstacionesDataTableCloudResponse
-import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataTableCloudResponse
-import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesFormatoDataTableCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoDetalleCloudParameter
 import com.helisur.helisurapp.databinding.ActivityListaPrevuelosRealizadosBinding
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Estacion
@@ -40,21 +39,15 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PostVueloActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal.PreVueloFinalActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemUbicacion
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
 
 
 @AndroidEntryPoint
-class ListaPrevuelosRealizadosActivity : BaseActivity() {
+class FormatosDiscrepanciasActivity : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityListaPrevuelosRealizadosBinding
@@ -70,7 +63,11 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     var loading: TransparentProgressDialog? = null
     var className = "ListaPrevuelosRealizadosActivity"
 
+    var parameter: ActualizaReportajeFormatoCloudParameter? = null
+
     var ID_FORMATO_REGISTRO_A_EDITAR = ""
+
+    var idUsuario = ""
 
     private val formatosViewModel: FormatosViewModel by viewModels()
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
@@ -93,16 +90,80 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         binding.tvTituloFormatoeditar!!.setText(getNombreFormato(baseContext))
         binding.nombreAeronave.text = getNombreModeloAeronave(baseContext)
 
+        idUsuario = SessionUserManager(baseContext).getId().toString()
+
         var codFormato = getFormato(baseContext)
         //  aeronavesViewModel.getEstacionesListCloud()
         formatosViewModel.getReportajesListDB()
         aeronavesViewModel.getEstacionesListDB()
         formatosViewModel.getFormatosRegistroIncompletedListDB()
       //  formatosViewModel.obtieneFormatosRealizados(codFormato!!, "S")
+
+    //    formatosViewModel.getFormatosRegistroListDB()
+      //  formatosViewModel.getDetalleFormatosRegistroListDB()
     }
 
 
     private fun observers() {
+
+        formatosViewModel.responseGetFormatosRegistroListDB.observe(this, Observer {
+            if (it != null) {
+
+                listaFormatosRealizados = ArrayList(it)
+                setRecyclerViewFormatosRealizados(listaFormatosRealizados!!)
+                formatosViewModel.getDetalleFormatosRegistroListDB()
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        formatosViewModel.responseGetDetalleFormatosRegistroListDB.observe(this, Observer {
+            if (it != null) {
+
+                var listaFormatosRealizadosssss : ArrayList<FormatoRegistro> = arrayListOf()
+
+
+                for(itemFormato in listaFormatosRealizados)
+                {
+                    var noTieneDefault = false
+
+                    for(itemDetalle in ArrayList(it))
+                    {
+                        if(itemFormato.id_db.equals(itemDetalle.idRegistroFormatoDB))
+                        {
+
+                            for(itemReportaje in listaReportajes)
+                            {
+                                if(itemDetalle.codigoReportaje.equals(itemReportaje.id_cloud))
+                                {
+                                    if(itemReportaje.defaultt.equals("0"))
+                                    {
+                                        listaFormatosRealizadosssss.add(itemFormato)
+                                    }
+                                }
+
+                            }
+
+
+                        }
+                    }
+
+
+
+                }
+
+                setRecyclerViewFormatosRealizados(listaFormatosRealizadosssss!!)
+
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
 
         formatosViewModel.isLoading.observe(this, Observer {
             if (it) {
@@ -161,29 +222,6 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         })
 
 
-        formatosViewModel.responseGetFormatosRegistroListDB.observe(this, Observer {
-            if (it != null) {
-
-                listaFormatosRealizados = arrayListOf()
-                var codFormato = getFormato(baseContext)
-
-                var listaFormatosRealizadosWithoutFilter : ArrayList<FormatoRegistro> = ArrayList(it)
-
-                for(item in listaFormatosRealizadosWithoutFilter)
-                {
-                    if(item.codigoFormato.equals(codFormato))
-                    {
-                        listaFormatosRealizados.add(item)
-                    }
-                }
-
-              //  listaFormatosRealizados = ArrayList(it)
-                setRecyclerViewFormatosRealizados(listaFormatosRealizados!!)
-            } else {
-                Log.e(className, Constants.ERROR.ERROR)
-
-            }
-        })
 
 
         formatosViewModel.responseGetFormatosRegistroIncompletedListDB.observe(this, Observer {
@@ -246,7 +284,10 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
                 for(reportajeItem in listaReportajesFormato)
                 {
-                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
+                  //  if(reportajeItem.indicadorSN.equals("1"))
+                 //   {
+                        newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
+                 //   }
                 }
 
             } else {
@@ -284,6 +325,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             if (it != null) {
 
                 listaReportajes = ArrayList(it)
+               // formatosViewModel.getFormatosRegistroListDB()
 
             } else {
                 Log.e(className, Constants.ERROR.ERROR)
@@ -295,20 +337,56 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         formatosViewModel.responseUpdateCompleteFormatoRegistroDB.observe(this, Observer {
             if (it != null) {
 
-                limpiarYEsconderEdicionFormatoRegistro()
-
-
-                listaFormatosRealizados = arrayListOf()
-                formatosViewModel.getFormatosRegistroIncompletedListDB()
-
-               //update lista  registro
-                //mostrar lista actualizada
+           //     if(isOnline())
+           //     {
+            //        saveFormatoRegistroCloud()
+            //    }
+            //    else
+            //    {
+                    limpiarYEsconderEdicionFormatoRegistro()
+                    listaFormatosRealizados = arrayListOf()
+                    formatosViewModel.getFormatosRegistroIncompletedListDB()
+            //    }
 
             } else {
                 Log.e(className, Constants.ERROR.ERROR)
 
             }
         })
+
+
+        formatosViewModel.responseActualizaFormato.observe(this, Observer {
+            if (it != null) {
+
+                limpiarYEsconderEdicionFormatoRegistro()
+                listaFormatosRealizados = arrayListOf()
+                formatosViewModel.getFormatosRegistroIncompletedListDB()
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        formatosViewModel.responseUpdateFormatoRegistroDB.observe(this, Observer {
+            if (it != null) {
+                saveDetalleFormatoRegistroDB()
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+            }
+        })
+
+        formatosViewModel.responseUpdateDetalleFormatoRegistroDB.observe(this, Observer {
+            if (it != null) {
+
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
 
     }
 
@@ -324,8 +402,15 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             }
             else
             {
-                val intent = Intent(baseContext, PreVueloActivity::class.java)
-                startActivity(intent)
+                try {
+                    val intent = Intent(baseContext, PreVueloActivity::class.java)
+                    startActivity(intent)
+                }
+                catch (e:Exception)
+                {
+                    showErrorDialog(e.toString())
+                }
+
             }
 
         }
@@ -352,18 +437,75 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
         binding.btnGuardarTodo!!.setOnClickListener {
 
+         //   saveFormatoRegistroDB()
 
             formatosViewModel.updateCompleteFormatoRegistro(ID_FORMATO_REGISTRO_A_EDITAR)
+
+        }
+    }
+
+
+    fun saveFormatoRegistroDB()
+    {
+        var rtv = binding.etRTV.text.toString()
+        var ubicacion = idUbicacion
+        formatosViewModel.updateFormatoRegistro(ID_FORMATO_REGISTRO_A_EDITAR,rtv,ubicacion)
+    }
+
+    fun saveDetalleFormatoRegistroDB() {
+        var contador = 0
+
+        for (item in listaReportajesFormato) {
+            if (item.indicadorSN == "0") {
+                contador++
+                formatosViewModel.updateDetalleFormatoRegistro(item.id_db!!, item.indicadorSN)
+            }
+
+        }
+
+        if (contador == listaReportajesFormato.size) {
+            formatosViewModel.updateCompleteFormatoRegistro(ID_FORMATO_REGISTRO_A_EDITAR)
+        }
+        else
+        {
+            if(isOnline())
+            {
+                saveFormatoRegistroCloud()
+            }
+            else
+            {
+                limpiarYEsconderEdicionFormatoRegistro()
+                listaFormatosRealizados = arrayListOf()
+                formatosViewModel.getFormatosRegistroIncompletedListDB()
+            }
 
 
         }
     }
 
 
+    fun saveFormatoRegistroCloud()
+    {
+        var rtv = binding.etRTV.text.toString()
+        var ubicacion = idUbicacion
+
+        var listaParameter: ArrayList<ActualizaReportajeFormatoDetalleCloudParameter> = arrayListOf()
+        for(item in listaReportajesFormato)
+        {
+            var parameter = ActualizaReportajeFormatoDetalleCloudParameter(item.codigoTarea,item.codigoReportaje,item.indicadorSN,"",idUsuario)
+            listaParameter.add(parameter)
+        }
+
+        parameter = ActualizaReportajeFormatoCloudParameter(ID_FORMATO_REGISTRO_A_EDITAR,
+            rtv,ubicacion,listaParameter)
+    }
+
+
+
     fun setRecyclerViewFormatosRealizados(lista: ArrayList<FormatoRegistro>) {
         val recyclerview = binding.rvFormatosPrevuelo
         recyclerview.layoutManager = LinearLayoutManager(baseContext)
-        val adapter = ListaPreVuelosRealizadosAdapter(lista)
+        val adapter = ListaFormatosDiscrepanciasAdapter(lista)
         recyclerview.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(baseContext, LinearLayoutManager.VERTICAL)
@@ -380,6 +522,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
 
             binding.etRTV.setText(formatoRegistro.numeroRTV)
             setSpinnerUbicacion(formatoRegistro.codigoEstacion)
+            idUbicacion = formatoRegistro.codigoEstacion
 
             binding.tvTituloAeronave.text = getNombreModeloAeronave(baseContext) + "  /  "+formatoRegistro.nombreAeronave
 
@@ -389,6 +532,7 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
         //    formatosViewModel.obtieneReportajesFormato(formatoRegistro.id_cloud!!)
 
             ID_FORMATO_REGISTRO_A_EDITAR = formatoRegistro.id_db!!
+
 
             binding.llEditarFormato.visibility = View.VISIBLE
             binding.listaFormatosPendientes.visibility = View.GONE
@@ -441,8 +585,6 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
     }
 
 
-
-
     fun getNombreModeloAeronave(context: Context): String? {
         val sharedPreferences =
             context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
@@ -478,15 +620,15 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
             spinnerArrayImages.add(R.drawable.ic_location)
         }
 
-        val adapter = SpinenrItemUbicacion(baseContext,0,
-            spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray())
+        val adapter =
+            SpinenrItemUbicacion(
+                baseContext, 0,
+                spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
+            )
 
         //   val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
         //   adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo.adapter = adapter
-
-
-
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -607,9 +749,25 @@ class ListaPrevuelosRealizadosActivity : BaseActivity() {
                 val nombre = cb.text
                 val idReportaje = cb.tag
 
+                for(item in listaReportajesFormato)
+                    {
+                    if(item.codigoReportaje.equals(idReportaje))
+                    {
+                        item.indicadorSN = "1"
+                    }
+                }
+
             } else {
                 val nombre = cb.text
                 val idReportaje = cb.tag
+
+                for(item in listaReportajesFormato)
+                {
+                    if(item.codigoReportaje.equals(idReportaje))
+                    {
+                        item.indicadorSN = "0"
+                    }
+                }
             }
 
             }

@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo
 
 import android.app.Dialog
 import android.content.Context
@@ -39,6 +39,7 @@ import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaAnotacionesAdapter
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
@@ -48,7 +49,7 @@ import java.util.UUID
 
 
 @AndroidEntryPoint
-class PreVueloResponsableFragment : Fragment() {
+class PreVueloResponsablePostVueloFragment : Fragment() {
 
     var className = "PreVueloResponsableFragment"
     private lateinit var binding: FragmentResponsableBinding
@@ -78,7 +79,6 @@ class PreVueloResponsableFragment : Fragment() {
         observers()
         validatePOSTVUELO()
         signatureEvents()
-
         root!!.post {
          //   binding.signaturePad!!.signatureBitmap.height = 20
           //  binding.signaturePad!!.signatureBitmap.width = 20
@@ -108,7 +108,24 @@ class PreVueloResponsableFragment : Fragment() {
 
     }
 
+    var responsableFirmo = false
+    fun signatureEvents()
+    {
+        binding.signaturePad!!.setOnSignedListener(object : SignaturePad.OnSignedListener {
+            override fun onStartSigning() {
+                //Event triggered when the pad is touched
+                responsableFirmo = true
+            }
 
+            override fun onSigned() {
+                //Event triggered when the pad is signed
+            }
+
+            override fun onClear() {
+                //Event triggered when the pad is cleared
+            }
+        })
+    }
 
     fun observers()
     {
@@ -205,7 +222,7 @@ class PreVueloResponsableFragment : Fragment() {
 
                 if(isOnline())
                 {
-                    formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
+                    formatosViewModel.grabaFormato(TabsPostVuelo.formatoParameter)
                 }
                 else
                 {
@@ -285,8 +302,8 @@ class PreVueloResponsableFragment : Fragment() {
                 } else {
                     idResponsable  =  empleadosList!![position-1].id_cloud!!
                     licenciaResponsable = empleadosList!![position-1].licencia!!
-                    TabsPreVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
-                    TabsPreVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
+                    TabsPostVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
+                    TabsPostVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
                     binding.etLicencia!!.setText(licenciaResponsable)
                 }
             }
@@ -359,34 +376,16 @@ class PreVueloResponsableFragment : Fragment() {
 
     }
 
-    var responsableFirmo = false
-    fun signatureEvents()
-    {
-        binding.signaturePad!!.setOnSignedListener(object : SignaturePad.OnSignedListener {
-            override fun onStartSigning() {
-                //Event triggered when the pad is touched
-                responsableFirmo = true
-            }
-
-            override fun onSigned() {
-                //Event triggered when the pad is signed
-            }
-
-            override fun onClear() {
-                //Event triggered when the pad is cleared
-            }
-        })
-    }
 
     fun clicListener()
     {
 
-        binding.tvAtras.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+        binding.tvAtras!!.setOnClickListener {
+            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
         }
 
-        binding.tvSiguiente.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
+        binding.tvSiguiente!!.setOnClickListener {
+            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
         }
 
 
@@ -394,7 +393,7 @@ class PreVueloResponsableFragment : Fragment() {
             if (isChecked) {
                 showDialogFormatoSeCerrar()
                 binding.chxSi.isChecked = false
-                binding.tvSiguiente.visibility = View.GONE
+                binding.tvSiguiente!!.visibility = View.GONE
                 binding.btnCerrarMomentaneamente!!.visibility = View.VISIBLE
             } else {
 
@@ -405,7 +404,7 @@ class PreVueloResponsableFragment : Fragment() {
         binding.chxSi!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 binding.chxNo.isChecked = false
-                binding.tvSiguiente.visibility = View.VISIBLE
+                binding.tvSiguiente!!.visibility = View.VISIBLE
                 binding.btnCerrarMomentaneamente!!.visibility = View.GONE
             } else {
 
@@ -415,7 +414,9 @@ class PreVueloResponsableFragment : Fragment() {
         binding.btnCerrarMomentaneamente!!.setOnClickListener {
 
 
-            var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
+
+            var parameter: GuardaFormatoCloudParameter =
+                TabsPostVuelo.formatoParameter
             var nombreAeronave:String = getNombreAeronave(requireContext())!!
             val uniqueID: String = UUID.randomUUID().toString()
 
@@ -448,11 +449,12 @@ class PreVueloResponsableFragment : Fragment() {
 
             if(parameter.listaTareas!=null)
             {
-                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
+                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPostVuelo.formatoParameter.listaTareas)
                 var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
                 for(item in listaDetalle)
                 {
                     val uniqueIDDetalle: String = UUID.randomUUID().toString()
+
                     var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
                         "",item.indicadorSN,"",fechaHoy,"")
 
@@ -469,7 +471,6 @@ class PreVueloResponsableFragment : Fragment() {
 
 
         binding.btnGuardarFirma!!.setOnClickListener{
-
 
             if(idResponsable.equals(""))
             {
@@ -570,7 +571,7 @@ class PreVueloResponsableFragment : Fragment() {
 
             var listaAnotaciones:ArrayList<Anotacion> = arrayListOf()
 
-            for(itemSistema in TareasFragment.sistemasList!!)
+            for(itemSistema in TareasPostVueloFragment.sistemasList!!)
             {
                 if(itemSistema.tareas!=null)
                 {
@@ -608,7 +609,8 @@ class PreVueloResponsableFragment : Fragment() {
                 binding.tituloAnotaciones!!.visibility = View.VISIBLE
 
                 tareasObservados = arrayListOf()
-                var iduser = TabsPreVuelo.idUsuario
+                var iduser =
+                    TabsPostVuelo.idUsuario
                 var helicopteroAPTO = true
                 for(tareaObservada in listaAnotaciones)
                 {
@@ -651,7 +653,7 @@ class PreVueloResponsableFragment : Fragment() {
                 }
 
 
-                TabsPreVuelo.formatoParameter.listaTareas = tareasObservados
+                TabsPostVuelo.formatoParameter.listaTareas = tareasObservados
 
             }
             else

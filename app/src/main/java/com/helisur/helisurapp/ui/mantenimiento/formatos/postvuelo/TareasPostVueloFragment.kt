@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.databinding.FragmentTareasBinding
 import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Sistema
@@ -20,8 +19,8 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaSistemasAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TareasPostVueloFragment : Fragment() {
@@ -34,7 +33,7 @@ class TareasPostVueloFragment : Fragment() {
     private val formatosViewModel: FormatosViewModel by viewModels()
   //  private var sistemasList: ArrayList<Sistema>? = null
  //   private var tareasList: ArrayList<Tarea>? = null
-    var adapaterSistemas: ListaSistemasAdapter? = null
+    var adapaterSistemas: ListaSistemasPostVueloAdapter? = null
     var showDetailSistemas = false
     var posicionClick: Int? = null
 
@@ -269,7 +268,7 @@ class TareasPostVueloFragment : Fragment() {
     ) {
         val recyclerview = binding.rvSistemas
         recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ListaSistemasAdapter(requireContext(), listaSistemas)
+        val adapter = ListaSistemasPostVueloAdapter(requireContext(), listaSistemas)
         recyclerview.adapter = adapter
         adapter.onItemClick = { sistema ->
             posicionClick = adapter.getPosition()

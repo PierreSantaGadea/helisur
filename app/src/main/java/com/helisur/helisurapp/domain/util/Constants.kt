@@ -73,8 +73,8 @@ class Constants {
         const val AERONAVE_ANTECEDENTE_REQUERIMIENTO: Int = 0
         const val SISTEMAS: Int = 1
         const val ANOTACIONES: Int = 2
-        const val FIRMA_RESPONSABLE: Int = 3
-        const val FIRMA_PILOTO_COPILOTO: Int = 4
+        const val ENTREGA_OPERACIONES: Int = 3
+        const val FIRMA_RESPONSABLE: Int = 4
     }
 
     object SHARED_PREFERENCES

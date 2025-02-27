@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo;
+package com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -28,6 +28,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaClo
 import com.helisur.helisurapp.domain.util.Constants;
 import com.helisur.helisurapp.domain.util.SessionUserManager;
 import com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable;
+import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasActivity;
 
 import java.util.ArrayList;
 
@@ -161,7 +162,7 @@ public class TabsPostVuelo extends Fragment {
                 /* do what you need to do */
                 //Log.d(TAG,"starting nuclear in " + timeOut--);
                 /* and here comes the "trick" */
-                Intent intent = new Intent(getActivity(), ListaPrevuelosRealizadosActivity.class);
+                Intent intent = new Intent(getActivity(), FormatosDiscrepanciasActivity.class);
                 startActivity(intent);
 
             }
