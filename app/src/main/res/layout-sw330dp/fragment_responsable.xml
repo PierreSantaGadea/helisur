@@ -254,33 +254,49 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp">
 
-                    <androidx.appcompat.widget.AppCompatButton
+                    <RelativeLayout
                         android:id="@+id/btnBorrarFirma"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="#C4C4C4"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape_button_borrar_firma"
                         android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Borrar"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:layout_weight="1">
 
-                    <androidx.appcompat.widget.AppCompatButton
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoregular"
+                            android:text="Borrar firma"
+                            android:textColor="@color/texto_boton_borrar_firma"
+                            android:textSize="14dp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/btnGuardarFirma"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="@color/input_line"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="0dp"
+                        android:background="@drawable/shape_button_validar_firma"
                         android:gravity="center"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="8dp"
-                        android:text="Guardar"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoregular"
+                            android:text="Validar Firma"
+                            android:textColor="@color/texto_boton_validar_firma"
+                            android:textSize="14dp" />
+
+                    </RelativeLayout>
                 </LinearLayout>
 
 

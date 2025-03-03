@@ -55,17 +55,19 @@ class PreVueloResponsableFragment : Fragment() {
     var loading: TransparentProgressDialog? = null
     private val loginViewModel: LoginViewModel by viewModels()
     private val formatosViewModel: FormatosViewModel by viewModels()
-    var dialogg:Dialog? = null
+    var dialogg: Dialog? = null
     var tareasObservados: ArrayList<GuardaTareaCloudParameter>? = null
-    var recyclerview:RecyclerView?=null
+    var recyclerview: RecyclerView? = null
 
-  //  var empleadosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
+    //  var empleadosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
     var empleadosList: ArrayList<Empleado>? = null
     var empleadosListAll: ArrayList<Empleado>? = null
 
     var idResponsable = ""
     var licenciaResponsable = ""
     var urlFirmaResponsable = ""
+
+    var fimaValidada = false
 
 
     override fun onCreateView(
@@ -80,8 +82,8 @@ class PreVueloResponsableFragment : Fragment() {
         signatureEvents()
 
         root!!.post {
-         //   binding.signaturePad!!.signatureBitmap.height = 20
-          //  binding.signaturePad!!.signatureBitmap.width = 20
+            //   binding.signaturePad!!.signatureBitmap.height = 20
+            //  binding.signaturePad!!.signatureBitmap.width = 20
         }
         return root
     }
@@ -91,7 +93,7 @@ class PreVueloResponsableFragment : Fragment() {
 //        binding.signaturePad!!.autofillId!!
 
         loginViewModel.getEmpleadosListDB()
-    //    loginViewModel.obtieneEmpleados("00091")
+        //    loginViewModel.obtieneEmpleados("00091")
 
         recyclerview = binding.rvAnotaciones
         recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
@@ -103,24 +105,22 @@ class PreVueloResponsableFragment : Fragment() {
         //   setRecyclerView(concursosList)
         //   setSpinnerPeriodo()
 
-    //    var bitt = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888)
+        //    var bitt = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888)
 
 
     }
 
 
-
-    fun observers()
-    {
+    fun observers() {
 
         loginViewModel.responseObtieneTokenCloud.observe(viewLifecycleOwner, Observer {
             try {
-                Toast.makeText(getActivity(),"Firma validada",Toast.LENGTH_SHORT).show()
+                Toast.makeText(getActivity(), "Firma validada", Toast.LENGTH_SHORT).show()
                 binding.signaturePad!!.isEnabled = false
                 dialogg!!.dismiss()
 
             } catch (e: Exception) {
-              //  Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                //  Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
                 e.printStackTrace();
                 showErrorDialog(e.toString())
             }
@@ -145,8 +145,8 @@ class PreVueloResponsableFragment : Fragment() {
             } else {
                 if (it.toString().contains(Constants.ERROR.FAILURE)) {
                     dialogg!!.dismiss()
-                    var mensaje = it.toString().replace("FAILURE(Error=","")
-                    showErrorDialog(mensaje.replace(")",""))
+                    var mensaje = it.toString().replace("FAILURE(Error=", "")
+                    showErrorDialog(mensaje.replace(")", ""))
                     Log.e(className, Constants.ERROR.ERROR)
                 }
             }
@@ -157,7 +157,7 @@ class PreVueloResponsableFragment : Fragment() {
         loginViewModel.responseObtieneEmpleados.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-               //     empleadosList = ArrayList(it)
+                    //     empleadosList = ArrayList(it)
                     //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerEmpleados()
                 } else {
@@ -177,12 +177,10 @@ class PreVueloResponsableFragment : Fragment() {
 
                     empleadosList = arrayListOf()
                     var empleadosListaTotal: ArrayList<Empleado>? = ArrayList(it)
-                    empleadosListAll=ArrayList(it)
+                    empleadosListAll = ArrayList(it)
 
-                    for(item in empleadosListaTotal!!)
-                    {
-                        if(item.codigoArea.equals("00091"))
-                        {
+                    for (item in empleadosListaTotal!!) {
+                        if (item.codigoArea.equals("00091")) {
                             empleadosList!!.add(item)
                         }
 
@@ -203,21 +201,15 @@ class PreVueloResponsableFragment : Fragment() {
         formatosViewModel.responsInsertFormatoRegistroDB.observe(viewLifecycleOwner, Observer {
             try {
 
-                if(isOnline())
-                {
+                if (isOnline()) {
                     formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
-                }
-                else
-                {
+                } else {
                     //grabacion correcta
                     requireActivity().finish()
 
-                    val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                    val intent = Intent(getActivity(), MainActivityMantenimiento::class.java)
                     requireActivity().startActivity(intent)
                 }
-
-
-
 
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
@@ -233,7 +225,7 @@ class PreVueloResponsableFragment : Fragment() {
                 //grabacion correcta
                 requireActivity().finish()
 
-                val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                val intent = Intent(getActivity(), MainActivityMantenimiento::class.java)
                 requireActivity().startActivity(intent)
 
 
@@ -251,14 +243,13 @@ class PreVueloResponsableFragment : Fragment() {
     ) {
         var spinnerTipo = binding.spiEmpleados
 
-      //  val spinnerArray: MutableList<String> = ArrayList()
+        //  val spinnerArray: MutableList<String> = ArrayList()
         val spinnerArrayImages: MutableList<Int> = ArrayList()
 
         val spinnerArray: MutableList<String> = ArrayList()
         spinnerArray.add("Seleccione empleado")
         spinnerArrayImages.add(R.drawable.empty)
-        for(item in empleadosList!!)
-        {
+        for (item in empleadosList!!) {
             spinnerArray.add(item.nombreCompleto!!)
             spinnerArrayImages.add(R.drawable.ic_user)
         }
@@ -268,8 +259,8 @@ class PreVueloResponsableFragment : Fragment() {
                 spinnerArray.toTypedArray(), spinnerArrayImages.toTypedArray()
             )
 
-      //  val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
-      //  adapter.setDropDownViewResource(R.layout.spinner_item)
+        //  val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, spinnerArray)
+        //  adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerTipo!!.adapter = adapter
 
         spinnerTipo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -283,8 +274,8 @@ class PreVueloResponsableFragment : Fragment() {
                     idResponsable = ""
                     binding.etLicencia!!.setText("")
                 } else {
-                    idResponsable  =  empleadosList!![position-1].id_cloud!!
-                    licenciaResponsable = empleadosList!![position-1].licencia!!
+                    idResponsable = empleadosList!![position - 1].id_cloud!!
+                    licenciaResponsable = empleadosList!![position - 1].licencia!!
                     TabsPreVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
                     TabsPreVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
                     binding.etLicencia!!.setText(licenciaResponsable)
@@ -306,8 +297,7 @@ class PreVueloResponsableFragment : Fragment() {
     }
 
 
-    fun sendToStorage()
-    {
+    fun sendToStorage() {
         var signatureBitmap: Bitmap = binding.signaturePad!!.getSignatureBitmap()
 
         val storage = Firebase.storage
@@ -344,7 +334,6 @@ class PreVueloResponsableFragment : Fragment() {
         }
 
 
-
         /*
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
@@ -356,10 +345,10 @@ class PreVueloResponsableFragment : Fragment() {
          */
 
 
-
     }
 
     var responsableFirmo = false
+
     fun signatureEvents()
     {
         binding.signaturePad!!.setOnSignedListener(object : SignaturePad.OnSignedListener {
@@ -464,7 +453,6 @@ class PreVueloResponsableFragment : Fragment() {
 
 
         }
-
 
 
 
@@ -727,11 +715,13 @@ class PreVueloResponsableFragment : Fragment() {
                 dialog.dismiss()
                 binding.signaturePad!!.isEnabled = false
                 binding.llFirmaValidada!!.visibility = View.VISIBLE
+                fimaValidada = true
             }
             else
             {
                 showErrorDialog("Usuario inválido")
                 binding.llFirmaValidada!!.visibility = View.GONE
+                fimaValidada = false
             }
 
 

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo_pantalla_general">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/robotomedium"
+                android:text="Entrega de la aeronave a operaciones"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="30dp" />
+
+
+            <CheckBox
+                android:id="@+id/chxTripulacionEfectuoPrevuelo"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="La tripulación efectuó el Pre-Vuelo de Operaciones de acuerdo a la lista de verificaci{on vigente"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="22dp"
+                android:buttonTint="@color/titulo_pantalla_general"
+                android:textColor="@color/texto_simple_pantalla_general" />
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="40dp"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:id="@+id/tvAtras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_arrow_left" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/robotomedium"
+                        android:text="Atrás"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="25dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/tvSiguiente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/robotomedium"
+                        android:text="Siguiente"
+
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="25dp" />
+
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/ic_arrow_rigth" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -211,6 +211,8 @@ class DatosAeronaveFragment : Fragment() {
 
     }
 
+
+
     fun setRecyclerViewAnot(lista: ArrayList<DetalleFormatoRegistro>) {
         val recyclerview = binding.rvAnotacionessPostVuelo
         recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
@@ -239,16 +241,11 @@ class DatosAeronaveFragment : Fragment() {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
         val tvMensaje = dialog.findViewById(R.id.tvMensaje) as TextView
-
         tvMensaje.setText(message)
-
-
 
         val yesBtn = dialog.findViewById(R.id.btnCerrar) as RelativeLayout
         yesBtn.setOnClickListener {
-
             dialog.dismiss()
-
         }
 
         dialog.show()
@@ -443,8 +440,6 @@ class DatosAeronaveFragment : Fragment() {
                            binding.tvConteoDiscrepancias!!.setText(conteoDiscre.toString())
                        }
                     }
-
-
                 }
             }
         }
@@ -671,15 +666,11 @@ class DatosAeronaveFragment : Fragment() {
             }
         })
 
-
-
-
     }
 
 
     fun conteoDiscrepancias(aeronaveCodPuestoTecnico:String):Int
     {
-
         var ultimoFormatoRegistroPostVuelo:FormatoRegistro? = null
 
         for(item in formatoRegistroList!!)
@@ -715,7 +706,6 @@ class DatosAeronaveFragment : Fragment() {
                     }
                 }
 
-
                 if(item.idRegistroFormatoDB.equals(ultimoFormatoRegistroPostVuelo!!.id_db))
                 {
                     listaAVer!!.add(item)
@@ -725,20 +715,12 @@ class DatosAeronaveFragment : Fragment() {
 
             listaAnotacionesPostVuelo = listaAVer
 
-
-
-
             return listaAVer!!.count()
 
         }
         else{
             return 0
         }
-
-
-
-
-
 
     }
 

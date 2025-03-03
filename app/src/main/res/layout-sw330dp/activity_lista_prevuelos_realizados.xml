@@ -403,7 +403,7 @@
                     android:fontFamily="@font/robotomedium"
                     android:text="Anotaciones"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="20dp" />
+                    android:textSize="21dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

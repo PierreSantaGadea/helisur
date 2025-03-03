@@ -64,7 +64,6 @@ class LoginActivity : BaseActivity() {
 
             if(isOnline())
             {
-
                 if(usuario.equals("analista_app") && pass.equals("helisur2025."))
                 {
                     loginViewModel.login(
@@ -90,7 +89,6 @@ class LoginActivity : BaseActivity() {
                                 empleado.cargo!!
                             )
                             next(ModulesActivity::class.java,null)
-
                         }
                     }
 

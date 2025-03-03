@@ -16,10 +16,10 @@ import com.helisur.helisurapp.domain.model.ModeloAeronave
 @Dao
 interface TareaDao {
 
-    @Query("SELECT * FROM Tarea ORDER BY id DESC")
+    @Query("SELECT * FROM Tarea ORDER BY id ASC")
     fun getAll(): List<TareaEntity>
 
-    @Query("SELECT * FROM Tarea WHERE  codigoSistema = :idSistema ORDER BY id DESC")
+    @Query("SELECT * FROM Tarea WHERE  codigoSistema = :idSistema ORDER BY id ASC")
     fun getTareasBySistema(idSistema: String): List<TareaEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

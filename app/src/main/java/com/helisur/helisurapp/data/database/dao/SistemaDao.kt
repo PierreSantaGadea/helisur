@@ -15,10 +15,10 @@ import com.helisur.helisurapp.domain.model.ModeloAeronave
 @Dao
 interface SistemaDao {
 
-    @Query("SELECT * FROM Sistema ORDER BY id DESC")
+    @Query("SELECT * FROM Sistema ORDER BY id ASC")
     fun getAll(): List<SistemaEntity>
 
-    @Query("SELECT * FROM Sistema WHERE  codigoFormato = :idFormato ORDER BY id DESC")
+    @Query("SELECT * FROM Sistema WHERE  codigoFormato = :idFormato ORDER BY id ASC")
     fun getSistemnasByFormato(idFormato: String): List<SistemaEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
