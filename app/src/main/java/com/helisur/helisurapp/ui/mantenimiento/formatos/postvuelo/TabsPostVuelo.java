@@ -29,8 +29,11 @@ import com.helisur.helisurapp.domain.util.Constants;
 import com.helisur.helisurapp.domain.util.SessionUserManager;
 import com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable;
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasActivity;
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.TabsPreVuelo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class TabsPostVuelo extends Fragment {
     public static TabLayout tabLayout;
@@ -100,6 +103,14 @@ public class TabsPostVuelo extends Fragment {
 
       //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
         viewPager.setOffscreenPageLimit(int_items);
+
+        String fechaHoy = "";
+        GregorianCalendar gc = new GregorianCalendar();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        simpleDateFormat.setCalendar(gc);
+        fechaHoy = simpleDateFormat.format(gc.getTime());
+
+        TabsPostVuelo.formatoParameter.setFechaHoraInicioRegistro(fechaHoy);
     }
 
     public String getFormato(Context context)

@@ -35,10 +35,12 @@ import com.helisur.helisurapp.domain.model.Empleado
 import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
+import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.TabsPostVuelo
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
@@ -375,7 +377,26 @@ class PreVueloResponsableFragment : Fragment() {
         }
 
         binding.tvSiguiente.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
+
+
+            if(idResponsable.equals(""))
+            {
+                showErrorDialog("Debe escoger un responsable")
+            }
+            else
+            {
+                if(!responsableFirmo)
+                {
+                    showErrorDialog("El responsable debe firmar")
+                }
+                else
+                {
+                    TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
+
+                }
+
+            }
+
         }
 
 
@@ -384,6 +405,7 @@ class PreVueloResponsableFragment : Fragment() {
                 showDialogFormatoSeCerrar()
                 binding.chxSi.isChecked = false
                 binding.tvSiguiente.visibility = View.GONE
+                binding.chbxEnviarCorreo!!.visibility = View.VISIBLE
                 binding.btnCerrarMomentaneamente!!.visibility = View.VISIBLE
             } else {
 
@@ -396,6 +418,7 @@ class PreVueloResponsableFragment : Fragment() {
                 binding.chxNo.isChecked = false
                 binding.tvSiguiente.visibility = View.VISIBLE
                 binding.btnCerrarMomentaneamente!!.visibility = View.GONE
+                binding.chbxEnviarCorreo!!.visibility = View.GONE
             } else {
 
             }
@@ -420,11 +443,20 @@ class PreVueloResponsableFragment : Fragment() {
             }
 
             var fechaHoy: String = ""
+            var fechaHoyCloud:String = ""
             val gc: GregorianCalendar = GregorianCalendar()
             val pattern = "yyyy-MM-dd HH:mm:ss"
+            val pattern2 = "yyyyMMdd HH:mm:ss"
             val simpleDateFormat = SimpleDateFormat(pattern)
+            val simpleDateFormat2 = SimpleDateFormat(pattern2)
             simpleDateFormat.calendar = gc
+            simpleDateFormat2.calendar = gc
             fechaHoy = simpleDateFormat.format(gc.time)
+            fechaHoyCloud = simpleDateFormat2.format(gc.time)
+
+            TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
+            TabsPreVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
+
 
             var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
                 parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,

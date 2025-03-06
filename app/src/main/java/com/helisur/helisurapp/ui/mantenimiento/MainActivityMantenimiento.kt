@@ -19,10 +19,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.ActivityMantenimientoBinding
 import com.helisur.helisurapp.domain.util.BaseActivity
+import com.helisur.helisurapp.domain.util.ConnectivityRepository
 import com.helisur.helisurapp.domain.util.InternetViewModel
 import com.helisur.helisurapp.domain.util.ServiceSyncData
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.ui.login.LoginActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.EscogeAeronaveFragment
+import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasFragment
 import com.helisur.helisurapp.ui.sync.SyncActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,29 +43,43 @@ class MainActivityMantenimiento : BaseActivity() {
         binding = ActivityMantenimientoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
+        internetViewModel = InternetViewModel(ConnectivityRepository(baseContext))
         drawerSetListMenuItems()
         drawerSetHeader()
         disableBackButton()
         drawersetRedirections()
         observers()
+      //  beginService()
     }
 
     fun beginService()
     {
-
         Intent(applicationContext, ServiceSyncData::class.java).also{
             it.action = ServiceSyncData.Actions.START.toString()
             startService(it)
         }
-
-
-
     }
 
 
     fun observers()
     {
+        internetViewModel!!.isOnline.observe(this) { isOnline ->
+            if (isOnline) {
+                // Handle online state
+                online = true
+                //intent to syncActivity
+                if (syncNow) {
+                    // next(SyncActivity::class.java,null)
+                    beginService()
+                    syncNow = false
+                }
 
+            } else {
+                // Handle offline state
+                online = false
+                syncNow = true
+            }
+        }
     }
 
 
@@ -156,6 +173,21 @@ class MainActivityMantenimiento : BaseActivity() {
 
                 R.id.item_cerrar -> {
                     showDialog("¿Desea cerrar sesión?")
+                    true
+                }
+                R.id.item_mecanicas -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_host_fragment_content_main, FormatosDiscrepanciasFragment())
+                        .addToBackStack(null) // Optional: Add to back stack
+                        .commit()
+                    true
+                }
+
+                R.id.item_formatos -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_host_fragment_content_main, EscogeAeronaveFragment())
+                        .addToBackStack(null) // Optional: Add to back stack
+                        .commit()
                     true
                 }
 

@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosDataTableCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataTableCloudResponse
 import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.model.ModeloAeronave
@@ -49,7 +51,8 @@ fun FormatoRegistro.toDB() = FormatoRegistroEntity(id_db = id_db, id_cloud = id_
     idEmpleadoResponsable = idEmpleadoResponsable, urlFirmaResponsable = urlFirmaResponsable, idEmpleadoPiloto = idEmpleadoPiloto,
     urlFirmaPiloto = urlFirmaPiloto, idEmpleadoCoPiloto = idEmpleadoCoPiloto, urlFirmaCoPiloto = urlFirmaCoPiloto,
     fechaHoraInicioRegistro = fechaHoraInicioRegistro, fechaHoraFinRegistro = fechaHoraFinRegistro, usuarioRegistro = usuarioRegistro,
-    sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion, completado = completadado)
+    sync = false,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion, completado = completadado)
+
 
 
 /*

@@ -12,9 +12,7 @@
 
     <fragment
         android:id="@+id/item_mecanicas"
-        android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.DatosAeronaveFragment"
-        android:label="Mecanicas"
-        tools:layout="@layout/fragment_datos_aeronave" />
+        android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasFragment" />
 
     <activity
         android:id="@+id/item_cartera"

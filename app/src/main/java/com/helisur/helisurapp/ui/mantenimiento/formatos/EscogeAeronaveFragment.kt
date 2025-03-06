@@ -20,6 +20,8 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PostVueloActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemAeronave
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemFormato
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,10 +88,21 @@ class EscogeAeronaveFragment  : Fragment() {
                 else
                 {
 
-                    saveModeloAeronave(requireContext(),idAeronave,nombreAeronave)
-                    saveFormato(requireContext(),idFormato,nombreFormato)
-                    val intent = Intent (getActivity(), FormatosDiscrepanciasActivity::class.java)
-                    getActivity()?.startActivity(intent)
+                   if(idFormato.equals("00001"))
+                   {
+                       saveModeloAeronave(requireContext(),idAeronave,nombreAeronave)
+                       saveFormato(requireContext(),idFormato,nombreFormato)
+                       val intent = Intent (getActivity(), PreVueloActivity::class.java)
+                       getActivity()?.startActivity(intent)
+                   }
+                    else
+                   {
+                       saveModeloAeronave(requireContext(),idAeronave,nombreAeronave)
+                       saveFormato(requireContext(),idFormato,nombreFormato)
+                       val intent = Intent (getActivity(), PostVueloActivity::class.java)
+                       getActivity()?.startActivity(intent)
+                   }
+
                 }
             }
 

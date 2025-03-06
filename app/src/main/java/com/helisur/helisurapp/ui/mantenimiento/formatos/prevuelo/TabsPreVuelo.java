@@ -30,7 +30,9 @@ import com.helisur.helisurapp.domain.util.SessionUserManager;
 import com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable;
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class TabsPreVuelo extends Fragment {
     public static TabLayout tabLayout;
@@ -97,6 +99,15 @@ public class TabsPreVuelo extends Fragment {
         //  SessionUserManager sesion = new SessionUserManager(generalContext);
         //  viewPager.setCurrentItem(sesion.getUserCurrentTabPosition());
           viewPager.setEnableSwipe(false);
+
+          String fechaHoy = "";
+          GregorianCalendar gc = new GregorianCalendar();
+          SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+          simpleDateFormat.setCalendar(gc);
+          fechaHoy = simpleDateFormat.format(gc.getTime());
+
+        TabsPreVuelo.formatoParameter.setFechaHoraInicioRegistro(fechaHoy);
+
 
       //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
       //  viewPager.setOffscreenPageLimit(int_items);

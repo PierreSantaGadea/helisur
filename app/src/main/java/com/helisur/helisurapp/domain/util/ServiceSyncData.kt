@@ -8,9 +8,17 @@ import android.os.IBinder
 import android.provider.Settings.Secure
 import android.util.Log
 import com.helisur.helisurapp.data.cloud.aeronaves.model.response.ObtieneAeronavesDataTableCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosDataTableCloudResponse
+import com.helisur.helisurapp.data.database.entities.DetalleFormatoRegistroEntity
+import com.helisur.helisurapp.data.database.entities.FormatoRegistroEntity
 import com.helisur.helisurapp.data.database.entities.ModeloAeronaveEntity
 import com.helisur.helisurapp.data.database.entities.toDB
 import com.helisur.helisurapp.data.repository.AeronavesRepository
+import com.helisur.helisurapp.data.repository.FormatosRepository
+import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.model.toDomain
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +47,9 @@ class ServiceSyncData : Service() {
     @Inject
     lateinit var aeronavesRepository: AeronavesRepository
 
+    @Inject
+    lateinit var formatosRepository: FormatosRepository
+
     companion object {
         private const val TAG = "ServiceSyncData"
     }
@@ -51,6 +62,11 @@ class ServiceSyncData : Service() {
 
     private var modelosAeronaveListDB: ArrayList<ModeloAeronave>? = null
     private var modelosAeronaveListCloud: ArrayList<ObtieneAeronavesDataTableCloudResponse>? = null
+
+
+    private var formatosRealizadosListDb: ArrayList<FormatoRegistroEntity>? = null
+    private var detalleFormatosRealizadosListDb: ArrayList<DetalleFormatoRegistroEntity>? = null
+    private var formatosRealizadosListCloud: ArrayList<ObtieneFormatosRealizadosDataTableCloudResponse>? = null
 
 
     inner class LocalBinder : Binder() {
@@ -99,6 +115,7 @@ class ServiceSyncData : Service() {
         syncJob?.cancel()
         syncJob = coroutineScope.launch {
          //   syncModeloAeronave()
+            sendFormatosRegistrados()
         }
 
         /*
@@ -140,6 +157,76 @@ class ServiceSyncData : Service() {
         }
     }
 
+
+
+
+    suspend fun sendFormatosRegistrados()
+    {
+        formatosRealizadosListDb = ArrayList(formatosRepository.getFormatosRegistroListDataBaseSQlite())
+
+        detalleFormatosRealizadosListDb = ArrayList(formatosRepository.getDetalleFormatosRegistroListDataBaseSqlite())
+
+        for(item in formatosRealizadosListDb!!)
+        {
+            if(!item.sync!!)
+            {
+                var listaTareas:ArrayList<GuardaTareaCloudParameter>? = arrayListOf()
+
+                for(itemTarea in detalleFormatosRealizadosListDb!!)
+                {
+                    if(itemTarea.idRegistroFormatoDB.equals(item.id_db))
+                    {
+                        listaTareas!!.add(GuardaTareaCloudParameter(itemTarea.codigoRegistroFormato,
+                            itemTarea.codigoTarea,itemTarea.codigoReportaje,itemTarea.indicadorSN,item.usuarioRegistro,
+                            "",itemTarea.nombreTarea))
+                    }
+                }
+
+                var nuevoFormatoCloud = GuardaFormatoCloudParameter(item.codigoFormato,item.codigoPuestoTecnico,
+                    item.numeroRTV,item.codigoEstacion,item.existenDiscrepancias,item.numeroRTVDiscrepancias,item.accionesMantenimiento,
+                    item.solicitaEncMotores,item.idEmpleadoResponsable,item.urlFirmaResponsable,item.idEmpleadoPiloto,
+                    item.urlFirmaPiloto,item.idEmpleadoCoPiloto,item.urlFirmaCoPiloto,item.fechaHoraInicioRegistro,
+                    item.fechaHoraFinRegistro,item.usuarioRegistro,listaTareas)
+
+                formatosRepository.grabaFormato(nuevoFormatoCloud)
+            }
+        }
+    }
+
+/*
+    suspend fun syncFormatosRegistrados() {
+        try {
+            withContext(Dispatchers.Main) {
+
+                formatosRealizadosListDb = ArrayList(formatosRepository.getFormatosRegistroListDB())
+
+                formatosRealizadosListCloud = ArrayList(formatosRepository.obtieneFormatosRealizados("","").data!!.table)
+                //      aeronavesRepository.deleteTableModeloAeronaveDB()
+                if (formatosRealizadosListCloud != null) {
+                    for (itemcloud in formatosRealizadosListCloud!!) {
+
+                        for(itemDB in formatosRealizadosListDb!!)
+                        {
+                            if(itemcloud.codigoModeloPuesto.equals(itemDB.id_cloud))
+                            {
+                                if(itemcloud.fechaModificacion!!>itemDB.fechaModificacion!!)
+                                {
+                                    aeronavesRepository.updateModeloAeronave(itemcloud.codigoModeloPuesto,
+                                        itemcloud.descripcion,itemcloud.fechaRegistro!!,itemcloud.fechaModificacion!!,true)
+                                    //  modelosAeronaveListDB!!.add(itemcloud.toDomain())
+                                }
+                            }
+                        }
+                        //  modelosAeronaveListDB!!.add(itemcloud.toDomain())
+                    }
+                }
+                // aeronavesRepository.insertModeloAeronaveListDB(modelosAeronaveListDB!!)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+        }
+    }
+*/
 
 
     suspend fun syncFormatosRefistrados()

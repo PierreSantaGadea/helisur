@@ -572,6 +572,19 @@ class FormatosRepository @Inject constructor(
         }
     }
 
+    suspend fun getFormatosRegistroListDataBaseSQlite(): List<FormatoRegistroEntity> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<FormatoRegistroEntity> = formatoRegistroLocalData.getAll()
+                response
+            }
+        } catch (e: Exception) {
+            val response: List<FormatoRegistroEntity> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
     suspend fun getFormatosRegistroIncompletedListDB(): List<FormatoRegistro> {
         try {
             return withContext(Dispatchers.IO) {
@@ -611,6 +624,20 @@ class FormatosRepository @Inject constructor(
             }
         } catch (e: Exception) {
             val response: List<DetalleFormatoRegistro> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
+
+    suspend fun getDetalleFormatosRegistroListDataBaseSqlite(): List<DetalleFormatoRegistroEntity> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<DetalleFormatoRegistroEntity> = detalleFormatoRegistroLocalData.getAll()
+                response
+            }
+        } catch (e: Exception) {
+            val response: List<DetalleFormatoRegistroEntity> = arrayListOf()
             Log.e(className, e.toString())
             return response
         }

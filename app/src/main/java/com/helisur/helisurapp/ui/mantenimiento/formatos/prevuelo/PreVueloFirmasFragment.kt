@@ -33,6 +33,7 @@ import com.helisur.helisurapp.domain.model.Empleado
 import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
+import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
@@ -263,11 +264,19 @@ class PreVueloFirmasFragment : Fragment() {
                 }
 
                 var fechaHoy: String = ""
+                var fechaHoyCloud:String = ""
                 val gc: GregorianCalendar = GregorianCalendar()
                 val pattern = "yyyy-MM-dd HH:mm:ss"
+                val pattern2 = "yyyyMMdd HH:mm:ss"
                 val simpleDateFormat = SimpleDateFormat(pattern)
+                val simpleDateFormat2 = SimpleDateFormat(pattern2)
                 simpleDateFormat.calendar = gc
+                simpleDateFormat2.calendar = gc
                 fechaHoy = simpleDateFormat.format(gc.time)
+                fechaHoyCloud = simpleDateFormat2.format(gc.time)
+
+                TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
+                TabsPreVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
 
                 var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
                     parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
@@ -654,8 +663,7 @@ class PreVueloFirmasFragment : Fragment() {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser) {
-            TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = ""
-            TabsPreVuelo.formatoParameter.fechaHoraInicioRegistro = ""
+
             TabsPreVuelo.formatoParameter.usuarioRegistro = TabsPreVuelo.idUsuario
 
         } else {

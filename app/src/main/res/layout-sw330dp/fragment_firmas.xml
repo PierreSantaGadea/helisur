@@ -510,13 +510,24 @@
                 </LinearLayout>
 
 
+                <CheckBox
+                    android:layout_marginTop="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enviar correo"
+                    android:fontFamily="@font/robotoregular"
+                    android:textSize="15dp"
+                    android:buttonTint="@color/titulo_pantalla_general"
+                    android:textColor="@color/texto_simple_pantalla_general" />
+
+
                 <RelativeLayout
                     android:id="@+id/btnGuardarTodo"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="0dp"
                     android:background="@drawable/shape_button_principal"
                     android:gravity="center">

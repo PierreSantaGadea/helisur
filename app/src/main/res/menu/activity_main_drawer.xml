@@ -17,13 +17,13 @@
                 <item
                     android:id="@+id/item_formatos"
                     android:icon="@drawable/ic_progress_one"
-                    android:title="Formato"
+                    android:title="Agregar Formato"
                     app:showAsAction="always"></item>
 
                 <item
                     android:id="@+id/item_mecanicas"
                     android:icon="@drawable/ic_reglas"
-                    android:title="Otro"
+                    android:title="Lista Formatos"
                     app:showAsAction="always"></item>
             </menu>
         </item>

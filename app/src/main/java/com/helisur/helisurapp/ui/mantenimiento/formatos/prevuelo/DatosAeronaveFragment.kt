@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.FragmentDatosAeronaveBinding
 import com.helisur.helisurapp.domain.model.Aeronave
@@ -58,7 +57,7 @@ class DatosAeronaveFragment : Fragment() {
     private var formatoRegistroList: ArrayList<FormatoRegistro>? = null
     private var detalleFormatoRegistroList: ArrayList<DetalleFormatoRegistro>? = null
 
-    private var listaAnotacionesPostVuelo: ArrayList<DetalleFormatoRegistro>? = null
+    private var listaAnotacionesFormato: ArrayList<DetalleFormatoRegistro>? = null
 
     var adapter : ListaAnotacionesPostVueloAdapter? = null
 
@@ -144,9 +143,9 @@ class DatosAeronaveFragment : Fragment() {
     fun clickListener() {
         binding.tvSiguiente.setOnClickListener {
 
-            if(listaAnotacionesPostVuelo!=null)
+            if(listaAnotacionesFormato!=null)
             {
-                if(listaAnotacionesPostVuelo!!.size==0)
+                if(listaAnotacionesFormato!!.size==0)
                 {
                     if (validationsNextScreen()) {
                         TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
@@ -154,7 +153,25 @@ class DatosAeronaveFragment : Fragment() {
                 }
                 else
                 {
-                    showDialogCierreDiscrepancias("Para el cierre de discrepancias dirigirse al formato de Post-Vuelo de la aeronave "+nombreAeronave)
+                    var tieneRTV = false
+                    for(itemAnotacion in listaAnotacionesFormato!!)
+                    {
+                        if(itemAnotacion.nombreReportaje.contains("RTV"))
+                        {
+                            tieneRTV = true
+                        }
+                    }
+                    if(tieneRTV)
+                    {
+                        showDialogCierreDiscrepancias("La aeronave "+nombreAeronave+ " tiene discrepancias con RTV")
+                    }
+                    else
+                    {
+                        if (validationsNextScreen()) {
+                            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+                        }
+                    }
+
                 }
             }
             else
@@ -181,7 +198,7 @@ class DatosAeronaveFragment : Fragment() {
 
         binding.llContenedorConteoDiscrepancias!!.setOnClickListener {
 
-            setRecyclerViewAnot(listaAnotacionesPostVuelo!!)
+            setRecyclerViewAnot(listaAnotacionesFormato!!)
 
             if(showDetalleCamapana)
             {
@@ -417,18 +434,19 @@ class DatosAeronaveFragment : Fragment() {
                 if (position == 0) {
                     idAeronave = ""
                     nombreAeronave = ""
-                    listaAnotacionesPostVuelo = arrayListOf()
+                    listaAnotacionesFormato = arrayListOf()
                     TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  ""
                 } else {
                     idAeronave = modelosAeronavesList!![position-1].codigoPuestoTecnico
                     nombreAeronave  = modelosAeronavesList!![position-1].nombre
-                    listaAnotacionesPostVuelo = arrayListOf()
+                    listaAnotacionesFormato = arrayListOf()
                     TabsPreVuelo.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoPuestoTecnico
                     saveAeronave(requireContext(),idAeronave,modelosAeronavesList!![position-1].nombre)
                //     aeronavesViewModel.getCountDetallessByAeronave(idAeronave)
-                    if(getFormato(requireContext()).equals("00001"))
-                    {
-                        var conteoDiscre:Int = conteoDiscrepancias(idAeronave)
+                 //   if(getFormato(requireContext()).equals("00001"))
+                 //   {
+                    //    var conteoDiscre:Int = conteoDiscrepancias(idAeronave)
+                        var conteoDiscre:Int = conteoDiscrepancias2(idAeronave,getFormato(requireContext())!!)
                        if(conteoDiscre==0)
                        {
                            binding.llContenedorConteoDiscrepancias!!.visibility = View.GONE
@@ -439,7 +457,7 @@ class DatosAeronaveFragment : Fragment() {
                            binding.llContenedorConteoDiscrepancias!!.visibility = View.VISIBLE
                            binding.tvConteoDiscrepancias!!.setText(conteoDiscre.toString())
                        }
-                    }
+                   // }
                 }
             }
         }
@@ -713,7 +731,7 @@ class DatosAeronaveFragment : Fragment() {
                 //obtengo la cantidad que tienen eel id que obtuve en el buicle anterior
             }
 
-            listaAnotacionesPostVuelo = listaAVer
+            listaAnotacionesFormato = listaAVer
 
             return listaAVer!!.count()
 
@@ -721,6 +739,72 @@ class DatosAeronaveFragment : Fragment() {
         else{
             return 0
         }
+
+    }
+
+
+
+    fun conteoDiscrepancias2(aeronaveCodPuestoTecnico:String,codFormato:String):Int
+    {
+
+        var formatosConDiscrepancias:ArrayList<FormatoRegistro> = arrayListOf()
+
+        for(item in formatoRegistroList!!)
+        {
+            if(item.codigoPuestoTecnico.equals(aeronaveCodPuestoTecnico))
+            {
+                if(item.codigoFormato.equals(codFormato))
+                {
+                    if(!item.completadado!!)
+                    {
+                        formatosConDiscrepancias.add(item)
+                    }
+                }
+
+            }
+
+            // obtengo todos los formatos con discrepancias de la aeronave seleccionada (que no estan completados)
+        }
+
+        // una vez q tengo todos los formatos con discrepancias me voy al detalle
+
+        if(formatosConDiscrepancias.size>0)
+        {
+            var listaAVer:ArrayList<DetalleFormatoRegistro>? = arrayListOf()
+
+            for(itemDetalleFormato in detalleFormatoRegistroList!!)
+            {
+
+                for(itemReportaje in listaReportajes!!)
+                {
+                    if(itemReportaje.id_cloud.equals(itemDetalleFormato.codigoReportaje))
+                    {
+                        itemDetalleFormato.nombreReportaje = itemReportaje.nombreReportaje
+                    }
+                }
+
+
+                for(itemFormatosConDiscrepancias in formatosConDiscrepancias)
+                {
+                    if(itemFormatosConDiscrepancias.id_db.equals(itemDetalleFormato.idRegistroFormatoDB))
+                    {
+                        listaAVer!!.add(itemDetalleFormato)
+                    }
+                }
+
+
+            }
+            listaAnotacionesFormato = listaAVer
+
+            return listaAVer!!.count()
+
+        }
+        else
+        {
+            return 0
+        }
+
+
 
     }
 

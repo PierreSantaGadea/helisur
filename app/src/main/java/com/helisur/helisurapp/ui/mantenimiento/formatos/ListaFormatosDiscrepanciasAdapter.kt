@@ -20,6 +20,8 @@ class ListaFormatosDiscrepanciasAdapter (private val mList: ArrayList<FormatoReg
         val tvAeronave: TextView = view.findViewById(R.id.tvAeronave)
         val tvFecha: TextView = view.findViewById(R.id.tvFecha)
 
+        val tvNombreFormato: TextView = view.findViewById(R.id.tvNombreFormato)
+
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(mList[adapterPosition])
@@ -39,9 +41,18 @@ class ListaFormatosDiscrepanciasAdapter (private val mList: ArrayList<FormatoReg
         val appItem = mList[position]
      //   holder.tvItemNombre.text = appItem.message
 
+        if(appItem.codigoFormato.equals("00001")){
+
+            holder.tvNombreFormato.text = "Pre-Vuelo"
+        }
+        else
+        {
+            holder.tvNombreFormato.text = "Post-Vuelo"
+        }
+
         holder.tvModeloAeronave.text = appItem.codigoEstacion
         holder.tvAeronave.text = appItem.nombreAeronave
-        holder.tvFecha.text = appItem.fechaHoraFinRegistro
+        holder.tvFecha.text = appItem.fechaRegistro
 
     }
 
