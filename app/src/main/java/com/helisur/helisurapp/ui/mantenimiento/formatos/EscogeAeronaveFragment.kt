@@ -3,12 +3,19 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -25,6 +32,8 @@ import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivit
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemAeronave
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemFormato
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.FileOutputStream
 
 
 @AndroidEntryPoint
@@ -49,6 +58,158 @@ class EscogeAeronaveFragment  : Fragment() {
     private var idFormato:String = ""
     private var nombreFormato:String = ""
 
+
+    fun loadBitmapFromView(v: View): Bitmap? {
+        if (v.measuredHeight <= 0) {
+            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+            val b = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
+            val c = Canvas(b)
+            v.layout(0, 0, v.measuredWidth, v.measuredHeight)
+            v.draw(c)
+            return b
+        }
+        else{
+            return null
+        }
+    }
+
+    fun genraa() {
+
+        var pageHeight = 942
+        var pageWidth = 635
+
+        var pdfDocument: PdfDocument = PdfDocument()
+
+        // two variables for paint "paint" is used
+        // for drawing shapes and we will use "title"
+        // for adding text in our PDF file.
+        var paint: Paint = Paint()
+        var title: Paint = Paint()
+
+        // we are adding page info to our PDF file
+        // in which we will be passing our pageWidth,
+        // pageHeight and number of pages and after that
+        // we are calling it to create our PDF.
+        var myPageInfo: PdfDocument.PageInfo? =
+            PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 3).create()
+
+        // below line is used for setting
+        // start page for our PDF file.
+        var myPage: PdfDocument.Page = pdfDocument.startPage(myPageInfo)
+
+        // creating a variable for canvas
+        // from our page of PDF.
+        var canvas: Canvas = myPage.canvas
+
+
+
+
+
+        //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+        val startX = 20f
+        val startY = 50f
+        val tableWidth = 555f
+        val col1Width = 120f
+        val col2Width = 230f
+        val col3Width = tableWidth - col1Width - col2Width
+        val rowHeight = 60f
+
+        val bitmap: Bitmap? = loadBitmapFromView(binding.llpruebaaaa!!)
+      //  val scaledBitmap: Bitmap = Bitmap.createScaledBitmap(bitmap!!, pageWidth, pageHeight, false)
+        canvas.drawBitmap(bitmap!!, startX, startY, paint)
+
+        /*
+
+        // Dibujar contorno de la tabla
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 2f
+        canvas.drawRect(startX, startY, startX + tableWidth, startY + rowHeight * 2, paint)
+
+        // Columnas principales
+        val col1End = startX + col1Width
+        val col2End = col1End + col2Width
+        val col3End = col2End + col3Width
+
+        canvas.drawLine(col1End, startY, col1End, startY + rowHeight * 2, paint) // Línea entre col 1 y 2
+        canvas.drawLine(col2End, startY, col2End, startY + rowHeight * 2, paint) // Línea entre col 2 y 3
+
+        // Segunda columna: Divisiones internas
+        val col2HalfY = startY + rowHeight
+        canvas.drawLine(col1End, col2HalfY, col2End, col2HalfY, paint) // Divide la segunda columna en 2 filas
+        canvas.drawLine((col1End + col2End) / 2, col2HalfY, (col1End + col2End) / 2, startY + rowHeight * 2, paint) // Divide en 2 columnas pequeñas
+
+        // Tercera columna: Divisiones internas
+        val col3HalfY = startY + rowHeight
+        canvas.drawLine(col2End, col3HalfY, col3End, col3HalfY, paint) // Divide la tercera columna en 2 filas
+
+        // Cargar imagen y colocarla en la primera columna
+        val bitmap: Bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.logomini)
+        val scaledBitmap: Bitmap = Bitmap.createScaledBitmap(bitmap, col1Width.toInt(), (rowHeight * 2).toInt(), false)
+        canvas.drawBitmap(scaledBitmap, startX, startY, paint)
+
+        // Texto en cada sección con dos líneas
+        paint.style = Paint.Style.FILL
+        paint.textSize = 12f
+        paint.typeface = Typeface.DEFAULT_BOLD
+
+        // Segunda columna - Primera fila (Titulo general)
+        canvas.drawText("Código: FPRGAC-7A", col1End + 10f, startY + 25f, paint)
+
+        // Segunda columna - Sub columnas con dos líneas de texto
+        paint.textSize = 10f
+        canvas.drawText("Edición", col1End + 10f, col2HalfY + 20f, paint)
+        canvas.drawText("Noviembre 2024", col1End + 10f, col2HalfY + 35f, paint)
+
+        canvas.drawText("Revisión", (col1End + col2End) / 2 + 10f, col2HalfY + 20f, paint)
+        canvas.drawText("01 (Reedición)", (col1End + col2End) / 2 + 10f, col2HalfY + 35f, paint)
+
+        // Tercera columna - Filas con dos líneas de texto
+        paint.textSize = 12f
+        canvas.drawText("Página 1", col2End + 10f, startY + 25f, paint)
+       // canvas.drawText("Fila 1 - Línea 2", col2End + 10f, startY + 40f, paint)
+
+        canvas.drawText("Fecha Revisión", col2End + 10f, col3HalfY + 20f, paint)
+        canvas.drawText("Noviembre 2024", col2End + 10f, col3HalfY + 35f, paint)
+
+         */
+
+        //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+
+        pdfDocument.finishPage(myPage)
+
+        // below line is used to set the name of
+        // our PDF file and its path.
+        val file: File = File(Environment.getExternalStorageDirectory(), "GFG.pdf")
+
+        try {
+            // after creating a file name we will
+            // write our PDF file to that location.
+            pdfDocument.writeTo(FileOutputStream(file))
+
+            // on below line we are displaying a toast message as PDF file generated..
+            Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            // below line is used
+            // to handle error
+            e.printStackTrace()
+
+            // on below line we are displaying a toast message as fail to generate PDF
+            Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT)
+                .show()
+        }
+        // after storing our pdf to that
+        // location we are closing our PDF file.
+        pdfDocument.close()
+
+        //    viewPdf("GFG.pdf",Environment.getExternalStorageDirectory().path)
+
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -57,6 +218,7 @@ class EscogeAeronaveFragment  : Fragment() {
         initUI()
         clickListener()
         observers()
+        genraa()
         return root
     }
 

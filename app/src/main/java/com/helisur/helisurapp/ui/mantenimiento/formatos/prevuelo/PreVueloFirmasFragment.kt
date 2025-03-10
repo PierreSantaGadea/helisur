@@ -1,16 +1,25 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -20,6 +29,9 @@ import android.view.Window
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.RelativeLayout
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -40,6 +52,8 @@ import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.GregorianCalendar
 import java.util.UUID
@@ -91,6 +105,9 @@ class PreVueloFirmasFragment : Fragment() {
         loading = TransparentProgressDialog(requireContext())
        // loginViewModel.obtieneEmpleados("00020")
         loginViewModel.getEmpleadosListDB()
+
+  //      bmp = BitmapFactory.decodeResource(resources, R.drawable.ic_form)
+  //      scaledbmp = Bitmap.createScaledBitmap(bmp, 140, 140, false)
 
      //   firmapiloto = binding.signaturePadPiloto
 
@@ -180,7 +197,10 @@ class PreVueloFirmasFragment : Fragment() {
     fun clickListener() {
 
         binding.tvAtras.setOnClickListener {
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
+
+            genraa()
+     //       pruebaPDF()
+       //     TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
         }
 
 
@@ -831,6 +851,308 @@ class PreVueloFirmasFragment : Fragment() {
     }
 
 
+
+
+    var pageHeight = 1120
+    var pageWidth = 792
+
+    // creating a bitmap variable
+    // for storing our images
+ //   lateinit var bmp: Bitmap
+  //  lateinit var scaledbmp: Bitmap
+
+    // on below line we are creating a
+    // constant code for runtime permissions.
+    var PERMISSION_CODE = 101
+
+
+    fun checkPermissions(): Boolean {
+        // on below line we are creating a variable for both of our permissions.
+
+        // on below line we are creating a variable for
+        // writing to external storage permission
+        var writeStoragePermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            WRITE_EXTERNAL_STORAGE
+        )
+
+        // on below line we are creating a variable
+        // for reading external storage permission
+        var readStoragePermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            READ_EXTERNAL_STORAGE
+        )
+
+        // on below line we are returning true if both the
+        // permissions are granted and returning false
+        // if permissions are not granted.
+        return writeStoragePermission == PackageManager.PERMISSION_GRANTED
+                && readStoragePermission == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun requestPermission() {
+
+        // on below line we are requesting read and write to
+        // storage permission for our application.
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE), PERMISSION_CODE
+        )
+    }
+
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        // on below line we are checking if the
+        // request code is equal to permission code.
+        if (requestCode == PERMISSION_CODE) {
+
+            // on below line we are checking if result size is > 0
+            if (grantResults.size > 0) {
+
+                // on below line we are checking
+                // if both the permissions are granted.
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1]
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                    var noses = ""
+                    // if permissions are granted we are displaying a toast message.
+                  //  Toast.makeText(this, "Permission Granted..", Toast.LENGTH_SHORT).show()
+
+                } else {
+                    var noses = ""
+                    // if permissions are not granted we are
+                    // displaying a toast message as permission denied.
+                  //  Toast.makeText(this, "Permission Denied..", Toast.LENGTH_SHORT).show()
+                    //finish()
+                }
+            }
+        }
+    }
+
+
+
+
+    fun genraa()
+    {
+
+        var pdfDocument: PdfDocument = PdfDocument()
+
+        // two variables for paint "paint" is used
+        // for drawing shapes and we will use "title"
+        // for adding text in our PDF file.
+        var paint: Paint = Paint()
+        var title: Paint = Paint()
+
+        // we are adding page info to our PDF file
+        // in which we will be passing our pageWidth,
+        // pageHeight and number of pages and after that
+        // we are calling it to create our PDF.
+        var myPageInfo: PdfDocument.PageInfo? =
+            PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+
+        // below line is used for setting
+        // start page for our PDF file.
+        var myPage: PdfDocument.Page = pdfDocument.startPage(myPageInfo)
+
+        // creating a variable for canvas
+        // from our page of PDF.
+        var canvas: Canvas = myPage.canvas
+
+
+        val bitmap: Bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.logo_helisur_color)
+        val scaledBitmap: Bitmap = Bitmap.createScaledBitmap(bitmap, 120, 50, false)
+        canvas.drawBitmap(scaledBitmap, 20f, 20f, paint)
+
+        // Dibujar líneas para la tabla
+        paint.strokeWidth = 2f
+        paint.style = Paint.Style.STROKE
+        canvas.drawRect(150f, 20f, 570f, 80f, paint) // Cuadro principal
+
+        // Líneas internas
+        canvas.drawLine(300f, 20f, 300f, 80f, paint) // Separación primera columna
+        canvas.drawLine(450f, 20f, 450f, 80f, paint) // Separación segunda columna
+
+        // Texto dentro de la tabla
+        paint.style = Paint.Style.FILL
+        paint.textSize = 12f
+        paint.typeface = Typeface.DEFAULT_BOLD
+
+        canvas.drawText("Código: FPRGAC-7A", 160f, 40f, paint)
+        canvas.drawText("Página 1", 460f, 40f, paint)
+
+        paint.textSize = 10f
+        paint.typeface = Typeface.DEFAULT
+        canvas.drawText("Edición:", 160f, 60f, paint)
+        canvas.drawText("Noviembre 2024", 210f, 60f, paint)
+        canvas.drawText("Revisión:", 310f, 60f, paint)
+        canvas.drawText("01 (Reedición)", 370f, 60f, paint)
+        canvas.drawText("Fecha de Revisión:", 460f, 60f, paint)
+        canvas.drawText("Noviembre 2024", 560f, 60f, paint)
+
+        // Dibujar la barra negra con el título
+        paint.color = android.graphics.Color.BLACK
+        canvas.drawRect(20f, 90f, 570f, 110f, paint)
+
+        paint.color = android.graphics.Color.WHITE
+        paint.textSize = 14f
+        paint.typeface = Typeface.DEFAULT_BOLD
+        canvas.drawText("FORMATO DE PRE-VUELO PARA AERONAVE MBB-BK117 B-2", 30f, 105f, paint)
+
+
+
+
+        pdfDocument.finishPage(myPage)
+
+        // below line is used to set the name of
+        // our PDF file and its path.
+        val file: File = File(Environment.getExternalStorageDirectory(), "GFG.pdf")
+
+        try {
+            // after creating a file name we will
+            // write our PDF file to that location.
+            pdfDocument.writeTo(FileOutputStream(file))
+
+            // on below line we are displaying a toast message as PDF file generated..
+            Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            // below line is used
+            // to handle error
+            e.printStackTrace()
+
+            // on below line we are displaying a toast message as fail to generate PDF
+            Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT)
+                .show()
+        }
+        // after storing our pdf to that
+        // location we are closing our PDF file.
+        pdfDocument.close()
+
+        //    viewPdf("GFG.pdf",Environment.getExternalStorageDirectory().path)
+
+    }
+
+
+    fun generatePDF() {
+        // creating an object variable
+        // for our PDF document.
+        var pdfDocument: PdfDocument = PdfDocument()
+
+        // two variables for paint "paint" is used
+        // for drawing shapes and we will use "title"
+        // for adding text in our PDF file.
+        var paint: Paint = Paint()
+        var title: Paint = Paint()
+
+        // we are adding page info to our PDF file
+        // in which we will be passing our pageWidth,
+        // pageHeight and number of pages and after that
+        // we are calling it to create our PDF.
+        var myPageInfo: PdfDocument.PageInfo? =
+            PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+
+        // below line is used for setting
+        // start page for our PDF file.
+        var myPage: PdfDocument.Page = pdfDocument.startPage(myPageInfo)
+
+        // creating a variable for canvas
+        // from our page of PDF.
+        var canvas: Canvas = myPage.canvas
+
+        // below line is used to draw our image on our PDF file.
+        // the first parameter of our drawbitmap method is
+        // our bitmap
+        // second parameter is position from left
+        // third parameter is position from top and last
+        // one is our variable for paint.
+       // canvas.drawBitmap(scaledbmp, 56F, 40F, paint)
+
+        // below line is used for adding typeface for
+        // our text which we will be adding in our PDF file.
+        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL))
+
+        // below line is used for setting text size
+        // which we will be displaying in our PDF file.
+        title.textSize = 15F
+
+        // below line is sued for setting color
+        // of our text inside our PDF file.
+        title.setColor(ContextCompat.getColor(requireContext(), R.color.purple_200))
+
+        // below line is used to draw text in our PDF file.
+        // the first parameter is our text, second parameter
+        // is position from start, third parameter is position from top
+        // and then we are passing our variable of paint which is title.
+        canvas.drawText("A portal for IT professionals.", 209F, 100F, title)
+        canvas.drawText("Geeks for Geeks", 209F, 80F, title)
+        title.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
+        title.setColor(ContextCompat.getColor(requireContext(), R.color.purple_200))
+        title.textSize = 15F
+
+        // below line is used for setting
+        // our text to center of PDF.
+        title.textAlign = Paint.Align.CENTER
+        canvas.drawText("This is sample document which we have created.", 396F, 560F, title)
+
+        // after adding all attributes to our
+        // PDF file we will be finishing our page.
+        pdfDocument.finishPage(myPage)
+
+        // below line is used to set the name of
+        // our PDF file and its path.
+        val file: File = File(Environment.getExternalStorageDirectory(), "GFG.pdf")
+
+        try {
+            // after creating a file name we will
+            // write our PDF file to that location.
+            pdfDocument.writeTo(FileOutputStream(file))
+
+            // on below line we are displaying a toast message as PDF file generated..
+            Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            // below line is used
+            // to handle error
+            e.printStackTrace()
+
+            // on below line we are displaying a toast message as fail to generate PDF
+            Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT)
+                .show()
+        }
+        // after storing our pdf to that
+        // location we are closing our PDF file.
+        pdfDocument.close()
+
+    //    viewPdf("GFG.pdf",Environment.getExternalStorageDirectory().path)
+    }
+
+
+    private fun viewPdf(file: String, directory: String) {
+        val pdfFile = File(
+            Environment.getExternalStorageDirectory().toString() + "/" + directory + "/" + file
+        )
+        val path = Uri.fromFile(pdfFile)
+
+        // Setting the intent for pdf reader
+        val pdfIntent = Intent(Intent.ACTION_VIEW)
+        pdfIntent.setDataAndType(path, "application/pdf")
+        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        try {
+            startActivity(pdfIntent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(
+                requireActivity(),
+                "No application has been found to open PDF files.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
 
 }

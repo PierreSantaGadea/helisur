@@ -1,11 +1,25 @@
 package com.helisur.helisurapp.ui.login
 
+import android.Manifest
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.Nullable
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.helisur.helisurapp.databinding.ActivityLoginBinding
 import com.helisur.helisurapp.domain.model.Empleado
@@ -17,9 +31,8 @@ import com.helisur.helisurapp.domain.util.ServiceSyncData
 import com.helisur.helisurapp.domain.util.ServiceSyncDataFirstTime
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
-import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
-import com.helisur.helisurapp.ui.sync.SyncActivity
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity() {
@@ -43,6 +56,17 @@ class LoginActivity : BaseActivity() {
         clickListener()
         observers()
         disableBackButton()
+
+
+        if(!checkPermission())
+        {
+            requestPermission()
+        }
+        else
+        {
+            var nose = ""
+        }
+
 
     }
 
@@ -313,5 +337,136 @@ class LoginActivity : BaseActivity() {
             }
         })
     }
+
+    var PERMISSION_CODE = 101
+
+
+    fun askForPermissionWrite()
+    {
+        if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val storagePermissions = arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // Do your task on permission granted
+             //   initAll()
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // TODO: display an educational UI explaining to the user the features that will be enabled
+                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                //       If the user selects "No thanks," allow the user to continue without notifications.
+                val pene :String = ""
+            } else {
+                // Directly ask for the permission
+                val pene :String = ""
+                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+        }
+        else{
+            var nose = ""
+            // Below Android 13 You don't need to ask for notification permission.
+        }
+    }
+
+    fun askForPermissionRead()
+    {
+        if (SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // Do your task on permission granted
+                //   initAll()
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // TODO: display an educational UI explaining to the user the features that will be enabled
+                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                //       If the user selects "No thanks," allow the user to continue without notifications.
+                val pene :String = ""
+            } else {
+                // Directly ask for the permission
+                val pene :String = ""
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+        else{
+            // Below Android 13 You don't need to ask for notification permission.
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+        //    initAll()
+            // Permission Granted
+        } else {
+            // Permission Denied / Cancel
+            // avisar que el usuario no podra recuperar contraseña
+          //  initAll()
+        }
+    }
+
+
+    private fun checkPermission(): Boolean {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager()
+        } else {
+            val result =
+                ContextCompat.checkSelfPermission(this@LoginActivity, READ_EXTERNAL_STORAGE)
+            val result1 =
+                ContextCompat.checkSelfPermission(this@LoginActivity, WRITE_EXTERNAL_STORAGE)
+            return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun requestPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                val intent: Intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.addCategory("android.intent.category.DEFAULT")
+                intent.setData(
+                    Uri.parse(
+                        String.format(
+                            "package:%s",
+                            applicationContext.packageName
+                        )
+                    )
+                )
+                startActivityForResult(intent, 2296)
+            } catch (e: java.lang.Exception) {
+                val intent = Intent()
+                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                startActivityForResult(intent, 2296)
+            }
+        } else {
+            //below android 11
+            ActivityCompat.requestPermissions(
+                this@LoginActivity, arrayOf<String>(
+                    WRITE_EXTERNAL_STORAGE
+                ), PERMISSION_CODE
+            )
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 2296) {
+            if (SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    // perform action when allow permission success
+                } else {
+                    Toast.makeText(this, "Allow permission for storage access!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
+
 
 }
