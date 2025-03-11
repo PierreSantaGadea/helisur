@@ -300,6 +300,4 @@ class ListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) 
 
 
 
-
-
 }

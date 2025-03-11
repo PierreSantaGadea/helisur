@@ -435,7 +435,15 @@ class PreVueloResponsableFragment : Fragment() {
             var completado:Boolean = false
             if(parameter.listaTareas!=null)
             {
-                completado = false
+                if(ArrayList(parameter.listaTareas).size == 0)
+                {
+                    completado = true
+                }
+                else
+                {
+                    completado = false
+                }
+
             }
             else
             {

@@ -53,6 +53,7 @@ class FormatosViewModel @Inject constructor(
 
     val responseGetFormatosRegistroListDB = MutableLiveData<List<FormatoRegistro>?>()
     val responseGetFormatosRegistroIncompletedListDB = MutableLiveData<List<FormatoRegistro>?>()
+    val responseGetFormatosRegistroCompletedListDB = MutableLiveData<List<FormatoRegistro>?>()
     val responseGetDetalleFormatosRegistroListDB = MutableLiveData<List<DetalleFormatoRegistro>?>()
     val responsInsertFormatoRegistroDB = MutableLiveData<Boolean?>()
     val responsInsertDetalleFormatoRegistroDB = MutableLiveData<Boolean?>()
@@ -422,6 +423,21 @@ class FormatosViewModel @Inject constructor(
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.SUCCESS)
                 responseGetFormatosRegistroIncompletedListDB.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+    fun getFormatosRegistroCompletedListDB() {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.getFormatosRegistroCompletedListDB()
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseGetFormatosRegistroCompletedListDB.postValue(result)
             } else {
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))

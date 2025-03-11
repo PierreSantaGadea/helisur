@@ -11,19 +11,25 @@
         <item
             android:visible="true"
             android:titleCondensed="Areas"
-            android:title="Mantenimiento"
+            android:title="Formatos"
             app:showAsAction="always">
             <menu>
                 <item
                     android:id="@+id/item_formatos"
-                    android:icon="@drawable/ic_progress_one"
-                    android:title="Agregar Formato"
+                    android:icon="@drawable/ic_agregar"
+                    android:title="Agregar"
                     app:showAsAction="always"></item>
 
                 <item
-                    android:id="@+id/item_mecanicas"
-                    android:icon="@drawable/ic_reglas"
-                    android:title="Lista Formatos"
+                    android:id="@+id/item_discrepancias"
+                    android:icon="@drawable/ic_discrepancias"
+                    android:title="Discrepancias"
+                    app:showAsAction="always"></item>
+
+                <item
+                    android:id="@+id/item_historico"
+                    android:icon="@drawable/ic_historico"
+                    android:title="Histórico"
                     app:showAsAction="always"></item>
             </menu>
         </item>
@@ -36,7 +42,7 @@
 
         <item
             android:id="@+id/item_cerrar"
-            android:icon="@drawable/ic_logout"
+            android:icon="@drawable/ic_cerrar_sesion"
             android:title="Cerrar sesión" />
     </group>
 

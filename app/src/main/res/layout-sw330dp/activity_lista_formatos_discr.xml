@@ -32,7 +32,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/robotobold"
-                android:text="Formatos Discrepancias"
+                android:text="Discrepancias"
                 android:textColor="@color/titulo_pantalla_general"
                 android:textSize="25dp"
                 android:layout_centerInParent="true"/>

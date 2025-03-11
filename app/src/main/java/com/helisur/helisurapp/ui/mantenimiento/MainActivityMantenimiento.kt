@@ -47,7 +47,7 @@ class MainActivityMantenimiento : BaseActivity() {
         drawerSetListMenuItems()
         drawerSetHeader()
         disableBackButton()
-        drawersetRedirections()
+     //   drawersetRedirections()
         observers()
       //  beginService()
     }
@@ -88,9 +88,11 @@ class MainActivityMantenimiento : BaseActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.item_formatos, R.id.item_mecanicas, R.id.item_cartera, R.id.item_cerrar
+                R.id.item_formatos, R.id.item_discrepancias,R.id.item_historico, R.id.item_cerrar
             ), binding.drawerLayout
         )
+
+
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
@@ -175,11 +177,12 @@ class MainActivityMantenimiento : BaseActivity() {
                     showDialog("¿Desea cerrar sesión?")
                     true
                 }
-                R.id.item_mecanicas -> {
+                R.id.item_discrepancias -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.nav_host_fragment_content_main, FormatosDiscrepanciasFragment())
                         .addToBackStack(null) // Optional: Add to back stack
                         .commit()
+
                     true
                 }
 

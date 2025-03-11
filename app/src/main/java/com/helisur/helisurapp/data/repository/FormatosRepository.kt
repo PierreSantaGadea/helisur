@@ -598,6 +598,19 @@ class FormatosRepository @Inject constructor(
         }
     }
 
+    suspend fun getFormatosRegistroCompletedListDB(): List<FormatoRegistro> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response: List<FormatoRegistroEntity> = formatoRegistroLocalData.getAllCompleted()
+                response.map { it.toDomain() }
+            }
+        } catch (e: Exception) {
+            val response: List<FormatoRegistro> = arrayListOf()
+            Log.e(className, e.toString())
+            return response
+        }
+    }
+
 
     suspend fun insertFormatoRegistroDB(formatoRegistro:FormatoRegistro) {
         try {

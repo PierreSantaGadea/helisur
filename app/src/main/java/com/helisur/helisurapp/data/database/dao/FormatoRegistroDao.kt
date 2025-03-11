@@ -22,6 +22,9 @@ interface FormatoRegistroDao {
     @Query("SELECT * FROM FormatoRegistro  WHERE completado = 0  ORDER BY fechaRegistro ASC ")
     fun getAllIncompleted(): List<FormatoRegistroEntity>
 
+    @Query("SELECT * FROM FormatoRegistro  WHERE completado = 1  ORDER BY fechaRegistro ASC ")
+    fun getAllCompleted(): List<FormatoRegistroEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItem(formatoRegistro: FormatoRegistroEntity)
 

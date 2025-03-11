@@ -11,18 +11,19 @@
         android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.EscogeAeronaveFragment" />
 
     <fragment
-        android:id="@+id/item_mecanicas"
+        android:id="@+id/item_discrepancias"
         android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasFragment" />
 
-    <activity
-        android:id="@+id/item_cartera"
-        android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity"
-        android:label="Cartera Clientes"
-        tools:layout="@layout/activity_prevuelo" />
+
+    <fragment
+        android:id="@+id/item_historico"
+        android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.HistoricoFragment" />
+
+
 
     <dialog
         android:id="@+id/item_cerrar"
         android:label="Cerrar sesion"
-        tools:layout="@layout/dialog_logout" />
+        android:name="com.helisur.helisurapp.ui.login.LogoutDialog" />
 
 </navigation>
