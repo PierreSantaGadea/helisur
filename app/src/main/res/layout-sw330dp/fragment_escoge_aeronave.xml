@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/robotobold"
-        android:text="Agregar"
+        android:text="Agregar Formato"
         android:textColor="@color/titulo_pantalla_general"
         android:textSize="27dp" />
 

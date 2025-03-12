@@ -13,7 +13,7 @@
     <color name="dark_grey">#2C2C2C</color>
     <color name="disabled">#D3D3D3</color>
     <color name="hums">#0F558E</color>
-    <color name="cabecera_pdf">#2F5A7E</color>
+
     <color name="red_dark">#420304</color>
     <color name="red_semi_dark">#560708</color>
 
@@ -120,6 +120,11 @@
     <color name="fondo_contenedor_tarea_abuelo_hums">@color/hums</color>
     <color name="borde_contenedor_tarea_abuelo_hums">@color/hums</color>
     <color name="texto_contenedor_tarea_abuelo_hums">@color/white</color>
+
+
+    <!--  PDF -->
+    <color name="cabecera_pdf">#7190AB</color>
+    <color name="titulo_campo_pdf">#B6B7B9</color>
 
 
 

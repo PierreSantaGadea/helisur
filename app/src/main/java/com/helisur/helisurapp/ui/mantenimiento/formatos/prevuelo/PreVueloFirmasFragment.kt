@@ -198,9 +198,9 @@ class PreVueloFirmasFragment : Fragment() {
 
         binding.tvAtras.setOnClickListener {
 
-            genraa()
+     //       genraa()
      //       pruebaPDF()
-       //     TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
+            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
         }
 
 

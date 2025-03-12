@@ -2,7 +2,6 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -11,9 +10,10 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -23,9 +23,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.databinding.FragmentEscogeAeronaveBinding
 import com.helisur.helisurapp.databinding.FragmentHistoricoBinding
+import com.helisur.helisurapp.domain.model.Aeronave
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.model.ModeloAeronave
@@ -33,13 +34,12 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PostVueloActivity
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity
-import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemAeronave
-import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemFormato
 import dagger.hilt.android.AndroidEntryPoint
+import pl.polidea.view.ZoomView
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.math.max
+import kotlin.math.min
 
 
 @AndroidEntryPoint
@@ -65,11 +65,20 @@ class HistoricoFragment  : Fragment() {
     var formatoSelected:FormatoRegistro? = null
     var listaDetalleFormatoRegistro : ArrayList<DetalleFormatoRegistro>? = null
 
+    var listaEstacionesDb: ArrayList<Estacion>? = null
+    var listaModelosAeronave:ArrayList<ModeloAeronave>? = null
+    var listaAeronaves:ArrayList<Aeronave>? = null
+
 
     private var idAeronave:String = ""
     private var nombreAeronave:String = ""
     private var idFormato:String = ""
     private var nombreFormato:String = ""
+
+    private lateinit var mScaleGestureDetector: ScaleGestureDetector
+    private var mScaleFactor = 1.0f
+
+    private var vista:LinearLayout? = null
 
 
     fun loadBitmapFromView(v: View): Bitmap? {
@@ -82,13 +91,18 @@ class HistoricoFragment  : Fragment() {
             return b
         }
         else{
-            return null
+            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+            val b = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
+            val c = Canvas(b)
+            v.layout(0, 0, v.measuredWidth, v.measuredHeight)
+            v.draw(c)
+            return b
         }
     }
 
-    fun genraa() {
+    fun generaFormatoPDF(nombreDocumento:String) {
 
-        var pageHeight = 942
+        var pageHeight = 1542
         var pageWidth = 635
 
         var pdfDocument: PdfDocument = PdfDocument()
@@ -196,7 +210,7 @@ class HistoricoFragment  : Fragment() {
 
         // below line is used to set the name of
         // our PDF file and its path.
-        val file: File = File(Environment.getExternalStorageDirectory(), "GFG.pdf")
+        val file: File = File(Environment.getExternalStorageDirectory(), nombreDocumento+".pdf")
 
         try {
             // after creating a file name we will
@@ -223,6 +237,8 @@ class HistoricoFragment  : Fragment() {
     }
 
 
+    private var zoomView: ZoomView? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -231,15 +247,46 @@ class HistoricoFragment  : Fragment() {
         initUI()
         clickListener()
         observers()
-        genraa()
+
+
+
         return root
     }
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
 
+   //     vista = binding.llDetalleFormato
+   //     mScaleGestureDetector = ScaleGestureDetector(requireContext(), ScaleListener())
+
+        zoomView = ZoomView(requireContext())
+
+
+        if (binding.llDetalleFormato.getParent() != null) {
+            (binding.llDetalleFormato.getParent() as ViewGroup).removeView(binding.llDetalleFormato) // <- fix
+        }
+
+
+        zoomView!!.addView(binding.llDetalleFormato)
+
+        binding.mainContainer.addView(zoomView)
+
+        aeronavesViewModel.getEstacionesListDB()
+        aeronavesViewModel.getModelosAeronavesListDB()
+        aeronavesViewModel.getAeronavesListDB()
         formatosViewModel.getFormatosRegistroCompletedListDB()
     }
+
+    private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
+            mScaleFactor *= scaleGestureDetector.scaleFactor
+            mScaleFactor = max(0.1f, min(mScaleFactor, 10.0f))
+            vista!!.scaleX = mScaleFactor
+            vista!!.scaleY = mScaleFactor
+            return true
+        }
+    }
+
 
 
     fun clickListener()
@@ -394,6 +441,43 @@ class HistoricoFragment  : Fragment() {
 
 
 
+        aeronavesViewModel.responseGetEstacionListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaEstacionesDb = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        aeronavesViewModel.responseGetModeloAeronaveListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaModelosAeronave = ArrayList(it.data)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        aeronavesViewModel.responseGetAeronaveListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaAeronaves = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+
     }
 
 
@@ -425,13 +509,127 @@ class HistoricoFragment  : Fragment() {
     fun pintaDocumento(formatoRegistro: FormatoRegistro,detalleFormatoRegistro:ArrayList<DetalleFormatoRegistro>)
     {
 
+        binding.tvFormatoRTV.setText(formatoRegistro.numeroRTV)
 
 
 
+        var nombreEstacion = ""
 
+        for(item in listaEstacionesDb!!)
+        {
+            if(item.id_cloud.equals(formatoRegistro.codigoEstacion))
+            {
+                nombreEstacion = item.nombre!!
+            }
+        }
+        binding.tvFormatoUBICACION.setText(nombreEstacion)
+
+
+        var idModeloAeronave = ""
+        var placaAeronave = ""
+
+        for (item in listaAeronaves!!)
+        {
+            if(formatoRegistro.codigoPuestoTecnico.equals(item.codigoPuestoTecnico))
+            {
+                idModeloAeronave = item.id_cloud!!
+                placaAeronave = item.placa
+            }
+        }
+
+
+        var nombreModelo = ""
+        for(item in listaModelosAeronave!!)
+        {
+            if(item.id_cloud.equals(idModeloAeronave))
+            {
+                nombreModelo = item.nombre!!
+
+            }
+
+        }
+
+
+        binding.tvFormatoAERONAVE.setText(nombreModelo+"/"+formatoRegistro.nombreAeronave + "/" + placaAeronave)
+
+        if(formatoRegistro.existenDiscrepancias.equals("1")) {
+            binding.ivExistendiscrepanciasSi.setImageResource(R.drawable.ic_check)
+            binding.ivExistendiscrepanciasNo.setImageResource(R.drawable.ic_uncheck)
+
+        }
+        else {
+            binding.ivExistendiscrepanciasSi.setImageResource(R.drawable.ic_uncheck)
+            binding.ivExistendiscrepanciasNo.setImageResource(R.drawable.ic_check)
+        }
+
+
+        binding.tvDiscrepanciasNroRTV.setText("b. Las discrepancias estan registradas en el RTV Nro "+formatoRegistro.numeroRTVDiscrepancias)
+
+
+
+        if(formatoRegistro.accionesMantenimiento.equals("1")) {
+            binding.ivAccionesmantenimientoSi.setImageResource(R.drawable.ic_check)
+            binding.ivAccionesmantenimientoNo.setImageResource(R.drawable.ic_uncheck)
+
+        }
+        else {
+            binding.ivAccionesmantenimientoSi.setImageResource(R.drawable.ic_uncheck)
+            binding.ivAccionesmantenimientoNo.setImageResource(R.drawable.ic_check)
+        }
+
+
+        if(formatoRegistro.solicitaEncMotores.equals("1")) {
+            binding.ivEncendidomotoresSi.setImageResource(R.drawable.ic_check)
+            binding.ivEncendidomotoresNo.setImageResource(R.drawable.ic_uncheck)
+
+        }
+        else {
+            binding.ivEncendidomotoresSi.setImageResource(R.drawable.ic_uncheck)
+            binding.ivEncendidomotoresNo.setImageResource(R.drawable.ic_check)
+        }
+
+
+        /*
+                if(formatoRegistro.existenDiscrepancias.equals("1")) {
+                    binding.chbxDiscrepanciasSi.isChecked = true
+                    binding.chbxDiscrepanciasNo.isChecked = false
+                }
+                else {
+                    binding.chbxDiscrepanciasSi.isChecked = false
+                    binding.chbxDiscrepanciasNo.isChecked = true
+                }
+
+                binding.tvDiscrepanciasNroRtv.setText("b. Las discrepancias surgidas estan registradas en el RTV Nro "+formatoRegistro.numeroRTVDiscrepancias)
+
+
+
+                if(formatoRegistro.accionesMantenimiento.equals("1")) {
+                    binding.chbxAccionesmantenimientoSi.isChecked = true
+                    binding.chbxAccionesmantenimientoNo.isChecked = false
+                }
+                else {
+                    binding.chbxAccionesmantenimientoSi.isChecked = false
+                    binding.chbxAccionesmantenimientoNo.isChecked = true
+                }
+
+
+                if(formatoRegistro.solicitaEncMotores.equals("1")) {
+                    binding.chbxEncendidomotoresSi.isChecked = true
+                    binding.chbxEncendidomotoresNo.isChecked = false
+                }
+                else {
+                    binding.chbxEncendidomotoresSi.isChecked = false
+                    binding.chbxEncendidomotoresNo.isChecked = true
+                }
+        */
         binding.llcontenedorAtras.visibility = View.VISIBLE
         binding.llDetalleFormato.visibility = View.VISIBLE
         binding.llcontenedorLista.visibility = View.GONE
+
+
+
+        var nommbreFile =formatoRegistro.codigoFormato+"_"+formatoRegistro.id_db
+        generaFormatoPDF(nommbreFile)
 
     }
 
