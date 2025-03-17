@@ -92,4 +92,20 @@ class Constants {
         const val ID_FORMATO: String = "ID_FORMATO"
         const val NOMBRE_FORMATO: String = "NOMBRE_FORMATO"
     }
+
+
+    object SAVE_FILE
+    {
+        const val CARPETA_GENERAL: String = "Helisur"
+        const val CARPETA_FIRMA: String = "Firmas"
+        const val CARPETA_FORMATOS: String = "Formatos"
+
+        const val PREFIJO_FIRMA: String = "firma_"
+        const val PREFIJO_FORMATO: String = "formato_"
+
+        const val PREFIJO_RESPONSABLE: String = "responsable_"
+        const val PREFIJO_PILOTO: String = "piloto_"
+        const val PREFIJO_COPILOTO: String = "copiloto_"
+
+    }
 }

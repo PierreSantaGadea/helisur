@@ -33,7 +33,6 @@ class FormatosViewModel @Inject constructor(
     private val formatosUseCase: FormatosUseCase
 ) : ViewModel() {
 
-
     val responseObtieneFormatos= MutableLiveData<ObtieneFormatosCloudResponse>()
     val responseGrabaFormato= MutableLiveData<GrabaFormatoCloudResponse>()
     val responseObtieneSistemas= MutableLiveData<ArrayList<Sistema>>()

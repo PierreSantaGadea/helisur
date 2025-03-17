@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +46,8 @@ import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.TabsPreVuelo
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.GregorianCalendar
 import java.util.UUID
@@ -69,6 +72,8 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
     var idResponsable = ""
     var licenciaResponsable = ""
     var urlFirmaResponsable = ""
+
+    var firmaResponsable : Bitmap? = null
 
 
     override fun onCreateView(
@@ -475,6 +480,8 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
             TabsPostVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
             TabsPostVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
 
+            saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,firmaResponsable!!)
+
 
             var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
                 parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
@@ -586,6 +593,24 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
 
      */
+
+    fun saveBitmapOnLocalStorage(nombreDocumento:String,bitmap: Bitmap) {
+
+        val root = Environment.getExternalStorageDirectory().toString()
+        val fileee: File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA)
+        if (!fileee.exists()) {
+            fileee.mkdirs()
+        }
+
+        val file: File = File(fileee, nombreDocumento+".png")
+
+        val out = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+        out.flush()
+        out.close()
+
+    }
+
 
     private fun loadBitmapFromView(view: View): Bitmap? {
         // Check if the view is valid and has dimensions
@@ -767,6 +792,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
                 dialog.dismiss()
                 binding.signaturePad!!.isEnabled = false
                 binding.llFirmaValidada!!.visibility = View.VISIBLE
+                firmaResponsable = binding.signaturePad!!.transparentSignatureBitmap
             }
             else
             {

@@ -68,7 +68,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
     var listaReportajes = ArrayList<Reportaje>()
     var idUbicacion = ""
     var loading: TransparentProgressDialog? = null
-    var className = "ListaPrevuelosRealizadosActivity"
+    var className = "FormatosDiscrepanciasFragment"
 
     var parameter: ActualizaReportajeFormatoCloudParameter? = null
 

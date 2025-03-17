@@ -17,7 +17,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="0dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
             android:layout_width="350dp"
             android:layout_height="842dp"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_marginTop="5dp">
 
 
@@ -443,7 +443,8 @@
                                     android:gravity="center"
                                     android:text=""
                                     android:textSize="7dp"
-                                    android:textColor="@color/black"/>
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"/>
 
                             </LinearLayout>
 
@@ -523,7 +524,8 @@
                                     android:gravity="center"
                                     android:text=""
                                     android:textSize="7dp"
-                                    android:textColor="@color/black"/>
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"/>
 
                             </LinearLayout>
 
@@ -594,7 +596,8 @@
                                     android:gravity="center"
                                     android:text=""
                                     android:textSize="7dp"
-                                    android:textColor="@color/black"/>
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"/>
 
                             </LinearLayout>
 
@@ -943,13 +946,26 @@
                             android:orientation="horizontal"
                             android:weightSum="10">
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_weight="4"
                                 android:layout_height="60dp"
                                 android:layout_marginLeft="1dp">
 
+
                                 <TextView
+                                    android:id="@+id/tv_nombre_responsable"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text=""
+                                    android:textSize="7dp"
+                                    android:textColor="@color/black"
+                                    android:layout_centerInParent="true"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center|bottom"
@@ -958,29 +974,41 @@
                                     android:textColor="@color/black"
                                     android:layout_marginBottom="5dp"/>
 
-                            </LinearLayout>
+                            </RelativeLayout>
 
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@android:color/black"/>
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_weight="2.5"
                                 android:layout_height="60dp"
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_licencia_responsable"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text=""
+                                    android:textSize="7dp"
+                                    android:textColor="@color/black"
+                                    android:layout_centerInParent="true"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center|bottom"
-                                    android:text="LICENCIA DGAC"
+                                    android:text="LICENCIA DGCA"
                                     android:textSize="5dp"
                                     android:textColor="@color/black"
                                     android:layout_marginBottom="5dp"/>
 
-                            </LinearLayout>
+                            </RelativeLayout>
 
 
                             <View
@@ -995,14 +1023,50 @@
                                 android:layout_height="60dp"
                                 android:padding="0dp">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center|bottom"
-                                    android:text="FIRMA,FECHA Y HORA"
-                                    android:textSize="5dp"
-                                    android:textColor="@color/black"
-                                    android:layout_marginBottom="5dp"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="60dp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="90dp"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_centerInParent="true">
+
+                                        <ImageView
+                                            android:id="@+id/iv_firma_responsable"
+                                            android:layout_width="90dp"
+                                            android:layout_height="37dp" />
+
+                                        <TextView
+                                            android:id="@+id/tv_fecha_responsable"
+                                            android:layout_width="90dp"
+                                            android:layout_height="wrap_content"
+                                            android:text=""
+                                            android:textSize="7dp"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold"
+                                            android:gravity="center"/>
+
+                                    </LinearLayout>
+
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentBottom="true"
+                                        android:text="FIRMA FECHA"
+                                        android:textSize="5dp"
+                                        android:textColor="@color/black"
+                                        android:layout_marginBottom="5dp"
+                                        android:layout_marginTop="3dp"
+                                        android:gravity="center"/>
+
+                                </RelativeLayout>
+
+
 
                             </LinearLayout>
 
@@ -1093,11 +1157,21 @@
                             android:orientation="horizontal"
                             android:weightSum="10">
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_weight="4"
                                 android:layout_height="60dp"
                                 android:layout_marginLeft="1dp">
+
+                                <TextView
+                                    android:id="@+id/tv_nombre_copiloto"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="NOMBRE DEL COPILOTO"
+                                    android:textSize="7dp"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"/>
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -1108,29 +1182,39 @@
                                     android:textColor="@color/black"
                                     android:layout_marginBottom="5dp"/>
 
-                            </LinearLayout>
+                            </RelativeLayout>
 
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@android:color/black"/>
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_weight="3"
                                 android:layout_height="60dp"
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_licencia_copiloto"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="NOMBRE DEL COPILOTO"
+                                    android:textSize="7dp"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"/>
+
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center|bottom"
-                                    android:text="FIRMA"
+                                    android:text="LICENCIA DGAC"
                                     android:textSize="5dp"
                                     android:textColor="@color/black"
                                     android:layout_marginBottom="5dp"/>
 
-                            </LinearLayout>
+                            </RelativeLayout>
 
 
                             <View
@@ -1312,7 +1396,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,8 +1,10 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos
 
+
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
@@ -13,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
@@ -26,6 +29,7 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.FragmentHistoricoBinding
 import com.helisur.helisurapp.domain.model.Aeronave
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
+import com.helisur.helisurapp.domain.model.Empleado
 import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.FormatoRegistro
@@ -33,6 +37,7 @@ import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
+import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import pl.polidea.view.ZoomView
@@ -52,6 +57,7 @@ class HistoricoFragment  : Fragment() {
 
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
     private val formatosViewModel: FormatosViewModel by viewModels()
+    private val usuariosViewModel: LoginViewModel by viewModels()
 
   //  private var aeronavesList: ArrayList<ObtieneAeronavesDataTableCloudResponse>? = null
     private var aeronavesList: ArrayList<ModeloAeronave>? = null
@@ -68,6 +74,7 @@ class HistoricoFragment  : Fragment() {
     var listaEstacionesDb: ArrayList<Estacion>? = null
     var listaModelosAeronave:ArrayList<ModeloAeronave>? = null
     var listaAeronaves:ArrayList<Aeronave>? = null
+    var listaEmpleados:ArrayList<Empleado>? = null
 
 
     private var idAeronave:String = ""
@@ -210,7 +217,13 @@ class HistoricoFragment  : Fragment() {
 
         // below line is used to set the name of
         // our PDF file and its path.
-        val file: File = File(Environment.getExternalStorageDirectory(), nombreDocumento+".pdf")
+        val root = Environment.getExternalStorageDirectory().toString()
+        val fileee: File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS)
+        if (!fileee.exists()) {
+            fileee.mkdirs()
+        }
+
+        val file: File = File(fileee, nombreDocumento+".pdf")
 
         try {
             // after creating a file name we will
@@ -240,7 +253,7 @@ class HistoricoFragment  : Fragment() {
     private var zoomView: ZoomView? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHistoricoBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -271,6 +284,7 @@ class HistoricoFragment  : Fragment() {
 
         binding.mainContainer.addView(zoomView)
 
+        usuariosViewModel.getEmpleadosListDB()
         aeronavesViewModel.getEstacionesListDB()
         aeronavesViewModel.getModelosAeronavesListDB()
         aeronavesViewModel.getAeronavesListDB()
@@ -477,6 +491,18 @@ class HistoricoFragment  : Fragment() {
         })
 
 
+        usuariosViewModel.responseGetEmpleadoListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaEmpleados = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
 
     }
 
@@ -588,6 +614,54 @@ class HistoricoFragment  : Fragment() {
             binding.ivEncendidomotoresNo.setImageResource(R.drawable.ic_check)
         }
 
+        val root = Environment.getExternalStorageDirectory().toString()
+        val imgFile : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db)
+
+        if (imgFile.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            binding.ivFirmaResponsable.setImageBitmap(myBitmap)
+        }
+
+        binding.tvFechaResponsable.setText(formatoRegistro.fechaRegistro)
+
+
+
+        var nombreRes = ""
+        var licenciaRes = ""
+
+
+        var nombreCopiloto = ""
+        var licenciaCopiloto = ""
+        var nombrePiloto = ""
+        var licenciaPiloto = ""
+
+
+        for(item in listaEmpleados!!)
+        {
+            if(item.id_cloud.equals(formatoRegistro.idEmpleadoResponsable))
+            {
+                nombreRes = item.nombreCompleto!!
+                licenciaRes = item.licencia!!
+            }
+
+            if(item.id_cloud.equals(formatoRegistro.idEmpleadoCoPiloto))
+            {
+                nombreCopiloto = item.nombreCompleto!!
+                licenciaCopiloto = item.licencia!!
+            }
+
+            if(item.id_cloud.equals(formatoRegistro.idEmpleadoPiloto))
+            {
+                nombrePiloto = item.nombreCompleto!!
+                licenciaPiloto = item.licencia!!
+            }
+        }
+
+        binding.tvNombreResponsable.text = nombreRes.toString()
+        binding.tvLicenciaResponsable.text = licenciaRes
+
+
+    //    showImage(fileee.path,binding.ivFirmaResponsable)
 
         /*
                 if(formatoRegistro.existenDiscrepancias.equals("1")) {
@@ -628,13 +702,22 @@ class HistoricoFragment  : Fragment() {
 
 
 
-        var nommbreFile =formatoRegistro.codigoFormato+"_"+formatoRegistro.id_db
+        var nommbreFile =Constants.SAVE_FILE.PREFIJO_FORMATO+formatoRegistro.codigoFormato+"_"+formatoRegistro.id_db
         generaFormatoPDF(nommbreFile)
 
     }
 
 
+/*
+    fun showImage(nombreImagen:String,imageView:ImageView)
+    {
+        Glide.with(requireContext())
+            .asBitmap()
+            .load(nombreImagen)
+            .into(imageView)
+    }
 
+ */
 
     fun showErrorDialog(message: String?) {
         val bundle = Bundle()

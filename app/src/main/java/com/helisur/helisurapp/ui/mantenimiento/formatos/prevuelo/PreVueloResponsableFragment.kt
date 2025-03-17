@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -40,10 +41,11 @@ import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.TabsPostVuelo
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.GregorianCalendar
 import java.util.UUID
@@ -71,9 +73,10 @@ class PreVueloResponsableFragment : Fragment() {
 
     var fimaValidada = false
 
+    var firmaResponsable : Bitmap? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         binding = FragmentResponsableBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -270,7 +273,7 @@ class PreVueloResponsableFragment : Fragment() {
             }
 
             override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long,
             ) {
                 if (position == 0) {
                     idResponsable = ""
@@ -464,6 +467,8 @@ class PreVueloResponsableFragment : Fragment() {
 
             TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
             TabsPreVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
+
+            saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,firmaResponsable!!)
 
 
             var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
@@ -700,7 +705,7 @@ class PreVueloResponsableFragment : Fragment() {
 
 
     fun setRecyclerViewAnotaciones(
-        listaAnotaciones: ArrayList<Anotacion>
+        listaAnotaciones: ArrayList<Anotacion>,
     ) {
         val adapter = ListaAnotacionesAdapter( listaAnotaciones)
         recyclerview!!.adapter = adapter
@@ -756,9 +761,13 @@ class PreVueloResponsableFragment : Fragment() {
                 binding.signaturePad!!.isEnabled = false
                 binding.llFirmaValidada!!.visibility = View.VISIBLE
                 fimaValidada = true
+                firmaResponsable = binding.signaturePad!!.transparentSignatureBitmap
+                TabsPreVuelo.firmaResponsable = firmaResponsable
+
             }
             else
             {
+                TabsPreVuelo.firmaResponsable = null
                 showErrorDialog("Usuario inválido")
                 binding.llFirmaValidada!!.visibility = View.GONE
                 fimaValidada = false
@@ -772,6 +781,24 @@ class PreVueloResponsableFragment : Fragment() {
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+
+    fun saveBitmapOnLocalStorage(nombreDocumento:String,bitmap: Bitmap) {
+
+        val root = Environment.getExternalStorageDirectory().toString()
+        val fileee: File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA)
+        if (!fileee.exists()) {
+            fileee.mkdirs()
+        }
+
+        val file: File = File(fileee, nombreDocumento+".png")
+
+        val out = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+        out.flush()
+        out.close()
+
     }
 
 

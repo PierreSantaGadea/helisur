@@ -87,6 +87,9 @@ class PreVueloFirmasFragment : Fragment() {
     var idPiloto = ""
     var urlFirmaPiloto = ""
 
+    var firmaPiloto : Bitmap? = null
+    var firmaCopiloto : Bitmap? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -271,23 +274,17 @@ class PreVueloFirmasFragment : Fragment() {
                 var nombreAeronave:String = getNombreAeronave(requireContext())!!
                 val uniqueID: String = UUID.randomUUID().toString()
 
-
                 var completado:Boolean = false
 
-                if(parameter.listaTareas!=null)
-                {
-                    if(ArrayList(parameter.listaTareas).size == 0)
-                    {
+                if(parameter.listaTareas!=null) {
+                    if(ArrayList(parameter.listaTareas).size == 0) {
                         completado = true
                     }
-                    else
-                    {
+                    else {
                         completado = false
                     }
-
                 }
-                else
-                {
+                else {
                     completado = true
                 }
 
@@ -305,6 +302,12 @@ class PreVueloFirmasFragment : Fragment() {
 
                 TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
                 TabsPreVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
+
+
+                saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,TabsPreVuelo.firmaResponsable)
+                saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+uniqueID,firmaPiloto!!)
+                saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_COPILOTO+uniqueID,firmaCopiloto!!)
+
 
                 var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
                     parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
@@ -337,6 +340,23 @@ class PreVueloFirmasFragment : Fragment() {
 
             //formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
         }
+
+    }
+
+    fun saveBitmapOnLocalStorage(nombreDocumento:String,bitmap: Bitmap) {
+
+        val root = Environment.getExternalStorageDirectory().toString()
+        val fileee: File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA)
+        if (!fileee.exists()) {
+            fileee.mkdirs()
+        }
+
+        val file: File = File(fileee, nombreDocumento+".png")
+
+        val out = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+        out.flush()
+        out.close()
 
     }
 
@@ -532,8 +552,6 @@ class PreVueloFirmasFragment : Fragment() {
 
 
 
-
-
     fun setSpinnerCopilotos(
     ) {
         var spinnerTipo = binding.spiCopilotos
@@ -578,6 +596,7 @@ class PreVueloFirmasFragment : Fragment() {
             }
         }
     }
+
 
 
     fun setSpinnerPilotos(
@@ -741,6 +760,8 @@ class PreVueloFirmasFragment : Fragment() {
                                 userExist = true
                                 binding.signaturePadPiloto!!.isEnabled = false
                                 binding.llFirmaValidadaPiloto!!.visibility = View.VISIBLE
+
+                                firmaPiloto = binding.signaturePadPiloto!!.transparentSignatureBitmap
                             }
                         }
                         else
@@ -750,6 +771,8 @@ class PreVueloFirmasFragment : Fragment() {
                                 userExist = true
                                 binding.signaturePadCopiloto!!.isEnabled = false
                                 binding.llFirmaValidadaCopiloto!!.visibility = View.VISIBLE
+
+                                firmaCopiloto = binding.signaturePadCopiloto!!.transparentSignatureBitmap
                             }
                         }
                     }

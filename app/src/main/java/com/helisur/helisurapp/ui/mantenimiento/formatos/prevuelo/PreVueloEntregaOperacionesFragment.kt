@@ -128,8 +128,8 @@ class PreVueloEntregaOperacionesFragment : Fragment() {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser) {
-            TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = ""
-            TabsPreVuelo.formatoParameter.fechaHoraInicioRegistro = ""
+          //  TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = ""
+         //   TabsPreVuelo.formatoParameter.fechaHoraInicioRegistro = ""
             TabsPreVuelo.formatoParameter.usuarioRegistro = TabsPreVuelo.idUsuario
         } else {
         }
