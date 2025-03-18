@@ -306,7 +306,6 @@ class HistoricoFragment  : Fragment() {
     fun clickListener()
     {
 
-
         binding.llBack.setOnClickListener {
 
             binding.llcontenedorAtras.visibility = View.GONE
@@ -537,8 +536,6 @@ class HistoricoFragment  : Fragment() {
 
         binding.tvFormatoRTV.setText(formatoRegistro.numeroRTV)
 
-
-
         var nombreEstacion = ""
 
         for(item in listaEstacionesDb!!)
@@ -615,10 +612,10 @@ class HistoricoFragment  : Fragment() {
         }
 
         val root = Environment.getExternalStorageDirectory().toString()
-        val imgFile : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db)
+        val firmaResponsableee : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db+".png")
 
-        if (imgFile.exists()) {
-            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+        if (firmaResponsableee.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(firmaResponsableee.absolutePath)
             binding.ivFirmaResponsable.setImageBitmap(myBitmap)
         }
 
@@ -659,6 +656,26 @@ class HistoricoFragment  : Fragment() {
 
         binding.tvNombreResponsable.text = nombreRes.toString()
         binding.tvLicenciaResponsable.text = licenciaRes
+
+        binding.tvNombreCopiloto.text = nombreCopiloto.toString()
+        binding.tvLicenciaCopiloto.text = licenciaCopiloto
+
+        binding.tvNombrePiloto.text = nombrePiloto.toString()
+        binding.tvLicenciaPiloto.text = licenciaPiloto
+
+        val firmaCopilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_COPILOTO+formatoRegistro.id_db+".png")
+        if (firmaCopilotooo.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(firmaCopilotooo.absolutePath)
+            binding.ivFirmaCopiloto.setImageBitmap(myBitmap)
+        }
+
+
+
+        val firmaPilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+formatoRegistro.id_db+".png")
+        if (firmaPilotooo.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(firmaPilotooo.absolutePath)
+            binding.ivFirmaPiloto.setImageBitmap(myBitmap)
+        }
 
 
     //    showImage(fileee.path,binding.ivFirmaResponsable)
