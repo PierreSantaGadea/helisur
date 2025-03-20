@@ -686,14 +686,16 @@ class FormatosDiscrepanciasFragment : Fragment() {
     {
 
         val tituloTarea = TextView(requireContext())
-        tituloTarea.setText("\n"+nombreTarea)
+        tituloTarea.setText("\n"+"   -   "+nombreTarea)
+
+        tituloTarea.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
 
         val tabletSize = resources.getBoolean(R.bool.isTablet)
         if (tabletSize) {
             tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
        //     tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
         } else {
-            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados_cel))
         //    tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
         }
 
@@ -709,7 +711,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
         }
 
         CompoundButtonCompat.setButtonTintList(cb, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
-       // CompoundButtonCompat.setButtonTintList(tituloTarea, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
+     //   CompoundButtonCompat.setButtonTintList(tituloTarea, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
 
         if(indicadorBloqueo.equals("0"))
         {
@@ -750,7 +752,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
        // cb.setTag(1,id)
       //  cb.setTag(2,)
 
-        tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f);
+     //   tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f);
 
       //  val param = cb.layoutParams as ViewGroup.MarginLayoutParams
       //  param.setMargins(0,10,0,0)

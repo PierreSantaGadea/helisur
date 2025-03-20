@@ -20,6 +20,7 @@ import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Base64
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -28,32 +29,45 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.github.gcacace.signaturepad.views.SignaturePad
+import com.google.firebase.installations.Utils
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
 import com.helisur.helisurapp.databinding.FragmentFirmasBinding
+import com.helisur.helisurapp.domain.model.Aeronave
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Empleado
+import com.helisur.helisurapp.domain.model.Estacion
+import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.FormatoRegistro
+import com.helisur.helisurapp.domain.model.ModeloAeronave
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
+import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.GregorianCalendar
 import java.util.UUID
@@ -68,6 +82,7 @@ class PreVueloFirmasFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by viewModels()
     private val formatosViewModel: FormatosViewModel by viewModels()
+    private val aeronavesViewModel: AeronavesViewModel by viewModels()
 
     var empleadosListAll: ArrayList<Empleado>? = null
 
@@ -90,6 +105,21 @@ class PreVueloFirmasFragment : Fragment() {
     var firmaPiloto : Bitmap? = null
     var firmaCopiloto : Bitmap? = null
 
+    var idDB_nuevoFormato = ""
+    var codFormato_nuevoFormato = ""
+
+    var listaEstacionesDb: ArrayList<Estacion>? = null
+    var listaModelosAeronave:ArrayList<ModeloAeronave>? = null
+    var listaAeronaves:ArrayList<Aeronave>? = null
+    var listaEmpleados:ArrayList<Empleado>? = null
+    var listaReportajes:ArrayList<Reportaje>? = null
+    var listaFormatos:ArrayList<Formato>? = null
+    private var filePdf : File? = null
+
+    var formatoAenviar:FormatoRegistro? = null
+    var detalleFormatoAenviar:ArrayList<DetalleFormatoRegistro>? = null
+
+    var idCloudNuevoFormato :String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -108,6 +138,21 @@ class PreVueloFirmasFragment : Fragment() {
         loading = TransparentProgressDialog(requireContext())
        // loginViewModel.obtieneEmpleados("00020")
         loginViewModel.getEmpleadosListDB()
+
+        aeronavesViewModel.getEstacionesListDB()
+        aeronavesViewModel.getModelosAeronavesListDB()
+        aeronavesViewModel.getAeronavesListDB()
+        formatosViewModel.getReportajesListDB()
+        formatosViewModel.getFormatosListDB()
+
+        if(isOnline())
+        {
+            binding.chbxEnviarcorreo!!.isEnabled = true
+        }
+        else
+        {
+            binding.chbxEnviarcorreo!!.isEnabled = false
+        }
 
   //      bmp = BitmapFactory.decodeResource(resources, R.drawable.ic_form)
   //      scaledbmp = Bitmap.createScaledBitmap(bmp, 140, 140, false)
@@ -270,78 +315,537 @@ class PreVueloFirmasFragment : Fragment() {
         binding.btnGuardarTodo!!.setOnClickListener{
             if(validaciones())
             {
-                var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
-                var nombreAeronave:String = getNombreAeronave(requireContext())!!
-                val uniqueID: String = UUID.randomUUID().toString()
-
-                var completado:Boolean = false
-
-                if(parameter.listaTareas!=null) {
-                    if(ArrayList(parameter.listaTareas).size == 0) {
-                        completado = true
-                    }
-                    else {
-                        completado = false
-                    }
-                }
-                else {
-                    completado = true
-                }
-
-                var fechaHoy: String = ""
-                var fechaHoyCloud:String = ""
-                val gc: GregorianCalendar = GregorianCalendar()
-                val pattern = "yyyy-MM-dd HH:mm:ss"
-                val pattern2 = "yyyyMMdd HH:mm:ss"
-                val simpleDateFormat = SimpleDateFormat(pattern)
-                val simpleDateFormat2 = SimpleDateFormat(pattern2)
-                simpleDateFormat.calendar = gc
-                simpleDateFormat2.calendar = gc
-                fechaHoy = simpleDateFormat.format(gc.time)
-                fechaHoyCloud = simpleDateFormat2.format(gc.time)
-
-                TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
-                TabsPreVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
-
-
-                saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,TabsPreVuelo.firmaResponsable)
-                saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+uniqueID,firmaPiloto!!)
-                saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_COPILOTO+uniqueID,firmaCopiloto!!)
-
-
-                var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
-                    parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
-                    parameter.solicitaEncMotores,parameter.idEmpleadoResponsable,parameter.urlFirmaResponsable,parameter.idEmpleadoPiloto,
-                    parameter.urlFirmaPiloto,parameter.idEmpleadoCoPiloto,parameter.urlFirmaCoPiloto,parameter.fechaHoraInicioRegistro,
-                    parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,fechaHoy,"",completado)
-
-                formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
-
-                if(parameter.listaTareas!=null)
-                {
-                    var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
-                    var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
-                    for(item in listaDetalle)
-                    {
-                        val uniqueIDDetalle: String = UUID.randomUUID().toString()
-                        var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
-                            "",item.indicadorSN,"",fechaHoy,"")
-
-                        listaDetalleDB.add(detalle)
-                    }
-
-                    formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
-                }
-
-
-
-
+                saveFormatoLocalDabaBase()
             }
 
             //formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
         }
 
     }
+
+
+    fun saveFormatoLocalDabaBase()
+    {
+        var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
+        var nombreAeronave:String = getNombreAeronave(requireContext())!!
+        val uniqueID: String = UUID.randomUUID().toString()
+
+        idDB_nuevoFormato = uniqueID
+        codFormato_nuevoFormato = TabsPreVuelo.formatoParameter.codigoFormato
+
+        var completado:Boolean = false
+
+        if(parameter.listaTareas!=null) {
+            if(ArrayList(parameter.listaTareas).size == 0) {
+                completado = true
+            }
+            else {
+                completado = false
+            }
+        }
+        else {
+            completado = true
+        }
+
+        var fechaHoy: String = ""
+        var fechaHoyCloud:String = ""
+        val gc: GregorianCalendar = GregorianCalendar()
+        val pattern = "yyyy-MM-dd HH:mm:ss"
+        val pattern2 = "yyyyMMdd HH:mm:ss"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val simpleDateFormat2 = SimpleDateFormat(pattern2)
+        simpleDateFormat.calendar = gc
+        simpleDateFormat2.calendar = gc
+        fechaHoy = simpleDateFormat.format(gc.time)
+        fechaHoyCloud = simpleDateFormat2.format(gc.time)
+
+        TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
+        TabsPreVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
+
+        saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,TabsPreVuelo.firmaResponsable)
+        saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+uniqueID,firmaPiloto!!)
+        saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_COPILOTO+uniqueID,firmaCopiloto!!)
+
+
+
+        var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
+            parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
+            parameter.solicitaEncMotores,parameter.idEmpleadoResponsable,parameter.urlFirmaResponsable,parameter.idEmpleadoPiloto,
+            parameter.urlFirmaPiloto,parameter.idEmpleadoCoPiloto,parameter.urlFirmaCoPiloto,parameter.fechaHoraInicioRegistro,
+            parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,fechaHoy,"",completado)
+
+
+        var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
+        if(parameter.listaTareas!=null)
+        {
+            var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
+
+            for(item in listaDetalle)
+            {
+
+                var nombreReportaje = ""
+                for(itemRepo in listaReportajes!!)
+                {
+                    if(item.codigoReportaje.equals(itemRepo.id_cloud))
+                    {
+                        nombreReportaje = itemRepo.nombreReportaje
+                    }
+                }
+
+                val uniqueIDDetalle: String = UUID.randomUUID().toString()
+                var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
+                    nombreReportaje,item.indicadorSN,"",fechaHoy,"")
+
+                listaDetalleDB.add(detalle)
+            }
+        }
+
+        formatoAenviar = formatoRegistro
+        detalleFormatoAenviar = listaDetalleDB
+
+
+        formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
+        formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
+
+
+    }
+
+
+
+    fun pintaDocumento(formatoRegistro: FormatoRegistro,detalleFormatoRegistro:ArrayList<DetalleFormatoRegistro>)
+    {
+
+
+
+
+        binding.tvFormatoRTV!!.setText(formatoRegistro.numeroRTV)
+
+        var nombreEstacion = ""
+
+        for(item in listaEstacionesDb!!)
+        {
+            if(item.id_cloud.equals(formatoRegistro.codigoEstacion))
+            {
+                nombreEstacion = item.nombre!!
+            }
+        }
+        binding.tvFormatoUBICACION!!.setText(nombreEstacion)
+
+
+        var idModeloAeronave = ""
+        var placaAeronave = ""
+
+        for (item in listaAeronaves!!)
+        {
+            if(formatoRegistro.codigoPuestoTecnico.equals(item.codigoPuestoTecnico))
+            {
+                idModeloAeronave = item.id_cloud!!
+                placaAeronave = item.placa
+            }
+        }
+
+
+        var nombreModelo = ""
+        for(item in listaModelosAeronave!!)
+        {
+            if(item.id_cloud.equals(idModeloAeronave))
+            {
+                nombreModelo = item.nombre!!
+
+            }
+
+        }
+
+        var nombreFormato = ""
+
+        for(item in listaFormatos!!)
+        {
+            if(item.id_cloud.equals(formatoRegistro.codigoFormato))
+            {
+                nombreFormato = item.nombreFormato!!
+
+            }
+
+        }
+
+        binding.tvTituloFormatoPdf!!.setText("FORMATO DE " +nombreFormato.toUpperCase()+ " PARA AERONAVE "+nombreModelo)
+
+        binding.tvFormatoAERONAVE!!.setText(nombreModelo+"/"+formatoRegistro.nombreAeronave + "/" + placaAeronave)
+
+        if(formatoRegistro.existenDiscrepancias.equals("1")) {
+            binding.ivExistendiscrepanciasSi!!.setImageResource(R.drawable.ic_check)
+            binding.ivExistendiscrepanciasNo!!.setImageResource(R.drawable.ic_uncheck)
+
+        }
+        else {
+            binding.ivExistendiscrepanciasSi!!.setImageResource(R.drawable.ic_uncheck)
+            binding.ivExistendiscrepanciasNo!!.setImageResource(R.drawable.ic_check)
+        }
+
+
+        binding.tvDiscrepanciasNroRTV!!.setText("b. Las discrepancias estan registradas en el RTV Nro "+formatoRegistro.numeroRTVDiscrepancias)
+
+
+
+        if(formatoRegistro.accionesMantenimiento.equals("1")) {
+            binding.ivAccionesmantenimientoSi!!.setImageResource(R.drawable.ic_check)
+            binding.ivAccionesmantenimientoNo!!.setImageResource(R.drawable.ic_uncheck)
+
+        }
+        else {
+            binding.ivAccionesmantenimientoSi!!.setImageResource(R.drawable.ic_uncheck)
+            binding.ivAccionesmantenimientoNo!!.setImageResource(R.drawable.ic_check)
+        }
+
+
+        if(formatoRegistro.solicitaEncMotores.equals("1")) {
+            binding.ivEncendidomotoresSi!!.setImageResource(R.drawable.ic_check)
+            binding.ivEncendidomotoresNo!!.setImageResource(R.drawable.ic_uncheck)
+
+        }
+        else {
+            binding.ivEncendidomotoresSi!!.setImageResource(R.drawable.ic_uncheck)
+            binding.ivEncendidomotoresNo!!.setImageResource(R.drawable.ic_check)
+        }
+
+        val root = Environment.getExternalStorageDirectory().toString()
+        val firmaResponsableee : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db+".png")
+
+
+        val formatoPdf : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db+".png")
+
+        filePdf = formatoPdf
+
+
+
+
+        if (firmaResponsableee.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(firmaResponsableee.absolutePath)
+            binding.ivFirmaResponsable!!.setImageBitmap(myBitmap)
+        }
+
+        binding.tvFechaResponsable!!.setText(formatoRegistro.fechaRegistro)
+
+
+
+        var nombreRes = ""
+        var licenciaRes = ""
+
+
+        var nombreCopiloto = ""
+        var licenciaCopiloto = ""
+        var nombrePiloto = ""
+        var licenciaPiloto = ""
+
+
+        for(item in listaEmpleados!!)
+        {
+            if(item.id_cloud.equals(formatoRegistro.idEmpleadoResponsable))
+            {
+                nombreRes = item.nombreCompleto!!
+                licenciaRes = item.licencia!!
+            }
+
+            if(item.id_cloud.equals(formatoRegistro.idEmpleadoCoPiloto))
+            {
+                nombreCopiloto = item.nombreCompleto!!
+                licenciaCopiloto = item.licencia!!
+            }
+
+            if(item.id_cloud.equals(formatoRegistro.idEmpleadoPiloto))
+            {
+                nombrePiloto = item.nombreCompleto!!
+                licenciaPiloto = item.licencia!!
+            }
+        }
+
+        binding.tvNombreResponsable!!.text = nombreRes.toString()
+        binding.tvLicenciaResponsable!!.text = licenciaRes
+
+        binding.tvNombreCopiloto!!.text = nombreCopiloto.toString()
+        binding.tvLicenciaCopiloto!!.text = licenciaCopiloto
+
+        binding.tvNombrePiloto!!.text = nombrePiloto.toString()
+        binding.tvLicenciaPiloto!!.text = licenciaPiloto
+
+        val firmaCopilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_COPILOTO+formatoRegistro.id_db+".png")
+        if (firmaCopilotooo.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(firmaCopilotooo.absolutePath)
+            binding.ivFirmaCopiloto!!.setImageBitmap(myBitmap)
+        }
+
+
+        val firmaPilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+formatoRegistro.id_db+".png")
+        if (firmaPilotooo.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(firmaPilotooo.absolutePath)
+            binding.ivFirmaPiloto!!.setImageBitmap(myBitmap)
+        }
+
+
+        if(detalleFormatoRegistro!=null)
+        {
+            if(detalleFormatoRegistro.size==0)
+            {
+                binding.tvSinAnotaciones!!.visibility = View.VISIBLE
+            }
+            else
+            {
+                binding.tvSinAnotaciones!!.visibility = View.GONE
+                for(reportajeItem in detalleFormatoRegistro)
+                {
+                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llcontenedorTareas!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
+                }
+
+            }
+
+        }
+
+
+
+        //    showImage(fileee.path,binding.ivFirmaResponsable)
+
+        /*
+                if(formatoRegistro.existenDiscrepancias.equals("1")) {
+                    binding.chbxDiscrepanciasSi.isChecked = true
+                    binding.chbxDiscrepanciasNo.isChecked = false
+                }
+                else {
+                    binding.chbxDiscrepanciasSi.isChecked = false
+                    binding.chbxDiscrepanciasNo.isChecked = true
+                }
+
+                binding.tvDiscrepanciasNroRtv.setText("b. Las discrepancias surgidas estan registradas en el RTV Nro "+formatoRegistro.numeroRTVDiscrepancias)
+
+
+
+                if(formatoRegistro.accionesMantenimiento.equals("1")) {
+                    binding.chbxAccionesmantenimientoSi.isChecked = true
+                    binding.chbxAccionesmantenimientoNo.isChecked = false
+                }
+                else {
+                    binding.chbxAccionesmantenimientoSi.isChecked = false
+                    binding.chbxAccionesmantenimientoNo.isChecked = true
+                }
+
+
+                if(formatoRegistro.solicitaEncMotores.equals("1")) {
+                    binding.chbxEncendidomotoresSi.isChecked = true
+                    binding.chbxEncendidomotoresNo.isChecked = false
+                }
+                else {
+                    binding.chbxEncendidomotoresSi.isChecked = false
+                    binding.chbxEncendidomotoresNo.isChecked = true
+                }
+        */
+
+        var nommbreFile =Constants.SAVE_FILE.PREFIJO_FORMATO+formatoRegistro.codigoFormato+"_"+formatoRegistro.id_db
+        generaFormatoPDF(nommbreFile)
+
+    }
+
+
+    fun loadBitmapFromView(v: View): Bitmap? {
+        if (v.measuredHeight <= 0) {
+            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+            val b = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
+            val c = Canvas(b)
+            v.layout(0, 0, v.measuredWidth, v.measuredHeight)
+            v.draw(c)
+            return b
+        }
+        else{
+            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+            val b = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
+            val c = Canvas(b)
+            v.layout(0, 0, v.measuredWidth, v.measuredHeight)
+            v.draw(c)
+            return b
+        }
+    }
+
+    fun generaFormatoPDF(nombreDocumento:String) {
+
+        var pageHeight = 1950
+        var pageWidth = 635
+
+        var pdfDocument: PdfDocument = PdfDocument()
+
+        // two variables for paint "paint" is used
+        // for drawing shapes and we will use "title"
+        // for adding text in our PDF file.
+        var paint: Paint = Paint()
+        var title: Paint = Paint()
+
+        // we are adding page info to our PDF file
+        // in which we will be passing our pageWidth,
+        // pageHeight and number of pages and after that
+        // we are calling it to create our PDF.
+        var myPageInfo: PdfDocument.PageInfo? =
+            PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 3).create()
+
+        // below line is used for setting
+        // start page for our PDF file.
+        var myPage: PdfDocument.Page = pdfDocument.startPage(myPageInfo)
+
+        // creating a variable for canvas
+        // from our page of PDF.
+        var canvas: Canvas = myPage.canvas
+
+
+
+
+
+        //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+        val startX = 20f
+        val startY = 50f
+        val tableWidth = 555f
+        val col1Width = 120f
+        val col2Width = 230f
+        val col3Width = tableWidth - col1Width - col2Width
+        val rowHeight = 60f
+
+        val bitmap: Bitmap? = loadBitmapFromView(binding.llDetalleFormato!!)
+        //  val scaledBitmap: Bitmap = Bitmap.createScaledBitmap(bitmap!!, pageWidth, pageHeight, false)
+        canvas.drawBitmap(bitmap!!, startX, startY, paint)
+
+        /*
+
+        // Dibujar contorno de la tabla
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 2f
+        canvas.drawRect(startX, startY, startX + tableWidth, startY + rowHeight * 2, paint)
+
+        // Columnas principales
+        val col1End = startX + col1Width
+        val col2End = col1End + col2Width
+        val col3End = col2End + col3Width
+
+        canvas.drawLine(col1End, startY, col1End, startY + rowHeight * 2, paint) // Línea entre col 1 y 2
+        canvas.drawLine(col2End, startY, col2End, startY + rowHeight * 2, paint) // Línea entre col 2 y 3
+
+        // Segunda columna: Divisiones internas
+        val col2HalfY = startY + rowHeight
+        canvas.drawLine(col1End, col2HalfY, col2End, col2HalfY, paint) // Divide la segunda columna en 2 filas
+        canvas.drawLine((col1End + col2End) / 2, col2HalfY, (col1End + col2End) / 2, startY + rowHeight * 2, paint) // Divide en 2 columnas pequeñas
+
+        // Tercera columna: Divisiones internas
+        val col3HalfY = startY + rowHeight
+        canvas.drawLine(col2End, col3HalfY, col3End, col3HalfY, paint) // Divide la tercera columna en 2 filas
+
+        // Cargar imagen y colocarla en la primera columna
+        val bitmap: Bitmap = BitmapFactory.decodeResource(requireContext().resources, R.drawable.logomini)
+        val scaledBitmap: Bitmap = Bitmap.createScaledBitmap(bitmap, col1Width.toInt(), (rowHeight * 2).toInt(), false)
+        canvas.drawBitmap(scaledBitmap, startX, startY, paint)
+
+        // Texto en cada sección con dos líneas
+        paint.style = Paint.Style.FILL
+        paint.textSize = 12f
+        paint.typeface = Typeface.DEFAULT_BOLD
+
+        // Segunda columna - Primera fila (Titulo general)
+        canvas.drawText("Código: FPRGAC-7A", col1End + 10f, startY + 25f, paint)
+
+        // Segunda columna - Sub columnas con dos líneas de texto
+        paint.textSize = 10f
+        canvas.drawText("Edición", col1End + 10f, col2HalfY + 20f, paint)
+        canvas.drawText("Noviembre 2024", col1End + 10f, col2HalfY + 35f, paint)
+
+        canvas.drawText("Revisión", (col1End + col2End) / 2 + 10f, col2HalfY + 20f, paint)
+        canvas.drawText("01 (Reedición)", (col1End + col2End) / 2 + 10f, col2HalfY + 35f, paint)
+
+        // Tercera columna - Filas con dos líneas de texto
+        paint.textSize = 12f
+        canvas.drawText("Página 1", col2End + 10f, startY + 25f, paint)
+       // canvas.drawText("Fila 1 - Línea 2", col2End + 10f, startY + 40f, paint)
+
+        canvas.drawText("Fecha Revisión", col2End + 10f, col3HalfY + 20f, paint)
+        canvas.drawText("Noviembre 2024", col2End + 10f, col3HalfY + 35f, paint)
+
+         */
+
+        //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+
+        pdfDocument.finishPage(myPage)
+
+        // below line is used to set the name of
+        // our PDF file and its path.
+        val root = Environment.getExternalStorageDirectory().toString()
+        val fileee: File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS)
+        if (!fileee.exists()) {
+            fileee.mkdirs()
+        }
+
+        val file: File = File(fileee, nombreDocumento+".pdf")
+
+        try {
+            // after creating a file name we will
+            // write our PDF file to that location.
+            pdfDocument.writeTo(FileOutputStream(file))
+
+            // on below line we are displaying a toast message as PDF file generated..
+            Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
+            sendPdf(idDB_nuevoFormato,codFormato_nuevoFormato)
+        } catch (e: Exception) {
+            // below line is used
+            // to handle error
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT).show()
+
+            // on below line we are displaying a toast message as fail to generate PDF
+
+        }
+        // after storing our pdf to that
+        // location we are closing our PDF file.
+        pdfDocument.close()
+
+        //    viewPdf("GFG.pdf",Environment.getExternalStorageDirectory().path)
+
+    }
+
+    fun newCheckBox(nombre:String, id:String, contenedor: LinearLayout, indicadorSN:String, indicadorBloqueo:String, nombreTarea:String)
+    {
+
+        val tituloTarea = TextView(requireContext())
+
+        val nombreReportaje = TextView(requireContext())
+
+        //  tituloTarea.setText("\n"+nombreTarea)
+        tituloTarea.setText("- "+nombreTarea)
+
+        nombreReportaje.setText("   "+nombre)
+
+        tituloTarea.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        nombreReportaje.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_grey))
+
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        if (tabletSize) {
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+            nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+            //     tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
+        } else {
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_cel_pdf))
+            nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombrereportaje_cel_pdf))
+            //    tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+        }
+        //  CompoundButtonCompat.setButtonTintList(cb, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
+        // CompoundButtonCompat.setButtonTintList(tituloTarea, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
+
+
+        //  tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+
+        //  val param = cb.layoutParams as ViewGroup.MarginLayoutParams
+        //  param.setMargins(0,10,0,0)
+        //  cb.layoutParams = param
+
+        contenedor.addView(tituloTarea)
+        contenedor.addView(nombreReportaje)
+
+    }
+
 
     fun saveBitmapOnLocalStorage(nombreDocumento:String,bitmap: Bitmap) {
 
@@ -372,6 +876,45 @@ class PreVueloFirmasFragment : Fragment() {
 
 
         return  isOk
+    }
+
+
+
+    fun sendPdf(idDb:String,codFormato:String)
+    {
+        val root = Environment.getExternalStorageDirectory().toString()
+        val firmaCopilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS,Constants.SAVE_FILE.PREFIJO_FORMATO+codFormato+"_"+idDb+".pdf")
+
+        var uri:Uri = firmaCopilotooo.toUri()
+        val fileContent: String = ConvertToString(requireContext(), uri)
+
+
+        formatosViewModel.enviaPdf(fileContent,idCloudNuevoFormato+".pdf")
+    }
+
+
+    @Throws(IOException::class)
+    fun getBytes(inputStream: InputStream): ByteArray {
+        val bufferSize = 1024
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val byteArray = ByteArray(bufferSize)
+        var len: Int
+        while ((inputStream.read(byteArray).also { len = it }) != -1) {
+            byteArrayOutputStream.write(byteArray, 0, len)
+        }
+        return byteArrayOutputStream.toByteArray()
+    }
+
+    fun ConvertToString(context: Context, uri: Uri?): String {
+        var encodedValue = ""
+        try {
+            val `in` = context.contentResolver.openInputStream(uri!!)
+            val bytes = getBytes(`in`!!)
+            encodedValue = Base64.encodeToString(bytes, Base64.DEFAULT)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return encodedValue
     }
 
     fun observers()
@@ -423,7 +966,7 @@ class PreVueloFirmasFragment : Fragment() {
         loginViewModel.responseGetEmpleadoListDB.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-
+                    listaEmpleados = ArrayList(it)
                     copilotosList = arrayListOf()
                     pilotosList = arrayListOf()
                     var empleadosListaTotal: ArrayList<Empleado>? = ArrayList(it)
@@ -450,6 +993,63 @@ class PreVueloFirmasFragment : Fragment() {
             }
         })
 
+        aeronavesViewModel.responseGetEstacionListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaEstacionesDb = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        aeronavesViewModel.responseGetModeloAeronaveListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaModelosAeronave = ArrayList(it.data)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+        formatosViewModel.responseGetFormatoListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaFormatos = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        aeronavesViewModel.responseGetAeronaveListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaAeronaves = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+        formatosViewModel.responseGetReportajeListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaReportajes = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
 
         formatosViewModel.formatosState.observe(viewLifecycleOwner, Observer {
             try {
@@ -472,11 +1072,43 @@ class PreVueloFirmasFragment : Fragment() {
         formatosViewModel.responseGrabaFormato.observe(viewLifecycleOwner, Observer {
             try {
 
-                //grabacion correcta
-                requireActivity().finish()
+                idCloudNuevoFormato = it.message
 
-                val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
-                requireActivity().startActivity(intent)
+                formatosViewModel.updateIdCloudFormatoRefgistro(idDB_nuevoFormato,idCloudNuevoFormato)
+
+
+                if(binding.chbxEnviarcorreo!!.isChecked)
+                {
+                    pintaDocumento(formatoAenviar!!,detalleFormatoAenviar!!)
+                 //
+                }
+                else
+                {
+                    //grabacion correcta
+                    requireActivity().finish()
+
+                    val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                    requireActivity().startActivity(intent)
+                }
+
+
+
+
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace();
+                showErrorDialog(e.toString())
+            }
+        })
+
+        formatosViewModel.responseResponseEnviaPdf.observe(viewLifecycleOwner, Observer {
+            try {
+
+                    //grabacion correcta
+                    requireActivity().finish()
+
+                    val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                    requireActivity().startActivity(intent)
 
 
             } catch (e: Exception) {
@@ -691,6 +1323,8 @@ class PreVueloFirmasFragment : Fragment() {
 
 
  */
+
+    /*
     private fun loadBitmapFromView(view: View): Bitmap? {
         // Check if the view is valid and has dimensions
         if (view.width <= 0 || view.height <= 0) {
@@ -699,6 +1333,8 @@ class PreVueloFirmasFragment : Fragment() {
         // ... your code to create a Bitmap from the View ...
         return null
     }
+
+     */
 
 
 
@@ -884,8 +1520,8 @@ class PreVueloFirmasFragment : Fragment() {
 
 
 
-    var pageHeight = 1120
-    var pageWidth = 792
+    var pageHeight = 1950
+    var pageWidth = 635
 
     // creating a bitmap variable
     // for storing our images

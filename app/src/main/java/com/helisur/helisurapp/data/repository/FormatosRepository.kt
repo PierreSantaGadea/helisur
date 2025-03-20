@@ -7,6 +7,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoC
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneFormatosRealizadosCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesFormatoParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.EnviaPdfCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -175,6 +176,13 @@ class FormatosRepository @Inject constructor(
     }
 
 
+    suspend fun enviaPdf(
+        base64Pdf:String,
+        nombrePdf:String
+    ): EnviaPdfCloudResponse {
+        val response: EnviaPdfCloudResponse = formatosCloudData.enviaPdf(base64Pdf,nombrePdf)
+        return response
+    }
 
 
     // formatos
@@ -708,6 +716,21 @@ class FormatosRepository @Inject constructor(
         try {
             return withContext(Dispatchers.IO) {
                 formatoRegistroLocalData.updateFormatoRegistro(idFormatoRegistroDB,numeroRTV,idUbicacion)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
+    suspend fun updateIdCloudFormatoRefgistro(idDb:String,idCloud: String) {
+        try {
+            return withContext(Dispatchers.IO) {
+                formatoRegistroLocalData.updateIdCloud(idDb,idCloud,true)
                 var error: Boolean = true
             }
         } catch (e: Exception) {

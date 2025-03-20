@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.EnviaPdfCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -64,7 +65,11 @@ class FormatosViewModel @Inject constructor(
     val responseUpdateFormatoRegistroDB = MutableLiveData<Boolean?>()
     val responseUpdateDetalleFormatoRegistroDB = MutableLiveData<Boolean?>()
 
+    val responseUpdateidCloudFormatoRegistro = MutableLiveData<Boolean?>()
+
     val responseActualizaFormato= MutableLiveData<ActualizaReportajeFormatoCloudResponse>()
+
+    val responseResponseEnviaPdf= MutableLiveData<EnviaPdfCloudResponse>()
 
 
     fun obtieneFormatos() {
@@ -304,6 +309,30 @@ class FormatosViewModel @Inject constructor(
         }
     }
 
+    fun enviaPdf(base64Pdf:String,
+                 nombrePdf:String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.enviaPdf(base64Pdf,nombrePdf)
+            if (result != null) {
+                if(result.error == Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    formatosState.postValue(FormatosState.SUCCESS)
+                    responseResponseEnviaPdf.postValue(result)
+                }
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
 
     fun getFormatosListDB() {
         viewModelScope.launch {
@@ -504,6 +533,22 @@ class FormatosViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateIdCloudFormatoRefgistro(idDb:String,idCloud: String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = formatosUseCase.updateIdCloudFormatoRefgistro(idDb,idCloud)
+            if (result!=null) {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.SUCCESS)
+                responseUpdateidCloudFormatoRegistro.postValue(result)
+            } else {
+                isLoading.postValue(false)
+                formatosState.postValue(FormatosState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
 
     fun updateDetalleFormatoRegistro(idFormatoRegistroDb: String,indicadorSN:String) {
         viewModelScope.launch {

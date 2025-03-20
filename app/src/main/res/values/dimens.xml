@@ -11,5 +11,12 @@
     <dimen name="marginrecyclwe">0dp</dimen>
 
     <dimen name="nombretarea_formatos_realizados">15dp</dimen>
+    <dimen name="nombretarea_formatos_realizados_cel">18dp</dimen>
+
+
+    <dimen name="nombretarea_cel_pdf">8dp</dimen>
+    <dimen name="nombrereportaje_cel_pdf">7dp</dimen>
+
+    <dimen name="nombretarea_formatos_realizados_pdf">12dp</dimen>
 
 </resources>

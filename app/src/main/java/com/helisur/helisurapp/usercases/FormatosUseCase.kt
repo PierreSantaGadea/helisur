@@ -4,6 +4,7 @@ import android.util.Log
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.EnviaPdfCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -129,6 +130,21 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
             val grabacionFailed = ObtieneReportajesFormatoCloudResponse()
+            grabacionFailed.message = e.message.toString()
+            return grabacionFailed
+        }
+    }
+
+
+    suspend fun enviaPdf(
+        base64Pdf:String,
+        nombrePdf:String): EnviaPdfCloudResponse {
+        try {
+            val respuesta = repository.enviaPdf(base64Pdf,nombrePdf)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            val grabacionFailed = EnviaPdfCloudResponse()
             grabacionFailed.message = e.message.toString()
             return grabacionFailed
         }
@@ -285,6 +301,17 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
     suspend fun updateFormatoRegistro(idFormatoRegistroDB: String,numeroRTV:String,idUbicacion:String): Boolean? {
         try {
             val respuesta = repository.updateFormatoRegistro(idFormatoRegistroDB,numeroRTV,idUbicacion)
+            return true
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            return null
+        }
+    }
+
+
+    suspend fun updateIdCloudFormatoRefgistro(idDb:String,idCloud: String): Boolean? {
+        try {
+            val respuesta = repository.updateIdCloudFormatoRefgistro(idDb,idCloud)
             return true
         } catch (e: Exception) {
             Log.e(TAG, e.toString())

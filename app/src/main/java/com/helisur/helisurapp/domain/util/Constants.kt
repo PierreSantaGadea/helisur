@@ -23,6 +23,8 @@ class Constants {
         const val OBTIENE_REPORTAJES_FORMATOS: String = "serviceintranetHLS/api/FormatoRegistro/GetFormatoReportajeSelBy" //Cadena = [Nro de registro de formato char(10)]
         const val ACTUALIZA_REPORTAJE_FORMATO: String = "serviceintranetHLS/api/FormatoRegistro/actualizaEstadoReportaje" //codigoRegistroFormato, codigoTarea, codigoReportaje, indicadorSN, usuarioRegistro
 
+        const val ENVIA_PDF_FORMATO: String = "http://38.199.4.100:81/serviceintranetHLS/api/Base64/GetDecode"
+
 
     }
 

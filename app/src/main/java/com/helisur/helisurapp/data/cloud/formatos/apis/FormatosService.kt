@@ -1,6 +1,7 @@
 package com.helisur.helisurapp.data.cloud.formatos.apis
 
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ActualizaReportajeFormatoCloudParameter
+import com.helisur.helisurapp.data.cloud.formatos.model.parameter.EnviaPdfCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneFormatosRealizadosCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReportajesFormatoParameter
@@ -8,6 +9,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneReporta
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneSistemasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.ObtieneTareasCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ActualizaReportajeFormatoCloudResponse
+import com.helisur.helisurapp.data.cloud.formatos.model.response.EnviaPdfCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.GrabaFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneFormatosRealizadosCloudResponse
@@ -277,6 +279,13 @@ class FormatosService @Inject constructor(private val api: FormatosApiClient) {
     }
 
 
+
+
+
+
+
+
+
     suspend fun obtieneFormatosRealizados(
         parameterBody: ObtieneFormatosRealizadosCloudParameter
     ): ObtieneFormatosRealizadosCloudResponse {
@@ -360,6 +369,53 @@ class FormatosService @Inject constructor(private val api: FormatosApiClient) {
         }
     }
 
+
+
+
+    suspend fun enviaPdf(
+        base64Pdf:String,
+        nombrePdf:String
+    ): EnviaPdfCloudResponse {
+        return withContext(Dispatchers.IO) {
+
+            var url: String = Constants.URLS.ENVIA_PDF_FORMATO
+            var parameterBody: EnviaPdfCloudParameter = EnviaPdfCloudParameter(nombrePdf,base64Pdf)
+            val response = api.enviaPdf(url,parameterBody)
+            when (response.code()) {
+                Constants.RESPONSE_CODE._200 -> response.body()!!
+
+                Constants.RESPONSE_CODE._400 -> EnviaPdfCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_400
+                )
+
+                Constants.RESPONSE_CODE._401 -> EnviaPdfCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_401
+                )
+
+                Constants.RESPONSE_CODE._403 -> EnviaPdfCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_403
+                )
+
+                Constants.RESPONSE_CODE._404 -> EnviaPdfCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_404
+                )
+
+                Constants.RESPONSE_CODE._500 -> EnviaPdfCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_500
+                )
+
+                Constants.RESPONSE_CODE._503 -> EnviaPdfCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_503
+                )
+
+                else -> { // Note the block
+                    EnviaPdfCloudResponse(
+                        Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_OTHER
+                    )
+                }
+            }
+        }
+    }
 
 
 

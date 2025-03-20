@@ -52,6 +52,8 @@ interface FormatoRegistroDao {
     @Query("UPDATE FormatoRegistro SET numeroRTV = :numeroRTV, codigoEstacion = :idUbicacion WHERE id_db = :idDB")
     fun updateFormatoRegistro(idDB: String, numeroRTV: String,idUbicacion:String): Int
 
+    @Query("UPDATE FormatoRegistro SET id_cloud = :idCloud, sync = :sync WHERE id_db = :idDb")
+    fun updateIdCloud(idDb:String,idCloud: String, sync: Boolean): Int
 
 
 }

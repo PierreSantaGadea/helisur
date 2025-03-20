@@ -3,23 +3,31 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Base64
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import androidx.core.widget.CompoundButtonCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -41,8 +49,11 @@ import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import pl.polidea.view.ZoomView
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import kotlin.math.max
 import kotlin.math.min
 
@@ -87,6 +98,8 @@ class HistoricoFragment  : Fragment() {
 
     private var vista:LinearLayout? = null
 
+    private var filePdf : File? = null
+
 
     fun loadBitmapFromView(v: View): Bitmap? {
         if (v.measuredHeight <= 0) {
@@ -109,7 +122,7 @@ class HistoricoFragment  : Fragment() {
 
     fun generaFormatoPDF(nombreDocumento:String) {
 
-        var pageHeight = 1542
+        var pageHeight = 1950
         var pageWidth = 635
 
         var pdfDocument: PdfDocument = PdfDocument()
@@ -252,6 +265,19 @@ class HistoricoFragment  : Fragment() {
 
     private var zoomView: ZoomView? = null
 
+    fun isOnline(): Boolean {
+        try {
+            val p1 = Runtime.getRuntime().exec("ping -c 1 www.google.com")
+            val returnVal = p1.waitFor()
+            val reachable = (returnVal == 0)
+            return reachable
+        } catch (e: Exception) {
+            //  e.printStackTrace();
+        }
+        return false
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
@@ -289,6 +315,9 @@ class HistoricoFragment  : Fragment() {
         aeronavesViewModel.getModelosAeronavesListDB()
         aeronavesViewModel.getAeronavesListDB()
         formatosViewModel.getFormatosRegistroCompletedListDB()
+
+
+
     }
 
     private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
@@ -313,6 +342,22 @@ class HistoricoFragment  : Fragment() {
             binding.llcontenedorLista.visibility = View.VISIBLE
 
         }
+
+
+        binding.btnEnviaCorreo.setOnClickListener {
+
+            try {
+                sendPdf(formatoSelected!!.id_db!!,formatoSelected!!.codigoFormato)
+            }
+            catch (e:Exception)
+            {
+                Log.e(className,e.toString())
+                showErrorDialog(e.toString())
+            }
+
+
+        }
+
     }
 
     fun saveModeloAeronave(context: Context, idAeronave:String, nombreAeronave:String) {
@@ -503,6 +548,18 @@ class HistoricoFragment  : Fragment() {
 
 
 
+        formatosViewModel.responseResponseEnviaPdf.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                Toast.makeText(requireContext(), "Correo enviado", Toast.LENGTH_LONG).show()
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+
     }
 
 
@@ -614,6 +671,14 @@ class HistoricoFragment  : Fragment() {
         val root = Environment.getExternalStorageDirectory().toString()
         val firmaResponsableee : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db+".png")
 
+
+        val formatoPdf : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db+".png")
+
+        filePdf = formatoPdf
+
+
+
+
         if (firmaResponsableee.exists()) {
             val myBitmap = BitmapFactory.decodeFile(firmaResponsableee.absolutePath)
             binding.ivFirmaResponsable.setImageBitmap(myBitmap)
@@ -670,12 +735,31 @@ class HistoricoFragment  : Fragment() {
         }
 
 
-
         val firmaPilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+formatoRegistro.id_db+".png")
         if (firmaPilotooo.exists()) {
             val myBitmap = BitmapFactory.decodeFile(firmaPilotooo.absolutePath)
             binding.ivFirmaPiloto.setImageBitmap(myBitmap)
         }
+
+
+        if(detalleFormatoRegistro!=null)
+        {
+            if(detalleFormatoRegistro.size==0)
+            {
+                binding.tvSinAnotaciones.visibility = View.VISIBLE
+            }
+            else
+            {
+                binding.tvSinAnotaciones.visibility = View.GONE
+                for(reportajeItem in detalleFormatoRegistro)
+                {
+                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llcontenedorTareas!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
+                }
+
+            }
+
+        }
+
 
 
     //    showImage(fileee.path,binding.ivFirmaResponsable)
@@ -724,17 +808,57 @@ class HistoricoFragment  : Fragment() {
 
     }
 
-
-/*
-    fun showImage(nombreImagen:String,imageView:ImageView)
+    fun newCheckBox(nombre:String,id:String,contenedor:LinearLayout,indicadorSN:String,indicadorBloqueo:String,nombreTarea:String)
     {
-        Glide.with(requireContext())
-            .asBitmap()
-            .load(nombreImagen)
-            .into(imageView)
+
+        val tituloTarea = TextView(requireContext())
+
+        val nombreReportaje = TextView(requireContext())
+
+      //  tituloTarea.setText("\n"+nombreTarea)
+        tituloTarea.setText("- "+nombreTarea)
+
+        nombreReportaje.setText("   "+nombre)
+
+        tituloTarea.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        nombreReportaje.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        if (tabletSize) {
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+            nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+            //     tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
+        } else {
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_cel_pdf))
+            nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombrereportaje_cel_pdf))
+            //    tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+        }
+      //  CompoundButtonCompat.setButtonTintList(cb, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
+        // CompoundButtonCompat.setButtonTintList(tituloTarea, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
+
+
+      //  tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+
+        //  val param = cb.layoutParams as ViewGroup.MarginLayoutParams
+        //  param.setMargins(0,10,0,0)
+        //  cb.layoutParams = param
+
+        contenedor.addView(tituloTarea)
+        contenedor.addView(nombreReportaje)
+
     }
 
- */
+
+    /*
+        fun showImage(nombreImagen:String,imageView:ImageView)
+        {
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(nombreImagen)
+                .into(imageView)
+        }
+
+     */
 
     fun showErrorDialog(message: String?) {
         val bundle = Bundle()
@@ -762,5 +886,43 @@ class HistoricoFragment  : Fragment() {
             //  cocursosViewModel.listaPeriodos(sessionManager!!.getToken()!!)
         } else {
         }
+    }
+
+
+    fun sendPdf(idDb:String,codFormato:String)
+    {
+        val root = Environment.getExternalStorageDirectory().toString()
+        val firmaCopilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS,Constants.SAVE_FILE.PREFIJO_FORMATO+codFormato+"_"+idDb+".pdf")
+
+
+        var uri: Uri = firmaCopilotooo.toUri()
+        val fileContent: String = ConvertToString(requireContext(), uri)
+
+        formatosViewModel.enviaPdf(fileContent,"pruebaa")
+    }
+
+
+    @Throws(IOException::class)
+    fun getBytes(inputStream: InputStream): ByteArray {
+        val bufferSize = 1024
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val byteArray = ByteArray(bufferSize)
+        var len: Int
+        while ((inputStream.read(byteArray).also { len = it }) != -1) {
+            byteArrayOutputStream.write(byteArray, 0, len)
+        }
+        return byteArrayOutputStream.toByteArray()
+    }
+
+    fun ConvertToString(context: Context, uri: Uri?): String {
+        var encodedValue = ""
+        try {
+            val `in` = context.contentResolver.openInputStream(uri!!)
+            val bytes = getBytes(`in`!!)
+            encodedValue = Base64.encodeToString(bytes, Base64.DEFAULT)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return encodedValue
     }
 }
