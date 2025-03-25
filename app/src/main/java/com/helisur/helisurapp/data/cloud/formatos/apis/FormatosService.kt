@@ -379,7 +379,7 @@ class FormatosService @Inject constructor(private val api: FormatosApiClient) {
         return withContext(Dispatchers.IO) {
 
             var url: String = Constants.URLS.ENVIA_PDF_FORMATO
-            var parameterBody: EnviaPdfCloudParameter = EnviaPdfCloudParameter(nombrePdf,base64Pdf)
+            var parameterBody: EnviaPdfCloudParameter = EnviaPdfCloudParameter(nombrePdf,base64Pdf,"Formato")
             val response = api.enviaPdf(url,parameterBody)
             when (response.code()) {
                 Constants.RESPONSE_CODE._200 -> response.body()!!

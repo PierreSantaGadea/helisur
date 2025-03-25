@@ -510,7 +510,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
     fun setRecyclerViewFormatosRealizados(lista: ArrayList<FormatoRegistro>) {
         val recyclerview = binding.rvFormatosPrevuelo
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ListaFormatosDiscrepanciasAdapter(lista)
+        val adapter = ListaFormatosDiscrepanciasAdapter(lista,requireContext())
         recyclerview.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)

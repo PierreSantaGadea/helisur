@@ -19,6 +19,7 @@ class SplashActivity  : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         timerSplash()
         disableBackButton()
     }
@@ -40,7 +41,6 @@ class SplashActivity  : BaseActivity() {
             next(ModulesActivity::class.java, null)
          //   next(MainActivityVendedor::class.java, null)
         } else {
-
             next(LoginActivity::class.java, null)
         }
     }

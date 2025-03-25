@@ -3,7 +3,6 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -19,15 +18,12 @@ import android.view.LayoutInflater
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.core.widget.CompoundButtonCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -54,6 +50,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import kotlin.math.max
 import kotlin.math.min
 
@@ -244,15 +242,15 @@ class HistoricoFragment  : Fragment() {
             pdfDocument.writeTo(FileOutputStream(file))
 
             // on below line we are displaying a toast message as PDF file generated..
-            Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
+       //     Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             // below line is used
             // to handle error
             e.printStackTrace()
 
             // on below line we are displaying a toast message as fail to generate PDF
-            Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT)
-                .show()
+         //   Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT)
+               // .show()
         }
         // after storing our pdf to that
         // location we are closing our PDF file.
@@ -587,9 +585,21 @@ class HistoricoFragment  : Fragment() {
         }
     }
 
+    fun String.titlecaseFirstChar() = replaceFirstChar(Char::titlecase)
 
     fun pintaDocumento(formatoRegistro: FormatoRegistro,detalleFormatoRegistro:ArrayList<DetalleFormatoRegistro>)
     {
+
+
+        val cal: Calendar = Calendar.getInstance()
+        val month_date: SimpleDateFormat = SimpleDateFormat("MMMM")
+        val year_date: SimpleDateFormat = SimpleDateFormat("yyyy")
+
+        val month_name: String = month_date.format(cal.getTime()).titlecaseFirstChar()
+        val year_name: String = year_date.format(cal.getTime()).titlecaseFirstChar()
+
+        binding.tvMesEdicion.setText(month_name + " "+ year_name)
+        binding.tvMesRevision.setText(month_name + " "+ year_name)
 
         binding.tvFormatoRTV.setText(formatoRegistro.numeroRTV)
 
@@ -629,6 +639,7 @@ class HistoricoFragment  : Fragment() {
 
         }
 
+        binding.tvTituloFormatoPdf!!.setText("FORMATO DE " +nombreFormato.toUpperCase()+ " PARA AERONAVE "+nombreModelo)
 
         binding.tvFormatoAERONAVE.setText(nombreModelo+"/"+formatoRegistro.nombreAeronave + "/" + placaAeronave)
 

@@ -132,7 +132,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_alignParentRight="true">
 
             <LinearLayout
@@ -156,12 +156,25 @@
 
 
             <ImageView
+                android:id="@+id/ivLevantarDiscrepancias"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="center"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_levantar_disc"/>
+
+
+
+            <ImageView
+                android:id="@+id/ivEnviarPdf"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_upload"/>
 
 
 

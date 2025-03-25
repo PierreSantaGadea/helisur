@@ -1,14 +1,17 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.domain.model.FormatoRegistro
 
-class ListaFormatosDiscrepanciasAdapter (private val mList: ArrayList<FormatoRegistro>) :
+class ListaFormatosDiscrepanciasAdapter (private val mList: ArrayList<FormatoRegistro>,val ctx:Context) :
     RecyclerView.Adapter<ListaFormatosDiscrepanciasAdapter.MyViewHolder>() {
 
     var onItemClick: ((FormatoRegistro) -> Unit)? = null
@@ -20,10 +23,13 @@ class ListaFormatosDiscrepanciasAdapter (private val mList: ArrayList<FormatoReg
         val tvAeronave: TextView = view.findViewById(R.id.tvAeronave)
         val tvFecha: TextView = view.findViewById(R.id.tvFecha)
 
+        val ivLevantarDiscrepancias: ImageView = view.findViewById(R.id.ivLevantarDiscrepancias)
+        val ivEnviarPdf: ImageView = view.findViewById(R.id.ivEnviarPdf)
+
         val tvNombreFormato: TextView = view.findViewById(R.id.tvNombreFormato)
 
         init {
-            itemView.setOnClickListener {
+            ivLevantarDiscrepancias.setOnClickListener {
                 onItemClick?.invoke(mList[adapterPosition])
             }
         }
@@ -53,6 +59,12 @@ class ListaFormatosDiscrepanciasAdapter (private val mList: ArrayList<FormatoReg
         holder.tvModeloAeronave.text = appItem.codigoEstacion
         holder.tvAeronave.text = appItem.nombreAeronave
         holder.tvFecha.text = appItem.fechaRegistro
+
+        holder.ivEnviarPdf.setOnClickListener {
+            Toast.makeText(ctx,"PDF generado y enviado",Toast.LENGTH_SHORT).show()
+
+        }
+
 
     }
 

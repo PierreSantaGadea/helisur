@@ -69,6 +69,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.UUID
 
@@ -407,15 +408,23 @@ class PreVueloFirmasFragment : Fragment() {
         formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
         formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
 
-
     }
 
+    fun String.titlecaseFirstChar() = replaceFirstChar(Char::titlecase)
 
 
     fun pintaDocumento(formatoRegistro: FormatoRegistro,detalleFormatoRegistro:ArrayList<DetalleFormatoRegistro>)
     {
 
+        val cal: Calendar = Calendar.getInstance()
+        val month_date: SimpleDateFormat = SimpleDateFormat("MMMM")
+        val year_date: SimpleDateFormat = SimpleDateFormat("yyyy")
 
+        val month_name: String = month_date.format(cal.getTime()).titlecaseFirstChar()
+        val year_name: String = year_date.format(cal.getTime()).titlecaseFirstChar()
+
+        binding.tvMesEdicion!!.setText(month_name + " "+ year_name)
+        binding.tvMesRevision!!.setText(month_name + " "+ year_name)
 
 
         binding.tvFormatoRTV!!.setText(formatoRegistro.numeroRTV)

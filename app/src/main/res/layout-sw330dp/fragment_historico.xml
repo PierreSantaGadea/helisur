@@ -27,7 +27,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="0dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
                     android:layout_width="350dp"
                     android:layout_height="1032dp"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginTop="5dp">
 
 
@@ -209,11 +209,13 @@
                                                         android:textColor="@color/black"/>
 
                                                     <TextView
+                                                        android:id="@+id/tvMesEdicion"
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"
                                                         android:gravity="center|left"
                                                         android:textSize="6dp"
-                                                        android:text="Noviembre 2024"
+                                                        android:inputType="textCapWords"
+                                                        android:text=""
                                                         android:textColor="@color/black"/>
                                                 </LinearLayout>
 
@@ -323,6 +325,30 @@
                                                 android:weightSum="2"
                                                 android:orientation="horizontal">
 
+                                                <LinearLayout
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:orientation="vertical"
+                                                    android:gravity="center"
+                                                    android:paddingLeft="3dp">
+
+                                                    <TextView
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:gravity="center|left"
+                                                        android:textSize="6dp"
+                                                        android:text="Fecha Revisión"
+                                                        android:textColor="@color/black"/>
+
+                                                    <TextView
+                                                        android:id="@+id/tvMesRevision"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:gravity="center|left"
+                                                        android:textSize="6dp"
+                                                        android:text=""
+                                                        android:textColor="@color/black"/>
+                                                </LinearLayout>
 
 
                                             </LinearLayout>
@@ -349,11 +375,12 @@
                                     android:layout_height="match_parent">
 
                                     <TextView
+                                        android:id="@+id/tvTituloFormatoPdf"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:gravity="center"
-                                        android:text="FORMATO DE PRE-VUELO PARA AERONAVE"
-                                        android:textSize="11dp"
+                                        android:text=""
+                                        android:textSize="8dp"
                                         android:textStyle="bold"
                                         android:textColor="@color/black"/>
 
@@ -1466,7 +1493,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
