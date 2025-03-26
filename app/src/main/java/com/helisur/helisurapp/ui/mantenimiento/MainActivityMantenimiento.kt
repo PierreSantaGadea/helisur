@@ -88,7 +88,7 @@ class MainActivityMantenimiento : BaseActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.item_formatos, R.id.item_discrepancias,R.id.item_historico, R.id.item_cerrar
+                R.id.item_formatos, R.id.item_discrepancias,R.id.item_historico,R.id.item_hoja_ruta, R.id.item_cerrar
             ), binding.drawerLayout
         )
 

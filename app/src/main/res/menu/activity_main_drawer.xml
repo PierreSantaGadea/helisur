@@ -36,6 +36,25 @@
     </group>
 
 
+    <group
+        android:checkableBehavior="single" >
+        <item
+            android:visible="true"
+            android:titleCondensed="Areas"
+            android:title="Hoja de ruta"
+            app:showAsAction="always">
+            <menu>
+                <item
+                    android:id="@+id/item_hoja_ruta"
+                    android:icon="@drawable/ic_agregar"
+                    android:title="Agregar"
+                    app:showAsAction="always"></item>
+
+            </menu>
+        </item>
+    </group>
+
+
 
 
     <group>
