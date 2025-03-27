@@ -46,7 +46,8 @@ class PreVueloActivity  : BaseActivity() {
     fun loadTabHomeFragment() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val homeFragment: TabsPreVuelo = TabsPreVuelo()
+        val homeFragment: PreVueloTabsFragment =
+            PreVueloTabsFragment()
         fragmentTransaction.replace(binding.containerView.id, homeFragment)
         fragmentTransaction.commit()
     }

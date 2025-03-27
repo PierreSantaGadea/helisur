@@ -15,8 +15,6 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportaj
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasDataTableCloudResponse
 import com.helisur.helisurapp.data.cloud.usuario.model.response.ObtieneEmpleadosDataTableCloudResponse
-import com.helisur.helisurapp.data.database.entities.ModeloAeronaveEntity
-import com.helisur.helisurapp.data.database.entities.toDB
 import com.helisur.helisurapp.data.repository.AeronavesRepository
 import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.data.repository.UsuarioRepository
@@ -62,7 +60,7 @@ class ServiceSyncDataFirstTime : Service() {
     lateinit var usuarioRepository: UsuarioRepository
 
     companion object {
-        private const val TAG = "ServiceSyncData"
+        private const val TAG = "ServiceSyncDataFirstTime"
     }
 
     private val binder = LocalBinder()
@@ -70,31 +68,22 @@ class ServiceSyncDataFirstTime : Service() {
     private var syncJob: Job? = null
     private var sessionUserManager: SessionUserManager? = null
 
-
     private var modelosAeronaveListDB: ArrayList<ModeloAeronave>? = null
     private var modelosAeronaveListCloud: ArrayList<ObtieneAeronavesDataTableCloudResponse>? = null
-
     private var aeronaveListDB: ArrayList<Aeronave>? = null
     private var aeronaveListCloud: ArrayList<ObtieneModelosAeronaveDataTableCloudResponse>? = null
-
     private var estacionListDB: ArrayList<Estacion>? = null
     private var estacionListCloud: ArrayList<ObtieneEstacionesDataTableCloudResponse>? = null
-
     private var formatoListDB: ArrayList<Formato>? = null
     private var formatoListCloud: ArrayList<ObtieneFormatosDataTableCloudResponse>? = null
-
     private var sistemaListDB: ArrayList<Sistema>? = null
     private var sistemaListCloud: ArrayList<ObtieneSistemasDataTableCloudResponse>? = null
-
     private var tareaListDB: ArrayList<Tarea>? = null
     private var tareaListCloud: ArrayList<ObtieneTareasDataTableCloudResponse>? = null
-
     private var reportajeListDB: ArrayList<Reportaje>? = null
     private var reportajeListCloud: ArrayList<ObtieneReportajesDataTableCloudResponse>? = null
-
     private var empleadoListDB: ArrayList<Empleado>? = null
     private var empleadoListCloud: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
-
 
     inner class LocalBinder : Binder() {
         fun getService(): ServiceSyncDataFirstTime = this@ServiceSyncDataFirstTime
@@ -124,6 +113,7 @@ class ServiceSyncDataFirstTime : Service() {
         //  Toast.makeText(this, "Foreground Service created", Toast.LENGTH_SHORT).show()
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy")
@@ -138,7 +128,6 @@ class ServiceSyncDataFirstTime : Service() {
 
 
     private fun startSyncronization() {
-
         syncJob?.cancel()
         syncJob = coroutineScope.launch {
             syncModeloAeronave()
@@ -150,13 +139,6 @@ class ServiceSyncDataFirstTime : Service() {
             syncEmpleados()
             syncReportajes()
         }
-
-        /*
-                coroutineScope.launch {
-                    syncModeloAeronave()
-                }
-        */
-
     }
 
 
@@ -164,12 +146,13 @@ class ServiceSyncDataFirstTime : Service() {
         try {
             withContext(Dispatchers.Main) {
                 modelosAeronaveListDB = arrayListOf()
-                modelosAeronaveListCloud = ArrayList(aeronavesRepository.getModeloAeronaveListCloud().data!!.table)
+                modelosAeronaveListCloud =
+                    ArrayList(aeronavesRepository.getModeloAeronaveListCloud().data!!.table)
                 if (modelosAeronaveListCloud != null) {
                     for (itemcloud in modelosAeronaveListCloud!!) {
                         modelosAeronaveListDB!!.add(itemcloud.toDomain())
                     }
-                     aeronavesRepository.insertModeloAeronaveListDB(modelosAeronaveListDB!!)
+                    aeronavesRepository.insertModeloAeronaveListDB(modelosAeronaveListDB!!)
                 }
 
             }
@@ -182,7 +165,8 @@ class ServiceSyncDataFirstTime : Service() {
         try {
             withContext(Dispatchers.Main) {
                 aeronaveListDB = arrayListOf()
-                aeronaveListCloud = ArrayList(aeronavesRepository.getAeromaveListCloud("").data!!.table)
+                aeronaveListCloud =
+                    ArrayList(aeronavesRepository.getAeromaveListCloud("").data!!.table)
                 if (aeronaveListCloud != null) {
                     for (itemcloud in aeronaveListCloud!!) {
                         aeronaveListDB!!.add(itemcloud.toDomain())
@@ -201,14 +185,14 @@ class ServiceSyncDataFirstTime : Service() {
         try {
             withContext(Dispatchers.Main) {
                 estacionListDB = arrayListOf()
-                estacionListCloud = ArrayList(aeronavesRepository.getEstacionesListCloud().data!!.table)
+                estacionListCloud =
+                    ArrayList(aeronavesRepository.getEstacionesListCloud().data!!.table)
                 if (estacionListCloud != null) {
                     for (itemcloud in estacionListCloud!!) {
                         estacionListDB!!.add(itemcloud.toDomain())
                     }
                     aeronavesRepository.insertEstacionListDB(estacionListDB!!)
                 }
-
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
@@ -227,7 +211,6 @@ class ServiceSyncDataFirstTime : Service() {
                     }
                     formatosRepository.insertFormatoListDB(formatoListDB!!)
                 }
-
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
@@ -246,7 +229,6 @@ class ServiceSyncDataFirstTime : Service() {
                     }
                     formatosRepository.insertSistemaListDB(sistemaListDB!!)
                 }
-
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
@@ -265,7 +247,6 @@ class ServiceSyncDataFirstTime : Service() {
                     }
                     formatosRepository.insertTareaListDB(tareaListDB!!)
                 }
-
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
@@ -284,7 +265,6 @@ class ServiceSyncDataFirstTime : Service() {
                     }
                     formatosRepository.insertReportajeListDB(reportajeListDB!!)
                 }
-
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
@@ -302,43 +282,10 @@ class ServiceSyncDataFirstTime : Service() {
                     }
                     usuarioRepository.insertEmpleadoListDB(empleadoListDB!!)
                 }
-
             }
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }
-    }
-
-
-    //PRIMERO ENVIAR DATA
-    fun sendDataToCloud() {
-        //ORDEN
-        //GRABA FORMATO
-        //ACTUALIZA FORMATO
-
-
-    }
-
-
-    //LUEGO RECIBIR DATA
-    fun getAllDataFromCloud() {
-        // binding.progressBar.progress = 50
-
-        //ORDEN
-
-        //MODELOS AERONAVE
-        //AERONAVES
-        //ESTACIONES
-
-        //FORMATOS
-        //SISTEMAS
-        //TAREAS
-        //REPORTAJES
-
-        //FORMATOS REALIZADOS
-        //REPORTAJES FORMATO REALIZADO
-
-
     }
 
 

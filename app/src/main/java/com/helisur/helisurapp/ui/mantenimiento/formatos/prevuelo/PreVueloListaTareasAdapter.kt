@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal
+package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
 import android.content.Context
 import android.util.Log
@@ -14,14 +14,12 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.database.HelisurDatabase
 import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -33,8 +31,8 @@ import org.json.JSONObject
 import java.io.IOException
 import javax.inject.Inject
 
-class ListaTareasPreVueloFinalAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) :
-    RecyclerView.Adapter<ListaTareasPreVueloFinalAdapter.MyViewHolder>() {
+class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<Tarea>) :
+    RecyclerView.Adapter<PreVueloListaTareasAdapter.MyViewHolder>() {
 
 
     @Inject
@@ -68,12 +66,19 @@ class ListaTareasPreVueloFinalAdapter(val ctx: Context, private val mList: Array
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): ListaTareasPreVueloFinalAdapter.MyViewHolder {
+    ): PreVueloListaTareasAdapter.MyViewHolder {
         val vieww = LayoutInflater.from(parent.context).inflate(R.layout.item_tareas, parent, false)
         return MyViewHolder(vieww)
     }
 
+     fun cargaReportajes(idTarea:String,position: Int)
+    {
+     var listaReportajes:ArrayList<Reportaje> = PreVueloTareasFragment.getReportajesByTarea(idTarea)
 
+        //cargar reportakes dinamicos
+        var nose = ""
+
+    }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val appItem = mList[position]
@@ -108,7 +113,7 @@ class ListaTareasPreVueloFinalAdapter(val ctx: Context, private val mList: Array
                 holder.contenedorReportajes.visibility = View.GONE
             } else {
 
-                var listaReportajes:ArrayList<Reportaje> = TareasPreVueloFinalFragment.getReportajesByTarea(appItem.codigoTarea!!)
+                var listaReportajes:ArrayList<Reportaje> = PreVueloTareasFragment.getReportajesByTarea(appItem.codigoTarea!!)
 
                 for(item in listaReportajes)
                 {
@@ -290,8 +295,6 @@ class ListaTareasPreVueloFinalAdapter(val ctx: Context, private val mList: Array
 
 
     }
-
-
 
 
 

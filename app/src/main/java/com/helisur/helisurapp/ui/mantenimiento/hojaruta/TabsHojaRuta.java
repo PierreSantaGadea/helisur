@@ -2,12 +2,10 @@ package com.helisur.helisurapp.ui.mantenimiento.hojaruta;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +26,6 @@ import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaClo
 import com.helisur.helisurapp.domain.util.Constants;
 import com.helisur.helisurapp.domain.util.SessionUserManager;
 import com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable;
-import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasActivity;
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.DatosAeronavePostVueloFragment;
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PreVueloResponsablePostVueloFragment;
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.TareasPostVueloFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal;
+package com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -29,13 +29,12 @@ import com.helisur.helisurapp.domain.util.Constants;
 import com.helisur.helisurapp.domain.util.SessionUserManager;
 import com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable;
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosDiscrepanciasActivity;
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.DatosAeronavePostVueloFragment;
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PreVueloResponsablePostVueloFragment;
-import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.TareasPostVueloFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
-public class TabsPreVueloFinal extends Fragment {
+public class PostVueloTabsFragment extends Fragment {
     public static TabLayout tabLayout;
     // @BindView(R.id.viewpager)
     public static ViewPagerNoSwipeable viewPager;
@@ -103,6 +102,14 @@ public class TabsPreVueloFinal extends Fragment {
 
       //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
         viewPager.setOffscreenPageLimit(int_items);
+
+        String fechaHoy = "";
+        GregorianCalendar gc = new GregorianCalendar();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        simpleDateFormat.setCalendar(gc);
+        fechaHoy = simpleDateFormat.format(gc.getTime());
+
+        PostVueloTabsFragment.formatoParameter.setFechaHoraInicioRegistro(fechaHoy);
     }
 
     public String getFormato(Context context)
@@ -122,13 +129,13 @@ public class TabsPreVueloFinal extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case Constants.TABS_PRE_VUELO.AERONAVE_ANTECEDENTE_REQUERIMIENTO: {
-                    return new DatosAeronavePreVueloFinalFragment();
+                    return new PostVueloDatosAeronaveFragment();
                 }
                 case Constants.TABS_PRE_VUELO.SISTEMAS: {
-                    return new TareasPreVueloFinalFragment();
+                    return new PostVueloTareasFragment();
                 }
                 case Constants.TABS_PRE_VUELO.ANOTACIONES: {
-                    return new PreVueloResponsablePreVueloFinalFragment();
+                    return new PostVueloResponsableFragment();
                 }
 
             }

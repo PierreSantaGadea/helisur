@@ -620,7 +620,7 @@ class HistoricoFragment  : Fragment() {
 
         for (item in listaAeronaves!!)
         {
-            if(formatoRegistro.codigoPuestoTecnico.equals(item.codigoPuestoTecnico))
+            if(formatoRegistro.codigoPuestoTecnico.equals(item.codigoModeloPuesto))
             {
                 idModeloAeronave = item.id_cloud!!
                 placaAeronave = item.placa

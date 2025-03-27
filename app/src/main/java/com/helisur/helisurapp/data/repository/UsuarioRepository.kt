@@ -145,6 +145,22 @@ class UsuarioRepository @Inject constructor(
     }
 
 
+    suspend fun updateEmpleado(idCloud: String,codigoArea:String,numeroDocumento:String,nombre:String,codigoUsuario:String,
+                               apellidoPaterno:String,apellidoMaterno:String,nombreCompleto:String,email:String,estado:String,
+                               cargo:String,fechaIngreso:String,licencia:String,
+                               fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                usuarioLocalData.updateItem(idCloud,codigoArea,numeroDocumento,nombre,codigoUsuario,apellidoPaterno,apellidoMaterno,nombreCompleto,email,estado,cargo,fechaIngreso,licencia,fechaRegistro,fechaModificacion,sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
 
 
 }

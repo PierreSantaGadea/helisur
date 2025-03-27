@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo
+package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -19,11 +19,10 @@ import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaSistemasAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TareasPostVueloFragment : Fragment() {
+class PreVueloTareasFragment : Fragment() {
 
 
 
@@ -33,7 +32,7 @@ class TareasPostVueloFragment : Fragment() {
     private val formatosViewModel: FormatosViewModel by viewModels()
   //  private var sistemasList: ArrayList<Sistema>? = null
  //   private var tareasList: ArrayList<Tarea>? = null
-    var adapaterSistemas: ListaSistemasPostVueloAdapter? = null
+    var adapaterSistemas: PreVueloListaSistemasAdapter? = null
     var showDetailSistemas = false
     var posicionClick: Int? = null
 
@@ -95,11 +94,11 @@ class TareasPostVueloFragment : Fragment() {
     fun clickListener() {
 
         binding.tvAtras.setOnClickListener {
-            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.AERONAVE_ANTECEDENTE_REQUERIMIENTO)
+            PreVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.AERONAVE_ANTECEDENTE_REQUERIMIENTO)
         }
 
         binding.tvSiguiente.setOnClickListener {
-            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ANOTACIONES)
+            PreVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ANOTACIONES)
         }
 
         binding.contenedorSistemas!!.setOnClickListener {
@@ -259,7 +258,6 @@ class TareasPostVueloFragment : Fragment() {
             }
         })
 
-
     }
 
 
@@ -268,7 +266,7 @@ class TareasPostVueloFragment : Fragment() {
     ) {
         val recyclerview = binding.rvSistemas
         recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ListaSistemasPostVueloAdapter(requireContext(), listaSistemas)
+        val adapter = PreVueloListaSistemasAdapter(requireContext(), listaSistemas)
         recyclerview.adapter = adapter
         adapter.onItemClick = { sistema ->
             posicionClick = adapter.getPosition()

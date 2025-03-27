@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 
-class ListaAnotacionesPostVueloAdapter(private val mList: ArrayList<DetalleFormatoRegistro>) :
-    RecyclerView.Adapter<ListaAnotacionesPostVueloAdapter.MyViewHolder>() {
+class PostVueloListaAnotacionesAdapter(private val mList: ArrayList<DetalleFormatoRegistro>) :
+    RecyclerView.Adapter<PostVueloListaAnotacionesAdapter.MyViewHolder>() {
 
     var onItemClick: ((DetalleFormatoRegistro) -> Unit)? = null
 

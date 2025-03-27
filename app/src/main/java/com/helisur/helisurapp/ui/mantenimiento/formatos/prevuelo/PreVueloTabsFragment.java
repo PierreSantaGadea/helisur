@@ -35,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class TabsPreVuelo extends Fragment {
+public class PreVueloTabsFragment extends Fragment {
     public static TabLayout tabLayout;
     // @BindView(R.id.viewpager)
     public static ViewPagerNoSwipeable viewPager;
@@ -109,7 +109,7 @@ public class TabsPreVuelo extends Fragment {
           simpleDateFormat.setCalendar(gc);
           fechaHoy = simpleDateFormat.format(gc.getTime());
 
-        TabsPreVuelo.formatoParameter.setFechaHoraInicioRegistro(fechaHoy);
+        PreVueloTabsFragment.formatoParameter.setFechaHoraInicioRegistro(fechaHoy);
 
 
       //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
@@ -133,10 +133,10 @@ public class TabsPreVuelo extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case Constants.TABS_PRE_VUELO.AERONAVE_ANTECEDENTE_REQUERIMIENTO: {
-                    return new DatosAeronaveFragment();
+                    return new PreVueloDatosAeronaveFragment();
                 }
                 case Constants.TABS_PRE_VUELO.SISTEMAS: {
-                    return new TareasFragment();
+                    return new PreVueloTareasFragment();
                 }
                 case Constants.TABS_PRE_VUELO.ANOTACIONES: {
                     return new PreVueloResponsableFragment();

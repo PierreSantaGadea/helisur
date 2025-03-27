@@ -3,20 +3,15 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.domain.model.Anotacion
-import com.helisur.helisurapp.domain.model.Tarea
 
-class ListaAnotacionesAdapter(private val mList: ArrayList<Anotacion>) :
-    RecyclerView.Adapter<ListaAnotacionesAdapter.MyViewHolder>() {
+class PreVueloListaAnotacionesAdapter(private val mList: ArrayList<Anotacion>) :
+    RecyclerView.Adapter<PreVueloListaAnotacionesAdapter.MyViewHolder>() {
 
     var onItemClick: ((Anotacion) -> Unit)? = null
 
@@ -42,7 +37,7 @@ class ListaAnotacionesAdapter(private val mList: ArrayList<Anotacion>) :
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): ListaAnotacionesAdapter.MyViewHolder {
+    ): PreVueloListaAnotacionesAdapter.MyViewHolder {
         val vieww =
             LayoutInflater.from(parent.context).inflate(R.layout.item_anotaciones, parent, false)
         return MyViewHolder(vieww)

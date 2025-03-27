@@ -26,12 +26,11 @@ interface SistemaDao {
 
     @Query("DELETE FROM Sistema")
     fun deleteAll()
-/*
-    @Query("UPDATE Aeronave SET codigoPuestoTecnico = :codigoPuestoTecnico, codigoCliente = :codigoCliente, nombre = :nombre, placa = :placa, comentario = :comentario, html = :html, sync = :sync")
-    fun updateItem(idCloud: String,codigoPuestoTecnico:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
+
+    @Query("UPDATE Sistema SET codigoFormato = :codigoFormato, nombrePosicion = :nombrePosicion, fechaRegistro = :fechaRegistro, fechaModificacion = :fechaModificacion,  sync = :sync WHERE id_cloud = :idCloud")
+    fun updateItem(idCloud: String,codigoFormato:String,nombrePosicion:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
 
 
- */
     @Query("DELETE FROM Sistema WHERE  id_cloud = :idCloud")
     fun deleteItem(idCloud: String)
 

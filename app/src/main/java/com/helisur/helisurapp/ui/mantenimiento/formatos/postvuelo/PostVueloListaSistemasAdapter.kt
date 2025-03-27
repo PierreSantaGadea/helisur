@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelofinal
+package com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 
-class ListaSistemasPreVueloFinalAdapter(
+class PostVueloListaSistemasAdapter(
     val ctx: Context, private val mListSistemas: ArrayList<Sistema>
-) : RecyclerView.Adapter<ListaSistemasPreVueloFinalAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<PostVueloListaSistemasAdapter.MyViewHolder>() {
 
     var onItemClick: ((Sistema) -> Unit)? = null
 
@@ -35,7 +35,7 @@ class ListaSistemasPreVueloFinalAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): ListaSistemasPreVueloFinalAdapter.MyViewHolder {
+    ): PostVueloListaSistemasAdapter.MyViewHolder {
         val vieww =
             LayoutInflater.from(parent.context).inflate(R.layout.item_sistemas, parent, false)
         return MyViewHolder(vieww)
@@ -53,7 +53,7 @@ class ListaSistemasPreVueloFinalAdapter(
                 if (appItem.tareas != null) {
                     if (appItem.tareas!!.size > 0) {
                         holder.rvTareas.layoutManager = LinearLayoutManager(ctx)
-                        val adapter = ListaTareasPreVueloFinalAdapter(ctx,appItem.tareas!!)
+                        val adapter = PostVueloListaTareasAdapter(ctx,appItem.tareas!!)
                         holder.rvTareas.adapter = adapter
                         holder.rvTareas.visibility = View.VISIBLE
                     } else {

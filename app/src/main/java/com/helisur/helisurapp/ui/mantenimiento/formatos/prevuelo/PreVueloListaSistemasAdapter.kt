@@ -12,9 +12,9 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 
-class ListaSistemasAdapter(
+class PreVueloListaSistemasAdapter(
     val ctx: Context, private val mListSistemas: ArrayList<Sistema>
-) : RecyclerView.Adapter<ListaSistemasAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<PreVueloListaSistemasAdapter.MyViewHolder>() {
 
     var onItemClick: ((Sistema) -> Unit)? = null
 
@@ -35,7 +35,7 @@ class ListaSistemasAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): ListaSistemasAdapter.MyViewHolder {
+    ): PreVueloListaSistemasAdapter.MyViewHolder {
         val vieww =
             LayoutInflater.from(parent.context).inflate(R.layout.item_sistemas, parent, false)
         return MyViewHolder(vieww)
@@ -53,7 +53,7 @@ class ListaSistemasAdapter(
                 if (appItem.tareas != null) {
                     if (appItem.tareas!!.size > 0) {
                         holder.rvTareas.layoutManager = LinearLayoutManager(ctx)
-                        val adapter = ListaTareasAdapter(ctx,appItem.tareas!!)
+                        val adapter = PreVueloListaTareasAdapter(ctx,appItem.tareas!!)
                         holder.rvTareas.adapter = adapter
                         holder.rvTareas.visibility = View.VISIBLE
                     } else {

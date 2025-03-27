@@ -19,6 +19,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemas
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasDataTableCloudResponse
 import com.helisur.helisurapp.data.database.dao.DetalleFormatoRegistroDao
+import com.helisur.helisurapp.data.database.dao.EstacionDao
 import com.helisur.helisurapp.data.database.dao.FormatoDao
 import com.helisur.helisurapp.data.database.dao.FormatoRegistroDao
 import com.helisur.helisurapp.data.database.dao.ReportajeDao
@@ -235,11 +236,11 @@ class FormatosRepository @Inject constructor(
 
     }
 
-/*
-    suspend fun updateFormato(idCloud: String,codigoPuestoTecnico:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+
+    suspend fun updateFormato(idCloud: String, nombreFormato:String, codigoModeloAeronave:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
         try {
             return withContext(Dispatchers.IO) {
-                //     aeronaveslocalData.updateItem(idCloud,codigoPuestoTecnico,codigoCliente,nombre,placa,comentario,html,fechaRegistro,fechaModificacion, sync)
+                     formatoslocalData.updateItem(idCloud,codigoModeloAeronave,nombreFormato,fechaRegistro,fechaModificacion,sync)
                 var error: Boolean = true
             }
         } catch (e: Exception) {
@@ -251,7 +252,7 @@ class FormatosRepository @Inject constructor(
     }
 
 
- */
+
 
     suspend fun deleteFormato(idCloud: String) {
         try {
@@ -373,6 +374,20 @@ class FormatosRepository @Inject constructor(
         }
     }
 
+    suspend fun updateSistema(idCloud: String,codigoFormato:String,nombrePosicion:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                sistemaslocalData.updateItem(idCloud,codigoFormato,nombrePosicion,fechaRegistro,fechaModificacion,sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
 
 
 
@@ -469,6 +484,21 @@ class FormatosRepository @Inject constructor(
         }
     }
 
+    suspend fun updateTarea(idCloud: String,codigoSistema:String,nombreTarea:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                tareasLocalData.updateItem(idCloud,codigoSistema,nombreTarea,fechaRegistro,fechaModificacion,sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+
 
 
     // reportajes
@@ -552,6 +582,20 @@ class FormatosRepository @Inject constructor(
         try {
             return withContext(Dispatchers.IO) {
                 tareasLocalData.updateItemSync(idCloud = idCloud, sync = sync)
+                var error: Boolean = true
+            }
+        } catch (e: Exception) {
+            Log.e(className, e.toString())
+            return withContext(Dispatchers.IO) {
+                var error: Boolean = false
+            }
+        }
+    }
+
+    suspend fun updateReportaje(idCloud: String,codigoTarea:String,nombreReportaje:String,bloqueoFormato:String,defaultt:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+        try {
+            return withContext(Dispatchers.IO) {
+                reportajeLocalData.updateItem(idCloud,codigoTarea,nombreReportaje,bloqueoFormato,defaultt,fechaRegistro,fechaModificacion,sync)
                 var error: Boolean = true
             }
         } catch (e: Exception) {

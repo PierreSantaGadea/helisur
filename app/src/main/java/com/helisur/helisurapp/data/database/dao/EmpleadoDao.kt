@@ -23,12 +23,30 @@ interface EmpleadoDao {
 
     @Query("DELETE FROM Empleado")
     fun deleteAll()
-/*
-    @Query("UPDATE Aeronave SET codigoPuestoTecnico = :codigoPuestoTecnico, codigoCliente = :codigoCliente, nombre = :nombre, placa = :placa, comentario = :comentario, html = :html, sync = :sync")
-    fun updateItem(idCloud: String,codigoPuestoTecnico:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
+
+    @Query("UPDATE Empleado SET " +
+            " codigoArea = :codigoArea," +
+            " numeroDocumento = :numeroDocumento, " +
+            "nombre = :nombre, " +
+            "codigoUsuario = :codigoUsuario, " +
+            " apellidoPaterno = :apellidoPaterno," +
+            " apellidoMaterno = :apellidoMaterno, " +
+            "nombreCompleto = :nombreCompleto, " +
+            "email = :email, " +
+            "estado = :estado," +
+            "cargo = :cargo, " +
+            "fechaIngreso = :fechaIngreso, " +
+            "licencia = :licencia, " +
+            "fechaRegistro = :fechaRegistro, " +
+            "fechaModificacion = :fechaModificacion," +
+            " sync = :sync" +
+            " WHERE id_cloud = :idCloud")
+    fun updateItem(idCloud: String,codigoArea:String,numeroDocumento:String,nombre:String,codigoUsuario:String,
+                   apellidoPaterno:String,apellidoMaterno:String,nombreCompleto:String,email:String,estado:String,
+                   cargo:String,fechaIngreso:String,licencia:String,
+                   fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
 
 
- */
     @Query("DELETE FROM Empleado WHERE  id_cloud = :idCloud")
     fun deleteItem(idCloud: String)
 

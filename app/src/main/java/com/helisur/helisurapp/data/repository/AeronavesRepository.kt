@@ -105,7 +105,7 @@ class AeronavesRepository @Inject constructor(
     suspend fun updateModeloAeronave(idCloud: String,nombre:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
         try {
             return withContext(Dispatchers.IO) {
-             //   modeloAeronavelocalData.updateItem(idCloud,nombre,fechaRegistro,fechaModificacion, sync)
+                modeloAeronavelocalData.updateItem(idCloud,nombre,fechaRegistro,fechaModificacion, sync)
                 var error: Boolean = true
             }
         } catch (e: Exception) {
@@ -212,10 +212,10 @@ class AeronavesRepository @Inject constructor(
     }
 
 
-    suspend fun updateAeronave(idCloud: String,codigoPuestoTecnico:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+    suspend fun updateAeronave(idCloud: String,codigoModeloPuesto:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
         try {
             return withContext(Dispatchers.IO) {
-           //     aeronaveslocalData.updateItem(idCloud,codigoPuestoTecnico,codigoCliente,nombre,placa,comentario,html,fechaRegistro,fechaModificacion, sync)
+                aeronaveslocalData.updateItem(idCloud,codigoModeloPuesto,codigoCliente,nombre,placa,comentario,html,fechaRegistro,fechaModificacion, sync)
                 var error: Boolean = true
             }
         } catch (e: Exception) {
@@ -308,10 +308,10 @@ class AeronavesRepository @Inject constructor(
     }
 
 
-    suspend fun updateEstacion(idCloud: String,codigoPuestoTecnico:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
+    suspend fun updateEstacion(idCloud: String,nombre:String,siglas:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean) {
         try {
             return withContext(Dispatchers.IO) {
-              //  aeronaveslocalData.updateItem(idCloud,codigoPuestoTecnico,codigoCliente,nombre,placa,comentario,html,fechaRegistro,fechaModificacion, sync)
+                estacionLocalData.updateItem(idCloud,nombre,siglas,fechaRegistro,fechaModificacion, sync)
                 var error: Boolean = true
             }
         } catch (e: Exception) {

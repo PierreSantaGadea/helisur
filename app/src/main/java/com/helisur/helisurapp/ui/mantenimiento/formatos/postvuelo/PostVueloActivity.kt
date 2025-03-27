@@ -46,8 +46,8 @@ class PostVueloActivity  : BaseActivity() {
     fun loadTabHomeFragment() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val homeFragment: TabsPostVuelo =
-            TabsPostVuelo()
+        val homeFragment: PostVueloTabsFragment =
+            PostVueloTabsFragment()
         fragmentTransaction.replace(binding.containerView.id, homeFragment)
         fragmentTransaction.commit()
     }

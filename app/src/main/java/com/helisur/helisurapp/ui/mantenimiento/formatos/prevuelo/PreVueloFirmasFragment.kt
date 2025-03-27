@@ -40,7 +40,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.github.gcacace.signaturepad.views.SignaturePad
-import com.google.firebase.installations.Utils
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
@@ -249,7 +248,7 @@ class PreVueloFirmasFragment : Fragment() {
 
      //       genraa()
      //       pruebaPDF()
-            TabsPreVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
+            PreVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
         }
 
 
@@ -327,12 +326,12 @@ class PreVueloFirmasFragment : Fragment() {
 
     fun saveFormatoLocalDabaBase()
     {
-        var parameter: GuardaFormatoCloudParameter = TabsPreVuelo.formatoParameter
+        var parameter: GuardaFormatoCloudParameter = PreVueloTabsFragment.formatoParameter
         var nombreAeronave:String = getNombreAeronave(requireContext())!!
         val uniqueID: String = UUID.randomUUID().toString()
 
         idDB_nuevoFormato = uniqueID
-        codFormato_nuevoFormato = TabsPreVuelo.formatoParameter.codigoFormato
+        codFormato_nuevoFormato = PreVueloTabsFragment.formatoParameter.codigoFormato
 
         var completado:Boolean = false
 
@@ -360,10 +359,11 @@ class PreVueloFirmasFragment : Fragment() {
         fechaHoy = simpleDateFormat.format(gc.time)
         fechaHoyCloud = simpleDateFormat2.format(gc.time)
 
-        TabsPreVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
-        TabsPreVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
+        PreVueloTabsFragment.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
+        PreVueloTabsFragment.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
 
-        saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,TabsPreVuelo.firmaResponsable)
+        saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,
+            PreVueloTabsFragment.firmaResponsable)
         saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+uniqueID,firmaPiloto!!)
         saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_COPILOTO+uniqueID,firmaCopiloto!!)
 
@@ -379,7 +379,7 @@ class PreVueloFirmasFragment : Fragment() {
         var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
         if(parameter.listaTareas!=null)
         {
-            var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPreVuelo.formatoParameter.listaTareas)
+            var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(PreVueloTabsFragment.formatoParameter.listaTareas)
 
             for(item in listaDetalle)
             {
@@ -446,7 +446,7 @@ class PreVueloFirmasFragment : Fragment() {
 
         for (item in listaAeronaves!!)
         {
-            if(formatoRegistro.codigoPuestoTecnico.equals(item.codigoPuestoTecnico))
+            if(formatoRegistro.codigoPuestoTecnico.equals(item.codigoModeloPuesto))
             {
                 idModeloAeronave = item.id_cloud!!
                 placaAeronave = item.placa
@@ -1133,7 +1133,7 @@ class PreVueloFirmasFragment : Fragment() {
 
                 if(isOnline())
                 {
-                    formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
+                    formatosViewModel.grabaFormato(PreVueloTabsFragment.formatoParameter)
                 }
                 else
                 {
@@ -1228,8 +1228,8 @@ class PreVueloFirmasFragment : Fragment() {
                     binding.etLicenciaCopiloto!!.setText("")
                 } else {
                     idCopiloto  =  copilotosList!![position-1].id_cloud!!
-                    TabsPreVuelo.formatoParameter.idEmpleadoCoPiloto = idCopiloto
-                    TabsPreVuelo.formatoParameter.urlFirmaCoPiloto = urlFirmaCopiloto
+                    PreVueloTabsFragment.formatoParameter.idEmpleadoCoPiloto = idCopiloto
+                    PreVueloTabsFragment.formatoParameter.urlFirmaCoPiloto = urlFirmaCopiloto
                     binding.etLicenciaCopiloto!!.setText(copilotosList!![position-1].licencia)
 
 
@@ -1274,8 +1274,8 @@ class PreVueloFirmasFragment : Fragment() {
                     binding.etLicenciaPiloto!!.setText("")
                 } else {
                     idPiloto  =  pilotosList!![position-1].id_cloud!!
-                    TabsPreVuelo.formatoParameter.idEmpleadoPiloto = idPiloto
-                    TabsPreVuelo.formatoParameter.urlFirmaPiloto = urlFirmaPiloto
+                    PreVueloTabsFragment.formatoParameter.idEmpleadoPiloto = idPiloto
+                    PreVueloTabsFragment.formatoParameter.urlFirmaPiloto = urlFirmaPiloto
 
                     binding.etLicenciaPiloto!!.setText(pilotosList!![position-1].licencia)
 
@@ -1356,7 +1356,7 @@ class PreVueloFirmasFragment : Fragment() {
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser) {
 
-            TabsPreVuelo.formatoParameter.usuarioRegistro = TabsPreVuelo.idUsuario
+            PreVueloTabsFragment.formatoParameter.usuarioRegistro = PreVueloTabsFragment.idUsuario
 
         } else {
         }

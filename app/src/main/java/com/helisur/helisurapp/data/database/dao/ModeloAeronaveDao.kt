@@ -21,12 +21,11 @@ interface ModeloAeronaveDao {
 
     @Query("DELETE FROM ModeloAeronave")
     fun deleteAll()
-/*
+
     @Query("UPDATE ModeloAeronave SET sync = :sync, nombre = :nombre, fechaRegistro = :fechaRegistro, fechaModificacion = :fechaModificacion WHERE id_cloud = :idCloud")
     fun updateItem(idCloud: String,nombre:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
 
 
- */
     @Query("DELETE FROM ModeloAeronave WHERE  id_cloud = :idCloud")
     fun deleteItem(idCloud: String)
 

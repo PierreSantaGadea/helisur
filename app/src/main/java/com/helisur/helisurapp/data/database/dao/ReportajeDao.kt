@@ -26,12 +26,12 @@ interface ReportajeDao {
 
     @Query("DELETE FROM Reportaje")
     fun deleteAll()
-/*
-    @Query("UPDATE Aeronave SET codigoPuestoTecnico = :codigoPuestoTecnico, codigoCliente = :codigoCliente, nombre = :nombre, placa = :placa, comentario = :comentario, html = :html, sync = :sync")
-    fun updateItem(idCloud: String,codigoPuestoTecnico:String,codigoCliente:String,nombre:String,placa:String,comentario:String,html:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
 
 
- */
+    @Query("UPDATE Reportaje SET  codigoTarea = :codigoTarea, nombreReportaje = :nombreReportaje, bloqueoFormato = :bloqueoFormato, defaultt = :defaultt, fechaRegistro = :fechaRegistro, fechaModificacion = :fechaModificacion, sync = :sync WHERE id_cloud = :idCloud")
+    fun updateItem(idCloud: String,codigoTarea:String,nombreReportaje:String,bloqueoFormato:String,defaultt:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
+
+
     @Query("DELETE FROM Reportaje WHERE  id_cloud = :idCloud")
     fun deleteItem(idCloud: String)
 

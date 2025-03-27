@@ -27,12 +27,11 @@ interface TareaDao {
 
     @Query("DELETE FROM Tarea")
     fun deleteAll()
-/*
+
     @Query("UPDATE Tarea SET  codigoSistema = :codigoSistema, nombreTarea = :nombreTarea, fechaRegistro = :fechaRegistro, fechaModificacion = :fechaModificacion, sync = :sync WHERE id_cloud = :idCloud")
     fun updateItem(idCloud: String,codigoSistema:String,nombreTarea:String,fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
 
 
- */
     @Query("DELETE FROM Aeronave WHERE  id_cloud = :idCloud")
     fun deleteItem(idCloud: String)
 

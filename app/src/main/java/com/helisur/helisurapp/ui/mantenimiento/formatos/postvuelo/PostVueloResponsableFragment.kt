@@ -41,8 +41,7 @@ import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.ListaAnotacionesAdapter
-import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.TabsPreVuelo
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloListaAnotacionesAdapter
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
@@ -54,7 +53,7 @@ import java.util.UUID
 
 
 @AndroidEntryPoint
-class PreVueloResponsablePostVueloFragment : Fragment() {
+class PostVueloResponsableFragment : Fragment() {
 
     var className = "PreVueloResponsableFragment"
     private lateinit var binding: FragmentResponsableBinding
@@ -64,15 +63,12 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
     var dialogg:Dialog? = null
     var tareasObservados: ArrayList<GuardaTareaCloudParameter>? = null
     var recyclerview:RecyclerView?=null
-
   //  var empleadosList: ArrayList<ObtieneEmpleadosDataTableCloudResponse>? = null
     var empleadosList: ArrayList<Empleado>? = null
     var empleadosListAll: ArrayList<Empleado>? = null
-
     var idResponsable = ""
     var licenciaResponsable = ""
     var urlFirmaResponsable = ""
-
     var firmaResponsable : Bitmap? = null
 
 
@@ -92,6 +88,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
         }
         return root
     }
+
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
@@ -229,7 +226,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
                 if(isOnline())
                 {
-                    formatosViewModel.grabaFormato(TabsPostVuelo.formatoParameter)
+                    formatosViewModel.grabaFormato(PostVueloTabsFragment.formatoParameter)
                 }
                 else
                 {
@@ -309,8 +306,8 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
                 } else {
                     idResponsable  =  empleadosList!![position-1].id_cloud!!
                     licenciaResponsable = empleadosList!![position-1].licencia!!
-                    TabsPostVuelo.formatoParameter.idEmpleadoResponsable = idResponsable
-                    TabsPostVuelo.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
+                    PostVueloTabsFragment.formatoParameter.idEmpleadoResponsable = idResponsable
+                    PostVueloTabsFragment.formatoParameter.urlFirmaResponsable = urlFirmaResponsable
                     binding.etLicencia!!.setText(licenciaResponsable)
                 }
             }
@@ -388,7 +385,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
     {
 
         binding.tvAtras!!.setOnClickListener {
-            TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
+            PostVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.SISTEMAS)
         }
 
         binding.tvSiguiente!!.setOnClickListener {
@@ -404,7 +401,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
                 }
                 else
                 {
-                    TabsPostVuelo.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
+                    PostVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
                 }
 
             }
@@ -441,7 +438,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
 
             var parameter: GuardaFormatoCloudParameter =
-                TabsPostVuelo.formatoParameter
+                PostVueloTabsFragment.formatoParameter
             var nombreAeronave:String = getNombreAeronave(requireContext())!!
             val uniqueID: String = UUID.randomUUID().toString()
 
@@ -477,8 +474,8 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
             fechaHoy = simpleDateFormat.format(gc.time)
             fechaHoyCloud = simpleDateFormat2.format(gc.time)
 
-            TabsPostVuelo.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
-            TabsPostVuelo.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
+            PostVueloTabsFragment.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
+            PostVueloTabsFragment.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
 
             saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,firmaResponsable!!)
 
@@ -494,7 +491,8 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
             if(parameter.listaTareas!=null)
             {
-                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(TabsPostVuelo.formatoParameter.listaTareas)
+                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(
+                    PostVueloTabsFragment.formatoParameter.listaTareas)
                 var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
                 for(item in listaDetalle)
                 {
@@ -634,7 +632,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
             var listaAnotaciones:ArrayList<Anotacion> = arrayListOf()
 
-            for(itemSistema in TareasPostVueloFragment.sistemasList!!)
+            for(itemSistema in PostVueloTareasFragment.sistemasList!!)
             {
                 if(itemSistema.tareas!=null)
                 {
@@ -673,7 +671,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
 
                 tareasObservados = arrayListOf()
                 var iduser =
-                    TabsPostVuelo.idUsuario
+                    PostVueloTabsFragment.idUsuario
                 var helicopteroAPTO = true
                 for(tareaObservada in listaAnotaciones)
                 {
@@ -716,7 +714,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
                 }
 
 
-                TabsPostVuelo.formatoParameter.listaTareas = tareasObservados
+                PostVueloTabsFragment.formatoParameter.listaTareas = tareasObservados
 
             }
             else
@@ -739,7 +737,7 @@ class PreVueloResponsablePostVueloFragment : Fragment() {
     fun setRecyclerViewAnotaciones(
         listaAnotaciones: ArrayList<Anotacion>
     ) {
-        val adapter = ListaAnotacionesAdapter( listaAnotaciones)
+        val adapter = PreVueloListaAnotacionesAdapter( listaAnotaciones)
         recyclerview!!.adapter = adapter
         adapter.onItemClick = { anotacion ->
         }

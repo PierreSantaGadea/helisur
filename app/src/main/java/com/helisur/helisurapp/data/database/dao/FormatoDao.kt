@@ -23,12 +23,10 @@ interface FormatoDao {
 
     @Query("DELETE FROM Formato")
     fun deleteAll()
-/*
+
     @Query("UPDATE Formato SET nombreFormato = :nombreFormato , codigoModeloAeronave = :codigoModeloAeronave, fechaRegistro = :fechaRegistro, fechaModificacion = :fechaModificacion, sync = :sync WHERE id_cloud = :idCloud")
     fun updateItem(idCloud: String,codigoModeloAeronave:String,nombreFormato:String, fechaRegistro:String,fechaModificacion:String, sync: Boolean): Int
 
-
- */
     @Query("DELETE FROM Formato WHERE  id_cloud = :idCloud")
     fun deleteItem(idCloud: String)
 
