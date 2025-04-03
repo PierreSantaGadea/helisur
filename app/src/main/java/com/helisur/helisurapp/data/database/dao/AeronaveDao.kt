@@ -37,7 +37,7 @@ interface AeronaveDao {
     @Query("UPDATE Aeronave SET sync = :sync WHERE id_cloud = :idCloud")
     fun updateItemSync(idCloud: String, sync: Boolean): Int
 
-    @Query("SELECT * FROM Aeronave WHERE  id_cloud = :idModelo ORDER BY id DESC")
+    @Query("SELECT * FROM Aeronave WHERE  codigoModeloPuesto = :idModelo ORDER BY id DESC")
     fun getAeronavesByModelo(idModelo: String): List<AeronaveEntity>
 
 

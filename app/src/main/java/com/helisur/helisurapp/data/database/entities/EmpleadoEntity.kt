@@ -29,14 +29,14 @@ class EmpleadoEntity (
     @ColumnInfo(name = "licencia") val licencia: String?,
     @ColumnInfo(name = "sync") val sync: Boolean?,
     @ColumnInfo(name = "fechaRegistro") val fechaRegistro: String?,
-    @ColumnInfo(name = "fechaModificacion") val fechaModificacion: String?
-
+    @ColumnInfo(name = "fechaModificacion") val fechaModificacion: String?,
+    @ColumnInfo(name = "codigoTipoAeronave") val codigoTipoAeronave: String?
 )
 
 fun Empleado.toDB() = EmpleadoEntity(id_cloud = id_cloud, codigoArea = codigoArea, numeroDocumento = numeroDocumento, nombre = nombre, apellidoPaterno = apellidoPaterno, apellidoMaterno = apellidoMaterno, nombreCompleto = nombreCompleto, email = email,
-    estado = estado, cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = sync, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion,codigoUsuario = codigoUsuario)
+    estado = estado, cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = sync, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion,codigoUsuario = codigoUsuario, codigoTipoAeronave = codigoTipoAeronave)
 
 fun ObtieneEmpleadosDataTableCloudResponse.toDB() = EmpleadoEntity(id_cloud = codigoEmpleado, codigoArea = codigoArea, numeroDocumento = numeroDocumento, nombre = nombre, apellidoPaterno = apellidoPaterno, apellidoMaterno = apellidoMaterno, nombreCompleto = nombreCompleto, email = email,
-    estado = estado, cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion,codigoUsuario = codigoUsuario)
+    estado = estado, cargo = cargo, fechaIngreso = fechaIngreso, licencia = licencia, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion,codigoUsuario = codigoUsuario, codigoTipoAeronave = codigoTipoAeronave)
 
 

@@ -46,7 +46,7 @@ class MainActivityMantenimiento : BaseActivity() {
         internetViewModel = InternetViewModel(ConnectivityRepository(baseContext))
         drawerSetListMenuItems()
         drawerSetHeader()
-        disableBackButton()
+     //   disableBackButton()
      //   drawersetRedirections()
         observers()
       //  beginService()

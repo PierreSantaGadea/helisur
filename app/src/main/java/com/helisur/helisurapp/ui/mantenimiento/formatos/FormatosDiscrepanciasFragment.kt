@@ -264,7 +264,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
 
                 for(reportajeItem in listaReportajesFormato)
                 {
-                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
+                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!,reportajeItem.motivoReportaje!!)
                 }
 
             } else {
@@ -294,7 +294,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
                 {
                   //  if(reportajeItem.indicadorSN.equals("1"))
                  //   {
-                        newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
+                        newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llContenedorReportajes!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!,reportajeItem.motivoReportaje!!)
                  //   }
                 }
 
@@ -681,7 +681,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
     }
 
 
-    fun newCheckBox(nombre:String,id:String,contenedor:LinearLayout,indicadorSN:String,indicadorBloqueo:String,nombreTarea:String)
+    fun newCheckBox(nombre:String,id:String,contenedor:LinearLayout,indicadorSN:String,indicadorBloqueo:String,nombreTarea:String,motivoReportaje:String)
     {
 
         val tituloTarea = TextView(requireContext())
@@ -697,6 +697,11 @@ class FormatosDiscrepanciasFragment : Fragment() {
             tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados_cel))
         //    tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
         }
+
+        val tituloMotivo = TextView(requireContext())
+        tituloMotivo.setText("  Motivo : "+motivoReportaje)
+        tituloMotivo.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        tituloMotivo.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.motivo_formatos_realizados))
 
         val cb = CheckBox(requireContext())
         cb.setTextColor( resources.getColor(R.color.texto_simple_pantalla_general))
@@ -759,6 +764,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
 
         contenedor.addView(tituloTarea)
         contenedor.addView(cb)
+        contenedor.addView(tituloMotivo)
 
 
 

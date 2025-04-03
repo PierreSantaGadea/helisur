@@ -143,7 +143,7 @@ class ServiceSyncData : Service() {
             syncSistemas()
             syncTareas()
             syncReportajes()
-            syncEmpleados()
+         //   syncEmpleados()
             //  sendFormatosRegistrados()
         }
 

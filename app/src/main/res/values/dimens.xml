@@ -10,6 +10,7 @@
 
     <dimen name="marginrecyclwe">0dp</dimen>
 
+    <dimen name="motivo_formatos_realizados">14dp</dimen>
     <dimen name="nombretarea_formatos_realizados">15dp</dimen>
     <dimen name="nombretarea_formatos_realizados_cel">18dp</dimen>
 

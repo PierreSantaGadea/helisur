@@ -22,6 +22,7 @@ class DetalleFormatoRegistroEntity (
     @ColumnInfo(name = "nombreTarea") var nombreTarea: String,
     @ColumnInfo(name = "codigoReportaje") var codigoReportaje: String,
     @ColumnInfo(name = "nombreReportaje") var nombreReportaje: String,
+    @ColumnInfo(name = "motivoReportaje") var motivoReportaje: String,
     @ColumnInfo(name = "indicadorSN") var indicadorSN: String,
     @ColumnInfo(name = "indicadorBloqueo") var indicadorBloqueo: String,
 
@@ -34,7 +35,7 @@ class DetalleFormatoRegistroEntity (
     )
 
 fun DetalleFormatoRegistro.toDB() = DetalleFormatoRegistroEntity(id_db = id_db,id_cloud = id_cloud, idRegistroFormatoDB = idRegistroFormatoDB, codigoRegistroFormato = codigoRegistroFormato,
-    codigoTarea = codigoTarea, nombreTarea = nombreTarea, codigoReportaje = codigoReportaje, nombreReportaje = nombreReportaje,
+    codigoTarea = codigoTarea, nombreTarea = nombreTarea, codigoReportaje = codigoReportaje, nombreReportaje = nombreReportaje, motivoReportaje = motivoReportaje,
     indicadorSN = indicadorSN,indicadorBloqueo = indicadorBloqueo, sync = true,fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
 
 

@@ -489,7 +489,7 @@ class PreVueloResponsableFragment : Fragment() {
                 {
                     val uniqueIDDetalle: String = UUID.randomUUID().toString()
                     var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
-                        "",item.indicadorSN,"",fechaHoy,"")
+                        "","",item.indicadorSN,"",fechaHoy,"")
 
                     listaDetalleDB.add(detalle)
                 }

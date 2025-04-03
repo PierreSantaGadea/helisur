@@ -245,9 +245,6 @@ class PreVueloFirmasFragment : Fragment() {
     fun clickListener() {
 
         binding.tvAtras.setOnClickListener {
-
-     //       genraa()
-     //       pruebaPDF()
             PreVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
         }
 
@@ -303,7 +300,6 @@ class PreVueloFirmasFragment : Fragment() {
                 }
             }
 
-
         }
 
 
@@ -313,12 +309,9 @@ class PreVueloFirmasFragment : Fragment() {
 
 
         binding.btnGuardarTodo!!.setOnClickListener{
-            if(validaciones())
-            {
+            if(validaciones()) {
                 saveFormatoLocalDabaBase()
             }
-
-            //formatosViewModel.grabaFormato(TabsPreVuelo.formatoParameter)
         }
 
     }
@@ -362,12 +355,9 @@ class PreVueloFirmasFragment : Fragment() {
         PreVueloTabsFragment.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
         PreVueloTabsFragment.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
 
-        saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,
-            PreVueloTabsFragment.firmaResponsable)
+        saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID, PreVueloTabsFragment.firmaResponsable)
         saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+uniqueID,firmaPiloto!!)
         saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_COPILOTO+uniqueID,firmaCopiloto!!)
-
-
 
         var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
             parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
@@ -383,7 +373,6 @@ class PreVueloFirmasFragment : Fragment() {
 
             for(item in listaDetalle)
             {
-
                 var nombreReportaje = ""
                 for(itemRepo in listaReportajes!!)
                 {
@@ -395,7 +384,7 @@ class PreVueloFirmasFragment : Fragment() {
 
                 val uniqueIDDetalle: String = UUID.randomUUID().toString()
                 var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
-                    nombreReportaje,item.indicadorSN,"",fechaHoy,"")
+                    nombreReportaje,item.motivoReportaje,item.indicadorSN,"",fechaHoy,"")
 
                 listaDetalleDB.add(detalle)
             }
@@ -403,7 +392,6 @@ class PreVueloFirmasFragment : Fragment() {
 
         formatoAenviar = formatoRegistro
         detalleFormatoAenviar = listaDetalleDB
-
 
         formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
         formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
@@ -582,7 +570,6 @@ class PreVueloFirmasFragment : Fragment() {
             val myBitmap = BitmapFactory.decodeFile(firmaCopilotooo.absolutePath)
             binding.ivFirmaCopiloto!!.setImageBitmap(myBitmap)
         }
-
 
         val firmaPilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+formatoRegistro.id_db+".png")
         if (firmaPilotooo.exists()) {
@@ -879,6 +866,12 @@ class PreVueloFirmasFragment : Fragment() {
         return text
     }
 
+    fun getIdAeronave(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES.AERONAVE, MODE_PRIVATE)
+        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_AERONAVE, "")
+        return text
+    }
+
     fun validaciones():Boolean
     {
         var isOk = true
@@ -886,7 +879,6 @@ class PreVueloFirmasFragment : Fragment() {
 
         return  isOk
     }
-
 
 
     fun sendPdf(idDb:String,codFormato:String)
@@ -975,6 +967,7 @@ class PreVueloFirmasFragment : Fragment() {
         loginViewModel.responseGetEmpleadoListDB.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
+
                     listaEmpleados = ArrayList(it)
                     copilotosList = arrayListOf()
                     pilotosList = arrayListOf()
@@ -985,8 +978,11 @@ class PreVueloFirmasFragment : Fragment() {
                     {
                         if(item.codigoArea.equals("00020"))
                         {
-                            copilotosList!!.add(item)
-                            pilotosList!!.add(item)
+                            if(item.codigoTipoAeronave.equals("00004"))
+                            {
+                                copilotosList!!.add(item)
+                                pilotosList!!.add(item)
+                            }
                         }
 
                     }
@@ -1099,8 +1095,6 @@ class PreVueloFirmasFragment : Fragment() {
                     val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
                     requireActivity().startActivity(intent)
                 }
-
-
 
 
             } catch (e: Exception) {
