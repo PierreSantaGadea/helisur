@@ -126,6 +126,8 @@
     <color name="cabecera_pdf">#7190AB</color>
     <color name="titulo_campo_pdf">#B6B7B9</color>
 
+    <color name="color_fondo_card_inicio_conductor">#FFFFFFFF</color>
+
 
 
     <color name="green_labell">#1A8A1F</color>

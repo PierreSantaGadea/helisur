@@ -488,7 +488,7 @@ class PreVueloResponsableFragment : Fragment() {
                 for(item in listaDetalle)
                 {
                     val uniqueIDDetalle: String = UUID.randomUUID().toString()
-                    var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
+                    var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.nombreSistema,item.codigoReportaje,
                         "","",item.indicadorSN,"",fechaHoy,"")
 
                     listaDetalleDB.add(detalle)
@@ -648,23 +648,23 @@ class PreVueloResponsableFragment : Fragment() {
                 {
                     if(tareaObservada.reportaje_NoAplica)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_NoAplica,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_NoAplica,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!))
                     }
 
                     if(tareaObservada.reportaje_RTV)
                     {
                         helicopteroAPTO = false
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_RTV,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_RTV,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!))
                     }
 
                     if(tareaObservada.reportaje_DanosMenores)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_DanosMenores,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_DanosMenores,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!))
                     }
 
                     if(tareaObservada.reportaje_MELMDS)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_MELMDS,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_MELMDS,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!))
                     }
 0
                 }

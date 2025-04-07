@@ -168,7 +168,7 @@ public class TabsHojaRuta extends Fragment {
         Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
-        dialog.setContentView(R.layout.dialog_cerrar_formato);
+        dialog.setContentView(R.layout.dialog_cerrar_hoja_ruta);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         if (dialog != null) {

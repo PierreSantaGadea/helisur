@@ -31,6 +31,7 @@ import com.helisur.helisurapp.domain.util.ServiceSyncData
 import com.helisur.helisurapp.domain.util.ServiceSyncDataFirstTime
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
+import com.helisur.helisurapp.ui.mantenimiento.hojaruta.HojaRutaActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -112,7 +113,16 @@ class LoginActivity : BaseActivity() {
                                 empleado.apellidoMaterno!!,
                                 empleado.cargo!!
                             )
-                            next(ModulesActivity::class.java,null)
+
+                            if(binding.chxHojaRuta!!.isChecked)
+                            {
+                                next(HojaRutaActivity::class.java,null)
+                            }
+                            else
+                            {
+                                next(ModulesActivity::class.java,null)
+                            }
+
                         }
                     }
 
@@ -147,7 +157,14 @@ class LoginActivity : BaseActivity() {
                                 empleado.apellidoMaterno!!,
                                 empleado.cargo!!
                             )
-                            next(ModulesActivity::class.java,null)
+                            if(binding.chxHojaRuta!!.isChecked)
+                            {
+                                next(HojaRutaActivity::class.java,null)
+                            }
+                            else
+                            {
+                                next(ModulesActivity::class.java,null)
+                            }
 
                         }
                     }
@@ -169,9 +186,6 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun observers() {
-
-
-
 
 
         internetViewModel!!.isOnline.observe(this) { isOnline ->

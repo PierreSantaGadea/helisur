@@ -17,6 +17,7 @@ class DetalleFormatoRegistro(
     var codigoRegistroFormato: String,
     var codigoTarea: String,
     var nombreTarea: String,
+    var nombreSistema: String,
     var codigoReportaje: String,
     var nombreReportaje: String,
     var motivoReportaje: String,
@@ -37,13 +38,14 @@ class DetalleFormatoRegistro(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readString(),
         parcel.readString()
     ) {
     }
 
     constructor() : this(
-         "","","","","","","","",
+         "","","","","","","","","",
         "","","","",""
     )
 
@@ -54,6 +56,7 @@ class DetalleFormatoRegistro(
         parcel.writeString(codigoRegistroFormato)
         parcel.writeString(codigoTarea)
         parcel.writeString(nombreTarea)
+        parcel.writeString(nombreSistema)
         parcel.writeString(codigoReportaje)
         parcel.writeString(nombreReportaje)
         parcel.writeString(motivoReportaje)
@@ -81,7 +84,7 @@ class DetalleFormatoRegistro(
 
 //entidadDB pasa modelo
 fun DetalleFormatoRegistroEntity.toDomain() = DetalleFormatoRegistro(
-    id_db, id_cloud,idRegistroFormatoDB!!, codigoRegistroFormato, codigoTarea, nombreTarea, codigoReportaje, nombreReportaje,motivoReportaje, indicadorSN, indicadorBloqueo, fechaRegistro, fechaModificacion
+    id_db, id_cloud,idRegistroFormatoDB!!, codigoRegistroFormato, codigoTarea, nombreTarea, nombreSistema,codigoReportaje, nombreReportaje,motivoReportaje, indicadorSN, indicadorBloqueo, fechaRegistro, fechaModificacion
 )
 
 /*

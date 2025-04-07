@@ -383,7 +383,7 @@ class PreVueloFirmasFragment : Fragment() {
                 }
 
                 val uniqueIDDetalle: String = UUID.randomUUID().toString()
-                var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.codigoReportaje,
+                var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.nombreSistema,item.codigoReportaje,
                     nombreReportaje,item.motivoReportaje,item.indicadorSN,"",fechaHoy,"")
 
                 listaDetalleDB.add(detalle)
@@ -589,7 +589,7 @@ class PreVueloFirmasFragment : Fragment() {
                 binding.tvSinAnotaciones!!.visibility = View.GONE
                 for(reportajeItem in detalleFormatoRegistro)
                 {
-                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llcontenedorTareas!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!)
+                    newCheckBox(reportajeItem.nombreReportaje,reportajeItem.codigoReportaje,binding.llcontenedorTareas!!,reportajeItem.indicadorSN!!,reportajeItem.indicadorBloqueo!!,reportajeItem.nombreTarea!!,reportajeItem.nombreSistema,reportajeItem.motivoReportaje)
                 }
 
             }
@@ -802,29 +802,43 @@ class PreVueloFirmasFragment : Fragment() {
 
     }
 
-    fun newCheckBox(nombre:String, id:String, contenedor: LinearLayout, indicadorSN:String, indicadorBloqueo:String, nombreTarea:String)
+    fun newCheckBox(nombre:String, id:String, contenedor: LinearLayout, indicadorSN:String, indicadorBloqueo:String, nombreTarea:String,nombreSistemas:String,motivoReportaje:String)
     {
 
         val tituloTarea = TextView(requireContext())
 
         val nombreReportaje = TextView(requireContext())
 
+        val nombreSistema = TextView(requireContext())
+
+        val motivReportaje = TextView(requireContext())
+
         //  tituloTarea.setText("\n"+nombreTarea)
-        tituloTarea.setText("- "+nombreTarea)
+        tituloTarea.setText("  "+nombreTarea)
 
         nombreReportaje.setText("   "+nombre)
 
+        nombreSistema.setText("- "+nombreSistemas)
+
+        motivReportaje.setText("   Motivo : "+motivoReportaje)
+
+        nombreSistema.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         tituloTarea.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         nombreReportaje.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_grey))
+        motivReportaje.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_grey))
 
         val tabletSize = resources.getBoolean(R.bool.isTablet)
         if (tabletSize) {
             tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
             nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+            motivReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombrereportaje_cel_pdf))
+            nombreSistema.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados_cel))
             //     tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
         } else {
             tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_cel_pdf))
+            nombreSistema.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_cel_pdf))
             nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombrereportaje_cel_pdf))
+            motivReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombrereportaje_cel_pdf))
             //    tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
         }
         //  CompoundButtonCompat.setButtonTintList(cb, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))
@@ -836,12 +850,12 @@ class PreVueloFirmasFragment : Fragment() {
         //  val param = cb.layoutParams as ViewGroup.MarginLayoutParams
         //  param.setMargins(0,10,0,0)
         //  cb.layoutParams = param
-
+        contenedor.addView(nombreSistema)
         contenedor.addView(tituloTarea)
         contenedor.addView(nombreReportaje)
+        contenedor.addView(motivReportaje)
 
     }
-
 
     fun saveBitmapOnLocalStorage(nombreDocumento:String,bitmap: Bitmap) {
 

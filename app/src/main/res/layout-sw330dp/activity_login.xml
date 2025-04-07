@@ -6,12 +6,26 @@
     android:orientation="vertical"
     android:background="@color/fondo_login">
 
+
+    <CheckBox
+        android:id="@+id/chxHojaRuta"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hoja de Ruta"
+        android:fontFamily="@font/robotoregular"
+        android:textSize="15dp"
+        android:buttonTint="@color/titulo_pantalla_general"
+        android:textColor="@color/texto_simple_pantalla_general"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"/>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-
+        android:orientation="vertical">
 
 
         <LinearLayout
