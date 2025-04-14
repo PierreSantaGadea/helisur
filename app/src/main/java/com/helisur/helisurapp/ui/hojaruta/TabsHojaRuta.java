@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.hojaruta;
+package com.helisur.helisurapp.ui.hojaruta;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -35,7 +35,7 @@ public class TabsHojaRuta extends Fragment {
     public static TabLayout tabLayout;
     // @BindView(R.id.viewpager)
     public static ViewPagerNoSwipeable viewPager;
-    public static int int_items = 7;
+    public static int int_items = 2;
     public static Context generalContext;
     public static String FRAGMENT = "";
     public View view = null;
@@ -95,7 +95,7 @@ public class TabsHojaRuta extends Fragment {
 
         //  SessionUserManager sesion = new SessionUserManager(generalContext);
         //  viewPager.setCurrentItem(sesion.getUserCurrentTabPosition());
-          viewPager.setEnableSwipe(false);
+     //     viewPager.setEnableSwipe(false);
 
       //  int limit = (mSectionsPagerAdapter.getCount() > 1 ? mSectionsPagerAdapter.getCount() - 1 : 1);
         viewPager.setOffscreenPageLimit(int_items);
@@ -126,25 +126,10 @@ public class TabsHojaRuta extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: {
-                    return new CabeceraFragment();
+                    return new NuevaHojaRutaCabeceraFragment();
                 }
                 case 1: {
-                    return new HojaRuta_Fase1_I_Fragment();
-                }
-                case 2: {
-                    return new HojaRuta_Fase1_II_Fragment();
-                }
-                case 3: {
-                    return new HojaRuta_Fase1_III_Fragment();
-                }
-                case 4: {
-                    return new HojaRuta_Fase2Fragment();
-                }
-                case 5: {
-                    return new HojaRuta_Fase3Fragment();
-                }
-                case 6: {
-                    return new HojaRuta_ResumenFragment();
+                    return new NuevaHojaRutaActividadesFragment();
                 }
 
 

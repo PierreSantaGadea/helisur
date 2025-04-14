@@ -25,6 +25,7 @@ class Constants {
 
         const val ENVIA_PDF_FORMATO: String = "http://38.199.4.100:81/serviceintranetHLS/api/Base64/GetDecode"
 
+        const val OBTIENE_LISTA_HOJAS_RUTA: String = "serviceintranetHLS/api/CheckListCabecera/GetAll"
 
     }
 

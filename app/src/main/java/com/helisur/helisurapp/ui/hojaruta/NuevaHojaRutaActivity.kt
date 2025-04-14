@@ -1,4 +1,4 @@
-package com.helisur.helisurapp.ui.mantenimiento.hojaruta
+package com.helisur.helisurapp.ui.hojaruta
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -19,7 +19,7 @@ import com.helisur.helisurapp.domain.util.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HojaRutaActivity  : BaseActivity() {
+class NuevaHojaRutaActivity  : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityPrevueloBinding
@@ -46,8 +46,7 @@ class HojaRutaActivity  : BaseActivity() {
     fun loadTabHomeFragment() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val homeFragment: TabsHojaRuta =
-            TabsHojaRuta()
+        val homeFragment: TabsHojaRuta = TabsHojaRuta()
         fragmentTransaction.replace(binding.containerView.id, homeFragment)
         fragmentTransaction.commit()
     }

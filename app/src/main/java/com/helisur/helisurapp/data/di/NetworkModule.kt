@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.GsonBuilder
 import com.helisur.helisurapp.data.cloud.aeronaves.apis.AeronavesApiClient
 import com.helisur.helisurapp.data.cloud.formatos.apis.FormatosApiClient
+import com.helisur.helisurapp.data.cloud.hojaruta.apis.HojaRutaApiClient
 import com.helisur.helisurapp.data.cloud.usuario.apis.UsuarioApiClient
 import com.helisur.helisurapp.data.cloud.usuario.model.parameter.LoginCloudParameter
 import com.helisur.helisurapp.domain.util.ConnectivityRepository
@@ -123,7 +124,6 @@ object NetworkModule {
         authenticateApi: AuthenticateApi
     ): OkHttpClient {
         val okHttpClient = OkHttpClient().newBuilder()
-
         okHttpClient.callTimeout(60, TimeUnit.SECONDS)
         okHttpClient.connectTimeout(60, TimeUnit.SECONDS)
         okHttpClient.readTimeout(60, TimeUnit.SECONDS)
@@ -156,7 +156,6 @@ object NetworkModule {
             .addConverterFactory(converterFactory).build()
     }
 
-
     @Singleton
     @Provides
     fun provideUsuarioApiService(retrofit: Retrofit): UsuarioApiClient =
@@ -173,6 +172,12 @@ object NetworkModule {
     @Provides
     fun provideFormatosApiService(retrofit: Retrofit): FormatosApiClient =
         retrofit.create(FormatosApiClient::class.java)
+
+
+    @Singleton
+    @Provides
+    fun provideHojaRutaApiService(retrofit: Retrofit): HojaRutaApiClient =
+        retrofit.create(HojaRutaApiClient::class.java)
 
 
 }

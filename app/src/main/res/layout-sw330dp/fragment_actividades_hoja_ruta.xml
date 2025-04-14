@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/robotomedium"
-                    android:text="Datos aeronave"
+                    android:text="Actividades"
                     android:textColor="@color/titulo_pantalla_general"
                     android:textSize="20dp" />
 
@@ -37,7 +37,14 @@
             </RelativeLayout>
 
 
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvActividades"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
 
 
             <RelativeLayout
@@ -82,7 +89,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"

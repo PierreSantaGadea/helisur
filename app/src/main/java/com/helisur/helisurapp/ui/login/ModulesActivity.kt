@@ -12,6 +12,7 @@ import com.helisur.helisurapp.domain.util.ConnectivityRepository
 import com.helisur.helisurapp.domain.util.InternetViewModel
 import com.helisur.helisurapp.domain.util.ServiceSyncData
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
+import com.helisur.helisurapp.ui.hojaruta.ListaHojaRutaActivity
 
 @AndroidEntryPoint
 class ModulesActivity : BaseActivity() {
@@ -76,6 +77,11 @@ class ModulesActivity : BaseActivity() {
         binding.llMantenimeinto.setOnClickListener { view ->
             // if(validations())
             next(MainActivityMantenimiento::class.java, null)
+        }
+
+        binding.llhojaRuta!!.setOnClickListener { view ->
+            // if(validations())
+            next(ListaHojaRutaActivity::class.java, null)
         }
 
 
