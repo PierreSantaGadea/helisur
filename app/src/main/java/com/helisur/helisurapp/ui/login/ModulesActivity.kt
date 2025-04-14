@@ -79,7 +79,7 @@ class ModulesActivity : BaseActivity() {
             next(MainActivityMantenimiento::class.java, null)
         }
 
-        binding.llhojaRuta!!.setOnClickListener { view ->
+        binding.llsms!!.setOnClickListener { view ->
             // if(validations())
             next(ListaHojaRutaActivity::class.java, null)
         }
