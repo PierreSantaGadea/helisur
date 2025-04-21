@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.ui.AppBarConfiguration
 import com.helisur.helisurapp.R
+import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneHojasRutaDataTableCloudResponse
 import com.helisur.helisurapp.databinding.ActivityPrevueloBinding
 import com.helisur.helisurapp.domain.util.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,10 @@ class NuevaHojaRutaActivity  : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityPrevueloBinding
+
+    var className = "NuevaHojaRutaActivity"
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

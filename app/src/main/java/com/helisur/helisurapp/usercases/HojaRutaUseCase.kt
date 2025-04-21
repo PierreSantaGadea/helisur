@@ -12,6 +12,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportaj
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneHojasRutaCloudResponse
+import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaActividadesPorHojaRutaCloudResponse
 import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.data.repository.HojaRutaRepository
 import com.helisur.helisurapp.domain.model.Aeronave
@@ -36,6 +37,20 @@ class HojaRutaUseCase @Inject constructor(private val repository: HojaRutaReposi
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
             val responseFailed = ObtieneHojasRutaCloudResponse()
+            responseFailed.success = Constants.ERROR.ERROR_ENTERO
+            responseFailed.message = e.toString()
+            return responseFailed
+        }
+    }
+
+
+    suspend fun obtieneListaActividadesPorHojaRuta(idHojaRuta: String): ObtieneListaActividadesPorHojaRutaCloudResponse {
+        try {
+            val respuesta = repository.obtieneListaActividadesPorHojaRuta(idHojaRuta)
+            return respuesta
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            val responseFailed = ObtieneListaActividadesPorHojaRutaCloudResponse()
             responseFailed.success = Constants.ERROR.ERROR_ENTERO
             responseFailed.message = e.toString()
             return responseFailed

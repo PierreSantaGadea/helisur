@@ -17,7 +17,9 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportaj
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportajesFormatoCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
+import com.helisur.helisurapp.data.cloud.hojaruta.model.parameter.ObtieneListaActividadesPorHojaRutaCloudParameter
 import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneHojasRutaCloudResponse
+import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaActividadesPorHojaRutaCloudResponse
 import com.helisur.helisurapp.domain.util.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -64,6 +66,52 @@ class HojaRutaService @Inject constructor(private val api: HojaRutaApiClient) {
             }
         }
     }
+
+
+
+    suspend fun obtieneListaActividadesPorHojaRuta(
+        idHojaRuta: String
+    ): ObtieneListaActividadesPorHojaRutaCloudResponse {
+        val parameterBody = ObtieneListaActividadesPorHojaRutaCloudParameter(idHojaRuta)
+        return withContext(Dispatchers.IO) {
+            val response = api.obtieneListaActividadesPorHojaRuta(parameterBody)
+            when (response.code()) {
+                Constants.RESPONSE_CODE._200 -> response.body()!!
+
+                Constants.RESPONSE_CODE._400 -> ObtieneListaActividadesPorHojaRutaCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_400
+                )
+
+                Constants.RESPONSE_CODE._401 -> ObtieneListaActividadesPorHojaRutaCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_401
+                )
+
+                Constants.RESPONSE_CODE._403 -> ObtieneListaActividadesPorHojaRutaCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_403
+                )
+
+                Constants.RESPONSE_CODE._404 -> ObtieneListaActividadesPorHojaRutaCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_404
+                )
+
+                Constants.RESPONSE_CODE._500 -> ObtieneListaActividadesPorHojaRutaCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_500
+                )
+
+                Constants.RESPONSE_CODE._503 -> ObtieneListaActividadesPorHojaRutaCloudResponse(
+                    Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_503
+                )
+
+                else -> { // Note the block
+                    ObtieneListaActividadesPorHojaRutaCloudResponse(
+                        Constants.RESPONSE_CODE.FAILED, null, Constants.ERROR.MESSAGE_OTHER
+                    )
+                }
+            }
+        }
+    }
+
+
 
 
 }

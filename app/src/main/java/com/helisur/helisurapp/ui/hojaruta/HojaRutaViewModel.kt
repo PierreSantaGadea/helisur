@@ -15,6 +15,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportaj
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneHojasRutaCloudResponse
+import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaActividadesPorHojaRutaCloudResponse
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.Formato
@@ -37,6 +38,7 @@ class HojaRutaViewModel @Inject constructor(
 ) : ViewModel() {
 
     val responseObtieneHojaRuta= MutableLiveData<ObtieneHojasRutaCloudResponse>()
+    val responseObtieneListaActividadesPorHojaRuta= MutableLiveData<ObtieneListaActividadesPorHojaRutaCloudResponse>()
 
     val isLoading = MutableLiveData<Boolean>()
     val hojaRutaState = MutableLiveData<HojaRutaState>(HojaRutaState.START)
@@ -58,6 +60,30 @@ class HojaRutaViewModel @Inject constructor(
                     isLoading.postValue(false)
                     hojaRutaState.postValue(HojaRutaState.SUCCESS)
                     responseObtieneHojaRuta.postValue(result)
+                }
+            } else {
+                isLoading.postValue(false)
+                hojaRutaState.postValue(HojaRutaState.FAILURE(Constants.ERROR.ERROR))
+            }
+        }
+    }
+
+
+    fun obtieneListaActividadesPorHojaRuta(idHojaRuta: String) {
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val result = hojaRutaUseCase.obtieneListaActividadesPorHojaRuta(idHojaRuta)
+            if (result != null) {
+                if(result.success == Constants.ERROR.ERROR_ENTERO)
+                {
+                    isLoading.postValue(false)
+                    hojaRutaState.postValue(HojaRutaState.FAILURE(result.message))
+                }
+                else
+                {
+                    isLoading.postValue(false)
+                    hojaRutaState.postValue(HojaRutaState.SUCCESS)
+                    responseObtieneListaActividadesPorHojaRuta.postValue(result)
                 }
             } else {
                 isLoading.postValue(false)

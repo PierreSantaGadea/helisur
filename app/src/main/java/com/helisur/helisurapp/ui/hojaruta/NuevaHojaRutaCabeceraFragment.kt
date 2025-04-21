@@ -3,10 +3,15 @@ package com.helisur.helisurapp.ui.hojaruta
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneHojasRutaDataTableCloudResponse
 import com.helisur.helisurapp.databinding.FragmentCabeceraHojaRutaBinding
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
@@ -22,6 +27,8 @@ class NuevaHojaRutaCabeceraFragment : Fragment() {
     var className = "CabeceraFragment"
     private lateinit var binding: FragmentCabeceraHojaRutaBinding
     var loading: TransparentProgressDialog? = null
+
+
 
     var nroHojaRuta:String? = ""
     var servMantenimiento:String? = ""
@@ -81,6 +88,9 @@ class NuevaHojaRutaCabeceraFragment : Fragment() {
             TabsHojaRuta.viewPager.setCurrentItem(1)
         }
     }
+
+
+
 
 
     fun showErrorDialog(message: String?) {

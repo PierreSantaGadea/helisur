@@ -4,10 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     app:cardElevation="6dp">
 
     <RelativeLayout
@@ -16,182 +16,271 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/contenedorItem"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="0dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Modelo aeronave"
-                    android:textSize="17sp"
-                    android:gravity="center"
-                    android:fontFamily="@font/robotoregular"
-                    android:textColor="@color/titulo_pantalla_general"/>
-
-                <TextView
-                    android:id="@+id/tvModeloAeronave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:fontFamily="@font/robotoregular"
-                    android:textColor="@color/color_texto_cajatexto"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:paddingLeft="10dp">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:src="@drawable/ic_helicopter"/>
+                app:cardBackgroundColor="@color/color_fondo_card_inicio_conductor"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="10dp">
+
+
                     <TextView
-                        android:id="@+id/tvAeronave"
+                        android:id="@+id/tvNombreFase"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text=""
-                        android:textSize="16sp"
-                        android:gravity="center"
+                        android:text="Nombre fase"
+                        android:textSize="12dp"
+                        android:layout_gravity="right"
                         android:fontFamily="@font/robotomedium"
-                        android:textColor="@color/color_texto_cajatexto"
-                        android:layout_marginLeft="20dp"/>
+                        android:textColor="@color/titulo_pantalla_general" />
+
 
                     <TextView
-                        android:id="@+id/tvNombreFormato"
+                        android:id="@+id/tvNombreGrupo"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
-                        android:text=""
+                        android:text="Nombre grupo"
                         android:textSize="16sp"
-                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotomedium"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:layout_marginTop="10dp"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="10"
+                        android:layout_marginTop="15dp">
+
+                        <TextView
+                            android:id="@+id/tvNombreActividad"
+                            android:layout_width="0dp"
+                            android:layout_weight="9"
+                            android:layout_height="wrap_content"
+                            android:text="Nombre actividad"
+                            android:textSize="16sp"
+                            android:layout_gravity="left"
+                            android:fontFamily="@font/robotomedium"
+                            android:justificationMode="inter_word"
+                            android:textColor="@color/color_texto_cajatexto"
+                            android:paddingRight="10dp"/>
+
+
+                        <CheckBox
+                            android:id="@+id/chxListo"
+                            android:layout_marginTop="0dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/titulo_pantalla_general"
+                            android:textColor="@color/texto_simple_pantalla_general" />
+
+
+
+                    </LinearLayout>
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:fontFamily="@font/robotoregular"
-                        android:textColor="@color/principal"
-                        android:layout_marginLeft="20dp"/>
+                        android:text="Nombres y apellidos"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="14dp"
+                        android:layout_gravity="left"/>
+
+                    <RelativeLayout
+                        android:id="@+id/contenedorNombreEmpleado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_text_box"
+                        android:padding="0dip">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="0dp">
+
+                            <Spinner
+                                android:id="@+id/spiEmpleados"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/transparent"
+                                android:paddingStart="0dp"
+                                android:paddingTop="0dp"
+                                android:paddingEnd="30dp"
+                                android:paddingBottom="-5dp"
+                                android:textColor="@color/color_texto_cajatexto"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"
+                            android:src="@drawable/ic_down"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="Comentarios"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="14dp"
+                        android:layout_gravity="left"/>
+
+                    <RelativeLayout
+                        android:id="@+id/contenedorComentarios"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_text_box"
+                        android:padding="0dip">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="0dp">
+
+                            <EditText
+                                android:id="@+id/etComentarios"
+                                android:enabled="false"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/transparent"
+                                android:paddingStart="0dp"
+                                android:paddingTop="0dp"
+                                android:paddingEnd="30dp"
+                                android:paddingBottom="-5dp"
+                                android:textColor="@color/color_texto_cajatexto"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"
+                            android:src="@drawable/ic_down"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="Fecha"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="14dp"
+                        android:layout_gravity="left"/>
+
+                    <RelativeLayout
+                        android:id="@+id/contenedorFecha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_text_box"
+                        android:padding="0dip">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="0dp">
+
+                            <EditText
+                                android:id="@+id/etFecha"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/transparent"
+                                android:enabled="false"
+                                android:paddingStart="0dp"
+                                android:paddingTop="0dp"
+                                android:paddingEnd="30dp"
+                                android:paddingBottom="-5dp"
+                                android:textColor="@color/color_texto_cajatexto" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"
+                            android:src="@drawable/ic_down"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+
+
+
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/tvUbicacion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text=""
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:fontFamily="@font/robotoregular"
-                        android:textColor="@color/color_texto_cajatexto"
-                        android:layout_marginLeft="20dp"/>
-
-                    <TextView
-                        android:id="@+id/tvFecha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
-                        android:text=""
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        android:fontFamily="@font/robotolight"
-                        android:textColor="@color/principal"
-                        android:layout_marginLeft="30dp"/>
-
-                </LinearLayout>
 
 
 
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
 
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Fecha"
-                    android:textSize="17sp"
-                    android:gravity="center"
-                    android:fontFamily="@font/robotoregular"
-                    android:textColor="@color/titulo_pantalla_general"/>
-
-
-
-            </LinearLayout>
-
-
-            <ImageView
-                android:id="@+id/ivLevantarDiscrepancias"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="center"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_levantar_disc"/>
-
-
-
-            <ImageView
-                android:id="@+id/ivEnviarPdf"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="center"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_upload"/>
-
-
-
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/tvItemNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ffff"
-            android:textSize="17sp"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:fontFamily="@font/robotoregular"
-            android:textColor="@color/color_texto_cajatexto"
-            android:visibility="gone"/>
 
     </RelativeLayout>
 

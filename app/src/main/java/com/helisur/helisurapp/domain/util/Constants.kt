@@ -27,6 +27,8 @@ class Constants {
 
         const val OBTIENE_LISTA_HOJAS_RUTA: String = "serviceintranetHLS/api/CheckListCabecera/GetAll"
 
+        const val OBTIENE_LISTA_LINEAS_POR_HOJA_RUTA: String = "serviceintranetHLS/api/CheckListCabeceraDetalle/GetBy"
+
     }
 
     object ERROR {
