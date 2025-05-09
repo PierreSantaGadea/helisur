@@ -99,11 +99,51 @@
                     </LinearLayout>
 
 
+                    <LinearLayout
+                        android:id="@+id/contenedorFecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="20dp">
+
+                        <TextView
+                            android:id="@+id/tvFechaTitulo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:fontFamily="@font/robotoregular"
+                            android:text="Fecha cumplimiento :"
+                            android:textColor="@color/titulo_pantalla_general"
+                            android:textSize="14dp"
+                            android:layout_gravity="left"/>
+
+                        <TextView
+                            android:id="@+id/etFecha"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="0dp"
+                            android:background="@android:color/transparent"
+                            android:enabled="false"
+                            android:text=""
+                            android:textSize="15dp"
+                            android:fontFamily="@font/robotoregular"
+                            android:paddingStart="10dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="0dp"
+                            android:gravity="center|left"
+                            android:textColor="@color/color_texto_cajatexto" />
+
+
+
+                    </LinearLayout>
+
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/robotoregular"
                         android:text="Nombres y apellidos"
                         android:textColor="@color/titulo_pantalla_general"
@@ -158,7 +198,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/robotoregular"
                         android:text="Comentarios"
                         android:textColor="@color/titulo_pantalla_general"
@@ -168,7 +208,7 @@
                     <RelativeLayout
                         android:id="@+id/contenedorComentarios"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="120dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/shape_text_box"
@@ -176,23 +216,28 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="80dp"
+                            android:layout_height="120dp"
                             android:gravity="center"
                             android:orientation="vertical"
                             android:paddingTop="0dp">
 
                             <EditText
                                 android:id="@+id/etComentarios"
-                                android:enabled="false"
+                                android:enabled="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="10dp"
                                 android:background="@android:color/transparent"
-                                android:paddingStart="0dp"
+                                android:paddingStart="10dp"
                                 android:paddingTop="0dp"
-                                android:paddingEnd="30dp"
+                                android:paddingEnd="10dp"
+                                android:hint="Ingrese comentarios"
+                                android:textColorHint="@color/borde_cajatexto"
                                 android:paddingBottom="-5dp"
-                                android:textColor="@color/color_texto_cajatexto"/>
+                                android:textColor="@color/color_texto_cajatexto"
+                                android:gravity="left|top"
+                                android:textSize="17dp"
+                                android:fontFamily="@font/robotoregular"/>
 
                         </LinearLayout>
 
@@ -209,60 +254,6 @@
 
                     </RelativeLayout>
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/robotoregular"
-                        android:text="Fecha"
-                        android:textColor="@color/titulo_pantalla_general"
-                        android:textSize="14dp"
-                        android:layout_gravity="left"/>
-
-                    <RelativeLayout
-                        android:id="@+id/contenedorFecha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/shape_text_box"
-                        android:padding="0dip">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:paddingTop="0dp">
-
-                            <EditText
-                                android:id="@+id/etFecha"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="10dp"
-                                android:background="@android:color/transparent"
-                                android:enabled="false"
-                                android:paddingStart="0dp"
-                                android:paddingTop="0dp"
-                                android:paddingEnd="30dp"
-                                android:paddingBottom="-5dp"
-                                android:textColor="@color/color_texto_cajatexto" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="15dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="10dp"
-                            android:paddingTop="0dp"
-                            android:paddingBottom="0dp"
-                            android:src="@drawable/ic_down"
-                            android:visibility="gone"/>
-
-                    </RelativeLayout>
 
 
 

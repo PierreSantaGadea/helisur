@@ -21,6 +21,7 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasDa
 import com.helisur.helisurapp.data.cloud.hojaruta.apis.HojaRutaService
 import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneHojasRutaCloudResponse
 import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaActividadesPorHojaRutaCloudResponse
+import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaResponsableHojaRutaCloudResponse
 import com.helisur.helisurapp.data.database.dao.DetalleFormatoRegistroDao
 import com.helisur.helisurapp.data.database.dao.EstacionDao
 import com.helisur.helisurapp.data.database.dao.FormatoDao
@@ -70,6 +71,12 @@ class HojaRutaRepository @Inject constructor(
         return response
     }
 
+
+    suspend fun obtieneListaResponsableHojaRuta(cadena1: String, cadena2: String
+    ): ObtieneListaResponsableHojaRutaCloudResponse {
+        val response: ObtieneListaResponsableHojaRutaCloudResponse = hojaRutaCloudData.obtieneListaResponsableHojaRuta(cadena1,cadena2)
+        return response
+    }
 
 
 }

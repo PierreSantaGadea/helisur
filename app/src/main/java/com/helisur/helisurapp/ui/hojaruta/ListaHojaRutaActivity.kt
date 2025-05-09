@@ -81,6 +81,7 @@ class ListaHojaRutaActivity  : BaseActivity() {
         loading = TransparentProgressDialog(this)
         hojasRutaViewModel.obtieneHojasRuta()
         aeronavesViewModel.getModelosAeronavesListDB()
+        aeronavesViewModel.getAeronavesListDB()
         aeronavesViewModel.getEstacionesListDB()
     }
 
@@ -277,6 +278,20 @@ class ListaHojaRutaActivity  : BaseActivity() {
         dialog.show()
     }
 
+    fun filterList(modeloAeronave: String, aeronave: String, estacion: String, fechaInicio: String, fechaFin: String)
+    {
+        var lista = ArrayList<ObtieneHojasRutaDataTableCloudResponse>()
+        for(item in listaHojasRuta)
+        {
+            if(item.codigoModeloPuesto.contains(modeloAeronave) && item.codigoPuestoTecnico.contains(aeronave) && item.nombreEstacion.contains(estacion))
+            {
+                lista.add(item)
+            }
+        }
+        setRecyclerViewHojasRuta(lista)
+
+    }
+
     val myCalendar: Calendar = Calendar.getInstance()
 
     private fun loadDatePickerInicio(tvFechaInicio: TextView) {
@@ -410,7 +425,7 @@ class ListaHojaRutaActivity  : BaseActivity() {
         val spinnerArray: MutableList<String> = ArrayList()
         spinnerArray.add("Seleccione aeronave")
         spinnerArrayImages.add(R.drawable.empty)
-        for(item in modelosAeronavesList!!) {
+        for(item in aeronavesList!!) {
 
             var itemName = nombreModeloAeronave
             spinnerArray.add(item.nombre!!)

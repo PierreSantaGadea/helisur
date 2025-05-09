@@ -19,8 +19,10 @@ import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneReportaj
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneSistemasCloudResponse
 import com.helisur.helisurapp.data.cloud.formatos.model.response.ObtieneTareasCloudResponse
 import com.helisur.helisurapp.data.cloud.hojaruta.model.parameter.ObtieneListaActividadesPorHojaRutaCloudParameter
+import com.helisur.helisurapp.data.cloud.hojaruta.model.parameter.ObtieneListaResponsableHojaRutaCloudParameter
 import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneHojasRutaCloudResponse
 import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaActividadesPorHojaRutaCloudResponse
+import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaResponsableHojaRutaCloudResponse
 
 import com.helisur.helisurapp.domain.util.Constants
 import retrofit2.Response
@@ -37,6 +39,10 @@ interface HojaRutaApiClient {
 
     @POST(Constants.URLS.OBTIENE_LISTA_LINEAS_POR_HOJA_RUTA)
     suspend fun obtieneListaActividadesPorHojaRuta(@Body parameterBody: ObtieneListaActividadesPorHojaRutaCloudParameter): Response<ObtieneListaActividadesPorHojaRutaCloudResponse>
+
+
+    @POST(Constants.URLS.OBTIENE_LISTA_RESPONSABLE_HOJA_RUTA)
+    suspend fun obtieneListaResponsableHojaRuta(@Body parameterBody: ObtieneListaResponsableHojaRutaCloudParameter): Response<ObtieneListaResponsableHojaRutaCloudResponse>
 
 
 }

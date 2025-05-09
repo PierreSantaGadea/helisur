@@ -156,6 +156,7 @@ class ServiceSyncData : Service() {
     }
 
 
+
     suspend fun syncModeloAeronave() {
         try {
             withContext(Dispatchers.Main) {

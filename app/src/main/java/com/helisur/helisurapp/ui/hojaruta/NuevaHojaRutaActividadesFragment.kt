@@ -2,11 +2,16 @@ package com.helisur.helisurapp.ui.hojaruta
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,24 +19,30 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.helisur.helisurapp.R
-import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneHojasRutaDataTableCloudResponse
-import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaActividadesPorHojaRutaCloudResponse
 import com.helisur.helisurapp.data.cloud.hojaruta.model.response.ObtieneListaActividadesPorHojaRutaDataTableCloudResponse
-import com.helisur.helisurapp.data.repository.HojaRutaRepository
-import com.helisur.helisurapp.data.repository.UsuarioRepository
 import com.helisur.helisurapp.databinding.FragmentActividadesHojaRutaBinding
 import com.helisur.helisurapp.domain.model.Empleado
-import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
-
+import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
-import com.helisur.helisurapp.ui.mantenimiento.formatos.ListaFormatosDiscrepanciasAdapter
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
+import kotlinx.coroutines.launch
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 @AndroidEntryPoint
@@ -47,6 +58,8 @@ class NuevaHojaRutaActividadesFragment : Fragment() {
     private val usuarioViewModel: LoginViewModel by viewModels()
     private var empleadoListDB: ArrayList<Empleado>? = null
 
+    var actividadHojaRutaSelected = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -61,11 +74,28 @@ class NuevaHojaRutaActividadesFragment : Fragment() {
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
 
+        var url = "https://firebasestorage.googleapis.com/v0/b/autoservicio-87532.appspot.com/o/acitvidades_imagen.png?alt=media&token=eb8e2676-6aa0-4262-bf66-93bfc0664a0b"
+
+        Picasso.get().load(url).into(binding.ivActividades)
+/*
+        val scope = CoroutineScope(Dispatchers.Default)
+        scope.launch {
+            val url = URL(url)
+            val imageData = url.readBytes()
+            binding.ivActividades.setImageBitmap(BitmapFactory.decodeByteArray(imageData, 0, imageData.size))
+       //     binding.ivActividades.setImageBitmap(getBitmapFromURL(url.toString()))
+        }
+
+ */
+
         var prefs: SharedPreferences = requireContext().getSharedPreferences("HOJARUTA", Context.MODE_PRIVATE)
         usuarioViewModel.getEmpleadosListDB()
         nroHojaRuta = prefs.getString("nroHojaRuta", "")
 
     }
+
+
+
 
     fun clickListener()
     {
@@ -106,10 +136,8 @@ class NuevaHojaRutaActividadesFragment : Fragment() {
 
         hojasRutaViewModel.responseObtieneListaActividadesPorHojaRuta.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-
                 listaActividadesHojaRuta = ArrayList(it.data!!.table!!)
                 setRecyclerViewHojasRutaActividades(listaActividadesHojaRuta!!)
-
             } else {
                 Log.e(className, Constants.ERROR.ERROR)
 
@@ -119,13 +147,10 @@ class NuevaHojaRutaActividadesFragment : Fragment() {
 
         usuarioViewModel.responseGetEmpleadoListDB.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-
                 empleadoListDB = ArrayList(it)
                 hojasRutaViewModel.obtieneListaActividadesPorHojaRuta(nroHojaRuta!!)
-
             } else {
                 Log.e(className, Constants.ERROR.ERROR)
-
             }
         })
 
@@ -136,7 +161,7 @@ class NuevaHojaRutaActividadesFragment : Fragment() {
     fun setRecyclerViewHojasRutaActividades(lista: ArrayList<ObtieneListaActividadesPorHojaRutaDataTableCloudResponse>) {
         val recyclerview = binding.rvActividades
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ListaActividadesHojasRutaAdapter(lista,requireContext(),empleadoListDB!!)
+        val adapter = ListaActividadesHojasRutaAdapter(lista,requireContext(),empleadoListDB!!,requireActivity())
         recyclerview.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
@@ -149,11 +174,62 @@ class NuevaHojaRutaActividadesFragment : Fragment() {
 
       //  recyclerview.addItemDecoration(dividerItemDecoration)
 
-        adapter.onItemClick = { hojaRuta ->
+        adapter.onItemClick = { actividadHojaRuta ->
+            actividadHojaRutaSelected = actividadHojaRuta.codigoActividad
+            guardaCumplimiento(requireContext(),actividadHojaRuta.id!!,actividadHojaRuta.codigoActividad!!,actividadHojaRuta.comentario!!,actividadHojaRuta.codigoResponsable!!,"1")
+        }
 
+        if(actividadHojaRutaSelected == "")
+        {
+
+        }
+        else
+        {
+            for (i in 0 until lista.size) {
+                if(lista[i].codigoActividad == actividadHojaRutaSelected){
+                    binding.rvActividades.scrollToPosition(i)
+                }
+            }
         }
     }
 
+
+
+    fun guardaCumplimiento(ctx: Context,codigoCheckList:String,codigoActividad:String,comentario: String,codigoResponsable:String,indicadorCumplimiento:String) {
+
+        var sessionUserManager = SessionUserManager(context = ctx)
+        val tokenn = sessionUserManager.getToken()
+
+        var urlApi = "http://38.199.4.100:81/serviceintranetHLS/api/CheckListCabeceraDetalle/CheckListCumplimiento"
+        val payload =
+            "{'codigoCheckList': '" + codigoCheckList + "','codigoActividad': '" + codigoActividad + "','comentario':'"+comentario+"','codigoResponsable':'"+codigoResponsable+"','indicadorCumplimiento':'"+indicadorCumplimiento+"'}"
+
+        val okHttpClient = OkHttpClient()
+        val requestBody = payload.toRequestBody()
+
+        val request = Request.Builder().post(requestBody).url(urlApi)
+            .header("Content-Type", "application/json")
+            .addHeader("Authorization", "Bearer $tokenn")
+            .build()
+
+        okHttpClient.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("ERROR", e.toString())
+            }
+            override fun onResponse(call: Call, response: Response) {
+                var responseData = response.body!!.string()
+                try {
+                    var json = JSONObject(responseData)
+                    usuarioViewModel.getEmpleadosListDB()
+                    println(json)
+                   Log.i("RESPONSE: ", json.toString())
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        })
+
+    }
 
 
     fun showErrorDialog(message: String?) {
