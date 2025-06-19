@@ -94,7 +94,7 @@
                     android:paddingTop="0dp">
 
                     <EditText
-                        android:hint="Motivo"
+                        android:hint="Motivoo"
                         android:textColorHint="@color/borde_cajatexto"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

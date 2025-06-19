@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.databinding.FragmentTareasBinding
 import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Sistema
@@ -40,6 +41,8 @@ class PreVueloTareasFragment : Fragment() {
         var sistemasList: ArrayList<Sistema>? = null
         var tareasList: ArrayList<Tarea>? = null
         var reportajesList: ArrayList<Reportaje>? = null
+
+        var viewListadoTareas:RecyclerView? = null
 
         fun getTareasRealizadas():ArrayList<Tarea> { return tareasList!! }
         fun getSistemasRealizadas():ArrayList<Sistema> { return sistemasList!! }
@@ -78,6 +81,7 @@ class PreVueloTareasFragment : Fragment() {
         initUI()
         observers()
         clickListener()
+        viewListadoTareas = binding.rvSistemas
      //   validateHUMS()
         binding.llHums!!.visibility = View.GONE
         return root

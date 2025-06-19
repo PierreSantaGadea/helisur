@@ -4,10 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="30dp"
-    android:layout_marginLeft="30dp"
-    android:layout_marginTop="30dp"
-    android:layout_marginBottom="30dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
     app:cardElevation="6dp">
 
     <RelativeLayout
@@ -53,7 +53,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:paddingLeft="10dp">
 
                 <ImageView
                     android:layout_width="50dp"
@@ -61,16 +63,65 @@
                     android:gravity="center"
                     android:src="@drawable/ic_helicopter"/>
 
-                <TextView
-                    android:id="@+id/tvAeronave"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="dddd"
-                    android:textSize="26sp"
-                    android:gravity="center"
-                    android:fontFamily="@font/robotoregular"
-                    android:textColor="@color/color_texto_cajatexto"
-                    android:layout_marginLeft="30dp"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvAeronave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textSize="22sp"
+                        android:gravity="center"
+                        android:fontFamily="@font/robotomedium"
+                        android:textColor="@color/color_texto_cajatexto"
+                        android:layout_marginLeft="20dp"/>
+
+                    <TextView
+                        android:id="@+id/tvNombreFormato"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="3dp"
+                        android:text=""
+                        android:textSize="21sp"
+                        android:gravity="center"
+                        android:fontFamily="@font/robotoregular"
+                        android:textColor="@color/principal"
+                        android:layout_marginLeft="20dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvUbicacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textSize="26sp"
+                        android:gravity="center"
+                        android:fontFamily="@font/robotoregular"
+                        android:textColor="@color/color_texto_cajatexto"
+                        android:layout_marginLeft="20dp"/>
+
+                    <TextView
+                        android:id="@+id/tvFecha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="3dp"
+                        android:text=""
+                        android:textSize="20sp"
+                        android:gravity="center"
+                        android:fontFamily="@font/robotolight"
+                        android:textColor="@color/principal"
+                        android:layout_marginLeft="30dp"/>
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -81,7 +132,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_alignParentRight="true">
 
             <LinearLayout
@@ -94,30 +145,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Fecha"
-                    android:textSize="17sp"
+                    android:textSize="27sp"
                     android:gravity="center"
                     android:fontFamily="@font/robotoregular"
                     android:textColor="@color/titulo_pantalla_general"/>
 
-                <TextView
-                    android:id="@+id/tvFecha"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text=""
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:fontFamily="@font/robotoregular"
-                    android:textColor="@color/color_texto_cajatexto"/>
+
 
             </LinearLayout>
 
 
             <ImageView
+                android:id="@+id/ivLevantarDiscrepancias"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:src="@drawable/ic_levantar_disc"/>
+
+
+
+            <ImageView
+                android:id="@+id/ivEnviarPdf"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/ic_upload"/>
 
 
 

@@ -3,11 +3,11 @@ package com.helisur.helisurapp.domain.util
 class Constants {
     object URLS {
         //  const val URL: String = "https://extranet.edusoft.pe"
-        const val URL: String = "http://38.199.4.100:81"
+        const val URL: String = "http://181.177.246.181:81"
         const val OBTIENE_TOKEN: String = "serviceintranetHLS/api/LoginApi"
-        const val OBTIENE_DATOS_USUARIO: String = "http://38.199.4.100:81/serviceintranetHLS/api/Usuario/GetByUsuario?usuarioAcceso="
+        const val OBTIENE_DATOS_USUARIO: String = "http://181.177.246.181:81/serviceintranetHLS/api/Usuario/GetByUsuario?usuarioAcceso="
         const val OBTIENE_AERONAVES: String = "serviceintranetHLS/api/ModeloPuestoTecnico/GetAll"
-        const val OBTIENE_MODELO_AERONAVES: String = "http://38.199.4.100:81/serviceintranetHLS/api/PuestoTecnico/GetByModeloAeronave?codigoModeloAeronave="
+        const val OBTIENE_MODELO_AERONAVES: String = "http://181.177.246.181:81/serviceintranetHLS/api/PuestoTecnico/GetByModeloAeronave?codigoModeloAeronave="
         const val OBTIENE_ESTACIONES: String = "serviceintranetHLS/api/Estacion/GetAll"
         const val OBTIENE_FORMATOS: String = "serviceintranetHLS/api/Formato/GetAll"
 
@@ -23,7 +23,7 @@ class Constants {
         const val OBTIENE_REPORTAJES_FORMATOS: String = "serviceintranetHLS/api/FormatoRegistro/GetFormatoReportajeSelBy" //Cadena = [Nro de registro de formato char(10)]
         const val ACTUALIZA_REPORTAJE_FORMATO: String = "serviceintranetHLS/api/FormatoRegistro/actualizaEstadoReportaje" //codigoRegistroFormato, codigoTarea, codigoReportaje, indicadorSN, usuarioRegistro
 
-        const val ENVIA_PDF_FORMATO: String = "http://38.199.4.100:81/serviceintranetHLS/api/Base64/GetDecode"
+        const val ENVIA_PDF_FORMATO: String = "http://181.177.246.181:81/serviceintranetHLS/api/Base64/GetDecode"
 
         const val OBTIENE_LISTA_HOJAS_RUTA: String = "serviceintranetHLS/api/CheckListCabecera/GetAll"
 

@@ -22,14 +22,36 @@
         android:paddingRight="10dp"
         android:visibility="visible">
 
-        <TextView
-            android:id="@+id/nombreTarea"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/robotobold"
-            android:text="Lavar Motor"
-            android:textColor="@color/texto_contenedor_tarea_hijo"
-            android:textSize="23dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/nombreTarea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:text="Lavar Motor"
+                android:textColor="@color/texto_contenedor_tarea_hijo"
+                android:textSize="23dp"
+                android:layout_marginRight="50dp"/>
+
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/ivInfo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:src="@drawable/ic_info"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"/>
+
+
+        </RelativeLayout>
+
+
 
         <LinearLayout
             android:id="@+id/contenedorReportajes"
@@ -135,7 +157,7 @@
                                 android:paddingTop="10dp"
                                 android:paddingEnd="10dp"
                                 android:paddingBottom="10dp"
-                                android:textSize="21dp"
+                                android:textSize="19dp"
                                 android:gravity="top|left"
                                 android:textColor="@color/color_texto_cajatexto"
                                 android:enabled="false"/>

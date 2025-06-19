@@ -18,11 +18,13 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
 import android.widget.RelativeLayout
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.FragmentDatosAeronaveBinding
 import com.helisur.helisurapp.domain.model.Aeronave
@@ -30,6 +32,8 @@ import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Estacion
 import com.helisur.helisurapp.domain.model.FormatoRegistro
 import com.helisur.helisurapp.domain.model.Reportaje
+import com.helisur.helisurapp.domain.model.Sistema
+import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
@@ -72,6 +76,13 @@ class PreVueloDatosAeronaveFragment : Fragment() {
 
     var nombreAeronave = ""
 
+    companion object {
+
+        var viewSpinnerAeronave: Spinner? = null
+
+
+    }
+
 
 
     override fun onCreateView(
@@ -82,6 +93,7 @@ class PreVueloDatosAeronaveFragment : Fragment() {
         initUI()
         observers()
         clickListener()
+        viewSpinnerAeronave = binding.spiAeronave
         return root
     }
 

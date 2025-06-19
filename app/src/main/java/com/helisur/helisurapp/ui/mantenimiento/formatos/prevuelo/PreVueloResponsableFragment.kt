@@ -372,6 +372,24 @@ class PreVueloResponsableFragment : Fragment() {
         })
     }
 
+    fun bloquearTodoHechoPorResponsable()
+    {
+        binding.spiEmpleados!!.isEnabled = false
+        binding.etLicencia!!.isEnabled = false
+        binding.btnGuardarFirma!!.isEnabled = false
+
+        binding.btnBorrarFirma!!.isEnabled = false
+        binding.chxSi!!.isEnabled = false
+        binding.chxNo!!.isEnabled = false
+
+    //    PreVueloTareasFragment.viewListadoTareas!!.isEnabled = false
+   //     PreVueloDatosAeronaveFragment.viewSpinnerAeronave!!.isEnabled = false
+
+        binding.tvAtras!!.visibility = View.GONE
+
+
+    }
+
     fun clicListener()
     {
 
@@ -394,6 +412,7 @@ class PreVueloResponsableFragment : Fragment() {
                 }
                 else
                 {
+                    bloquearTodoHechoPorResponsable()
                     PreVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ENTREGA_OPERACIONES)
 
                 }
@@ -421,7 +440,7 @@ class PreVueloResponsableFragment : Fragment() {
                 binding.chxNo.isChecked = false
                 binding.tvSiguiente.visibility = View.VISIBLE
                 binding.btnCerrarMomentaneamente!!.visibility = View.GONE
-                binding.chbxEnviarCorreo!!.visibility = View.GONE
+             //   binding.chbxEnviarCorreo!!.visibility = View.GONE
             } else {
 
             }

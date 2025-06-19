@@ -1,12 +1,17 @@
 package com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -53,6 +58,8 @@ class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<
         val reportaje_MELMDS: CheckBox = view.findViewById(R.id.chbx_Reportaje_MELMDS)
         val reportaje_Motivo: EditText = view.findViewById(R.id.et_Reportaje_Motivo)
         val contenedor_Motivo: RelativeLayout = view.findViewById(R.id.rl_Reportaje_Motivo)
+
+        val ivInfo: ImageView = view.findViewById(R.id.ivInfo)
 
         init {
             itemView.setOnClickListener {
@@ -111,6 +118,8 @@ class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<
         holder.viewItem.setOnClickListener {
             if (holder.contenedorReportajes.isVisible) {
                 holder.contenedorReportajes.visibility = View.GONE
+                holder.ivInfo.visibility = View.GONE
+
             } else {
 
                 var listaReportajes:ArrayList<Reportaje> = PreVueloTareasFragment.getReportajesByTarea(appItem.codigoTarea!!)
@@ -156,6 +165,7 @@ class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<
 
               */
                 holder.contenedorReportajes.visibility = View.VISIBLE
+                holder.ivInfo.visibility = View.VISIBLE
             }
         }
 
@@ -236,6 +246,13 @@ class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<
             appItem.reportaje_Motivo = holder.reportaje_Motivo.text.toString()
         }
 
+
+        holder.ivInfo.setOnClickListener {
+
+            showDialogInfo("Informacion")
+
+        }
+
     }
 
     override fun getItemCount() = mList.size
@@ -296,6 +313,32 @@ class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<
 
     }
 
+
+    private fun showDialogInfo(info:String) {
+        val dialog = Dialog(ctx)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_info_tarea)
+        dialog.getWindow()!!.getAttributes().windowAnimations = R.style.DialogAnimation
+
+        if (dialog != null) {
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.WRAP_CONTENT
+            dialog.window!!.setLayout(width, height)
+            dialog.window!!.attributes.alpha = 1f
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+
+        val body = dialog.findViewById(R.id.tvMensaje) as TextView
+        body.text = info
+
+
+        val btnCerrar = dialog.findViewById(R.id.btnCerrar) as RelativeLayout
+        btnCerrar.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
 
 
 }
