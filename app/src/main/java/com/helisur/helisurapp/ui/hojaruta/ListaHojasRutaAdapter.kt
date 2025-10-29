@@ -18,10 +18,10 @@ class ListaHojasRutaAdapter (private val mList: ArrayList<ObtieneHojasRutaDataTa
     var onItemClick: ((ObtieneHojasRutaDataTableCloudResponse) -> Unit)? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvModeloAeronave: TextView = view.findViewById(R.id.tvModeloAeronave)
-        val tvAeronave: TextView = view.findViewById(R.id.tvAeronave)
-        val tvCodigoHojaRuta: TextView = view.findViewById(R.id.tvCodigoHojaRuta)
-        val tvUbicacion: TextView = view.findViewById(R.id.tvUbicacion)
+        val tvModeloAeronave: TextView = view.findViewById(R.id.tvModeloAeronaveItemHojasRuta)
+        val tvAeronave: TextView = view.findViewById(R.id.tvAeronaveItemHojasRuta)
+        val tvCodigoHojaRuta: TextView = view.findViewById(R.id.tvCodigoHojaRutaItemHojasRuta)
+        val tvUbicacion: TextView = view.findViewById(R.id.tvUbicacionItemHojasRuta)
 
         init {
             itemView.setOnClickListener {

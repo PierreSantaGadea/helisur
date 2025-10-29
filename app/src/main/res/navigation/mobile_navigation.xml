@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     android:label="Pre vuelo"
-    app:startDestination="@+id/item_formatos">
+    app:startDestination="@+id/item_inicial">
 
     <fragment
         android:id="@+id/item_formatos"
@@ -18,6 +18,16 @@
     <fragment
         android:id="@+id/item_historico"
         android:name="com.helisur.helisurapp.ui.mantenimiento.formatos.HistoricoFragment" />
+
+
+    <fragment
+        android:id="@+id/item_inicial"
+        android:name="com.helisur.helisurapp.ui.mantenimiento.InicialFragment" />
+
+
+    <fragment
+        android:id="@+id/item_ejecucion"
+        android:name="com.helisur.helisurapp.ui.mantenimiento.gestionotos.EjecucionFragment" />
 
 
 

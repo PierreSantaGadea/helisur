@@ -14,7 +14,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,11 +26,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         viewBinding true
@@ -85,11 +86,20 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.8'
 
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
   //  implementation 'com.kyanogen.signatureview:signature-view:1.2'
 
   //  implementation 'se.warting.signature:signature-view:1.2' // legacy android views
 
   //  implementation 'com.github.mrudultora:Colorpicker:1.2.0'
+
+  //  implementation("io.nutrient:nutrient:10.3.0")
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.2")
+
+    implementation "org.conscrypt:conscrypt-android:2.5.2"
+
 }
 
 kapt {

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_item_ejecucion"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tvEstado"
+                        android:textStyle="bold"
+                        android:textColor="@color/principal"
+                        android:textSize="22sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:fontFamily="@font/robotobold"
+                        android:layout_marginTop="10dp"/>
+
+                    <!-- Círculo con sombra -->
+                    <View
+                        android:id="@+id/view_indicador"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignTop="@id/tvEstado"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@id/tvEstado"
+                        android:background="@drawable/indicador_iniciada"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvMatriculaComp"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/robotomedium"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:paddingRight="300dp"
+                    android:textColor="@color/dark_grey"/>
+
+                <TextView
+                    android:id="@+id/tvFechaInicio"
+                    android:textSize="19sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/robotomedium"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/dark_grey"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/tvNUmeroOt"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dd"
+                    android:fontFamily="@font/robotomedium"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tvCodigoOt"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dd"
+                    android:fontFamily="@font/robotomedium"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/dark_grey"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

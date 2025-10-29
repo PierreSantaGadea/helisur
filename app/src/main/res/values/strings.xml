@@ -7,4 +7,6 @@
     <string name="menu_concursos">Mantenimiento</string>
 
     <bool name="isTablet">false</bool>
+
+    <string name="untitled">Logo</string>
 </resources>

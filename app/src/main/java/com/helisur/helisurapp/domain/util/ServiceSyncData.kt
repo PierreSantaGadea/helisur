@@ -435,7 +435,8 @@ class ServiceSyncData : Service() {
                                 item.usuarioRegistro,
                                 "",
                                 itemTarea.nombreTarea,
-                                itemTarea.nombreSistema
+                                itemTarea.nombreSistema,
+                                ""
                             )
                         )
                     }

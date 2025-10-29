@@ -127,6 +127,7 @@
                                             android:textSize="6dp"
                                             android:text="Noviembre 2024"
                                             android:textColor="@color/black"/>
+
                                     </LinearLayout>
 
 
@@ -1799,8 +1800,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
                         android:layout_margin="10dp"
-                        android:background="@drawable/shape_signature_pad"
-                        />
+                        android:background="@drawable/shape_signature_pad" />
 
 
 
@@ -1927,12 +1927,7 @@
                 </RelativeLayout>
 
 
-
-
             </LinearLayout>
-
-
-
 
 
             <RelativeLayout
@@ -2001,15 +1996,10 @@
             </RelativeLayout>
 
 
-
-
         </LinearLayout>
 
+
     </ScrollView>
-
-
-
-
 
 
 

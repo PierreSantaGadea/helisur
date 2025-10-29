@@ -181,17 +181,7 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/tvItemNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ffff"
-            android:textSize="17sp"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:fontFamily="@font/robotoregular"
-            android:textColor="@color/color_texto_cajatexto"
-            android:visibility="gone"/>
+
 
     </RelativeLayout>
 

@@ -573,7 +573,7 @@ class FormatosDiscrepanciasFragment : Fragment() {
             dialog.window!!.attributes.alpha = 1f
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-        val yesBtn = dialog!!.findViewById<RelativeLayout>(R.id.btnSi)
+        val yesBtn = dialog!!.findViewById<RelativeLayout>(R.id.btnSiEditarFormato)
         yesBtn.setOnClickListener {
              dialog.dismiss();
 
@@ -685,21 +685,21 @@ class FormatosDiscrepanciasFragment : Fragment() {
     {
 
         val tituloTarea = TextView(requireContext())
-        tituloTarea.setText("\n"+"   -   "+nombreTarea)
+        tituloTarea.setText("\n"+"  *  "+nombreTarea)
 
         tituloTarea.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
 
         val tabletSize = resources.getBoolean(R.bool.isTablet)
         if (tabletSize) {
             tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
-       //     tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
         } else {
             tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados_cel))
         //    tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
         }
 
         val tituloMotivo = TextView(requireContext())
-        tituloMotivo.setText("  Motivo : "+motivoReportaje)
+        tituloMotivo.setText(" Motivo : "+motivoReportaje)
         tituloMotivo.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         tituloMotivo.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.motivo_formatos_realizados))
 
@@ -710,8 +710,10 @@ class FormatosDiscrepanciasFragment : Fragment() {
         val tabletSizee = resources.getBoolean(R.bool.isTablet)
         if (tabletSizee) {
             cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
+            tituloMotivo.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
         } else {
             cb.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+            tituloMotivo.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
         }
 
         CompoundButtonCompat.setButtonTintList(cb, ColorStateList.valueOf(getResources().getColor(R.color.titulo_pantalla_general)))

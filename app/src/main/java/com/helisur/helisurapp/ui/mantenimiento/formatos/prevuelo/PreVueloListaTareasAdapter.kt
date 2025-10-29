@@ -4,11 +4,14 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.inputmethod.EditorInfo
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
@@ -22,7 +25,11 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.repository.FormatosRepository
 import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.model.Tarea
+import com.helisur.helisurapp.domain.model.TareaFormato
+import com.helisur.helisurapp.domain.util.FormatoBorradorManager
 import com.helisur.helisurapp.domain.util.SessionUserManager
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PostVueloListaTareasAdapter.MyViewHolder
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PostVueloTareasFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import okhttp3.Call
@@ -48,7 +55,7 @@ class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<
     var onItemClick: ((Tarea) -> Unit)? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nombreTarea: TextView = view.findViewById(R.id.nombreTarea)
+        val nombreTarea: TextView = view.findViewById(R.id.tvNombreTarea)
         val contenedorReportajes: LinearLayout = view.findViewById(R.id.contenedorReportajes)
         val viewItem: View = view
 
@@ -88,171 +95,139 @@ class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val appItem = mList[position]
-        holder.nombreTarea.text = appItem.nombreTarea
+        val item = mList[position]
+        val idTarea = item.codigoTarea!!
+        val manager = FormatoBorradorManager(ctx)
 
+        holder.nombreTarea.text = item.nombreTarea
 
-        if(appItem.reportaje_NoAplica)
-            holder.reportaje_NoAplica.isChecked = true
-        else
-            holder.reportaje_NoAplica.isChecked = false
+        // 1) Quitar listeners antes de setear isChecked para no dispararlos en el bind
+        holder.reportaje_NoAplica.setOnCheckedChangeListener(null)
+        holder.reportaje_RTV.setOnCheckedChangeListener(null)
+        holder.reportaje_DanosMenores.setOnCheckedChangeListener(null)
+        holder.reportaje_MELMDS.setOnCheckedChangeListener(null)
 
-        if(appItem.reportaje_RTV)
-            holder.reportaje_RTV.isChecked = true
-        else
-            holder.reportaje_RTV.isChecked = false
+        holder.reportaje_NoAplica.isChecked = item.reportaje_NoAplica
+        holder.reportaje_RTV.isChecked = item.reportaje_RTV
+        holder.reportaje_DanosMenores.isChecked = item.reportaje_DanosMenores
+        holder.reportaje_MELMDS.isChecked = item.reportaje_MELMDS
 
-        if(appItem.reportaje_DanosMenores)
-            holder.reportaje_DanosMenores.isChecked = true
-        else
-            holder.reportaje_DanosMenores.isChecked = false
+        // 2) Re-agregar listeners
+        holder.reportaje_NoAplica.setOnCheckedChangeListener { _, checked ->
+            item.reportaje_NoAplica = checked
+            actualizarCampoTarea(idTarea, "noAplica", checked, manager)
+            toggleMotivoEnabled(holder, item)
+        }
+        holder.reportaje_RTV.setOnCheckedChangeListener { _, checked ->
+            item.reportaje_RTV = checked
+            actualizarCampoTarea(idTarea, "rtv", checked, manager)
+            toggleMotivoEnabled(holder, item)
+        }
+        holder.reportaje_DanosMenores.setOnCheckedChangeListener { _, checked ->
+            item.reportaje_DanosMenores = checked
+            actualizarCampoTarea(idTarea, "danosMenores", checked, manager)
+            toggleMotivoEnabled(holder, item)
+        }
+        holder.reportaje_MELMDS.setOnCheckedChangeListener { _, checked ->
+            item.reportaje_MELMDS = checked
+            actualizarCampoTarea(idTarea, "melMds", checked, manager)
+            toggleMotivoEnabled(holder, item)
+        }
 
-        if(appItem.reportaje_MELMDS)
-            holder.reportaje_MELMDS.isChecked = true
-        else
-            holder.reportaje_MELMDS.isChecked = false
+        // 3) EditText: limpia watcher previo para no acumular
+        (holder.reportaje_Motivo.getTag(R.id.tag_text_watcher) as? TextWatcher)?.let {
+            holder.reportaje_Motivo.removeTextChangedListener(it)
+        }
+        if (holder.reportaje_Motivo.text.toString() != (item.reportaje_Motivo ?: "")) {
+            holder.reportaje_Motivo.setText(item.reportaje_Motivo ?: "")
+        }
+        val watcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                item.reportaje_Motivo = s.toString()
+                if (s.isNotEmpty()) actualizarCampoTarea(idTarea, "motivo", s.toString(), manager)
+            }
+        }
+        holder.reportaje_Motivo.addTextChangedListener(watcher)
+        holder.reportaje_Motivo.setTag(R.id.tag_text_watcher, watcher)
 
-        holder.reportaje_Motivo.setText(appItem.reportaje_Motivo)
-
-
+        // 4) Visibilidad del contenedor de reportajes controlada SOLO por el click + estado local
         holder.viewItem.setOnClickListener {
-            if (holder.contenedorReportajes.isVisible) {
-                holder.contenedorReportajes.visibility = View.GONE
-                holder.ivInfo.visibility = View.GONE
+            val visible = holder.contenedorReportajes.isVisible
+            holder.contenedorReportajes.visibility = if (visible) View.GONE else View.VISIBLE
+            holder.ivInfo.visibility = holder.contenedorReportajes.visibility
+            // (si necesitas defaults por primera vez, aplícalos aquí de forma idempotente usando `item`)
 
-            } else {
-
-                var listaReportajes:ArrayList<Reportaje> = PreVueloTareasFragment.getReportajesByTarea(appItem.codigoTarea!!)
-
-                for(item in listaReportajes)
-                {
-
-                    if(item.defaultt.equals("1"))
-                    {
-                        if(item.nombreReportaje.contains("No Aplica"))
-                            {
-                                holder.reportaje_NoAplica.isChecked = true
-                                appItem.reportaje_NoAplica = true
-                            }
-
-                        if(item.nombreReportaje.contains("MEL"))
-                        {
-                            holder.reportaje_MELMDS.isChecked = true
-                            appItem.reportaje_MELMDS = true
-                        }
-
-                        if(item.nombreReportaje.contains("RTV"))
-                        {
-                            holder.reportaje_RTV.isChecked = true
-                            appItem.reportaje_RTV = true
-                        }
-
-                        if(item.nombreReportaje.contains("danos"))
-                        {
-                            holder.reportaje_DanosMenores.isChecked = true
-                            appItem.reportaje_DanosMenores = true
-                        }
-
-                    }
-
-                }
-
-
-
-             /*   coroutineScope.launch {
-                    cargaReportajes(appItem.codigoTarea!!)
-                }
-
-              */
-                holder.contenedorReportajes.visibility = View.VISIBLE
-                holder.ivInfo.visibility = View.VISIBLE
+            if (!visible) {
+                // Aplicar defaults de reportajes solo al abrir (idempotente)
+                val listaReportajes: ArrayList<Reportaje> =
+                    PreVueloTareasFragment.getReportajesByTarea(idTarea)
+                var nose = ""
+                applyDefaultReportajesIfNeeded(holder, item, listaReportajes, manager)
             }
+            toggleMotivoEnabled(holder, item)
         }
-
-
-        holder.reportaje_NoAplica.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_text_box)
-                holder.reportaje_Motivo.isEnabled = true
-                appItem.reportaje_NoAplica = true
-            } else {
-                appItem.reportaje_NoAplica = false
-                if (!appItem.reportaje_NoAplica && !appItem.reportaje_RTV && !appItem.reportaje_DanosMenores && !appItem.reportaje_MELMDS) {
-                    holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_control_disabled)
-                    holder.reportaje_Motivo.isEnabled = false
-                } else {
-                    holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_text_box)
-                    holder.reportaje_Motivo.isEnabled = true
-                }
-            }
-        }
-
-
-        holder.reportaje_RTV.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_text_box)
-                holder.reportaje_Motivo.isEnabled = true
-                appItem.reportaje_RTV = true
-            } else {
-                appItem.reportaje_RTV = false
-                if (!appItem.reportaje_NoAplica && !appItem.reportaje_RTV && !appItem.reportaje_DanosMenores && !appItem.reportaje_MELMDS) {
-                    holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_control_disabled)
-                    holder.reportaje_Motivo.isEnabled = false
-                } else {
-                    holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_text_box)
-                    holder.reportaje_Motivo.isEnabled = true
-                }
-            }
-        }
-
-
-        holder.reportaje_DanosMenores.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_text_box)
-                holder.reportaje_Motivo.isEnabled = true
-                appItem.reportaje_DanosMenores = true
-            } else {
-                appItem.reportaje_DanosMenores = false
-                if (!appItem.reportaje_NoAplica && !appItem.reportaje_RTV && !appItem.reportaje_DanosMenores && !appItem.reportaje_MELMDS) {
-                    holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_control_disabled)
-                    holder.reportaje_Motivo.isEnabled = false
-                } else {
-                    holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_text_box)
-                    holder.reportaje_Motivo.isEnabled = true
-                }
-            }
-        }
-
-
-        holder.reportaje_MELMDS.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_text_box)
-                holder.reportaje_Motivo.isEnabled = true
-                appItem.reportaje_MELMDS = true
-            } else {
-                appItem.reportaje_MELMDS = false
-                if (!appItem.reportaje_NoAplica && !appItem.reportaje_RTV && !appItem.reportaje_DanosMenores && !appItem.reportaje_MELMDS) {
-                    holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_control_disabled)
-                    holder.reportaje_Motivo.isEnabled = false
-                } else {
-                    holder.contenedor_Motivo.setBackgroundResource(R.drawable.shape_text_box)
-                    holder.reportaje_Motivo.isEnabled = true
-                }
-            }
-        }
-
-
-        holder.reportaje_Motivo.doAfterTextChanged {
-            appItem.reportaje_Motivo = holder.reportaje_Motivo.text.toString()
-        }
-
 
         holder.ivInfo.setOnClickListener {
 
-            showDialogInfo("Informacion")
+            showDialogInfo(item.instruccion!!)
 
         }
+/*
+        // 5) Restaura valores guardados en manager (si existen) de forma idempotente
+        manager.getListaTareaFormato().firstOrNull { it.idTareaFormato == idTarea }?.let { t ->
+            if (t.noAplica != holder.reportaje_NoAplica.isChecked) holder.reportaje_NoAplica.isChecked = t.noAplica
+            if (t.rtv != holder.reportaje_RTV.isChecked) holder.reportaje_RTV.isChecked = t.rtv
+            if (t.danosMenores != holder.reportaje_DanosMenores.isChecked) holder.reportaje_DanosMenores.isChecked = t.danosMenores
+            if (t.melMds != holder.reportaje_MELMDS.isChecked) holder.reportaje_MELMDS.isChecked = t.melMds
+            if ((t.motivo ?: "") != holder.reportaje_Motivo.text.toString()) holder.reportaje_Motivo.setText(t.motivo ?: "")
+        }
+        */
+        toggleMotivoEnabled(holder, item)
+    }
 
+    private fun toggleMotivoEnabled(holder: MyViewHolder, item: Tarea) {
+        val algunoMarcado = item.reportaje_NoAplica || item.reportaje_RTV || item.reportaje_DanosMenores || item.reportaje_MELMDS
+        holder.contenedor_Motivo.setBackgroundResource(
+            if (algunoMarcado) R.drawable.shape_text_box else R.drawable.shape_control_disabled
+        )
+        holder.reportaje_Motivo.isEnabled = algunoMarcado
+    }
+
+    fun actualizarCampoTarea(
+        idTarea: String,
+        campo: String,
+        valor: Any,
+        manager: FormatoBorradorManager
+    ) {
+        val lista = manager.getListaTareaFormato().toMutableList()
+        val index = lista.indexOfFirst { it.idTareaFormato == idTarea }
+
+        if (index != -1) {
+            val tarea = lista[index]
+            val nuevaTarea = when (campo) {
+                "noAplica" -> tarea.copy(noAplica = valor as Boolean)
+                "rtv" -> tarea.copy(rtv = valor as Boolean)
+                "danosMenores" -> tarea.copy(danosMenores = valor as Boolean)
+                "melMds" -> tarea.copy(melMds = valor as Boolean)
+                "motivo" -> tarea.copy(motivo = valor as String)
+                else -> tarea
+            }
+            lista[index] = nuevaTarea
+        } else {
+            val nuevaTarea = TareaFormato(
+                idTareaFormato = idTarea,
+                noAplica = if (campo == "noAplica") valor as Boolean else false,
+                rtv = if (campo == "rtv") valor as Boolean else false,
+                danosMenores = if (campo == "danosMenores") valor as Boolean else false,
+                melMds = if (campo == "melMds") valor as Boolean else false,
+                motivo = if (campo == "motivo") valor as String else ""
+            )
+            lista.add(nuevaTarea)
+        }
+
+        manager.saveListaTareaFormato(lista)
     }
 
     override fun getItemCount() = mList.size
@@ -338,6 +313,75 @@ class PreVueloListaTareasAdapter(val ctx: Context, private val mList: ArrayList<
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+
+
+    private fun applyDefaultReportajesIfNeeded(
+        holder: PreVueloListaTareasAdapter.MyViewHolder,
+        item: Tarea,
+        listaReportajes: ArrayList<Reportaje>,
+        manager: FormatoBorradorManager
+    ) {
+        // Si ya hay algo marcado o motivo no vacío, no fuerces defaults.
+        if (item.reportaje_NoAplica || item.reportaje_RTV ||
+            item.reportaje_DanosMenores || item.reportaje_MELMDS ||
+            !item.reportaje_Motivo.isNullOrEmpty()
+        ) return
+
+        // Quitar listeners temporariamente
+        holder.reportaje_NoAplica.setOnCheckedChangeListener(null)
+        holder.reportaje_RTV.setOnCheckedChangeListener(null)
+        holder.reportaje_DanosMenores.setOnCheckedChangeListener(null)
+        holder.reportaje_MELMDS.setOnCheckedChangeListener(null)
+
+        for (r in listaReportajes) {
+            if (r.defaultt == "1") {
+                if (r.nombreReportaje.contains("No Aplica", ignoreCase = true)) {
+                    holder.reportaje_NoAplica.isChecked = true
+                    item.reportaje_NoAplica = true
+                    actualizarCampoTarea(item.codigoTarea!!, "noAplica", true, manager)
+                }
+                if (r.nombreReportaje.contains("MEL", ignoreCase = true)) {
+                    holder.reportaje_MELMDS.isChecked = true
+                    item.reportaje_MELMDS = true
+                    actualizarCampoTarea(item.codigoTarea!!, "melMds", true, manager)
+                }
+                if (r.nombreReportaje.contains("RTV", ignoreCase = true)) {
+                    holder.reportaje_RTV.isChecked = true
+                    item.reportaje_RTV = true
+                    actualizarCampoTarea(item.codigoTarea!!, "rtv", true, manager)
+                }
+                if (r.nombreReportaje.contains("danos", ignoreCase = true) ||
+                    r.nombreReportaje.contains("daños", ignoreCase = true)) {
+                    holder.reportaje_DanosMenores.isChecked = true
+                    item.reportaje_DanosMenores = true
+                    actualizarCampoTarea(item.codigoTarea!!, "danosMenores", true, manager)
+                }
+            }
+        }
+
+        // Re-enganchar listeners
+        holder.reportaje_NoAplica.setOnCheckedChangeListener { _, checked ->
+            item.reportaje_NoAplica = checked
+            actualizarCampoTarea(item.codigoTarea!!, "noAplica", checked, manager)
+            toggleMotivoEnabled(holder, item)
+        }
+        holder.reportaje_RTV.setOnCheckedChangeListener { _, checked ->
+            item.reportaje_RTV = checked
+            actualizarCampoTarea(item.codigoTarea!!, "rtv", checked, manager)
+            toggleMotivoEnabled(holder, item)
+        }
+        holder.reportaje_DanosMenores.setOnCheckedChangeListener { _, checked ->
+            item.reportaje_DanosMenores = checked
+            actualizarCampoTarea(item.codigoTarea!!, "danosMenores", checked, manager)
+            toggleMotivoEnabled(holder, item)
+        }
+        holder.reportaje_MELMDS.setOnCheckedChangeListener { _, checked ->
+            item.reportaje_MELMDS = checked
+            actualizarCampoTarea(item.codigoTarea!!, "melMds", checked, manager)
+            toggleMotivoEnabled(holder, item)
+        }
     }
 
 

@@ -123,8 +123,8 @@
 
 
     <!--  PDF -->
-    <color name="cabecera_pdf">#7190AB</color>
-    <color name="titulo_campo_pdf">#B6B7B9</color>
+    <color name="cabecera_pdf">#D9ECFD</color>
+    <color name="titulo_campo_pdf">#DADBDB</color>
 
     <color name="color_fondo_card_inicio_conductor">#FFFFFFFF</color>
 
@@ -134,6 +134,25 @@
     <color name="item_disabled_hoja_ruta">#C9C8C8</color>
 
 
+
+    <!--  OT / OS -->
+    <color name="ot_button_iniciar">#347A34</color>
+    <color name="ot_button_pausa">#FF9800</color>
+    <color name="ot_button_cerrar">#B70505</color>
+    <color name="ot_button_generada">#D4E240</color>
+
+
     <color name="green_labell">#1A8A1F</color>
     <color name="input_line">#666666</color>
+    
+    <!-- Colores para el popup de IA futurista -->
+    <color name="cyan_400">#00BCD4</color>
+    <color name="cyan_600">#0097A7</color>
+    <color name="cyan_700">#00838F</color>
+    <color name="blue_grey_400">#78909C</color>
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
+    <color name="dark_blue_900">#0D1421</color>
+    <color name="dark_blue_800">#1A2332</color>
+    <color name="dark_blue_700">#2A3F5F</color>
 </resources>

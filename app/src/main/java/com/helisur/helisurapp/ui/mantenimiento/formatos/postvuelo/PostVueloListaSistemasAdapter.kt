@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
@@ -13,72 +12,75 @@ import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 
 class PostVueloListaSistemasAdapter(
-    val ctx: Context, private val mListSistemas: ArrayList<Sistema>
+    private val ctx: Context,
+    private val mListSistemas: ArrayList<Sistema>
 ) : RecyclerView.Adapter<PostVueloListaSistemasAdapter.MyViewHolder>() {
 
-    var onItemClick: ((Sistema) -> Unit)? = null
+    // Igual que en PreVuelo: devolvemos también la posición
+    var onItemClick: ((Sistema, Int) -> Unit)? = null
 
-    var posss: Int? = null
-
-    var myViewholder: MyViewHolder? = null
+    // Permite múltiples ítems expandidos a la vez
+    private val expandedPositions = mutableSetOf<Int>()
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nombreSistema: TextView = view.findViewById(R.id.nombreSistema)
+        val nombreSistema: TextView = view.findViewById(R.id.nombreSistemas)
         val rvTareas: RecyclerView = view.findViewById(R.id.rvTareas)
+
         init {
             itemView.setOnClickListener {
-                posss = adapterPosition
-                onItemClick?.invoke(mListSistemas[adapterPosition])
+                val pos = adapterPosition
+                if (pos == RecyclerView.NO_POSITION) return@setOnClickListener
+
+                // Alternar solo el clicado, sin colapsar los demás
+                if (expandedPositions.contains(pos)) {
+                    expandedPositions.remove(pos)
+                } else {
+                    expandedPositions.add(pos)
+                }
+                notifyItemChanged(pos)
+
+                onItemClick?.invoke(mListSistemas[pos], pos)
             }
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): PostVueloListaSistemasAdapter.MyViewHolder {
-        val vieww =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_sistemas, parent, false)
-        return MyViewHolder(vieww)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_sistemas, parent, false)
+        return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val appItem = mListSistemas[position]
-        holder.nombreSistema.text = appItem.nombrePosicion
-        if (appItem.isSelected!!) {
-            myViewholder = holder
-            if (holder.rvTareas.isVisible) {
-                holder.rvTareas.visibility = View.GONE
-            } else {
+        val item = mListSistemas[position]
+        holder.nombreSistema.text = item.nombrePosicion
 
-                if (appItem.tareas != null) {
-                    if (appItem.tareas!!.size > 0) {
-                        holder.rvTareas.layoutManager = LinearLayoutManager(ctx)
-                        val adapter = PostVueloListaTareasAdapter(ctx,appItem.tareas!!)
-                        holder.rvTareas.adapter = adapter
-                        holder.rvTareas.visibility = View.VISIBLE
-                    } else {
-                        holder.rvTareas.visibility = View.GONE
-                    }
-                }
+        val isExpanded = expandedPositions.contains(position)
+        val tareas = item.tareas
+
+        holder.rvTareas.visibility =
+            if (isExpanded && !tareas.isNullOrEmpty()) View.VISIBLE else View.GONE
+
+        if (isExpanded && !tareas.isNullOrEmpty()) {
+            if (holder.rvTareas.layoutManager == null) {
+                holder.rvTareas.layoutManager = LinearLayoutManager(ctx)
+            }
+            val current = holder.rvTareas.adapter as? PostVueloListaTareasAdapter
+            if (current == null || current.itemCount != tareas.size) {
+                holder.rvTareas.adapter = PostVueloListaTareasAdapter(ctx, tareas)
             }
         }
     }
 
     override fun getItemCount() = mListSistemas.size
 
-
     fun updateItem(position: Int, tareas: ArrayList<Tarea>?) {
-        if(mListSistemas.get(position).tareas==null)
-        {
-            mListSistemas.get(position).tareas = tareas
-
-        }
+        mListSistemas[position].tareas = tareas
+        // Si estaba expandido, mostrará el rvTareas al rebind
         notifyItemChanged(position)
     }
 
-    fun getPosition(): Int {
-        return posss!!
-    }
-
-
+    // (Opcional) utilidades
+    fun expand(position: Int) { expandedPositions.add(position); notifyItemChanged(position) }
+    fun collapse(position: Int) { expandedPositions.remove(position); notifyItemChanged(position) }
+    fun isExpanded(position: Int) = expandedPositions.contains(position)
 }

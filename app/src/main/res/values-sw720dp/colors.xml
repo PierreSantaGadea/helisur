@@ -36,6 +36,7 @@
     <color name="texto_boton_login">@color/almost_white</color>
 
 
+
     <!--  CAJAS DE TEXTO -->
     <color name="fondo_cajatexto">@color/white</color>
     <color name="borde_cajatexto">#666666</color>
@@ -117,6 +118,7 @@
     <color name="fondo_contenedor_tarea_abuelo_hums">@color/hums</color>
     <color name="borde_contenedor_tarea_abuelo_hums">@color/hums</color>
     <color name="texto_contenedor_tarea_abuelo_hums">@color/white</color>
+
 
 
 

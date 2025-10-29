@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -44,6 +45,8 @@ public class PostVueloTabsFragment extends Fragment {
     public View view = null;
 
     public static GuardaFormatoCloudParameter formatoParameter;
+
+    public static Bitmap firmaResponsable = null;
     public static ArrayList<GuardaTareaCloudParameter> tareasParameter;
 
     public static String idUsuario;

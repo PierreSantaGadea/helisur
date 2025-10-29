@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.GsonBuilder
 import com.helisur.helisurapp.data.cloud.aeronaves.apis.AeronavesApiClient
 import com.helisur.helisurapp.data.cloud.formatos.apis.FormatosApiClient
+import com.helisur.helisurapp.data.cloud.gestionotos.apis.GestionOTOSApiClient
 import com.helisur.helisurapp.data.cloud.hojaruta.apis.HojaRutaApiClient
 import com.helisur.helisurapp.data.cloud.usuario.apis.UsuarioApiClient
 import com.helisur.helisurapp.data.cloud.usuario.model.parameter.LoginCloudParameter
@@ -178,6 +179,11 @@ object NetworkModule {
     @Provides
     fun provideHojaRutaApiService(retrofit: Retrofit): HojaRutaApiClient =
         retrofit.create(HojaRutaApiClient::class.java)
+
+    @Singleton
+    @Provides
+    fun provideGestionOTOSApiService(retrofit: Retrofit): GestionOTOSApiClient =
+        retrofit.create(GestionOTOSApiClient::class.java)
 
 
 }

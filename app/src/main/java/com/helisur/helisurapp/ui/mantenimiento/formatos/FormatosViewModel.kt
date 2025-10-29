@@ -412,10 +412,10 @@ class FormatosViewModel @Inject constructor(
         }
     }
 
-    fun getTareasBySistema(idSistema: String) {
+    fun getTareasBySistema(idSistema: String,codigoFormato: String) {
         viewModelScope.launch {
             isLoading.postValue(true)
-            val result = formatosUseCase.getTareasBySistema(idSistema)
+            val result = formatosUseCase.getTareasBySistema(idSistema,codigoFormato)
             if (result!=null) {
                 isLoading.postValue(false)
                 formatosState.postValue(FormatosState.SUCCESS)

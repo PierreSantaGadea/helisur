@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="270dp"
+    android:layout_height="260dp"
     android:background="@color/principal"
     android:orientation="vertical"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -29,12 +29,22 @@
                 android:layout_gravity="center"/>
 
             <TextView
+                android:id="@+id/header_drawer_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Version oao"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/robotoregular"/>
+
+            <TextView
                 android:id="@+id/header_drawer_nombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="Pierre SantaGadea"
-                android:textSize="17dp"
+                android:text=""
+                android:textSize="20dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/robotoregular"/>
 
@@ -46,7 +56,8 @@
                 android:layout_marginTop="10dp"
                 android:textSize="17dp"
                 android:layout_gravity="center"
-                android:fontFamily="@font/robotoregular"/>
+                android:fontFamily="@font/robotoregular"
+                android:visibility="gone"/>
 
 
         </LinearLayout>

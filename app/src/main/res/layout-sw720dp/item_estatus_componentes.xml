@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_item_ejecucion"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvNomenclatura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NOMENCLATURA"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="@color/principal"
+            android:fontFamily="@font/robotomedium"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="left"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <!-- Columna izquierda -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Código OT/OS"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvCodigoOTOS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Código Artículo"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvCodigoArticulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nro Serie Padre"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvNroSeriePadre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Solicitados"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvSolicitados"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Instalados"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvInstalado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+            </LinearLayout>
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nro Serie"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvNroSerie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nro Parte Padre"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvNroPartePadre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accion"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"
+                    />
+                <TextView
+                    android:id="@+id/tvaccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Despachado"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvDespachado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Devuelto"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvDevuelto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/llMovimientos"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Movimientos"
+                android:textStyle="bold"
+                android:textSize="21sp"
+                android:textColor="@color/principal"
+                android:fontFamily="@font/robotomedium"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="left"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_down"
+                android:layout_marginLeft="10dp"/>
+
+
+        </LinearLayout>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMovimientosComponentes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:visibility="gone"
+            android:layout_marginBottom="20dp"/>
+
+
+    </LinearLayout>
+</LinearLayout>

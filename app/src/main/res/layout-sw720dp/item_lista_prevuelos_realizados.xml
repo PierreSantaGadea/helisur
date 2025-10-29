@@ -58,8 +58,8 @@
                 android:paddingLeft="10dp">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
                     android:gravity="center"
                     android:src="@drawable/ic_helicopter"/>
 
@@ -72,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text=""
-                        android:textSize="22sp"
+                        android:textSize="23sp"
                         android:gravity="center"
                         android:fontFamily="@font/robotomedium"
                         android:textColor="@color/color_texto_cajatexto"
@@ -84,7 +84,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="3dp"
                         android:text=""
-                        android:textSize="21sp"
+                        android:textSize="22sp"
                         android:gravity="center"
                         android:fontFamily="@font/robotoregular"
                         android:textColor="@color/principal"
@@ -101,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text=""
-                        android:textSize="26sp"
+                        android:textSize="24sp"
                         android:gravity="center"
                         android:fontFamily="@font/robotoregular"
                         android:textColor="@color/color_texto_cajatexto"
@@ -174,24 +174,14 @@
                 android:layout_gravity="center"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:src="@drawable/ic_upload"/>
+                android:src="@drawable/ic_upload"
+                android:visibility="gone"/>
 
 
 
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/tvItemNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ffff"
-            android:textSize="17sp"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:fontFamily="@font/robotoregular"
-            android:textColor="@color/color_texto_cajatexto"
-            android:visibility="gone"/>
 
     </RelativeLayout>
 

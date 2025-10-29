@@ -64,6 +64,8 @@ class HistoricoFragment  : Fragment() {
     private var _binding: FragmentHistoricoBinding? = null
     private val binding get() = _binding!!
 
+
+
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
     private val formatosViewModel: FormatosViewModel by viewModels()
     private val usuariosViewModel: LoginViewModel by viewModels()
@@ -343,7 +345,6 @@ class HistoricoFragment  : Fragment() {
 
 
         binding.btnEnviaCorreo.setOnClickListener {
-
             try {
                 sendPdf(formatoSelected!!.id_db!!,formatoSelected!!.codigoFormato)
             }
@@ -352,8 +353,6 @@ class HistoricoFragment  : Fragment() {
                 Log.e(className,e.toString())
                 showErrorDialog(e.toString())
             }
-
-
         }
 
     }
@@ -486,7 +485,12 @@ class HistoricoFragment  : Fragment() {
 
                 listaDetalleFormatoRegistro = ArrayList(it)
 
-                pintaDocumento(formatoSelected!!,listaDetalleFormatoRegistro!!)
+                if(formatoSelected != null)
+                {
+                    pintaDocumento(formatoSelected!!,listaDetalleFormatoRegistro!!)
+                }
+
+
 
 
             } else {
@@ -631,12 +635,25 @@ class HistoricoFragment  : Fragment() {
         var nombreModelo = ""
         for(item in listaModelosAeronave!!)
         {
-            if(item.id_cloud.equals(idModeloAeronave))
+           // if(item.id_cloud.equals(idModeloAeronave))
+            if(item.id_cloud.equals(formatoRegistro.codigoPuestoTecnico))
             {
                 nombreModelo = item.nombre!!
 
             }
 
+        }
+
+        if(formatoRegistro.codigoFormato.equals("00001"))
+        {
+            nombreFormato = "PREVUELO"
+        }
+        else
+        {
+            if(formatoRegistro.codigoFormato.equals("00002"))
+            {
+                nombreFormato = "POSTVUELO"
+            }
         }
 
         binding.tvTituloFormatoPdf!!.setText("FORMATO DE " +nombreFormato.toUpperCase()+ " PARA AERONAVE "+nombreModelo)
@@ -845,11 +862,10 @@ class HistoricoFragment  : Fragment() {
 
         val tabletSize = resources.getBoolean(R.bool.isTablet)
         if (tabletSize) {
-            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
-            nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
+            tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_cel_pdf))
+            nombreSistema.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_cel_pdf))
+            nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombrereportaje_cel_pdf))
             motivReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombrereportaje_cel_pdf))
-            nombreSistema.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados_cel))
-            //     tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
         } else {
             tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_cel_pdf))
             nombreSistema.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_cel_pdf))

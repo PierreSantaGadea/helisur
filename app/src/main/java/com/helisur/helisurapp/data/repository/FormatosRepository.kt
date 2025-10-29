@@ -408,10 +408,10 @@ class FormatosRepository @Inject constructor(
         }
     }
 
-    suspend fun getTareasBySistema(idSistema: String): List<Tarea> {
+    suspend fun getTareasBySistema(idSistema: String,codigoFormato:String): List<Tarea> {
         try {
             return withContext(Dispatchers.IO) {
-                val response: List<TareaEntity> = tareasLocalData.getTareasBySistema(idSistema)
+                val response: List<TareaEntity> = tareasLocalData.getTareasBySistema(idSistema,codigoFormato)
                 response.map { it.toDomain() }
             }
         } catch (e: Exception) {

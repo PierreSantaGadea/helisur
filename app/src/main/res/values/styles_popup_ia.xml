@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Estilo para el popup de IA -->
+    <style name="PopupIADialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/PopupIAAnimation</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.7</item>
+    </style>
+    
+    <!-- Animación para el popup -->
+    <style name="PopupIAAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+    
+    <!-- Estilo para el EditText del popup -->
+    <style name="EditTextPopupIA" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/blue_grey_400</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:minLines">1</item>
+    </style>
+    
+    <!-- Estilo para los botones del popup -->
+    <style name="ButtonPopupIA" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/button_microphone_bg</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+    
+</resources>
+

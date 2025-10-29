@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    style="?android:attr/spinnerItemStyle"
+    android:singleLine="true"
+    android:layout_width="200dp"
+    android:layout_height="40dp"
+    android:gravity="center_vertical"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:background="@color/fondo_cajatexto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/textoo"
+            android:layout_width="0dp"
+            android:layout_weight="8.5"
+            android:layout_height="match_parent"
+            android:text=""
+            android:ellipsize="marquee"
+            android:textAlignment="inherit"
+            android:textSize="20dp"
+            android:textColor="@color/color_texto_cajatexto"
+            android:gravity="left|center"
+            android:fontFamily="@font/robotoregular"
+            android:layout_marginLeft="5dp"/>
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

@@ -17,7 +17,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="55dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="0dp">
 
@@ -30,7 +30,7 @@
                 android:fontFamily="@font/robotobold"
                 android:text="Formatos con Discrepancias"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="28dp"
+                android:textSize="35dp"
                 android:layout_centerInParent="true"/>
 
 
@@ -93,8 +93,8 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="20dp"
+                    android:layout_width="35dp"
+                    android:layout_height="30dp"
                     android:contentDescription="Regresar"
                     android:src="@drawable/ic_back"/>
 
@@ -106,7 +106,7 @@
                     android:fontFamily="@font/robotoregular"
                     android:text="lista"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="15dp"
+                    android:textSize="23dp"
                     android:layout_centerInParent="true"/>
 
 
@@ -123,7 +123,7 @@
                 android:fontFamily="@font/robotobold"
                 android:text="Discrepancias"
                 android:textColor="@color/titulo_pantalla_general"
-                android:textSize="22dp"
+                android:textSize="35dp"
                 android:layout_centerInParent="true"/>
 
 
@@ -153,7 +153,7 @@
                     android:fontFamily="@font/robotomedium"
                     android:text=""
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="20dp"
+                    android:textSize="30dp"
                     android:justificationMode="inter_word"
                     android:layout_gravity="center"/>
 
@@ -165,7 +165,7 @@
                     android:fontFamily="@font/robotomedium"
                     android:text=""
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="18dp"
+                    android:textSize="25dp"
                     android:justificationMode="inter_word"
                     android:layout_gravity="center"/>
 
@@ -180,17 +180,17 @@
                     <LinearLayout
                         android:id="@+id/btnDocumentacionAeronaves"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:layout_height="70dp"
                         android:orientation="horizontal"
                         android:background="@drawable/shape_button_secundary"
                         android:padding="5dp"
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:src="@drawable/ic_document"
-                            android:layout_marginLeft="5dp"/>
+                            android:layout_marginLeft="15dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -198,9 +198,9 @@
                             android:fontFamily="@font/robotoregular"
                             android:text="Aeronave"
                             android:textColor="@color/titulo_pantalla_general"
-                            android:textSize="15dp"
+                            android:textSize="22dp"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginRight="10dp"/>
+                            android:layout_marginRight="20dp"/>
 
 
                     </LinearLayout>
@@ -208,18 +208,18 @@
                     <LinearLayout
                         android:id="@+id/btnDocumentacionMotores"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:layout_height="70dp"
                         android:orientation="horizontal"
                         android:background="@drawable/shape_button_secundary"
                         android:padding="5dp"
                         android:gravity="center"
-                        android:layout_marginLeft="10dp">
+                        android:layout_marginLeft="20dp">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:src="@drawable/ic_document"
-                            android:layout_marginLeft="5dp"/>
+                            android:layout_marginLeft="15dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -227,9 +227,9 @@
                             android:fontFamily="@font/robotoregular"
                             android:text="Motores"
                             android:textColor="@color/titulo_pantalla_general"
-                            android:textSize="15dp"
+                            android:textSize="22dp"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginRight="10dp"/>
+                            android:layout_marginRight="20dp"/>
 
 
                     </LinearLayout>
@@ -245,11 +245,11 @@
                     android:fontFamily="@font/robotoregular"
                     android:text="RTV"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="15dp" />
+                    android:textSize="25dp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/shape_text_box"
@@ -257,7 +257,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="70dp"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:paddingTop="0dp">
@@ -272,7 +272,7 @@
                             android:paddingTop="0dp"
                             android:paddingEnd="20dp"
                             android:paddingBottom="-5dp"
-                            android:textSize="15dp"
+                            android:textSize="21dp"
                             android:textColor="@color/color_texto_cajatexto"/>
 
                     </LinearLayout>
@@ -298,11 +298,11 @@
                     android:fontFamily="@font/robotoregular"
                     android:text="Ubicación"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="15dp" />
+                    android:textSize="25dp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/shape_text_box"
@@ -310,7 +310,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="70dp"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:paddingTop="0dp">
@@ -349,7 +349,7 @@
                     android:fontFamily="@font/robotomedium"
                     android:text="Anotaciones"
                     android:textColor="@color/titulo_pantalla_general"
-                    android:textSize="21dp" />
+                    android:textSize="28dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -369,7 +369,7 @@
                 <RelativeLayout
                     android:id="@+id/btnGuardarTodo"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="0dp"
                     android:layout_marginTop="30dp"
@@ -384,7 +384,7 @@
                         android:fontFamily="@font/robotoregular"
                         android:text="Guardar"
                         android:textColor="@color/texto_boton_principal"
-                        android:textSize="18dp" />
+                        android:textSize="22dp" />
 
 
                 </RelativeLayout>

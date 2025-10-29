@@ -17,17 +17,20 @@ class Tarea(
     var reportaje_MELMDS: Boolean = false,
     var reportaje_Motivo: String? = "",
    var fechaRegistro: String,
-  var fechaModificacion: String
+  var fechaModificacion: String,
+    var instruccion: String,
+    var codigoFormato: String,
+
 ) {
     constructor() : this(
-        "", "", "", "", false, false, false, false, "","",""
+        "", "", "", "", false, false, false, false, "","","","",""
     )
 }
 
 fun TareaEntity.toDomain() = Tarea(
-    id_cloud, codigoSistema, nombreTarea, "", false, false, false, false, "",fechaRegistro!!, fechaModificacion!!
+    id_cloud, codigoSistema, nombreTarea, "", false, false, false, false, "",fechaRegistro!!, fechaModificacion!!, instruccion!!, codigoFormato!!
 )
 
 fun ObtieneTareasDataTableCloudResponse.toDomain() = Tarea(
-    codigoTarea, codigoSistema, nombreTarea, "", false, false, false, false, "",fechaRegistro, fechaModificacion
+    codigoTarea, codigoSistema, nombreTarea, "", false, false, false, false, "",fechaRegistro, fechaModificacion, instruccion, codigoFormato
 )

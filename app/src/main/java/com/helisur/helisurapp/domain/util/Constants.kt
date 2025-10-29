@@ -3,7 +3,9 @@ package com.helisur.helisurapp.domain.util
 class Constants {
     object URLS {
         //  const val URL: String = "https://extranet.edusoft.pe"
+       // const val URL: String = "http://172.30.1.3:8085"
         const val URL: String = "http://181.177.246.181:81"
+
         const val OBTIENE_TOKEN: String = "serviceintranetHLS/api/LoginApi"
         const val OBTIENE_DATOS_USUARIO: String = "http://181.177.246.181:81/serviceintranetHLS/api/Usuario/GetByUsuario?usuarioAcceso="
         const val OBTIENE_AERONAVES: String = "serviceintranetHLS/api/ModeloPuestoTecnico/GetAll"
@@ -30,6 +32,12 @@ class Constants {
         const val OBTIENE_LISTA_LINEAS_POR_HOJA_RUTA: String = "serviceintranetHLS/api/CheckListCabeceraDetalle/GetBy"
 
         const val OBTIENE_LISTA_RESPONSABLE_HOJA_RUTA: String = "serviceintranetHLS/api/CheckListCabeceraDetalle/getResponsable"
+
+        const val OBTIENE_OTOS: String = "serviceintranetHLS/api/OrdenTrabajo/GetOrdenTrabajoPendienteAll"
+
+        const val OBTIENE_STATUS_INSUMOS_OTOS: String = "serviceintranetHLS/api/OrdenTrabajo/GetOrdenTrabajoInsumosGetBy"
+
+
 
     }
 
@@ -113,6 +121,13 @@ class Constants {
         const val PREFIJO_RESPONSABLE: String = "responsable_"
         const val PREFIJO_PILOTO: String = "piloto_"
         const val PREFIJO_COPILOTO: String = "copiloto_"
+
+    }
+
+    object IA
+    {
+        const val APIKEY: String = "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"
+        const val URL_PDF_100_HORAS: String = "https://firebasestorage.googleapis.com/v0/b/autoservicio-87532.appspot.com/o/00.-%20Insp.%20100%20horas%20(Mi-171)%20rev.%208%20COMPLETO%20CON%20PND%20%2B%20PM-318.pdf?alt=media&token=18b36c7f-f79a-45ae-ab74-d8201a88c7f6"
 
     }
 }

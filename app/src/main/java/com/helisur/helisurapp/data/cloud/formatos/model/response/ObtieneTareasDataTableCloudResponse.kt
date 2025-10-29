@@ -7,5 +7,8 @@ class ObtieneTareasDataTableCloudResponse (
     @SerializedName("codigoSistema") var codigoSistema: String,
     @SerializedName("nombreTarea") var nombreTarea: String,
     @SerializedName("fechaRegistro") var fechaRegistro: String,
-    @SerializedName("fechaModificacion") var fechaModificacion: String
+    @SerializedName("fechaModificacion") var fechaModificacion: String,
+    @SerializedName("instruccion") var instruccion: String,
+    @SerializedName("codigoFormato") var codigoFormato: String
+
 )

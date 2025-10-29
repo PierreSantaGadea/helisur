@@ -18,6 +18,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.pdf.PdfDocument
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Base64
@@ -54,6 +55,7 @@ import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
+import com.helisur.helisurapp.domain.util.FormatoBorradorManager
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
@@ -119,7 +121,11 @@ class PreVueloFirmasFragment : Fragment() {
     var formatoAenviar:FormatoRegistro? = null
     var detalleFormatoAenviar:ArrayList<DetalleFormatoRegistro>? = null
 
-    var idCloudNuevoFormato :String = ""
+    var idCloudNuevoFormato: String = ""
+
+
+    var firmaValidadaPiloto = false
+    var firmaValidadaCopiloto = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -411,23 +417,21 @@ class PreVueloFirmasFragment : Fragment() {
         val month_name: String = month_date.format(cal.getTime()).titlecaseFirstChar()
         val year_name: String = year_date.format(cal.getTime()).titlecaseFirstChar()
 
-        binding.tvMesEdicion!!.setText(month_name + " "+ year_name)
-        binding.tvMesRevision!!.setText(month_name + " "+ year_name)
-
+      //  binding.tvMesEdicion!!.setText(month_name + " "+ year_name)
+      //  binding.tvMesRevision!!.setText(month_name + " "+ year_name)
 
         binding.tvFormatoRTV!!.setText(formatoRegistro.numeroRTV)
 
         var nombreEstacion = ""
 
-        for(item in listaEstacionesDb!!)
-        {
+        for(item in listaEstacionesDb!!) {
             if(item.id_cloud.equals(formatoRegistro.codigoEstacion))
             {
                 nombreEstacion = item.nombre!!
             }
         }
-        binding.tvFormatoUBICACION!!.setText(nombreEstacion)
 
+        binding.tvFormatoUBICACION!!.setText(nombreEstacion)
 
         var idModeloAeronave = ""
         var placaAeronave = ""
@@ -505,20 +509,10 @@ class PreVueloFirmasFragment : Fragment() {
             binding.ivEncendidomotoresNo!!.setImageResource(R.drawable.ic_check)
         }
 
-        val root = Environment.getExternalStorageDirectory().toString()
-        val firmaResponsableee : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db+".png")
-
-
-        val formatoPdf : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+formatoRegistro.id_db+".png")
-
-        filePdf = formatoPdf
-
-
-
-
-        if (firmaResponsableee.exists()) {
-            val myBitmap = BitmapFactory.decodeFile(firmaResponsableee.absolutePath)
-            binding.ivFirmaResponsable!!.setImageBitmap(myBitmap)
+        // Load signature using the new helper function
+        val firmaResponsableBitmap = loadBitmapFromLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA + Constants.SAVE_FILE.PREFIJO_RESPONSABLE + formatoRegistro.id_db)
+        if (firmaResponsableBitmap != null) {
+            binding.ivFirmaResponsable!!.setImageBitmap(firmaResponsableBitmap)
         }
 
         binding.tvFechaResponsable!!.setText(formatoRegistro.fechaRegistro)
@@ -565,16 +559,16 @@ class PreVueloFirmasFragment : Fragment() {
         binding.tvNombrePiloto!!.text = nombrePiloto.toString()
         binding.tvLicenciaPiloto!!.text = licenciaPiloto
 
-        val firmaCopilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_COPILOTO+formatoRegistro.id_db+".png")
-        if (firmaCopilotooo.exists()) {
-            val myBitmap = BitmapFactory.decodeFile(firmaCopilotooo.absolutePath)
-            binding.ivFirmaCopiloto!!.setImageBitmap(myBitmap)
+        // Load copilot signature using the new helper function
+        val firmaCopilotoBitmap = loadBitmapFromLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA + Constants.SAVE_FILE.PREFIJO_COPILOTO + formatoRegistro.id_db)
+        if (firmaCopilotoBitmap != null) {
+            binding.ivFirmaCopiloto!!.setImageBitmap(firmaCopilotoBitmap)
         }
 
-        val firmaPilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA,Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_PILOTO+formatoRegistro.id_db+".png")
-        if (firmaPilotooo.exists()) {
-            val myBitmap = BitmapFactory.decodeFile(firmaPilotooo.absolutePath)
-            binding.ivFirmaPiloto!!.setImageBitmap(myBitmap)
+        // Load pilot signature using the new helper function
+        val firmaPilotoBitmap = loadBitmapFromLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA + Constants.SAVE_FILE.PREFIJO_PILOTO + formatoRegistro.id_db)
+        if (firmaPilotoBitmap != null) {
+            binding.ivFirmaPiloto!!.setImageBitmap(firmaPilotoBitmap)
         }
 
 
@@ -641,28 +635,54 @@ class PreVueloFirmasFragment : Fragment() {
 
 
     fun loadBitmapFromView(v: View): Bitmap? {
-        if (v.measuredHeight <= 0) {
-            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-            val b = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
-            val c = Canvas(b)
-            v.layout(0, 0, v.measuredWidth, v.measuredHeight)
-            v.draw(c)
-            return b
-        }
-        else{
-            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-            val b = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
-            val c = Canvas(b)
-            v.layout(0, 0, v.measuredWidth, v.measuredHeight)
-            v.draw(c)
-            return b
+        try {
+            // Forzar la medición del view para obtener dimensiones correctas
+            v.measure(
+                android.view.View.MeasureSpec.makeMeasureSpec(0, android.view.View.MeasureSpec.UNSPECIFIED),
+                android.view.View.MeasureSpec.makeMeasureSpec(0, android.view.View.MeasureSpec.UNSPECIFIED)
+            )
+            
+            val width = v.measuredWidth
+            val height = v.measuredHeight
+            
+            if (width <= 0 || height <= 0) {
+                return null
+            }
+            
+            // Crear bitmap con configuración de alta calidad
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            
+            // Configurar el view
+            v.layout(0, 0, width, height)
+            
+            // Dibujar el view en el canvas
+            v.draw(canvas)
+            
+            return bitmap
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
     }
 
     fun generaFormatoPDF(nombreDocumento:String) {
 
-        var pageHeight = 1950
-        var pageWidth = 635
+        // Forzar la medición del layout para obtener dimensiones correctas
+        binding.llDetalleFormato!!.measure(
+            android.view.View.MeasureSpec.makeMeasureSpec(0, android.view.View.MeasureSpec.UNSPECIFIED),
+            android.view.View.MeasureSpec.makeMeasureSpec(0, android.view.View.MeasureSpec.UNSPECIFIED)
+        )
+        
+        // Obtener dimensiones reales del layout para mejor calidad
+        val layoutWidth = binding.llDetalleFormato!!.measuredWidth
+        val layoutHeight = binding.llDetalleFormato!!.measuredHeight
+        
+        // Usar dimensiones del layout si están disponibles, sino usar valores por defecto
+        // Aumentar la resolución para mejor calidad (factor de escala 2x para alta resolución)
+        val scaleFactor = 2.0f
+        var pageHeight = if (layoutHeight > 0) (layoutHeight * scaleFactor).toInt() else 1950
+        var pageWidth = if (layoutWidth > 0) (layoutWidth * scaleFactor).toInt() else 635
 
         var pdfDocument: PdfDocument = PdfDocument()
 
@@ -693,18 +713,37 @@ class PreVueloFirmasFragment : Fragment() {
 
         //acaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
-
-        val startX = 20f
-        val startY = 50f
-        val tableWidth = 555f
-        val col1Width = 120f
-        val col2Width = 230f
-        val col3Width = tableWidth - col1Width - col2Width
-        val rowHeight = 60f
-
+        // Agregar márgenes/padding general al PDF
+        val margin = 40f  // Margen de 40px en todos los lados
+        val startX = margin
+        val startY = margin
+        
+        // Calcular dimensiones del contenido con márgenes
+        val contentWidth = pageWidth - (margin * 2).toInt()
+        val contentHeight = pageHeight - (margin * 2).toInt()
+        
+        // Dibujar fondo blanco para el margen
+        paint.color = android.graphics.Color.WHITE
+        paint.style = Paint.Style.FILL
+        canvas.drawRect(0f, 0f, pageWidth.toFloat(), pageHeight.toFloat(), paint)
+        
         val bitmap: Bitmap? = loadBitmapFromView(binding.llDetalleFormato!!)
-        //  val scaledBitmap: Bitmap = Bitmap.createScaledBitmap(bitmap!!, pageWidth, pageHeight, false)
-        canvas.drawBitmap(bitmap!!, startX, startY, paint)
+        
+        if (bitmap != null) {
+            // Escalar el bitmap para que quepa en el área de contenido con márgenes
+            val scaledBitmap: Bitmap = Bitmap.createScaledBitmap(bitmap, contentWidth, contentHeight, true)
+            
+            // Dibujar el bitmap en el canvas con márgenes
+            canvas.drawBitmap(scaledBitmap, startX, startY, paint)
+            
+            // Liberar memoria del bitmap original
+            bitmap.recycle()
+        } else {
+            // Fallback si no se puede cargar el bitmap
+            paint.color = android.graphics.Color.RED
+            paint.textSize = 40f  // Aumentar tamaño de texto para alta resolución
+            canvas.drawText("Error al cargar el formulario", startX + 100f, startY + 200f, paint)
+        }
 
         /*
 
@@ -767,28 +806,16 @@ class PreVueloFirmasFragment : Fragment() {
 
         pdfDocument.finishPage(myPage)
 
-        // below line is used to set the name of
-        // our PDF file and its path.
-        val root = Environment.getExternalStorageDirectory().toString()
-        val fileee: File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS)
-        if (!fileee.exists()) {
-            fileee.mkdirs()
-        }
+        // Use the helper function to save PDF with proper storage handling
+        val file = savePdfToLocalStorage(nombreDocumento, pdfDocument)
 
-        val file: File = File(fileee, nombreDocumento+".pdf")
-
-        try {
-            // after creating a file name we will
-            // write our PDF file to that location.
-            pdfDocument.writeTo(FileOutputStream(file))
-
+        if (file != null) {
             // on below line we are displaying a toast message as PDF file generated..
-            Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
-            sendPdf(idDB_nuevoFormato,codFormato_nuevoFormato)
-        } catch (e: Exception) {
+          //  Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
+            sendPdf(idDB_nuevoFormato, codFormato_nuevoFormato, file)
+        } else {
             // below line is used
             // to handle error
-            e.printStackTrace()
             Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT).show()
 
             // on below line we are displaying a toast message as fail to generate PDF
@@ -828,7 +855,7 @@ class PreVueloFirmasFragment : Fragment() {
         motivReportaje.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_grey))
 
         val tabletSize = resources.getBoolean(R.bool.isTablet)
-        if (tabletSize) {
+        if (!tabletSize) {
             tituloTarea.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
             nombreReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombretarea_formatos_realizados))
             motivReportaje.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.nombrereportaje_cel_pdf))
@@ -858,20 +885,116 @@ class PreVueloFirmasFragment : Fragment() {
     }
 
     fun saveBitmapOnLocalStorage(nombreDocumento:String,bitmap: Bitmap) {
+        try {
+            val file: File = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // For Android 10+ (API 29+), use scoped storage
+                val mediaDir = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                if (!mediaDir.exists()) {
+                    mediaDir.mkdirs()
+                }
+                File(mediaDir, nombreDocumento + ".png")
+            } else {
+                // For Android 9 and below, use external storage with permissions
+                val root = Environment.getExternalStorageDirectory().toString()
+                val fileee: File = File("$root/" + Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                if (!fileee.exists()) {
+                    fileee.mkdirs()
+                }
+                File(fileee, nombreDocumento + ".png")
+            }
 
-        val root = Environment.getExternalStorageDirectory().toString()
-        val fileee: File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA)
-        if (!fileee.exists()) {
-            fileee.mkdirs()
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.flush()
+            out.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Fallback: try to save to app's internal storage
+            try {
+                val internalDir = File(context?.filesDir, Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                if (!internalDir.exists()) {
+                    internalDir.mkdirs()
+                }
+                val file = File(internalDir, nombreDocumento + ".png")
+                val out = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+                out.flush()
+                out.close()
+            } catch (fallbackException: Exception) {
+                fallbackException.printStackTrace()
+            }
         }
+    }
 
-        val file: File = File(fileee, nombreDocumento+".png")
+    fun loadBitmapFromLocalStorage(nombreDocumento: String): Bitmap? {
+        try {
+            val file: File = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // For Android 10+ (API 29+), use scoped storage
+                val mediaDir = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                File(mediaDir, nombreDocumento + ".png")
+            } else {
+                // For Android 9 and below, use external storage with permissions
+                val root = Environment.getExternalStorageDirectory().toString()
+                val fileee: File = File("$root/" + Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                File(fileee, nombreDocumento + ".png")
+            }
 
-        val out = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
-        out.flush()
-        out.close()
+            if (file.exists()) {
+                return BitmapFactory.decodeFile(file.absolutePath)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Fallback: try to load from app's internal storage
+            try {
+                val internalDir = File(context?.filesDir, Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                val file = File(internalDir, nombreDocumento + ".png")
+                if (file.exists()) {
+                    return BitmapFactory.decodeFile(file.absolutePath)
+                }
+            } catch (fallbackException: Exception) {
+                fallbackException.printStackTrace()
+            }
+        }
+        return null
+    }
 
+    fun savePdfToLocalStorage(nombreDocumento: String, pdfDocument: PdfDocument): File? {
+        try {
+            val file: File = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // For Android 10+ (API 29+), use scoped storage
+                val mediaDir = File(context?.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FORMATOS)
+                if (!mediaDir.exists()) {
+                    mediaDir.mkdirs()
+                }
+                File(mediaDir, nombreDocumento + ".pdf")
+            } else {
+                // For Android 9 and below, use external storage with permissions
+                val root = Environment.getExternalStorageDirectory().toString()
+                val fileee: File = File("$root/" + Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FORMATOS)
+                if (!fileee.exists()) {
+                    fileee.mkdirs()
+                }
+                File(fileee, nombreDocumento + ".pdf")
+            }
+
+            pdfDocument.writeTo(FileOutputStream(file))
+            return file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Fallback: try to save to app's internal storage
+            try {
+                val internalDir = File(context?.filesDir, Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FORMATOS)
+                if (!internalDir.exists()) {
+                    internalDir.mkdirs()
+                }
+                val file = File(internalDir, nombreDocumento + ".pdf")
+                pdfDocument.writeTo(FileOutputStream(file))
+                return file
+            } catch (fallbackException: Exception) {
+                fallbackException.printStackTrace()
+                return null
+            }
+        }
     }
 
     fun getNombreAeronave(context: Context): String? {
@@ -888,21 +1011,34 @@ class PreVueloFirmasFragment : Fragment() {
 
     fun validaciones():Boolean
     {
-        var isOk = true
+        var isOk = false
+
+        if(!firmaValidadaPiloto)
+        {
+            showErrorDialog("El piloto debe validar su firma")
+        }
+        else
+        {
+            if(!firmaValidadaCopiloto)
+            {
+                showErrorDialog("El copiloto debe validar su firma")
+            }
+            else
+            {
+                isOk = true
+            }
+
+        }
 
 
         return  isOk
     }
 
 
-    fun sendPdf(idDb:String,codFormato:String)
+    fun sendPdf(idDb:String,codFormato:String, pdfFile: File)
     {
-        val root = Environment.getExternalStorageDirectory().toString()
-        val firmaCopilotooo : File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FORMATOS,Constants.SAVE_FILE.PREFIJO_FORMATO+codFormato+"_"+idDb+".pdf")
-
-        var uri:Uri = firmaCopilotooo.toUri()
+        var uri:Uri = pdfFile.toUri()
         val fileContent: String = ConvertToString(requireContext(), uri)
-
 
         formatosViewModel.enviaPdf(fileContent,idCloudNuevoFormato+".pdf")
     }
@@ -992,11 +1128,11 @@ class PreVueloFirmasFragment : Fragment() {
                     {
                         if(item.codigoArea.equals("00020"))
                         {
-                            if(item.codigoTipoAeronave.equals("00004"))
-                            {
+                          //  if(item.codigoTipoAeronave.equals("00004"))
+                          //  {
                                 copilotosList!!.add(item)
                                 pilotosList!!.add(item)
-                            }
+                         //   }
                         }
 
                     }
@@ -1090,27 +1226,19 @@ class PreVueloFirmasFragment : Fragment() {
 
         formatosViewModel.responseGrabaFormato.observe(viewLifecycleOwner, Observer {
             try {
-
                 idCloudNuevoFormato = it.message
-
                 formatosViewModel.updateIdCloudFormatoRefgistro(idDB_nuevoFormato,idCloudNuevoFormato)
 
-
-                if(binding.chbxEnviarcorreo!!.isChecked)
-                {
+                if(binding.chbxEnviarcorreo!!.isChecked) {
                     pintaDocumento(formatoAenviar!!,detalleFormatoAenviar!!)
-                 //
                 }
                 else
                 {
                     //grabacion correcta
                     requireActivity().finish()
-
                     val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
                     requireActivity().startActivity(intent)
                 }
-
-
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
                 e.printStackTrace();
@@ -1138,6 +1266,8 @@ class PreVueloFirmasFragment : Fragment() {
 
         formatosViewModel.responsInsertFormatoRegistroDB.observe(viewLifecycleOwner, Observer {
             try {
+
+                FormatoBorradorManager(requireContext()).saveHasBorrador(false)
 
                 if(isOnline())
                 {
@@ -1388,7 +1518,7 @@ class PreVueloFirmasFragment : Fragment() {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
-        val etUsuario = dialog.findViewById(R.id.etUsuario) as EditText
+        val etUsuario = dialog.findViewById(R.id.etUsuarioCredenciales) as EditText
         val etPass = dialog.findViewById(R.id.etPass) as EditText
 
         val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
@@ -1411,6 +1541,7 @@ class PreVueloFirmasFragment : Fragment() {
                             if(empleado.id_cloud.equals(idPiloto))
                             {
                                 userExist = true
+                                firmaValidadaPiloto = true
                                 binding.signaturePadPiloto!!.isEnabled = false
                                 binding.llFirmaValidadaPiloto!!.visibility = View.VISIBLE
 
@@ -1422,6 +1553,7 @@ class PreVueloFirmasFragment : Fragment() {
                             if(empleado.id_cloud.equals(idCopiloto))
                             {
                                 userExist = true
+                                firmaValidadaCopiloto = true
                                 binding.signaturePadCopiloto!!.isEnabled = false
                                 binding.llFirmaValidadaCopiloto!!.visibility = View.VISIBLE
 
@@ -1442,10 +1574,12 @@ class PreVueloFirmasFragment : Fragment() {
                 if(piloto_copiloto.equals("PILOTO"))
                 {
                     binding.llFirmaValidadaPiloto!!.visibility = View.GONE
+                    firmaValidadaPiloto = false
                 }
                 else
                 {
                     binding.llFirmaValidadaCopiloto!!.visibility = View.GONE
+                    firmaValidadaCopiloto = false
                 }
 
             }
@@ -1694,22 +1828,13 @@ class PreVueloFirmasFragment : Fragment() {
 
         pdfDocument.finishPage(myPage)
 
-        // below line is used to set the name of
-        // our PDF file and its path.
-        val file: File = File(Environment.getExternalStorageDirectory(), "GFG.pdf")
+        // Use the helper function to save PDF with proper storage handling
+        val file = savePdfToLocalStorage("GFG", pdfDocument)
 
-        try {
-            // after creating a file name we will
-            // write our PDF file to that location.
-            pdfDocument.writeTo(FileOutputStream(file))
-
+        if (file != null) {
             // on below line we are displaying a toast message as PDF file generated..
             Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            // below line is used
-            // to handle error
-            e.printStackTrace()
-
+        } else {
             // on below line we are displaying a toast message as fail to generate PDF
             Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT)
                 .show()
@@ -1788,22 +1913,13 @@ class PreVueloFirmasFragment : Fragment() {
         // PDF file we will be finishing our page.
         pdfDocument.finishPage(myPage)
 
-        // below line is used to set the name of
-        // our PDF file and its path.
-        val file: File = File(Environment.getExternalStorageDirectory(), "GFG.pdf")
+        // Use the helper function to save PDF with proper storage handling
+        val file = savePdfToLocalStorage("GFG", pdfDocument)
 
-        try {
-            // after creating a file name we will
-            // write our PDF file to that location.
-            pdfDocument.writeTo(FileOutputStream(file))
-
+        if (file != null) {
             // on below line we are displaying a toast message as PDF file generated..
             Toast.makeText(requireContext(), "PDF file generated..", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            // below line is used
-            // to handle error
-            e.printStackTrace()
-
+        } else {
             // on below line we are displaying a toast message as fail to generate PDF
             Toast.makeText(requireContext(), "Fail to generate PDF file..", Toast.LENGTH_SHORT)
                 .show()

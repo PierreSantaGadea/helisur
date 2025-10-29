@@ -203,9 +203,9 @@ class FormatosUseCase @Inject constructor(private val repository: FormatosReposi
     }
 
 
-    suspend fun getTareasBySistema(idSistema: String): List<Tarea>? {
+    suspend fun getTareasBySistema(idSistema: String, codigoFormato: String): List<Tarea>? {
         try {
-            val respuesta = repository.getTareasBySistema(idSistema)
+            val respuesta = repository.getTareasBySistema(idSistema, codigoFormato)
             return respuesta
         } catch (e: Exception) {
             Log.e(TAG, e.toString())

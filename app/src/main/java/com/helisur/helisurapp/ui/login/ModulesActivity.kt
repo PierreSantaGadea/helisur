@@ -1,18 +1,29 @@
 package com.helisur.helisurapp.ui.login
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import com.helisur.helisurapp.R
 import com.helisur.helisurapp.databinding.ActivityModulosBinding
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 import com.helisur.helisurapp.domain.util.BaseActivity
 import com.helisur.helisurapp.domain.util.ConnectivityRepository
+import com.helisur.helisurapp.domain.util.FormatoBorradorManager
 import com.helisur.helisurapp.domain.util.InternetViewModel
 import com.helisur.helisurapp.domain.util.ServiceSyncData
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.hojaruta.ListaHojaRutaActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PostVueloActivity
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloActivity
 
 @AndroidEntryPoint
 class ModulesActivity : BaseActivity() {
@@ -35,6 +46,12 @@ class ModulesActivity : BaseActivity() {
         clickListener()
         disableBackButton()
         observers()
+
+     /*   if(FormatoBorradorManager(this).getHasBorrador()!!)
+        {
+            showDialog("")
+        }
+*/
     }
 
     fun beginService() {
@@ -94,6 +111,53 @@ class ModulesActivity : BaseActivity() {
                 // No hagas nada aquí para deshabilitar el botón "Atrás"
             }
         })
+    }
+
+    private fun showDialog(title: String) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_formatoborrador)
+        dialog.getWindow()!!.getAttributes().windowAnimations = R.style.DialogAnimation
+
+        if (dialog != null) {
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.WRAP_CONTENT
+            dialog.window!!.setLayout(width, height)
+            dialog.window!!.attributes.alpha = 1f
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+
+        val body = dialog.findViewById(R.id.tvMensajeInfo) as TextView
+    //    body.text = title
+
+        val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
+        yesBtn.setOnClickListener {
+
+            var tipoFormato = FormatoBorradorManager(this).getTipoFormato()
+            if(tipoFormato.equals("PREVUELO"))
+            {
+
+                FormatoBorradorManager(this).saveDesdeBorrador(true)
+                val intent = Intent (this, PreVueloActivity::class.java)
+                this.startActivity(intent)
+            }
+            else
+            {
+                FormatoBorradorManager(this).saveDesdeBorrador(true)
+                val intent = Intent (this, PostVueloActivity::class.java)
+                this.startActivity(intent)
+            }
+
+
+
+        }
+
+        val noBtn = dialog.findViewById(R.id.btnNo) as RelativeLayout
+        noBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
 

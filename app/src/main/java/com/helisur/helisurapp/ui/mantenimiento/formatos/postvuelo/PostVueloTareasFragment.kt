@@ -24,14 +24,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PostVueloTareasFragment : Fragment() {
 
-
-
     var className = "TareasFragment"
     private lateinit var binding: FragmentTareasBinding
     var loading: TransparentProgressDialog? = null
     private val formatosViewModel: FormatosViewModel by viewModels()
-  //  private var sistemasList: ArrayList<Sistema>? = null
- //   private var tareasList: ArrayList<Tarea>? = null
+
     var adapaterSistemas: PostVueloListaSistemasAdapter? = null
     var showDetailSistemas = false
     var posicionClick: Int? = null
@@ -41,32 +38,15 @@ class PostVueloTareasFragment : Fragment() {
         var tareasList: ArrayList<Tarea>? = null
         var reportajesList: ArrayList<Reportaje>? = null
 
-        fun getTareasRealizadas():ArrayList<Tarea> { return tareasList!! }
-        fun getSistemasRealizadas():ArrayList<Sistema> { return sistemasList!! }
+        fun getTareasRealizadas(): ArrayList<Tarea> = tareasList!!
+        fun getSistemasRealizadas(): ArrayList<Sistema> = sistemasList!!
 
-
-        fun getReportajesByTarea(idTarea:String):ArrayList<Reportaje> {
-
-            var listaReportajes:ArrayList<Reportaje> = arrayListOf()
-
-            for(item in reportajesList!!) {
-
-                if(item.codigoTarea.equals(idTarea))
-                {
-                    listaReportajes.add(item)
-                }
+        fun getReportajesByTarea(idTarea: String): ArrayList<Reportaje> {
+            val lista = arrayListOf<Reportaje>()
+            for (item in reportajesList!!) {
+                if (item.codigoTarea == idTarea) lista.add(item)
             }
-
-            if(listaReportajes.size==0)
-            {
-                return reportajesList!!
-            }
-            else
-            {
-                return listaReportajes
-            }
-
-
+            return if (lista.isEmpty()) reportajesList!! else lista
         }
     }
 
@@ -78,121 +58,70 @@ class PostVueloTareasFragment : Fragment() {
         initUI()
         observers()
         clickListener()
-     //   validateHUMS()
         binding.llHums!!.visibility = View.GONE
         return root
     }
 
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
-      //  formatosViewModel.obtieneSistemas(getFormato(requireContext())!!)
         formatosViewModel.getSistemnasByFormatoDB(getFormato(requireContext())!!)
         formatosViewModel.getReportajesListDB()
     }
 
-
     fun clickListener() {
-
         binding.tvAtras.setOnClickListener {
             PostVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.AERONAVE_ANTECEDENTE_REQUERIMIENTO)
         }
-
         binding.tvSiguiente.setOnClickListener {
             PostVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.ANOTACIONES)
         }
-
         binding.contenedorSistemas!!.setOnClickListener {
-
-            if (showDetailSistemas) {
-                showDetailSistemas = false
-                binding.rvSistemas!!.visibility = View.GONE
-            } else {
-                showDetailSistemas = true
-                binding.rvSistemas!!.visibility = View.VISIBLE
-            }
-        }
-
-    }
-
-    fun validateHUMS()
-    {
-        if(getNombreFormato(requireContext()).equals("POST-VUELO"))
-        {
-            binding.llHums!!.visibility = View.VISIBLE
-        }
-        else
-        {
-            binding.llHums!!.visibility = View.GONE
+            showDetailSistemas = !showDetailSistemas
+            binding.rvSistemas!!.visibility = if (showDetailSistemas) View.VISIBLE else View.GONE
         }
     }
-
 
     fun getFormato(context: Context): String? {
         val sharedPreferences =
             context.getSharedPreferences(Constants.SHARED_PREFERENCES.FORMATO, MODE_PRIVATE)
-        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_FORMATO, "")
-        return text
+        return sharedPreferences.getString(Constants.SHARED_PREFERENCES.ID_FORMATO, "")
     }
 
     fun getNombreFormato(context: Context): String? {
         val sharedPreferences =
             context.getSharedPreferences(Constants.SHARED_PREFERENCES.FORMATO, MODE_PRIVATE)
-        val text = sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_FORMATO, "")
-        return text
+        return sharedPreferences.getString(Constants.SHARED_PREFERENCES.NOMBRE_FORMATO, "")
     }
 
     fun observers() {
-
         formatosViewModel.isLoading.observe(viewLifecycleOwner, Observer {
             try {
                 if (it) {
-                    if (!loading!!.isShowing) {
-                        loading!!.show()
-                    }
+                    if (!loading!!.isShowing) loading!!.show()
                 } else {
-                    if (loading!!.isShowing) {
-                        loading!!.dismiss()
-                    }
+                    if (loading!!.isShowing) loading!!.dismiss()
                 }
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
-                e.printStackTrace();
+                e.printStackTrace()
                 showErrorDialog(e.toString())
             }
         })
-
 
         formatosViewModel.formatosState.observe(viewLifecycleOwner, Observer {
             try {
-                if (it.toString().contains(Constants.ERROR.SUCCESS)) {
-                } else {
+                if (!it.toString().contains(Constants.ERROR.SUCCESS)) {
                     if (it.toString().contains(Constants.ERROR.FAILURE)) {
-                        var messageError = it.toString()
+                        val messageError = it.toString()
                         Log.e(className, messageError)
                         showErrorDialog(messageError)
                         tareasList = arrayListOf()
-                        adapaterSistemas!!.updateItem(posicionClick!!, tareasList)
+                        adapaterSistemas?.updateItem(posicionClick!!, tareasList)
                     }
                 }
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
-                e.printStackTrace();
-                showErrorDialog(e.toString())
-            }
-        })
-
-
-        formatosViewModel.responseObtieneSistemas.observe(viewLifecycleOwner, Observer {
-            try {
-                if (it != null) {
-                    sistemasList = it
-                    setRecyclerViewSistemas(sistemasList!!)
-                } else {
-                    Log.e(className, Constants.ERROR.ERROR)
-                }
-            } catch (e: Exception) {
-                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
-                e.printStackTrace();
+                e.printStackTrace()
                 showErrorDialog(e.toString())
             }
         })
@@ -202,28 +131,23 @@ class PostVueloTareasFragment : Fragment() {
                 if (it != null) {
                     sistemasList = ArrayList(it)
                     setRecyclerViewSistemas(sistemasList!!)
-                } else {
-                    Log.e(className, Constants.ERROR.ERROR)
-                }
+                } else Log.e(className, Constants.ERROR.ERROR)
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
-                e.printStackTrace();
+                e.printStackTrace()
                 showErrorDialog(e.toString())
             }
         })
 
-
-        formatosViewModel.responseObtieneTareas.observe(viewLifecycleOwner, Observer {
+        formatosViewModel.responseObtieneSistemas.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-                    tareasList = it
-                    adapaterSistemas!!.updateItem(posicionClick!!, tareasList!!)
-                } else {
-                    Log.e(className, Constants.ERROR.ERROR)
-                }
+                    sistemasList = it
+                    setRecyclerViewSistemas(sistemasList!!)
+                } else Log.e(className, Constants.ERROR.ERROR)
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
-                e.printStackTrace();
+                e.printStackTrace()
                 showErrorDialog(e.toString())
             }
         })
@@ -232,88 +156,63 @@ class PostVueloTareasFragment : Fragment() {
             try {
                 if (it != null) {
                     tareasList = ArrayList(it)
-                    adapaterSistemas!!.updateItem(posicionClick!!, tareasList!!)
-                } else {
-                    Log.e(className, Constants.ERROR.ERROR)
-                }
+                    adapaterSistemas?.updateItem(posicionClick!!, tareasList!!)
+                } else Log.e(className, Constants.ERROR.ERROR)
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
-                e.printStackTrace();
+                e.printStackTrace()
                 showErrorDialog(e.toString())
             }
         })
 
+        formatosViewModel.responseObtieneTareas.observe(viewLifecycleOwner, Observer {
+            try {
+                if (it != null) {
+                    tareasList = it
+                    adapaterSistemas?.updateItem(posicionClick!!, tareasList!!)
+                } else Log.e(className, Constants.ERROR.ERROR)
+            } catch (e: Exception) {
+                Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                e.printStackTrace()
+                showErrorDialog(e.toString())
+            }
+        })
 
         formatosViewModel.responseGetReportajeListDB.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
                     reportajesList = ArrayList(it)
-                } else {
-                    Log.e(className, Constants.ERROR.ERROR)
-                }
+                } else Log.e(className, Constants.ERROR.ERROR)
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
-                e.printStackTrace();
+                e.printStackTrace()
                 showErrorDialog(e.toString())
             }
         })
-
-
     }
 
-
-    fun setRecyclerViewSistemas(
-        listaSistemas: ArrayList<Sistema>
-    ) {
-        val recyclerview = binding.rvSistemas
-        recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
+    fun setRecyclerViewSistemas(listaSistemas: ArrayList<Sistema>) {
+        val rv = binding.rvSistemas
+        rv!!.layoutManager = LinearLayoutManager(requireContext())
         val adapter = PostVueloListaSistemasAdapter(requireContext(), listaSistemas)
-        recyclerview.adapter = adapter
-        adapter.onItemClick = { sistema ->
-            posicionClick = adapter.getPosition()
-            for (item in sistemasList!!) {
-                if (item.codigoSistema.equals(sistema.codigoSistema)) {
-                    item.isSelected = true
-                  //  formatosViewModel.obtieneTareas(sistema.codigoSistema!!)
-                    formatosViewModel.getTareasBySistema(sistema.codigoSistema!!)
-                } else {
-                    item.isSelected = false
-                    adapaterSistemas!!.notifyItemChanged(posicionClick!!)
-                }
+        rv.adapter = adapter
+
+        adapter.onItemClick = { sistema, pos ->
+            posicionClick = pos
+            // Si aún no se cargaron las tareas de este sistema, las pedimos
+            if (sistema.tareas.isNullOrEmpty()) {
+                formatosViewModel.getTareasBySistema(sistema.codigoSistema!!,getFormato(requireContext())!!)
             }
+            // No colapsamos otros ítems: el adapter maneja su set de expandidos
         }
         adapaterSistemas = adapter
     }
 
-
     fun showErrorDialog(message: String?) {
         val bundle = Bundle()
         bundle.putString("errorMessage", message)
-        val df: ErrorMessageDialog = ErrorMessageDialog()
-        df.setArguments(bundle)
+        val df = ErrorMessageDialog()
+        df.arguments = bundle
         df.show(requireFragmentManager(), "")
     }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //_binding = null
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        var prueba = ""
-    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            //  val sessionManager = SessionUserManager(requireContext())
-            //  cocursosViewModel.listaPeriodos(sessionManager!!.getToken()!!)
-        } else {
-        }
-    }
-
-
 }

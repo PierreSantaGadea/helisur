@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="14"
+    android:background="@color/fondo_pantalla_general">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp">
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"
+            android:clickable="true"
+            android:id="@+id/llBack"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:contentDescription="Regresar"
+                android:src="@drawable/ic_back"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/robotoregular"
+                android:text="Atras"
+                android:textColor="@color/titulo_pantalla_general"
+                android:textSize="25dp"
+                android:layout_centerInParent="true"/>
+
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/tvTituloFormato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/robotobold"
+            android:text="Detalle OT"
+            android:textColor="@color/titulo_pantalla_general"
+            android:textSize="30dp"
+            android:layout_centerInParent="true"/>
+
+
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
+
+        <RelativeLayout
+            android:id="@+id/btnyes"
+            android:background="@drawable/shape_button_principal"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="Datos Generales"
+                android:textColor="@color/texto_boton_principal"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:background="@drawable/shape_button_secundary"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="Instrucción de trabajo"
+                android:textColor="@color/texto_boton_secundario"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:background="@drawable/shape_button_secundary"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="Insumos"
+                android:textColor="@color/texto_boton_secundario"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="@drawable/shape_button_secundary"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="Componentes"
+                android:textColor="@color/texto_boton_secundario"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:background="@drawable/shape_button_secundary"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="Tareo Personal"
+                android:textColor="@color/texto_boton_secundario"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+    <FrameLayout
+        android:id="@+id/containerViewHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="1dp"
+        android:background="@color/white">
+
+        <com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.helisur.helisurapp.domain.util.ViewPagerNoSwipeable>
+    </FrameLayout>
+
+
+
+</LinearLayout>

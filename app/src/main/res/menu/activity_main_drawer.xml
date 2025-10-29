@@ -36,7 +36,32 @@
     </group>
 
 
+    <group
+        android:checkableBehavior="single" >
+        <item
+            android:visible="true"
+            android:titleCondensed="Areas"
+            android:title="Gestion OT/OS"
+            app:showAsAction="always">
+            <menu>
+                <item
+                    android:id="@+id/item_ejecucion"
+                    android:icon="@drawable/ic_agregar"
+                    android:title="Ejecución"
+                    app:showAsAction="always"></item>
 
+
+                <item
+                    android:id="@+id/item_inicial"
+                    android:icon="@drawable/ic_agregar"
+                    android:title="Inicial"
+                    app:showAsAction="always"
+                    android:visible="false"></item>
+
+
+            </menu>
+        </item>
+    </group>
 
 
     <group>
@@ -44,7 +69,8 @@
         <item
             android:id="@+id/item_cerrar"
             android:icon="@drawable/ic_cerrar_sesion"
-            android:title="Cerrar sesión" />
+            android:title="Cerrar sesión"
+            android:visible="false"/>
     </group>
 
 

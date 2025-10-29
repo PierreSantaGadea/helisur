@@ -17,7 +17,6 @@ class ListaFormatosDiscrepanciasAdapter (private val mList: ArrayList<FormatoReg
     var onItemClick: ((FormatoRegistro) -> Unit)? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvItemNombre: TextView = view.findViewById(R.id.tvItemNombre)
 
         val tvModeloAeronave: TextView = view.findViewById(R.id.tvModeloAeronave)
         val tvAeronave: TextView = view.findViewById(R.id.tvAeronave)

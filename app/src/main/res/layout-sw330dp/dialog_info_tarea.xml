@@ -45,7 +45,7 @@
                         android:layout_height="55dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
-                        android:src="@drawable/ic_info_color" />
+                        android:src="@drawable/ic_book" />
 
                     <TextView
                         android:id="@+id/tvMensaje"

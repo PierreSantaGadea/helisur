@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/almost_white"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvPersonalGestionarResponsableActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PERSONAL"
+            android:textSize="19sp"
+            android:fontFamily="@font/robotomedium"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="left"
+            android:textColor="@color/dark_grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp">
+
+            <!-- Columna izquierda -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DNI"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotomedium"
+                    android:textSize="19sp"/>
+                <TextView
+                    android:id="@+id/tvDniGestionarResponsableActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="--"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cargo"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotomedium"
+                    android:textSize="19sp"/>
+                <TextView
+                    android:id="@+id/tvCargoGestionarResponsableActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+
+
+
+
+            </LinearLayout>
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Es responsable"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotomedium"
+                    android:textSize="19sp"/>
+                <TextView
+                    android:id="@+id/tvEsResponsableGestionarResponsableActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>

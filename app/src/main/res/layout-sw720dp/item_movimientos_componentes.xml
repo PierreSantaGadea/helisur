@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <!-- Columna izquierda -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Almacén Origen"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotomedium"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/tvAlmacenOrigenCompo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Almacén Destino"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/tvAlmacenDestinoCompo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accion"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/tvaccionmovcomponetes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/tvFechaMovimientoComponente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nro doc SAP"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/tvNroDodSapmovComp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+</LinearLayout>

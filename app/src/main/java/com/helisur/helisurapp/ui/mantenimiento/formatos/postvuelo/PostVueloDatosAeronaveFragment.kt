@@ -422,7 +422,7 @@ class PostVueloDatosAeronaveFragment : Fragment() {
                     idAeronave = modelosAeronavesList!![position-1].codigoModeloPuesto
                     nombreAeronave  = modelosAeronavesList!![position-1].nombre
                     listaAnotacionesFormato = arrayListOf()
-                    PostVueloTabsFragment.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoModeloPuesto
+                    PostVueloTabsFragment.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].id_cloud!!
                     saveAeronave(requireContext(),idAeronave,modelosAeronavesList!![position-1].nombre)
                //     aeronavesViewModel.getCountDetallessByAeronave(idAeronave)
                  //   if(getFormato(requireContext()).equals("00001"))

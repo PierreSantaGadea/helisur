@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <!-- ======= CONTENEDOR CENTRAL ======= -->
+    <LinearLayout
+        android:id="@+id/main_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/llDetalleFormato"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:layout_marginTop="5dp">
+
+            <!-- ======= BORDE EXTERIOR ÚNICO ======= -->
+            <LinearLayout
+                android:id="@+id/frame_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/shape_border_simple_line"
+                android:padding="1dp">
+
+                <!-- ======= ENCABEZADO (sin borde propio) ======= -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="78dp"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:background="@android:color/transparent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <!-- Logo -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:padding="10dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/logo_pdf"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <!-- Centro -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="4"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:gravity="center"
+                                android:text="CÓDIGO: PM-314"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"/>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@android:color/black"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:paddingLeft="3dp">
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="EDITADO"
+                                            android:textSize="6dp"
+                                            android:textColor="@color/black"/>
+                                        <TextView
+                                            android:id="@+id/tvMesEdicion"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="01 Feb 2018"
+                                            android:textSize="6dp"
+                                            android:textColor="@color/black"/>
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:paddingLeft="3dp">
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="REVISIÓN"
+                                            android:textSize="6dp"
+                                            android:textColor="@color/black"/>
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="01"
+                                            android:textSize="6dp"
+                                            android:textColor="@color/black"/>
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <!-- Derecha -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:gravity="center"
+                                android:text="Página 2"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"/>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@android:color/black"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="FECHA DE REVISIÓN"
+                                    android:textSize="6dp"
+                                    android:textColor="@color/black"/>
+                                <TextView
+                                    android:id="@+id/tvMesRevision"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="31 DIC 2021"
+                                    android:textSize="6dp"
+                                    android:textColor="@color/black"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+                    <!-- Título -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/tvTituloFormatoPdf"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="REGISTRO DE LA VERIFICACIÓN DE LA EXISTENCIA DE FRENADOS DESEGURIDAD"
+                            android:textSize="8dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- FIN ENCABEZADO + TÍTULO -->
+
+                <!-- ======= CUERPO EN SCROLL (dentro del borde exterior) ======= -->
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- ======= DATOS DE LA INSPECCIÓN Y AERONAVE ======= -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@drawable/shape_border_simple_line"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="4dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:background="@color/cabecera_pdf">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="DATOS DE LA INSPECCIÓN Y AERONAVE"
+                                    android:textSize="8dp"
+                                    android:textColor="@color/black"/>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@android:color/black"/>
+
+                            <!-- Matrícula / Fecha -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="horizontal"
+                                android:weightSum="10">
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Matrícula"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="3"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:id="@+id/tv_Formato_Matricula"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="OB-HEL"
+                                        android:textSize="7dp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Fecha"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="3"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:id="@+id/tv_Formato_Fecha"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="2025-08-25"
+                                        android:textSize="7dp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@android:color/black"/>
+
+                            <!-- TSN / TSO -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="horizontal"
+                                android:weightSum="10">
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="TSN"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="3"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:id="@+id/tv_Formato_TSN"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="1234:56"
+                                        android:textSize="7dp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="TSO"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="3"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:id="@+id/tv_Formato_TSO"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="0456:12"
+                                        android:textSize="7dp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- ======= VERIFICADO POR EL MECÁNICO ======= -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@drawable/shape_border_simple_line"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="4dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:background="@color/cabecera_pdf">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="VERIFICADO POR EL MECANICO"
+                                    android:textSize="8dp"
+                                    android:textColor="@color/black"/>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@android:color/black"/>
+
+                            <!-- Cabecera columnas -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="horizontal"
+                                android:weightSum="10">
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1.2"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Ítem"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="7.8"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Trabajo a realizar"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Ejecutor"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@android:color/black"/>
+
+                            <!-- ====== ÍTEMS 01 a 06 ====== -->
+
+                            <!-- Ítem plantilla helper -->
+                            <!-- Repite la estructura de los 6 ítems como abajo -->
+
+                            <!-- ÍTEM 01 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="10"
+                                android:minHeight="90dp">
+
+                                <!-- Ítem -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1.2"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="01"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+
+                                <!-- Trabajo -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="7.8"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Verificar la condición del frenado y sello de seguridad de la maneta de apertura de emergencia de la ventana corrediza izquierda (piloto)."
+                                        android:textSize="6.5dp"
+                                        android:textColor="@color/black"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="¿Se encontró sello de seguridad en el frenado de seguridad?"
+                                        android:textSize="6.5dp"
+                                        android:textColor="@color/black"/>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="2dp"
+                                        android:gravity="center">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="SI"
+                                            android:textSize="6.5dp"
+                                            android:textColor="@color/black"/>
+                                        <CheckBox
+                                            android:id="@+id/iv_item01_si"
+                                            android:layout_width="18dp"
+                                            android:layout_height="18dp"
+                                            android:layout_marginLeft="2dp"
+                                            android:buttonTint="@color/titulo_pantalla_general"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="NO"
+                                            android:layout_marginLeft="12dp"
+                                            android:textSize="6.5dp"
+                                            android:textColor="@color/black"/>
+                                        <CheckBox
+                                            android:id="@+id/iv_item01_no"
+                                            android:layout_width="18dp"
+                                            android:layout_height="18dp"
+                                            android:layout_marginLeft="2dp"
+                                            android:buttonTint="@color/titulo_pantalla_general"/>
+                                        <TextView
+                                            android:layout_width="28dp"
+                                            android:layout_height="16dp"
+                                            android:layout_marginLeft="12dp"
+                                            android:gravity="center"
+                                            android:text="OK"
+                                            android:textSize="6dp"
+                                            android:visibility="invisible"
+                                            android:background="@drawable/shape_border_simple_line"/>
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Nota: De encontrar discrepancias realice lo siguiente:"
+                                        android:textStyle="bold"
+                                        android:textSize="6.5dp"
+                                        android:textColor="@color/black"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="1. Registre en el Formato M-31a o Formato M-31."
+                                        android:textSize="6.5dp"
+                                        android:textColor="@color/black"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="2. Realice el frenado de seguridad con alambre de cobre."
+                                        android:textSize="6.5dp"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+
+                                <!-- Ejecutor -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="MEC"
+                                        android:textSize="7dp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/black"/>
+
+                            <!-- ÍTEM 02 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="10"
+                                android:minHeight="90dp">
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1.2"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/titulo_campo_pdf"
+                                    android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="02" android:textSize="7dp" android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="7.8"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Verificar la condición del frenado y sello de seguridad de la maneta de apertura de emergencia de la ventana corrediza derecha (copiloto)." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="¿Se encontró sello de seguridad en el frenado de seguridad?" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SI" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item02_si" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_uncheck"/>
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NO" android:layout_marginLeft="12dp" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item02_no" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_check"/>
+                                        <TextView android:layout_width="28dp" android:layout_height="16dp"
+                                            android:layout_marginLeft="12dp"  android:visibility="invisible" android:gravity="center" android:text="OK" android:textSize="6dp" android:background="@drawable/shape_border_simple_line"/>
+                                    </LinearLayout>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="MEC" android:textSize="7dp" android:textStyle="bold" android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/black"/>
+
+                            <!-- ÍTEM 03 -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="10" android:minHeight="90dp">
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="match_parent" android:background="@color/titulo_campo_pdf" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="03" android:textSize="7dp" android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="7.8" android:layout_height="wrap_content" android:orientation="vertical" android:padding="4dp">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Verificar la condición del frenado y sello de seguridad de la maneta de apertura de emergencia de la puerta de entrada." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="¿Se encontró sello de seguridad en el frenado de seguridad?" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SI" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item03_si" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_check"/>
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NO" android:layout_marginLeft="12dp" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item03_no" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_uncheck"/>
+                                        <TextView android:layout_width="28dp"  android:visibility="invisible" android:layout_height="16dp" android:layout_marginLeft="12dp" android:gravity="center" android:text="OK" android:textSize="6dp" android:background="@drawable/shape_border_simple_line"/>
+                                    </LinearLayout>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="MEC" android:textSize="7dp" android:textStyle="bold" android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/black"/>
+
+                            <!-- ÍTEM 04 -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="10" android:minHeight="90dp">
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="match_parent" android:background="@color/titulo_campo_pdf" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="04" android:textSize="7dp" android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="7.8" android:layout_height="wrap_content" android:orientation="vertical" android:padding="4dp">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Verificar el frenado/sello de seguridad de las escotillas de emergencia." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="¿Se encontró sello de seguridad?" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SI" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item04_si" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_check"/>
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NO" android:layout_marginLeft="12dp" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item04_no" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_uncheck"/>
+                                        <TextView android:layout_width="28dp" android:layout_height="16dp" android:layout_marginLeft="12dp" android:gravity="center" android:text="OK" android:textSize="6dp" android:background="@drawable/shape_border_simple_line"/>
+                                    </LinearLayout>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nota: De encontrar discrepancias realice lo siguiente:" android:textStyle="bold" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1. Registre en el Formato M-31a o Formato M-31." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2. Realice el frenado de seguridad con alambre de cobre." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="3. Informe a la Sub Gerencia / Especialista de Aeronavegabilidad (si aplica)." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="MEC" android:textSize="7dp" android:textStyle="bold" android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/black"/>
+
+                            <!-- ÍTEM 05 -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="10" android:minHeight="90dp">
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="match_parent" android:background="@color/titulo_campo_pdf" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="05" android:textSize="7dp" android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="7.8" android:layout_height="wrap_content" android:orientation="vertical" android:padding="4dp">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Verificar frenado/sello de seguridad de la tapa del rodaje del vástago del rotor de cola." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="¿Se encontró sello de seguridad?" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SI" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item05_si" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_check"/>
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NO" android:layout_marginLeft="12dp" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item05_no" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_uncheck"/>
+                                        <TextView android:layout_width="28dp" android:layout_height="16dp" android:layout_marginLeft="12dp" android:gravity="center" android:text="OK" android:textSize="6dp" android:background="@drawable/shape_border_simple_line"/>
+                                    </LinearLayout>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nota: De encontrar discrepancias realice lo siguiente:" android:textStyle="bold" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1. Registre en el Formato M-31a o Formato M-31." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2. Realice el frenado de seguridad con alambre de cobre." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="3. Informe a la Sub Gerencia / Especialista de Aeronavegabilidad (si aplica)." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="MEC" android:textSize="7dp" android:textStyle="bold" android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@android:color/black"/>
+
+                            <!-- ÍTEM 06 -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="10" android:minHeight="90dp">
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1.2" android:layout_height="match_parent" android:background="@color/titulo_campo_pdf" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="06" android:textSize="7dp" android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="7.8" android:layout_height="wrap_content" android:orientation="vertical" android:padding="4dp">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Verificar frenado/sello de seguridad de la tapa del tanque de fluido hidráulico." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="¿Se encontró sello de seguridad?" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SI" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item06_si" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_uncheck"/>
+                                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NO" android:layout_marginLeft="12dp" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                        <ImageView android:id="@+id/iv_item06_no" android:layout_width="18dp" android:layout_height="18dp" android:layout_marginLeft="2dp" android:src="@drawable/ic_check"/>
+                                        <TextView android:layout_width="28dp" android:layout_height="16dp" android:layout_marginLeft="12dp" android:gravity="center" android:text="OK" android:textSize="6dp" android:background="@drawable/shape_border_simple_line"/>
+                                    </LinearLayout>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nota: De encontrar discrepancias realice lo siguiente:" android:textStyle="bold" android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1. Registre en el Formato M-31a o Formato M-31." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2. Realice el frenado de seguridad con alambre de cobre." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="3. Informe a la Sub Gerencia / Especialista de Aeronavegabilidad (si aplica)." android:textSize="6.5dp" android:textColor="@color/black"/>
+                                </LinearLayout>
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@android:color/black"/>
+                                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:gravity="center">
+                                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="MEC" android:textSize="7dp" android:textStyle="bold" android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <!-- FIN VERIFICADO POR EL MECÁNICO -->
+                    </LinearLayout>
+                </ScrollView>
+                <!-- FIN CUERPO EN SCROLL -->
+            </LinearLayout>
+            <!-- FIN frame_total -->
+        </LinearLayout>
+        <!-- FIN llDetalleFormato -->
+    </LinearLayout>
+    <!-- FIN main_container -->
+</LinearLayout>

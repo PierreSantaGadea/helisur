@@ -8,6 +8,1387 @@
     android:background="@color/fondo_pantalla_general">
 
 
+    <LinearLayout
+        android:id="@+id/llDetalleFormato"
+        android:layout_width="350dp"
+        android:layout_height="1032dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="5dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="78dp"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:background="@drawable/shape_border_simple_line">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:padding="10dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/logo_pdf"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="4"
+                            android:layout_height="match_parent"
+                            android:padding="0dp"
+                            android:orientation="vertical">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="Código: FPRGA-7A"
+                                    android:textSize="10dp"
+                                    android:textColor="@color/black"
+                                    android:visibility="invisible"/>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="Código: FPRGA-7A"
+                                    android:textSize="7dp"
+                                    android:textColor="@color/black"/>
+
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@android:color/black"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:weightSum="2"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:gravity="center"
+                                        android:paddingLeft="3dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center|left"
+                                            android:textSize="6dp"
+                                            android:text="Edición"
+                                            android:textColor="@color/black"/>
+
+                                        <TextView
+                                            android:id="@+id/tvMesEdicion"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center|left"
+                                            android:textSize="6dp"
+                                            android:text="Noviembre 2024"
+                                            android:textColor="@color/black"/>
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/black"/>
+
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:gravity="center"
+                                        android:paddingLeft="3dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center|left"
+                                            android:textSize="6dp"
+                                            android:text="Revisión"
+                                            android:textColor="@color/black"/>
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center|left"
+                                            android:textSize="6dp"
+                                            android:text="01 (Reedición)"
+                                            android:textColor="@color/black"/>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="match_parent"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="4"
+                                android:layout_height="match_parent"
+                                android:padding="0dp"
+                                android:orientation="vertical">
+
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="20dp">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center"
+                                        android:text="Página 1"
+                                        android:textSize="10dp"
+                                        android:textColor="@color/black"
+                                        android:visibility="invisible"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center"
+                                        android:text="Página 1"
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"/>
+
+                                </RelativeLayout>
+
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@android:color/black"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:gravity="center"
+                                        android:paddingLeft="3dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center|left"
+                                            android:textSize="6dp"
+                                            android:text="Fecha Revisión"
+                                            android:textColor="@color/black"/>
+
+                                        <TextView
+                                            android:id="@+id/tvMesRevision"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center|left"
+                                            android:textSize="6dp"
+                                            android:text=""
+                                            android:textColor="@color/black"/>
+                                    </LinearLayout>
+
+
+
+                                </LinearLayout>
+
+
+
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tvTituloFormatoPdf"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text=""
+                            android:textSize="8dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="0dp"
+                    android:background="@drawable/shape_border_simple_line"
+                    android:layout_marginTop="10dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="1dp"
+                        android:background="@color/cabecera_pdf">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Parte 1"
+                            android:textSize="8dp"
+
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="30dp"
+                            android:padding="0.5dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/titulo_campo_pdf">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="01"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="5"
+                            android:layout_height="30dp"
+                            android:padding="0.5dp"
+                            android:orientation="vertical"
+                            android:background="@color/titulo_campo_pdf">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="AERONAVE (MODELO / MATRICULA / SERIE)"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="4"
+                            android:layout_height="30dp"
+                            android:padding="0dp">
+
+                            <TextView
+                                android:id="@+id/tv_Formato_AERONAVE"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text=""
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="30dp"
+                            android:padding="0.5dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@color/titulo_campo_pdf">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="02"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1.3"
+                            android:layout_height="30dp"
+                            android:padding="0.5dp"
+                            android:background="@color/titulo_campo_pdf"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="RTV"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1.8"
+                            android:layout_height="30dp"
+                            android:padding="0dp">
+
+                            <TextView
+                                android:id="@+id/tv_Formato_RTV"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text=""
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="30dp"
+                            android:padding="0.5dp"
+                            android:background="@color/titulo_campo_pdf"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="03"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="2.1"
+                            android:layout_height="30dp"
+                            android:padding="0.5dp"
+                            android:background="@color/titulo_campo_pdf">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="UBICACIÓN"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="2.8"
+                            android:layout_height="30dp"
+                            android:padding="0dp">
+
+                            <TextView
+                                android:id="@+id/tv_Formato_UBICACION"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text=""
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="23dp"
+                            android:gravity="center"
+                            android:text="ANTECEDENTE Y REQUERIMIENTO"
+                            android:textColor="@color/black"
+                            android:textSize="10dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="a. Existen discrepancias"
+                                    android:textSize="9dp"
+                                    android:textColor="@color/black"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentLeft="true"
+                                    android:gravity="center"/>
+
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="10dp"
+                                    android:gravity="center">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="Si"
+                                        android:textSize="9dp"
+                                        android:textColor="@color/black"
+                                        android:gravity="center"/>
+
+                                    <ImageView
+                                        android:id="@+id/iv_existendiscrepancias_Si"
+                                        android:layout_marginLeft="2dp"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:src="@drawable/ic_uncheck"/>
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="No"
+                                        android:textSize="9dp"
+                                        android:textColor="@color/black"
+                                        android:gravity="center"
+                                        android:layout_marginLeft="10dp"/>
+
+                                    <ImageView
+                                        android:id="@+id/iv_existendiscrepancias_No"
+                                        android:layout_marginLeft="2dp"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:src="@drawable/ic_uncheck"/>
+
+
+                                </LinearLayout>
+
+
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp">
+
+                                <TextView
+                                    android:id="@+id/tv_discrepancias_nroRTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="b. Las discrepancias surgidas estan registradas en el RTV Nro"
+                                    android:textSize="9dp"
+                                    android:textColor="@color/black"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentLeft="true"
+                                    android:gravity="center"/>
+
+
+
+
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="c. Se efectuaron acciones de mantenimiento"
+                                    android:textSize="9dp"
+                                    android:textColor="@color/black"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentLeft="true"
+                                    android:gravity="center"/>
+
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="10dp"
+                                    android:gravity="center">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="Si"
+                                        android:textSize="9dp"
+                                        android:textColor="@color/black"
+                                        android:gravity="center"/>
+
+                                    <ImageView
+                                        android:id="@+id/iv_accionesmantenimiento_Si"
+                                        android:layout_marginLeft="2dp"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:src="@drawable/ic_uncheck"/>
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="No"
+                                        android:textSize="9dp"
+                                        android:textColor="@color/black"
+                                        android:gravity="center"
+                                        android:layout_marginLeft="10dp"/>
+
+                                    <ImageView
+                                        android:id="@+id/iv_accionesmantenimiento_No"
+                                        android:layout_marginLeft="2dp"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:src="@drawable/ic_uncheck"/>
+
+
+                                </LinearLayout>
+
+
+
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="d. Se solicita un encendido previo de motores"
+                                    android:textSize="9dp"
+                                    android:textColor="@color/black"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentLeft="true"
+                                    android:gravity="center"/>
+
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="10dp"
+                                    android:gravity="center">
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="Si"
+                                        android:textSize="9dp"
+                                        android:textColor="@color/black"
+                                        android:gravity="center"/>
+
+                                    <ImageView
+                                        android:id="@+id/iv_encendidomotores_Si"
+                                        android:layout_marginLeft="2dp"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:src="@drawable/ic_uncheck"/>
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="No"
+                                        android:textSize="9dp"
+                                        android:textColor="@color/black"
+                                        android:gravity="center"
+                                        android:layout_marginLeft="10dp"/>
+
+                                    <ImageView
+                                        android:id="@+id/iv_encendidomotores_No"
+                                        android:layout_marginLeft="2dp"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:src="@drawable/ic_uncheck"/>
+
+
+                                </LinearLayout>
+
+
+
+
+                            </RelativeLayout>
+
+
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:background="@color/titulo_campo_pdf">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="5. ANOTACIONES"
+                            android:textSize="8dp"
+
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+                    <LinearLayout
+                        android:id="@+id/llcontenedorTareas"
+                        android:layout_width="match_parent"
+                        android:layout_height="310dp"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/tvSinAnotaciones"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="SIN ANOTACIONES"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:textColor="@color/borde_cajatexto"
+                            android:textSize="13dp"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:background="@color/titulo_campo_pdf">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="6. RESPONSABLE"
+                            android:textSize="8dp"
+
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="4"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="1dp">
+
+
+                            <TextView
+                                android:id="@+id/tv_nombre_responsable"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text=""
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:layout_centerInParent="true"
+                                android:textStyle="bold"/>
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|bottom"
+                                android:text="NOMBRES Y APELLIDOS"
+                                android:textSize="5dp"
+                                android:textColor="@color/black"
+                                android:layout_marginBottom="5dp"/>
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="2.5"
+                            android:layout_height="60dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_licencia_responsable"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text=""
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:layout_centerInParent="true"
+                                android:textStyle="bold"/>
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|bottom"
+                                android:text="LICENCIA DGCA"
+                                android:textSize="5dp"
+                                android:textColor="@color/black"
+                                android:layout_marginBottom="5dp"/>
+
+                        </RelativeLayout>
+
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3.5"
+                            android:layout_height="60dp"
+                            android:padding="0dp">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="60dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="90dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerInParent="true">
+
+                                    <ImageView
+                                        android:id="@+id/iv_firma_responsable"
+                                        android:layout_width="90dp"
+                                        android:layout_height="37dp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_fecha_responsable"
+                                        android:layout_width="90dp"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textSize="7dp"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:gravity="center"/>
+
+                                </LinearLayout>
+
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:text="FIRMA FECHA"
+                                    android:textSize="5dp"
+                                    android:textColor="@color/black"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_marginTop="3dp"
+                                    android:gravity="center"/>
+
+                            </RelativeLayout>
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:background="@color/cabecera_pdf">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Parte 2"
+                            android:textSize="8dp"
+
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="23dp"
+                            android:gravity="center"
+                            android:text="ENTREGA DE AERONAVE A OPERACIONES"
+                            android:textSize="9dp"
+
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center|left"
+                            android:textSize="6dp"
+                            android:text="Piloto y copiloto vericaron que la Lista de Verificación del Prevuelo de Operaciones es correcta"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="4"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="1dp">
+
+                            <TextView
+                                android:id="@+id/tv_nombre_copiloto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="NOMBRE DEL COPILOTO"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|bottom"
+                                android:text="NOMBRE DEL COPILOTO"
+                                android:textSize="5dp"
+                                android:textColor="@color/black"
+                                android:layout_marginBottom="5dp"/>
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="60dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/iv_firma_copiloto"
+                                android:layout_width="70dp"
+                                android:layout_height="37dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="5dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|bottom"
+                                android:text="FIRMA"
+                                android:textSize="5dp"
+                                android:textColor="@color/black"
+                                android:layout_marginBottom="5dp"/>
+
+                        </RelativeLayout>
+
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="60dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_licencia_copiloto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="ygfuyg"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|bottom"
+                                android:text="LICENCIA DGAC"
+                                android:textSize="5dp"
+                                android:textColor="@color/black"
+                                android:layout_marginBottom="5dp"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|left"
+                                android:textSize="6dp"
+                                android:text="El piloto al mando de la aeronave certifica que:"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textColor="@color/black"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textSize="8dp"
+                                android:text="EL HELICÓPTERO SE ENCUENTRA LISTO PARA EL VUELO"
+                                android:paddingTop="0dp"
+                                android:textStyle="bold"
+                                android:paddingBottom="5dp"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="4"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="1dp">
+
+                            <TextView
+                                android:id="@+id/tv_nombre_piloto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="NOMBRE DEL PILOTO"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|bottom"
+                                android:text="NOMBRE DEL PILOTO AL MANDO DE AERONAVE"
+                                android:textSize="5dp"
+                                android:textColor="@color/black"
+                                android:layout_marginBottom="5dp"/>
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="60dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/iv_firma_piloto"
+                                android:layout_width="70dp"
+                                android:layout_height="37dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="5dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|bottom"
+                                android:text="FIRMA"
+                                android:textSize="5dp"
+                                android:textColor="@color/black"
+                                android:layout_marginBottom="5dp"/>
+
+                        </RelativeLayout>
+
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/black"/>
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="60dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_licencia_piloto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="ygfuyg"
+                                android:textSize="7dp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|bottom"
+                                android:text="LICENCIA DGAC"
+                                android:textSize="5dp"
+                                android:textColor="@color/black"
+                                android:layout_marginBottom="5dp"/>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+
+
+
+    </LinearLayout>
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -173,6 +1554,7 @@
                         android:paddingTop="0dp"
                         android:paddingEnd="30dp"
                         android:paddingBottom="-5dp"
+                        android:enabled="false"
                         android:textColor="@color/color_texto_cajatexto"/>
 
                 </LinearLayout>
@@ -347,6 +1729,17 @@
             </LinearLayout>
 
 
+            <CheckBox
+                android:id="@+id/chbxEnviarCorreo"
+                android:layout_marginTop="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enviar correo"
+                android:fontFamily="@font/robotoregular"
+                android:textSize="25dp"
+                android:buttonTint="@color/titulo_pantalla_general"
+                android:textColor="@color/texto_simple_pantalla_general"
+                android:visibility="gone"/>
 
 
             <RelativeLayout

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    
+    <!-- Fondo con gradiente -->
+    <gradient
+        android:startColor="#4CAF50"
+        android:endColor="#388E3C"
+        android:angle="45" />
+    
+    <!-- Borde con efecto glow -->
+    <stroke
+        android:width="2dp"
+        android:color="#81C784" />
+    
+</shape>

@@ -3,6 +3,7 @@ package com.helisur.helisurapp.ui.mantenimiento.formatos
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.helisur.helisurapp.R
@@ -14,14 +15,15 @@ class ListaFormatosSinDiscrepanciasAdapter (private val mList: ArrayList<Formato
     var onItemClick: ((FormatoRegistro) -> Unit)? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvItemNombre: TextView = view.findViewById(R.id.tvItemNombre)
+        val tvItemNombre: TextView = view.findViewById(R.id.tvItemNombreFormatoDiscre)
         val tvModeloAeronave: TextView = view.findViewById(R.id.tvModeloAeronave)
         val tvAeronave: TextView = view.findViewById(R.id.tvAeronave)
         val tvFecha: TextView = view.findViewById(R.id.tvFecha)
         val tvNombreFormato: TextView = view.findViewById(R.id.tvNombreFormato)
+        val ivVerFormato = view.findViewById<ImageView>(R.id.ivVerFormato)
 
         init {
-            itemView.setOnClickListener {
+            ivVerFormato.setOnClickListener {
                 onItemClick?.invoke(mList[adapterPosition])
             }
         }

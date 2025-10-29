@@ -100,7 +100,6 @@
 
 
                         <RelativeLayout
-
                             android:background="@drawable/shape_button_principal"
                             android:id="@+id/btnNo"
                             android:layout_width="0dp"

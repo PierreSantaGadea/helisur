@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="10"
+    android:minHeight="90dp">
+
+    <!-- Columna Ítem -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1.2"
+        android:layout_height="match_parent"
+        android:background="@color/titulo_campo_pdf"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvItemNumero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="01"
+            android:textSize="7dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"/>
+
+    <!-- Columna Trabajo a realizar -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="7.8"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/tvTrabajoLinea1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="6.5dp"
+            android:textColor="@color/black"
+            android:text="Verificar la condición del frenado de seguridad y del sello de seguridad de la Maneta de Apertura de Emergencia de la ventana corrediza izquierda (piloto)."/>
+
+        <TextView
+            android:id="@+id/tvTrabajoLinea2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="6.5dp"
+            android:textColor="@color/black"
+            android:text="¿Se encontró sello de seguridad en el frenado de seguridad?"/>
+
+        <!-- SI / NO + casilla -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SI"
+                android:textSize="6.5dp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/ivSi"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/ic_check"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO"
+                android:layout_marginLeft="12dp"
+                android:textSize="6.5dp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/ivNo"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/ic_uncheck"/>
+
+            <!-- Casilla -->
+            <TextView
+                android:id="@+id/tvCasilla"
+                android:layout_width="28dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:text="OK"
+                android:textSize="6dp"
+                android:background="@drawable/shape_border_simple_line"/>
+        </LinearLayout>
+
+        <!-- Nota -->
+        <TextView
+            android:id="@+id/tvNotaTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="6.5dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Nota: De encontrar discrepancias realice lo siguiente:"/>
+
+        <TextView
+            android:id="@+id/tvNota1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="6.5dp"
+            android:textColor="@color/black"
+            android:text="1. Registre en el Formato M-31a o Formato M-31."/>
+
+        <TextView
+            android:id="@+id/tvNota2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="6.5dp"
+            android:textColor="@color/black"
+            android:text="2. Realice el frenado de seguridad con alambre de cobre."/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"/>
+
+    <!-- Columna Ejecutor -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvEjecutor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="MEC"
+            android:textSize="7dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</LinearLayout>

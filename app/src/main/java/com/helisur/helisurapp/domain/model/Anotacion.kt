@@ -16,10 +16,11 @@ class Anotacion(
     var id_RTV:String = "00002",
     var id_DanosMenores:String = "00003",
     var id_MELMDS:String = "00004",
+    var instruccion: String?
 ) {
     constructor() : this(
         "", "", "", "",
         false, false, false, false, "",
-        "00001","00002","00003","00004"
+        "00001","00002","00003","00004",""
     )
 }

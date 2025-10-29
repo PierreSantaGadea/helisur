@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:background="@drawable/shape_popups"
+                android:orientation="vertical">
+
+
+
+                <LinearLayout
+                    android:id="@+id/my_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_weight="10"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="Buscar por Nro Parte / Nomenclaruta / UM"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="22dp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_text_box"
+                        android:padding="0dip">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="0dp">
+
+                            <EditText
+                                android:id="@+id/etBuscarPorDialogSolicitar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/transparent"
+                                android:paddingStart="0dp"
+                                android:paddingTop="0dp"
+                                android:paddingEnd="30dp"
+                                android:paddingBottom="-5dp"
+                                android:textSize="21dp"
+                                android:textColor="@color/color_texto_cajatexto"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"
+                            android:src="@drawable/ic_down"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvArticulosPorBuscarDialogSolicitar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:visibility="gone" />
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="Nro Parte"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="22dp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_text_box_disabled"
+                        android:padding="0dip">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="0dp">
+
+                            <EditText
+                                android:id="@+id/etNroParteDialogSolicitar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/transparent"
+                                android:paddingStart="0dp"
+                                android:paddingTop="0dp"
+                                android:paddingEnd="30dp"
+                                android:paddingBottom="-5dp"
+                                android:textSize="21dp"
+                                android:inputType="number"
+                                android:textColor="@color/color_texto_cajatexto"
+                                android:enabled="false"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"
+                            android:src="@drawable/ic_down"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="Nomenclatura"
+                        android:textColor="@color/titulo_pantalla_general"
+                        android:textSize="22dp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_text_box_disabled"
+                        android:padding="0dip">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="0dp">
+
+                            <EditText
+                                android:id="@+id/etNomenclaturaDialogSolicitar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/transparent"
+                                android:paddingStart="0dp"
+                                android:paddingTop="0dp"
+                                android:paddingEnd="30dp"
+                                android:paddingBottom="-5dp"
+                                android:textSize="21dp"
+                                android:inputType="number"
+                                android:textColor="@color/color_texto_cajatexto"
+                                android:enabled="false"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"
+                            android:src="@drawable/ic_down"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="25dp"
+                        android:layout_gravity="center"
+                        android:weightSum="2">
+
+                        <RelativeLayout
+                            android:background="@drawable/shape_button_borrar"
+                            android:id="@+id/btnRetirarDialogSolicitar"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="0dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/robotoregular"
+                                android:text="Retirar"
+                                android:textColor="@color/red_semi_dark"
+                                android:textSize="20dp" />
+
+
+                        </RelativeLayout>
+
+
+
+                        <RelativeLayout
+
+                            android:background="@drawable/shape_button_agregar"
+                            android:id="@+id/btnAgregarDialogSolicitar"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="60dp"
+                            android:layout_gravity="right"
+                            android:gravity="center"
+                            android:textColor="@color/texto_boton_principal"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:textAllCaps="false"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:fontFamily="@font/robotoregular">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/robotoregular"
+                                android:text="Agregar"
+                                android:textColor="@color/green_labell"
+                                android:textSize="20dp" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvArticulosDialogSolicitar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginTop="20dp"/>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="40dp"
+                        android:layout_gravity="center"
+                        android:weightSum="2">
+
+                        <RelativeLayout
+                            android:background="@drawable/shape_button_secundary"
+                            android:id="@+id/btnCerrarDialogSolicitar"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="70dp"
+                            android:gravity="center"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="0dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/robotoregular"
+                                android:text="Cerrar"
+                                android:textColor="@color/texto_boton_secundario"
+                                android:textSize="23dp" />
+
+
+                        </RelativeLayout>
+
+
+
+                        <RelativeLayout
+
+                            android:background="@drawable/shape_button_principal"
+                            android:id="@+id/btnSolicitarIncrementoDialogSolicitar"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="70dp"
+                            android:layout_gravity="right"
+                            android:gravity="center"
+                            android:textColor="@color/texto_boton_principal"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:textAllCaps="false"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:fontFamily="@font/robotoregular">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/robotoregular"
+                                android:text="Solicitar incremento"
+                                android:textColor="@color/texto_boton_principal"
+                                android:textSize="23dp" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

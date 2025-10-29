@@ -25,6 +25,7 @@ import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.ModeloAeronave
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
+import com.helisur.helisurapp.domain.util.FormatoBorradorManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.postvuelo.PostVueloActivity
@@ -103,6 +104,7 @@ class EscogeAeronaveFragment  : Fragment() {
                    {
                        saveModeloAeronave(requireContext(),idAeronave,nombreAeronave)
                        saveFormato(requireContext(),idFormato,nombreFormato)
+                       FormatoBorradorManager(requireContext()).saveDesdeBorrador(false)
                        val intent = Intent (getActivity(), PreVueloActivity::class.java)
                        getActivity()?.startActivity(intent)
                    }
@@ -110,6 +112,8 @@ class EscogeAeronaveFragment  : Fragment() {
                    {
                        saveModeloAeronave(requireContext(),idAeronave,nombreAeronave)
                        saveFormato(requireContext(),idFormato,nombreFormato)
+                       FormatoBorradorManager(requireContext()).saveDesdeBorrador(false)
+                    //   showErrorDialog("Error de sincronización para PostVuelo : ErrorCode 45157417 - Class PickAeronaveFrag - Method clickListenerContinue")
                        val intent = Intent (getActivity(), PostVueloActivity::class.java)
                        getActivity()?.startActivity(intent)
                    }

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/almost_white"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvNomenclaturaArticulosSeleccionadosDialogSolicitarIncr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NOMENCLATURA"
+            android:textSize="19sp"
+            android:fontFamily="@font/robotomedium"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="left"
+            android:textColor="@color/dark_grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp">
+
+            <!-- Columna izquierda -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nro Parte"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotomedium"
+                    android:textSize="19sp"/>
+                <TextView
+                    android:id="@+id/tvNroParteArticulosSeleccionadosDialogSolicitarIncr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="--"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UM"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotomedium"
+                    android:textSize="19sp"/>
+                <TextView
+                    android:id="@+id/tvUMArticulosSeleccionadosDialogSolicitarIncr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+
+
+
+
+            </LinearLayout>
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Solicitados"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotomedium"
+                    android:textSize="19sp"/>
+                <TextView
+                    android:id="@+id/tvSolicitadosArticulosSeleccionadosDialogSolicitarIncr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+
+
+
+
+            </LinearLayout>
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cant a Solicitar"
+                    android:textColor="@color/dark_grey"
+                    android:fontFamily="@font/robotomedium"
+                    android:textSize="19sp"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/shape_text_box"
+                    android:padding="0dip">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="0dp">
+
+                        <EditText
+                            android:id="@+id/etCantASolicitarArticulosSeleccionadosDialogSolicitarIncr"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@android:color/transparent"
+                            android:paddingStart="10dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="0dp"
+                            android:inputType="number"
+                            android:textSize="18dp"
+                            android:textColor="@color/color_texto_cajatexto"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:src="@drawable/ic_down"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+
+
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup_background"
+    android:padding="24dp">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="15"
+        android:orientation="horizontal"
+        android:useDefaultMargins="true">
+
+        <!-- Estado -->
+        <TextView style="@style/LabelTitle" android:text="Estado" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvEstado" />
+
+        <TextView style="@style/LabelTitle" android:text="Rubro" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvRubro" />
+
+        <TextView style="@style/LabelTitle" android:text="Código OT" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvCodigoOt" />
+
+        <TextView style="@style/LabelTitle" android:text="# OT/OS" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvNumeroOtos" />
+
+        <TextView style="@style/LabelTitle" android:text="Categoría" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvCategoria" />
+
+        <TextView style="@style/LabelTitle" android:text="Estación" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvEstacion" />
+
+        <TextView style="@style/LabelTitle" android:text="Fecha Inicio" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvFechaInicio" />
+
+        <TextView style="@style/LabelTitle" android:text="Fecha Término" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvFechaTermino" />
+
+        <TextView style="@style/LabelTitle" android:text="Límite Término" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvLimiteTermino" />
+
+        <TextView style="@style/LabelTitle" android:text="Modelo/Nro Parte" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvModeloNumeroParte" />
+
+        <TextView style="@style/LabelTitle" android:text="Matrícula/Nomenclatura" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvMatriculaNomenclatura" />
+
+        <TextView style="@style/LabelTitle" android:text="Tipo Programación" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvTipoProgramacion" />
+
+        <TextView style="@style/LabelTitle" android:text="Tipo Mantenimiento" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvTipoMantenimiento" />
+
+        <TextView style="@style/LabelTitle" android:text="Alcance Trabajo" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvAlcanceTrabajo" />
+
+        <TextView style="@style/LabelTitle" android:text="Descripción" />
+        <TextView style="@style/LabelValue" android:id="@+id/tvDescripcion" />
+    </GridLayout>
+</ScrollView>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_item_ejecucion"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvNomenclaturaGestionarReserva"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NOMENCLATURA"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="@color/principal"
+            android:fontFamily="@font/robotomedium"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="left"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <!-- Columna izquierda -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nro Parte"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvNroParteGestionarReserva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Solicitados"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvSolicitadosGestionarReserva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Consumido"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvConsumidosGestionarReserva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+            </LinearLayout>
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UM"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvUMGestionarReserva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reservado"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/robotobold"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:id="@+id/tvReservadosGestionarReserva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"/>
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>

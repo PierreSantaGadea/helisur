@@ -265,24 +265,17 @@ class PreVueloTareasFragment : Fragment() {
     }
 
 
-    fun setRecyclerViewSistemas(
-        listaSistemas: ArrayList<Sistema>
-    ) {
-        val recyclerview = binding.rvSistemas
-        recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
+    fun setRecyclerViewSistemas(listaSistemas: ArrayList<Sistema>) {
+        val rv = binding.rvSistemas
+        rv!!.layoutManager = LinearLayoutManager(requireContext())
         val adapter = PreVueloListaSistemasAdapter(requireContext(), listaSistemas)
-        recyclerview.adapter = adapter
-        adapter.onItemClick = { sistema ->
-            posicionClick = adapter.getPosition()
-            for (item in sistemasList!!) {
-                if (item.codigoSistema.equals(sistema.codigoSistema)) {
-                    item.isSelected = true
-                  //  formatosViewModel.obtieneTareas(sistema.codigoSistema!!)
-                    formatosViewModel.getTareasBySistema(sistema.codigoSistema!!)
-                } else {
-                    item.isSelected = false
-                    adapaterSistemas!!.notifyItemChanged(posicionClick!!)
-                }
+        rv.adapter = adapter
+
+        adapter.onItemClick = { sistema, pos ->
+            posicionClick = pos
+            // Si aún no se cargaron, pide al VM; si ya están, el propio adapter mostrará al bind
+            if (sistema.tareas.isNullOrEmpty()) {
+                formatosViewModel.getTareasBySistema(sistema.codigoSistema!!,getFormato(requireContext())!!)
             }
         }
         adapaterSistemas = adapter

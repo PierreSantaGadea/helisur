@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/popup_background"
+    android:padding="20dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/btnGestionarReserva"
+        android:text="Gestionar Reserva"
+        android:drawableStart="@drawable/ic_reserva"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnGestionarResponsables"
+        android:text="Gestionar Responsables"
+        android:drawableStart="@drawable/ic_responsable"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnIniciar"
+        android:text="Iniciar"
+        android:drawableStart="@drawable/ic_play"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnPausa"
+        android:text="Pausa"
+        android:drawableStart="@drawable/ic_pause"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnCerrar"
+        android:text="Cerrar"
+        android:drawableStart="@drawable/ic_cerrado"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

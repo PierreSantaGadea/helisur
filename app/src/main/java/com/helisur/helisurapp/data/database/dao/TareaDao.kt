@@ -19,8 +19,8 @@ interface TareaDao {
     @Query("SELECT * FROM Tarea ORDER BY id ASC")
     fun getAll(): List<TareaEntity>
 
-    @Query("SELECT * FROM Tarea WHERE  codigoSistema = :idSistema ORDER BY id ASC")
-    fun getTareasBySistema(idSistema: String): List<TareaEntity>
+    @Query("SELECT * FROM Tarea WHERE  codigoSistema = :idSistema AND codigoFormato = :codigoFormato ORDER BY id ASC")
+    fun getTareasBySistema(idSistema: String, codigoFormato: String): List<TareaEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertList(aeronaves: List<TareaEntity>)

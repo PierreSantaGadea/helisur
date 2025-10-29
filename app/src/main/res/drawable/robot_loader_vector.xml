@@ -1,0 +1,51 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+
+    <!-- cuerpo circular -->
+    <group android:name="body_group">
+        <path
+            android:name="body"
+            android:fillColor="#09232B"
+            android:strokeColor="#00D4FF"
+            android:strokeWidth="1.2"
+            android:pathData="M32,4 C46.359,4 58,15.641 58,30 C58,44.359 46.359,56 32,56 C17.641,56 6,44.359 6,30 C6,15.641 17.641,4 32,4 z"/>
+    </group>
+
+
+    <!-- panel frontal -->
+    <path
+        android:name="face_panel"
+        android:fillColor="#071B22"
+        android:pathData="M18,22 h28 a1,1 0 0 1 1 1 v12 a1,1 0 0 1 -1 1 H18 a1,1 0 0 1 -1 -1 V23 a1,1 0 0 1 1 -1 z" />
+
+
+    <!-- ojo izquierdo -->
+    <group android:name="eye_left" android:pivotX="24" android:pivotY="30">
+        <path
+            android:name="eye_left_dot"
+            android:fillColor="#00E6FF"
+            android:pathData="M22,30 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" />
+    </group>
+
+
+    <!-- ojo derecho -->
+    <group android:name="eye_right" android:pivotX="40" android:pivotY="30">
+        <path
+            android:name="eye_right_dot"
+            android:fillColor="#00E6FF"
+            android:pathData="M38,30 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" />
+    </group>
+
+
+    <!-- antena -->
+    <path
+        android:name="antenna"
+        android:fillColor="#00D4FF"
+        android:pathData="M32,2 L32,10" />
+
+
+</vector>

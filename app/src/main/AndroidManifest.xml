@@ -7,8 +7,10 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
+        android:maxSdkVersion="29"
+        tools:replace="android:maxSdkVersion"/>
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 
 
@@ -24,7 +26,8 @@
         tools:targetApi="31"
         android:name=".HelisurAppAplication"
         android:usesCleartextTraffic="true"
-        android:hardwareAccelerated="true">
+        android:hardwareAccelerated="true"
+        android:requestLegacyExternalStorage="true">
 
 
         <service
@@ -104,6 +107,63 @@
 
         <activity
             android:name=".ui.hojaruta.ListaHojaRutaActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.mantenimiento.gestionotos.DetalleOrdenActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+
+        <activity
+            android:name=".ui.mantenimiento.gestionotos.EstatusInsumosActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+
+        <activity
+            android:name=".ui.mantenimiento.gestionotos.EstatusComponentesActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.mantenimiento.gestionotos.GestionarReservaOrdenTrabajoActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.mantenimiento.gestionotos.GestionarResponsablesOrdenTrabajoActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.pspdfkit.ui.PdfActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|mnc|mcc|uiMode|density|colorMode" />
+
+        <activity
+            android:name=".ui.mantenimiento.VisorPDFActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ui.mantenimiento.inspeccion100horas.ui.Inspeccion100HorasActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Design.NoActionBar"

@@ -36,6 +36,7 @@ import com.helisur.helisurapp.domain.model.Sistema
 import com.helisur.helisurapp.domain.model.Tarea
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
+import com.helisur.helisurapp.domain.util.FormatoBorradorManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
@@ -48,7 +49,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PreVueloDatosAeronaveFragment : Fragment() {
 
-    var className = "ConcursosAvancesFragment"
+    var className = "PreVueloDatosAeronaveFragment"
     private val aeronavesViewModel: AeronavesViewModel by viewModels()
     private lateinit var binding: FragmentDatosAeronaveBinding
     var loading: TransparentProgressDialog? = null
@@ -97,15 +98,92 @@ class PreVueloDatosAeronaveFragment : Fragment() {
         return root
     }
 
+    fun verificaBorrador()
+    {
+
+        var borradorManager = FormatoBorradorManager(requireContext())
+
+        if(borradorManager!!.getDesdeBorrador()!!)
+        {
+            if(borradorManager.getHasBorrador()!!) {
+
+                var idAeronave = borradorManager.getIdAeronave()
+                var idUbicacion = borradorManager.getIdUbicacion()
+                var rtv = borradorManager.getRtv()
+                var existenDiscrepancias = borradorManager.getExistenDiscrepancias()
+                var rtvDiscrepancias = borradorManager.getRtvDiscrepancias()
+                var accionesMantenimiento = borradorManager.getAccionesMantenimiento()
+                var solicitaEncendidoPrevio = borradorManager.getEncendidoPrevioMotores()
+
+
+                binding.etRTV!!.setText(rtv)
+                binding.etDiscrepancias!!.setText(rtvDiscrepancias)
+
+                for ((index, modelo) in estacionesList!!.withIndex()) {
+                    if (modelo.id_cloud == idUbicacion) {
+                        binding.spiUbicacion.setSelection(index+1)
+                        break
+                    }
+                }
+
+                for ((index, modelo) in modelosAeronavesList!!.withIndex()) {
+                    if (modelo.codigoModeloPuesto == idAeronave) {
+                        binding.spiAeronave.setSelection(index+1)
+                        break
+                    }
+                }
+
+
+
+                if(existenDiscrepancias!!)
+                {
+                    binding.chxDiscrepancias!!.isChecked = true
+                }
+                else
+                {
+                    binding.chxDiscrepancias!!.isChecked = false
+
+                }
+
+                if(accionesMantenimiento!!)
+                {
+                    binding.chbxAccionesMantenimiento!!.isChecked = true
+                }
+                else
+                {
+                    binding.chbxAccionesMantenimiento!!.isChecked = false
+                }
+
+                if(solicitaEncendidoPrevio!!)
+                {
+                    binding.chbxSolicitaEncendidoPrevio!!.isChecked = true
+                }
+                else
+                {
+                    binding.chbxSolicitaEncendidoPrevio!!.isChecked = false
+                }
+
+
+
+
+
+
+            }
+        }
+
+
+    }
+
     fun initUI() {
         loading = TransparentProgressDialog(requireContext())
         binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
         binding.etDiscrepancias!!.isEnabled = false
         var idAeronave = getModeloAeronave(requireContext())
       //  aeronavesViewModel.getAeronaveListCloud(idAeronave!!)
+     //   aeronavesViewModel.getEstacionesListDB()
         aeronavesViewModel.getAeronavesByModeloDB(idAeronave!!)
       //  aeronavesViewModel.getEstacionesListCloud()
-        aeronavesViewModel.getEstacionesListDB()
+
         setCheckBox()
         editTextEvent()
 
@@ -116,6 +194,8 @@ class PreVueloDatosAeronaveFragment : Fragment() {
         formatoViewModel.getReportajesListDB()
         formatoViewModel.getFormatosRegistroListDB()
         formatoViewModel.getDetalleFormatosRegistroListDB()
+
+
     }
 
 
@@ -131,6 +211,10 @@ class PreVueloDatosAeronaveFragment : Fragment() {
             override fun afterTextChanged(s: Editable) {
                 if (s.length >= 1) {
                     PreVueloTabsFragment.formatoParameter.numeroRTV = s.toString()
+
+                    FormatoBorradorManager(requireContext()).saveRtv(s.toString())
+                    FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                    FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
                 }
             }
         })
@@ -146,6 +230,9 @@ class PreVueloDatosAeronaveFragment : Fragment() {
             override fun afterTextChanged(s: Editable) {
                 if (s.length >= 1) {
                     PreVueloTabsFragment.formatoParameter.numeroRTVDiscrepancias = s.toString()
+                    FormatoBorradorManager(requireContext()).saveRtvDiscrepancias(s.toString())
+                    FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                    FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
                 }
             }
         })
@@ -335,18 +422,36 @@ class PreVueloDatosAeronaveFragment : Fragment() {
                 binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_text_box)
                 binding.etDiscrepancias!!.isEnabled = true
                 PreVueloTabsFragment.formatoParameter.existenDiscrepancias = "1"
+
+                FormatoBorradorManager(requireContext()).saveExistenDiscrepancias(true)
+                FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
+
             } else {
                 binding.rlDiscrepancias!!.setBackgroundResource(R.drawable.shape_control_disabled)
                 binding.etDiscrepancias!!.isEnabled = false
                 PreVueloTabsFragment.formatoParameter.existenDiscrepancias = "0"
+
+                FormatoBorradorManager(requireContext()).saveExistenDiscrepancias(false)
+                FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
             }
         }
 
         binding.chbxAccionesMantenimiento!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 PreVueloTabsFragment.formatoParameter.accionesMantenimiento = "1"
+
+                FormatoBorradorManager(requireContext()).saveAccionesMantenimiento(true)
+                FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
+
             } else {
                 PreVueloTabsFragment.formatoParameter.accionesMantenimiento = "0"
+
+                FormatoBorradorManager(requireContext()).saveExistenDiscrepancias(false)
+                FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
             }
         }
 
@@ -354,8 +459,17 @@ class PreVueloDatosAeronaveFragment : Fragment() {
         binding.chbxSolicitaEncendidoPrevio!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 PreVueloTabsFragment.formatoParameter.solicitaEncMotores = "1"
+
+                FormatoBorradorManager(requireContext()).saveSolicitaEncendidoPrevio(true)
+                FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
+
             } else {
                 PreVueloTabsFragment.formatoParameter.solicitaEncMotores = "0"
+
+                FormatoBorradorManager(requireContext()).saveExistenDiscrepancias(false)
+                FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
             }
         }
 
@@ -448,12 +562,22 @@ class PreVueloDatosAeronaveFragment : Fragment() {
                     nombreAeronave = ""
                     listaAnotacionesFormato = arrayListOf()
                     PreVueloTabsFragment.formatoParameter.codigoPuestoTecnico =  ""
+                    FormatoBorradorManager(requireContext()).saveIdAeronave(idAeronave)
+                    FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                    FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
                 } else {
                     idAeronave = modelosAeronavesList!![position-1].codigoModeloPuesto
                     nombreAeronave  = modelosAeronavesList!![position-1].nombre
                     listaAnotacionesFormato = arrayListOf()
-                    PreVueloTabsFragment.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].codigoModeloPuesto
+                    PreVueloTabsFragment.formatoParameter.codigoPuestoTecnico =  modelosAeronavesList!![position-1].id_cloud!!
                     saveAeronave(requireContext(),idAeronave,modelosAeronavesList!![position-1].nombre)
+
+
+                    FormatoBorradorManager(requireContext()).saveIdAeronave(idAeronave)
+                    FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                    FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
+
+
                //     aeronavesViewModel.getCountDetallessByAeronave(idAeronave)
                  //   if(getFormato(requireContext()).equals("00001"))
                  //   {
@@ -520,9 +644,14 @@ class PreVueloDatosAeronaveFragment : Fragment() {
                 if (position == 0) {
                     idUbicacion = ""
                     PreVueloTabsFragment.formatoParameter.codigoEstacion = ""
+                    FormatoBorradorManager(requireContext()).saveIdUbicacion(idUbicacion)
+                    FormatoBorradorManager(requireContext()).saveHasBorrador(true)
                 } else {
                     idUbicacion = estacionesList!![position-1].id_cloud!!
                     PreVueloTabsFragment.formatoParameter.codigoEstacion =  estacionesList!![position-1].id_cloud!!
+                    FormatoBorradorManager(requireContext()).saveIdUbicacion(idUbicacion)
+                    FormatoBorradorManager(requireContext()).saveHasBorrador(true)
+                    FormatoBorradorManager(requireContext()).saveTipoFormato("PREVUELO")
                 }
             }
         }
@@ -570,6 +699,10 @@ class PreVueloDatosAeronaveFragment : Fragment() {
         aeronavesViewModel.responseGetAeronaveListCloud.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
+                    if(it.data!!.table.get(0).codigoPuestoTecnico ==  "")
+                    {
+
+                    }
                 //    modelosAeronavesList = ArrayList(it.data!!.table)
                //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerAeronave()
@@ -590,6 +723,8 @@ class PreVueloDatosAeronaveFragment : Fragment() {
                     modelosAeronavesList = ArrayList(it)
                     //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerAeronave()
+                    aeronavesViewModel.getEstacionesListDB()
+
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
                 }
@@ -622,6 +757,7 @@ class PreVueloDatosAeronaveFragment : Fragment() {
                  //   estacionesList = ArrayList(it.data!!.table)
                     //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerUbicacion()
+
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
                 }
@@ -639,6 +775,8 @@ class PreVueloDatosAeronaveFragment : Fragment() {
                     estacionesList = ArrayList(it)
                     //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
                     setSpinnerUbicacion()
+                 //  verificaBorrador()
+
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
                 }

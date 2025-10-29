@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -30,18 +31,25 @@ import com.helisur.helisurapp.R
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaFormatoCloudParameter
 import com.helisur.helisurapp.data.cloud.formatos.model.parameter.GuardaTareaCloudParameter
 import com.helisur.helisurapp.databinding.FragmentResponsableBinding
+import com.helisur.helisurapp.domain.model.Aeronave
 import com.helisur.helisurapp.domain.model.Anotacion
 import com.helisur.helisurapp.domain.model.DetalleFormatoRegistro
 import com.helisur.helisurapp.domain.model.Empleado
+import com.helisur.helisurapp.domain.model.Estacion
+import com.helisur.helisurapp.domain.model.Formato
 import com.helisur.helisurapp.domain.model.FormatoRegistro
+import com.helisur.helisurapp.domain.model.ModeloAeronave
+import com.helisur.helisurapp.domain.model.Reportaje
 import com.helisur.helisurapp.domain.util.Constants
 import com.helisur.helisurapp.domain.util.ErrorMessageDialog
 import com.helisur.helisurapp.domain.util.SessionUserManager
 import com.helisur.helisurapp.domain.util.TransparentProgressDialog
 import com.helisur.helisurapp.ui.login.LoginViewModel
+import com.helisur.helisurapp.ui.mantenimiento.AeronavesViewModel
 import com.helisur.helisurapp.ui.mantenimiento.MainActivityMantenimiento
 import com.helisur.helisurapp.ui.mantenimiento.formatos.FormatosViewModel
 import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloListaAnotacionesAdapter
+import com.helisur.helisurapp.ui.mantenimiento.formatos.prevuelo.PreVueloTabsFragment
 import com.helisur.helisurapp.ui.mantenimiento.formatos.spinners.SpinenrItemEmpleado
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
@@ -60,6 +68,7 @@ class PostVueloResponsableFragment : Fragment() {
     var loading: TransparentProgressDialog? = null
     private val loginViewModel: LoginViewModel by viewModels()
     private val formatosViewModel: FormatosViewModel by viewModels()
+    private val aeronavesViewModel: AeronavesViewModel by viewModels()
     var dialogg:Dialog? = null
     var tareasObservados: ArrayList<GuardaTareaCloudParameter>? = null
     var recyclerview:RecyclerView?=null
@@ -69,7 +78,26 @@ class PostVueloResponsableFragment : Fragment() {
     var idResponsable = ""
     var licenciaResponsable = ""
     var urlFirmaResponsable = ""
+
+    var fimaValidada = false
     var firmaResponsable : Bitmap? = null
+
+    var idCloudNuevoFormato :String = ""
+    var idDB_nuevoFormato = ""
+    var codFormato_nuevoFormato = ""
+
+    var formatoAenviar:FormatoRegistro? = null
+    var detalleFormatoAenviar:ArrayList<DetalleFormatoRegistro>? = null
+
+    var listaEstacionesDb: ArrayList<Estacion>? = null
+    var listaModelosAeronave:ArrayList<ModeloAeronave>? = null
+    var listaAeronaves:ArrayList<Aeronave>? = null
+    var listaEmpleados:ArrayList<Empleado>? = null
+    var listaReportajes:ArrayList<Reportaje>? = null
+    var listaFormatos:ArrayList<Formato>? = null
+    private var filePdf : File? = null
+
+
 
 
     override fun onCreateView(
@@ -94,20 +122,26 @@ class PostVueloResponsableFragment : Fragment() {
         loading = TransparentProgressDialog(requireContext())
 //        binding.signaturePad!!.autofillId!!
 
+        if(isOnline())
+        {
+            binding.chbxEnviarCorreo!!.isEnabled = true
+        }
+        else
+        {
+            binding.chbxEnviarCorreo!!.isEnabled = false
+        }
+
         loginViewModel.getEmpleadosListDB()
-    //    loginViewModel.obtieneEmpleados("00091")
+        //    loginViewModel.obtieneEmpleados("00091")
+
+        aeronavesViewModel.getEstacionesListDB()
+        aeronavesViewModel.getModelosAeronavesListDB()
+        aeronavesViewModel.getAeronavesListDB()
+        formatosViewModel.getReportajesListDB()
+        formatosViewModel.getFormatosListDB()
 
         recyclerview = binding.rvAnotaciones
         recyclerview!!.layoutManager = LinearLayoutManager(requireContext())
-
-        ///   val sessionManager = SessionUserManager(requireContext())
-        //  val tokennn = sessionManager.getToken()!!
-        //  cocursosViewModel.listaPeriodos(sessionManager.getToken()!!)
-        //   llenaLista()
-        //   setRecyclerView(concursosList)
-        //   setSpinnerPeriodo()
-
-    //    var bitt = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888)
 
 
     }
@@ -131,17 +165,16 @@ class PostVueloResponsableFragment : Fragment() {
         })
     }
 
-    fun observers()
-    {
+    fun observers() {
 
         loginViewModel.responseObtieneTokenCloud.observe(viewLifecycleOwner, Observer {
             try {
-                Toast.makeText(getActivity(),"Firma validada",Toast.LENGTH_SHORT).show()
+                Toast.makeText(getActivity(), "Firma validada", Toast.LENGTH_SHORT).show()
                 binding.signaturePad!!.isEnabled = false
                 dialogg!!.dismiss()
 
             } catch (e: Exception) {
-              //  Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
+                //  Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
                 e.printStackTrace();
                 showErrorDialog(e.toString())
             }
@@ -166,8 +199,8 @@ class PostVueloResponsableFragment : Fragment() {
             } else {
                 if (it.toString().contains(Constants.ERROR.FAILURE)) {
                     dialogg!!.dismiss()
-                    var mensaje = it.toString().replace("FAILURE(Error=","")
-                    showErrorDialog(mensaje.replace(")",""))
+                    var mensaje = it.toString().replace("FAILURE(Error=", "")
+                    showErrorDialog(mensaje.replace(")", ""))
                     Log.e(className, Constants.ERROR.ERROR)
                 }
             }
@@ -178,8 +211,9 @@ class PostVueloResponsableFragment : Fragment() {
         loginViewModel.responseObtieneEmpleados.observe(viewLifecycleOwner, Observer {
             try {
                 if (it != null) {
-               //     empleadosList = ArrayList(it)
+                    //     empleadosList = ArrayList(it)
                     //     binding.rlAeronave!!.setBackgroundResource(R.drawable.shape_text_box)
+
                     setSpinnerEmpleados()
                 } else {
                     Log.e(className, Constants.ERROR.ERROR)
@@ -196,14 +230,14 @@ class PostVueloResponsableFragment : Fragment() {
             try {
                 if (it != null) {
 
+                    listaEmpleados = ArrayList(it)
+
                     empleadosList = arrayListOf()
                     var empleadosListaTotal: ArrayList<Empleado>? = ArrayList(it)
-                    empleadosListAll=ArrayList(it)
+                    empleadosListAll = ArrayList(it)
 
-                    for(item in empleadosListaTotal!!)
-                    {
-                        if(item.codigoArea.equals("00091"))
-                        {
+                    for (item in empleadosListaTotal!!) {
+                        if (item.codigoArea.equals("00091")) {
                             empleadosList!!.add(item)
                         }
 
@@ -224,21 +258,15 @@ class PostVueloResponsableFragment : Fragment() {
         formatosViewModel.responsInsertFormatoRegistroDB.observe(viewLifecycleOwner, Observer {
             try {
 
-                if(isOnline())
-                {
+                if (isOnline()) {
                     formatosViewModel.grabaFormato(PostVueloTabsFragment.formatoParameter)
-                }
-                else
-                {
+                } else {
                     //grabacion correcta
                     requireActivity().finish()
 
-                    val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                    val intent = Intent(getActivity(), MainActivityMantenimiento::class.java)
                     requireActivity().startActivity(intent)
                 }
-
-
-
 
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
@@ -251,17 +279,95 @@ class PostVueloResponsableFragment : Fragment() {
         formatosViewModel.responseGrabaFormato.observe(viewLifecycleOwner, Observer {
             try {
 
-                //grabacion correcta
-                requireActivity().finish()
+                idCloudNuevoFormato = it.message
 
-                val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
-                requireActivity().startActivity(intent)
+                formatosViewModel.updateIdCloudFormatoRefgistro(idDB_nuevoFormato,idCloudNuevoFormato)
+
+
+                if(binding.chbxEnviarCorreo!!.isChecked)
+                {
+                    // pintaDocumento(formatoAenviar!!,detalleFormatoAenviar!!)
+
+                    requireActivity().finish()
+
+                    val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                    requireActivity().startActivity(intent)
+
+                }
+                else
+                {
+                    //grabacion correcta
+                    requireActivity().finish()
+
+                    val intent = Intent (getActivity(), MainActivityMantenimiento::class.java)
+                    requireActivity().startActivity(intent)
+                }
 
 
             } catch (e: Exception) {
                 Log.e(className, Constants.ERROR.ERROR_EN_CODIGO + e.toString())
                 e.printStackTrace();
                 showErrorDialog(e.toString())
+            }
+        })
+
+
+        aeronavesViewModel.responseGetEstacionListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaEstacionesDb = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        aeronavesViewModel.responseGetModeloAeronaveListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaModelosAeronave = ArrayList(it.data)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        formatosViewModel.responseGetFormatoListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaFormatos = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        aeronavesViewModel.responseGetAeronaveListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaAeronaves = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
+            }
+        })
+
+
+        formatosViewModel.responseGetReportajeListDB.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+
+                listaReportajes = ArrayList(it)
+
+            } else {
+                Log.e(className, Constants.ERROR.ERROR)
+
             }
         })
 
@@ -401,7 +507,16 @@ class PostVueloResponsableFragment : Fragment() {
                 }
                 else
                 {
-                    PostVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
+                    if(!fimaValidada)
+                    {
+                        showErrorDialog("El responsable debe validar la firma")
+                    }
+                    else
+                    {
+                        PostVueloTabsFragment.viewPager.setCurrentItem(Constants.TABS_PRE_VUELO.FIRMA_RESPONSABLE)
+                    }
+
+
                 }
 
             }
@@ -436,80 +551,107 @@ class PostVueloResponsableFragment : Fragment() {
         binding.btnCerrarMomentaneamente!!.setOnClickListener {
 
 
-
-            var parameter: GuardaFormatoCloudParameter =
-                PostVueloTabsFragment.formatoParameter
-            var nombreAeronave:String = getNombreAeronave(requireContext())!!
-            val uniqueID: String = UUID.randomUUID().toString()
-
-
-            var completado:Boolean = false
-
-            if(parameter.listaTareas!=null)
+            if(!fimaValidada)
             {
-                if(ArrayList(parameter.listaTareas).size == 0)
-                {
-                    completado = true
-                }
-                else
-                {
-                    completado = false
-                }
-
+                showErrorDialog("El responsable debe validar la firma")
             }
             else
             {
-                completado = true
-            }
+                var parameter: GuardaFormatoCloudParameter = PostVueloTabsFragment.formatoParameter
+                var nombreAeronave:String = getNombreAeronave(requireContext())!!
+                val uniqueID: String = UUID.randomUUID().toString()
 
-            var fechaHoy: String = ""
-            var fechaHoyCloud:String = ""
-            val gc: GregorianCalendar = GregorianCalendar()
-            val pattern = "yyyy-MM-dd HH:mm:ss"
-            val pattern2 = "yyyyMMdd HH:mm:ss"
-            val simpleDateFormat = SimpleDateFormat(pattern)
-            val simpleDateFormat2 = SimpleDateFormat(pattern2)
-            simpleDateFormat.calendar = gc
-            simpleDateFormat2.calendar = gc
-            fechaHoy = simpleDateFormat.format(gc.time)
-            fechaHoyCloud = simpleDateFormat2.format(gc.time)
+                idDB_nuevoFormato = uniqueID
+                codFormato_nuevoFormato = PostVueloTabsFragment.formatoParameter.codigoFormato
 
-            PostVueloTabsFragment.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
-            PostVueloTabsFragment.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
-
-            saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,firmaResponsable!!)
-
-
-            var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
-                parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
-                parameter.solicitaEncMotores,parameter.idEmpleadoResponsable,parameter.urlFirmaResponsable,parameter.idEmpleadoPiloto,
-                parameter.urlFirmaPiloto,parameter.idEmpleadoCoPiloto,parameter.urlFirmaCoPiloto,parameter.fechaHoraInicioRegistro,
-                parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,fechaHoy,"",completado)
-
-            formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
-
-
-            if(parameter.listaTareas!=null)
-            {
-                var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(
-                    PostVueloTabsFragment.formatoParameter.listaTareas)
-                var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
-                for(item in listaDetalle)
+                var completado:Boolean = false
+                if(parameter.listaTareas!=null)
                 {
-                    val uniqueIDDetalle: String = UUID.randomUUID().toString()
+                    if(ArrayList(parameter.listaTareas).size == 0)
+                    {
+                        completado = true
+                    }
+                    else
+                    {
+                        completado = false
+                    }
 
-                    var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.nombreSistema,item.codigoReportaje,
-                        "","",item.indicadorSN,"",fechaHoy,"")
-
-                    listaDetalleDB.add(detalle)
+                }
+                else
+                {
+                    completado = true
                 }
 
+                var fechaHoy: String = ""
+                var fechaHoyCloud:String = ""
+                val gc: GregorianCalendar = GregorianCalendar()
+                val pattern = "yyyy-MM-dd HH:mm:ss"
+                val pattern2 = "yyyyMMdd HH:mm:ss"
+                val simpleDateFormat = SimpleDateFormat(pattern)
+                val simpleDateFormat2 = SimpleDateFormat(pattern2)
+                simpleDateFormat.calendar = gc
+                simpleDateFormat2.calendar = gc
+                fechaHoy = simpleDateFormat.format(gc.time)
+                fechaHoyCloud = simpleDateFormat2.format(gc.time)
+
+                PostVueloTabsFragment.formatoParameter.fechaHoraFinRegistro = fechaHoyCloud
+                PostVueloTabsFragment.formatoParameter.usuarioRegistro = SessionUserManager(requireContext()).getId()!!
+
+                saveBitmapOnLocalStorage(Constants.SAVE_FILE.PREFIJO_FIRMA+Constants.SAVE_FILE.PREFIJO_RESPONSABLE+uniqueID,firmaResponsable!!)
+
+
+
+                var formatoRegistro: FormatoRegistro = FormatoRegistro(uniqueID,"",parameter.codigoFormato,nombreAeronave,parameter.codigoPuestoTecnico,parameter.numeroRTV,
+                    parameter.codigoEstacion,parameter.existenDiscrepancias,parameter.numeroRTVDiscrepancias,parameter.accionesMantenimiento,
+                    parameter.solicitaEncMotores,parameter.idEmpleadoResponsable,parameter.urlFirmaResponsable,parameter.idEmpleadoPiloto,
+                    parameter.urlFirmaPiloto,parameter.idEmpleadoCoPiloto,parameter.urlFirmaCoPiloto,parameter.fechaHoraInicioRegistro,
+                    parameter.fechaHoraFinRegistro,parameter.usuarioRegistro,fechaHoy,"",completado)
+
+                // formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
+
+                var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
+                if(parameter.listaTareas!=null)
+                {
+                    var listaDetalle:ArrayList<GuardaTareaCloudParameter> = ArrayList(
+                        PostVueloTabsFragment.formatoParameter.listaTareas)
+                    // var listaDetalleDB:ArrayList<DetalleFormatoRegistro> = ArrayList()
+                    for(item in listaDetalle)
+                    {
+                        var nombreReportaje = ""
+                        for(itemRepo in listaReportajes!!)
+                        {
+                            if(item.codigoReportaje.equals(itemRepo.id_cloud))
+                            {
+                                nombreReportaje = itemRepo.nombreReportaje
+                            }
+                        }
+
+                        val uniqueIDDetalle: String = UUID.randomUUID().toString()
+                        var detalle:DetalleFormatoRegistro = DetalleFormatoRegistro(uniqueIDDetalle,"",uniqueID,item.codigoRegistroFormato,item.codigoTarea,item.nombreTarea,item.nombreSistema,item.codigoReportaje,
+                            nombreReportaje,item.motivoReportaje,item.indicadorSN,"",fechaHoy,"")
+
+                        listaDetalleDB.add(detalle)
+                    }
+
+                    // formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
+                }
+
+
+                formatoAenviar = formatoRegistro
+                detalleFormatoAenviar = listaDetalleDB
+
+                formatosViewModel.insertFormatoRegistroDB(formatoRegistro)
                 formatosViewModel.insertDetalleFormatoRegistroDB(listaDetalleDB)
+
+
+
             }
+
+
+
 
 
         }
-
 
 
 
@@ -593,20 +735,45 @@ class PostVueloResponsableFragment : Fragment() {
      */
 
     fun saveBitmapOnLocalStorage(nombreDocumento:String,bitmap: Bitmap) {
+        try {
+            val file: File = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // For Android 10+ (API 29+), use scoped storage
+                val mediaDir = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                if (!mediaDir.exists()) {
+                    mediaDir.mkdirs()
+                }
+                File(mediaDir, nombreDocumento + ".png")
+            } else {
+                // For Android 9 and below, use external storage with permissions
+                val root = Environment.getExternalStorageDirectory().toString()
+                val fileee: File = File("$root/" + Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                if (!fileee.exists()) {
+                    fileee.mkdirs()
+                }
+                File(fileee, nombreDocumento + ".png")
+            }
 
-        val root = Environment.getExternalStorageDirectory().toString()
-        val fileee: File = File("$root/"+Constants.SAVE_FILE.CARPETA_GENERAL+"/"+Constants.SAVE_FILE.CARPETA_FIRMA)
-        if (!fileee.exists()) {
-            fileee.mkdirs()
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.flush()
+            out.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Fallback: try to save to app's internal storage
+            try {
+                val internalDir = File(context?.filesDir, Constants.SAVE_FILE.CARPETA_GENERAL + "/" + Constants.SAVE_FILE.CARPETA_FIRMA)
+                if (!internalDir.exists()) {
+                    internalDir.mkdirs()
+                }
+                val file = File(internalDir, nombreDocumento + ".png")
+                val out = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+                out.flush()
+                out.close()
+            } catch (fallbackException: Exception) {
+                fallbackException.printStackTrace()
+            }
         }
-
-        val file: File = File(fileee, nombreDocumento+".png")
-
-        val out = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
-        out.flush()
-        out.close()
-
     }
 
 
@@ -654,6 +821,7 @@ class PostVueloResponsableFragment : Fragment() {
                             anotacion.reportaje_MELMDS = itemTarea.reportaje_MELMDS
 
                             anotacion.reportaje_Motivo = itemTarea.reportaje_Motivo
+                            anotacion.instruccion = itemTarea.instruccion
 
                             listaAnotaciones.add(anotacion)
 
@@ -677,23 +845,23 @@ class PostVueloResponsableFragment : Fragment() {
                 {
                     if(tareaObservada.reportaje_NoAplica)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_NoAplica,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_NoAplica,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!,tareaObservada.instruccion!!))
                     }
 
                     if(tareaObservada.reportaje_RTV)
                     {
                         helicopteroAPTO = false
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_RTV,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_RTV,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!,tareaObservada.instruccion!!))
                     }
 
                     if(tareaObservada.reportaje_DanosMenores)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_DanosMenores,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_DanosMenores,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!,tareaObservada.instruccion!!))
                     }
 
                     if(tareaObservada.reportaje_MELMDS)
                     {
-                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_MELMDS,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!))
+                        tareasObservados!!.add(GuardaTareaCloudParameter("0",tareaObservada.codigoTarea!!,tareaObservada.id_MELMDS,"1",iduser,tareaObservada.reportaje_Motivo!!,tareaObservada.nombreTarea!!,tareaObservada.nombreSistema!!,tareaObservada.instruccion!!))
                     }
 0
                 }
@@ -760,7 +928,7 @@ class PostVueloResponsableFragment : Fragment() {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
-        val etUsuario = dialog.findViewById(R.id.etUsuario) as EditText
+        val etUsuario = dialog.findViewById(R.id.etUsuarioCredenciales) as EditText
         val etPass = dialog.findViewById(R.id.etPass) as EditText
 
         val yesBtn = dialog.findViewById(R.id.btnSi) as RelativeLayout
@@ -787,15 +955,22 @@ class PostVueloResponsableFragment : Fragment() {
             }
             if(userExist)
             {
+
                 dialog.dismiss()
                 binding.signaturePad!!.isEnabled = false
                 binding.llFirmaValidada!!.visibility = View.VISIBLE
+                fimaValidada = true
                 firmaResponsable = binding.signaturePad!!.transparentSignatureBitmap
+                PostVueloTabsFragment.firmaResponsable = firmaResponsable
             }
             else
             {
+
+
+                PostVueloTabsFragment.firmaResponsable = null
                 showErrorDialog("Usuario inválido")
                 binding.llFirmaValidada!!.visibility = View.GONE
+                fimaValidada = false
             }
 
 
@@ -869,6 +1044,7 @@ class PostVueloResponsableFragment : Fragment() {
         }
         dialog.show()
     }
+
 
     fun getNombreFormato(context: Context): String? {
         val sharedPreferences =

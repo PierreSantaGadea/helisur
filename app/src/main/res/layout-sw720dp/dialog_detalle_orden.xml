@@ -1,0 +1,1161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:background="@drawable/shape_popups"
+                android:orientation="vertical">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="6"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="10dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="3.6"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="OT/OS"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="28dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvTituloDetalleOrden"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="22dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="30dp">
+
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Estado"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center|left">
+
+
+                                    <TextView
+                                        android:id="@+id/tvEstadoDetalleOrden"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:gravity="left"
+                                        android:text=""
+                                        android:textColor="@color/color_texto_cajatexto"
+                                        android:textSize="20dp"
+                                        android:fontFamily="@font/robotoregular"
+                                        android:justificationMode="inter_word"/>
+
+
+                                    <View
+                                        android:id="@+id/view_indicador"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_alignTop="@id/tvEstado"
+                                        android:layout_marginStart="12dp"
+                                        android:layout_toEndOf="@id/tvEstado"
+                                        android:background="@drawable/indicador_iniciada"/>
+
+                                </LinearLayout>
+
+
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Rubro"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvRubroDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Código OT"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvCodigoOtDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="# OT/OS"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvNumeroOtosDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Categoría"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvCategoriaDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Estación"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvEstacionDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Fecha Inicio"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvFechaInicioDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Fecha Término"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvFechaTerminoDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Límite Término"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvLimiteTerminoDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Modelo/Nro Parte"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvModeloNumeroParteDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Matrícula/Nomenclatura"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvMatriculaNomenclaturaDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Tipo Programación"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvTipoProgramacionDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Tipo Mantenimiento"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvTipoMantenimientoDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Alcance Trabajo"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvAlcanceTrabajoDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                android:layout_marginTop="10dp">
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text="Descripción"
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotobold"
+                                    android:justificationMode="inter_word"/>
+
+                                <TextView
+                                    android:id="@+id/tvDescripcionDetalleOrden"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:text=""
+                                    android:textColor="@color/color_texto_cajatexto"
+                                    android:textSize="20dp"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:justificationMode="inter_word"/>
+
+
+
+                            </LinearLayout>
+
+
+
+
+                        </LinearLayout>
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="2.4"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center">
+
+                        <RelativeLayout
+                            android:id="@+id/btnGestionarReserva"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_reserva"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Gestionar Reserva"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="5dp"/>
+
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/btnGestionarResponsables"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_responsable"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Gestionar Responsable"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="5dp"/>
+
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/btnDetalle"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:visibility="visible"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_document_white"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Detalle Orden"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/btnStatusInsumos"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_list"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Estatus Insumos"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/btnMovimientosInsumos"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_list"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Mov. Insumos"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/btnEstatusComponentes"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_list"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Estatus componentes"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/btnMovimientosComponentes"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_list"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Mov. componentes"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/btnDocumehhntosFormatos"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_list"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Gestión Herramientas"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/btnGestionHabilidadesFormatos"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_list"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Gestión Habilidades"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+
+
+                        <RelativeLayout
+                            android:id="@+id/btnDocumentosFormatos"
+                            android:background="@drawable/shape_button_principal"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_list"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Documentos/Formatos"
+                                    android:textColor="@color/texto_boton_principal"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:background="@drawable/shape_button_iniciar"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_play"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Iniciar"
+                                    android:textColor="@color/almost_white"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:background="@drawable/shape_button_pausa"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_pause"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Pausa"
+                                    android:textColor="@color/almost_white"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:background="@drawable/shape_button_cerrar"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_cerrado"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/robotoregular"
+                                    android:text="Cerrar"
+                                    android:textColor="@color/almost_white"
+                                    android:textSize="16dp"
+                                    android:layout_marginLeft="10dp"/>
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+
+
+
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

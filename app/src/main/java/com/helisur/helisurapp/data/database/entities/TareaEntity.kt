@@ -19,10 +19,13 @@ class TareaEntity (
     @ColumnInfo(name = "sync") val sync: Boolean?,
     @ColumnInfo(name = "fechaRegistro") val fechaRegistro: String?,
     @ColumnInfo(name = "fechaModificacion") val fechaModificacion: String?,
+    @ColumnInfo(name = "instruccion") val instruccion: String?,
+    @ColumnInfo(name = "codigoFormato") val codigoFormato: String?,
+
 )
 
-fun Tarea.toDB() = TareaEntity(id_cloud = codigoTarea, codigoSistema = codigoSistema!!, nombreTarea = nombreTarea!!, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
+fun Tarea.toDB() = TareaEntity(id_cloud = codigoTarea, codigoSistema = codigoSistema!!, nombreTarea = nombreTarea!!, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion, instruccion = instruccion, codigoFormato = codigoFormato)
 
-fun ObtieneTareasDataTableCloudResponse.toDB() = TareaEntity(id_cloud = codigoTarea, codigoSistema = codigoSistema, nombreTarea = nombreTarea!!, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion)
+fun ObtieneTareasDataTableCloudResponse.toDB() = TareaEntity(id_cloud = codigoTarea, codigoSistema = codigoSistema, nombreTarea = nombreTarea!!, sync = true, fechaRegistro = fechaRegistro, fechaModificacion = fechaModificacion, instruccion = instruccion, codigoFormato = codigoFormato)
 
 

@@ -72,7 +72,7 @@ class LoginActivity : BaseActivity() {
 
     fun initUI() {
         binding.etEmail.setText("analista_app")
-        binding.etPass.setText("helisur2025.")
+        binding.etPass.setText("helisur77.")
         loading = TransparentProgressDialog(this)
         internetViewModel = InternetViewModel(ConnectivityRepository(baseContext))
         loginViewModel.getEmpleadosListDB()
@@ -88,7 +88,7 @@ class LoginActivity : BaseActivity() {
 
             if(isOnline())
             {
-                if(usuario.equals("analista_app") && pass.equals("helisur2025."))
+                if(usuario.equals("analista_app") && pass.equals("helisur77."))
                 {
                     loginViewModel.login(
                         usuario, pass
@@ -112,7 +112,6 @@ class LoginActivity : BaseActivity() {
                                 empleado.apellidoMaterno!!,
                                 empleado.cargo!!
                             )
-
                             next(ModulesActivity::class.java,null)
                         }
                     }
@@ -464,6 +463,7 @@ class LoginActivity : BaseActivity() {
             }
         }
     }
+
 
 
 

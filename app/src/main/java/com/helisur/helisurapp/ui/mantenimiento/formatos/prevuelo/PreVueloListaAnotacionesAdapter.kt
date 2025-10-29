@@ -16,7 +16,7 @@ class PreVueloListaAnotacionesAdapter(private val mList: ArrayList<Anotacion>) :
     var onItemClick: ((Anotacion) -> Unit)? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nombreTarea: TextView = view.findViewById(R.id.nombreTarea)
+        val nombreTarea: TextView = view.findViewById(R.id.nombreTareaAnotacion)
         val contenedorReportajes: LinearLayout = view.findViewById(R.id.contenedorReportajes)
         val viewItem: View = view
 

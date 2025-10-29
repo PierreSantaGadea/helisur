@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:background="@drawable/background_popup_ia"
+            android:padding="24dp">
+
+            <!-- Header con título y botón cerrar -->
+            <LinearLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Asistente Inteligente"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-light" />
+
+                <ImageView
+                    android:id="@+id/btnClose"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_close_white"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="4dp"
+                    android:contentDescription="Cerrar" />
+
+            </LinearLayout>
+
+            <!-- Área de conversación -->
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_below="@id/headerLayout"
+                android:layout_above="@id/inputLayout"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/chat_background"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:id="@+id/messagesContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tvMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text=""
+                        android:hint=""
+                        android:textColorHint="@color/grey"/>
+
+
+
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- Loader futurista (oculto por defecto) -->
+            <LinearLayout
+                android:id="@+id/loaderContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/loader_background"
+                android:padding="32dp">
+
+                <!-- Animación de robot -->
+                <ImageView
+                    android:id="@+id/robotLoader"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/chat_gpt"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Texto de carga -->
+                <TextView
+                    android:id="@+id/tvLoadingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Procesando..."
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-light" />
+
+                <!-- Barra de progreso futurista -->
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="200dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="16dp"
+                    android:progressTint="@color/cyan_400"
+                    android:progressBackgroundTint="@color/blue_grey_800"
+                    style="?android:attr/progressBarStyleHorizontal" />
+
+            </LinearLayout>
+
+            <!-- Área de entrada -->
+            <LinearLayout
+                android:id="@+id/inputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/input_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp">
+
+                <!-- Botón de micrófono -->
+                <ImageView
+                    android:id="@+id/btnMicrophone"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_microphone_futuristic"
+                    android:background="@drawable/button_microphone_bg"
+                    android:padding="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="Grabar voz" />
+
+                <!-- EditText para pregunta -->
+                <EditText
+                    android:id="@+id/etQuestion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/blue_grey_400"
+                    android:hint="Escribe tu pregunta o presiona el micrófono..."
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-light"
+                    android:inputType="textMultiLine"
+                    android:maxLines="3"
+                    android:minLines="1"
+                    android:padding="12dp"
+                    android:layout_marginEnd="12dp" />
+
+                <!-- Botón enviar -->
+                <ImageView
+                    android:id="@+id/btnSend"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_send_futuristic"
+                    android:background="@drawable/button_send_bg"
+                    android:padding="12dp"
+                    android:contentDescription="Enviar pregunta" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+
+
+
+
+
+

@@ -1,9 +1,13 @@
 package com.helisur.helisurapp.ui.mantenimiento
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +15,8 @@ import android.view.Window
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -38,18 +44,85 @@ class MainActivityMantenimiento : BaseActivity() {
     var online:Boolean?=null
     var syncNow:Boolean = false
 
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 1001
+    }
+
+    // Permission launcher for external storage permissions
+    private val permissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val writePermission = permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] ?: false
+        val readPermission = permissions[Manifest.permission.READ_EXTERNAL_STORAGE] ?: false
+        
+        if (writePermission && readPermission) {
+            // Both permissions granted
+            // You can add any initialization code here that requires these permissions
+        } else {
+            // Handle permission denial
+            // You might want to show a message or disable certain features
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMantenimientoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
         internetViewModel = InternetViewModel(ConnectivityRepository(baseContext))
+        
+        // Request external storage permissions
+        requestExternalStoragePermissions()
+        
         drawerSetListMenuItems()
         drawerSetHeader()
      //   disableBackButton()
      //   drawersetRedirections()
         observers()
       //  beginService()
+    }
+
+    private fun requestExternalStoragePermissions() {
+        // Check if we're on Android 13+ (API 33+) where these permissions are not needed for scoped storage
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // For Android 13+, these permissions are not needed for scoped storage
+            // The app can access files through the Storage Access Framework or scoped storage
+            return
+        }
+
+        // For Android 11+ (API 30+), check for MANAGE_EXTERNAL_STORAGE permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!android.provider.Settings.System.canWrite(this)) {
+                // Request MANAGE_EXTERNAL_STORAGE permission
+                val intent = android.content.Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.data = Uri.parse("package:$packageName")
+                startActivity(intent)
+                return
+            }
+        }
+
+        // For Android 10 and below, request the traditional permissions
+        val permissionsToRequest = mutableListOf<String>()
+        
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
+        if (permissionsToRequest.isNotEmpty()) {
+            permissionLauncher.launch(permissionsToRequest.toTypedArray())
+        }
     }
 
     fun beginService()
@@ -88,7 +161,7 @@ class MainActivityMantenimiento : BaseActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.item_formatos, R.id.item_discrepancias,R.id.item_historico, R.id.item_cerrar
+                R.id.item_formatos, R.id.item_discrepancias,R.id.item_historico,R.id.item_ejecucion,R.id.item_inicial, R.id.item_cerrar
             ), binding.drawerLayout
         )
 
@@ -108,14 +181,36 @@ class MainActivityMantenimiento : BaseActivity() {
         val headerView: View = binding.navView.getHeaderView(0)
         val navUsername = headerView.findViewById<View>(R.id.header_drawer_nombre) as TextView
         val navUserRol = headerView.findViewById<View>(R.id.header_drawer_rol) as TextView
-        navUsername.text = nombre
-        navUserRol.text = roll
+        obtenerVersionApp(baseContext, headerView)
+      //  navUsername.text = nombre
+      //  navUserRol.text = roll
+        navUsername.text = "Helicópteros del Sur S.A.".toUpperCase()
+        navUserRol.text = ""
     }
 
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun obtenerVersionApp(context: android.content.Context, view :View) {
+        try {
+            val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+
+            val versionName = pInfo.versionName
+            val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                pInfo.longVersionCode // API 28+
+            } else {
+                @Suppress("DEPRECATION")
+                pInfo.versionCode
+            }
+            val navVersionText = view.findViewById<View>(R.id.header_drawer_version) as TextView
+            navVersionText.text = "Versión: "+ versionCode + "."+versionName
+
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
     }
 
     fun disableBackButton() {

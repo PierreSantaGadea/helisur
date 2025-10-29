@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    app:cardElevation="6dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="0dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Modelo aeronave"
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/robotoregular"
+                    android:textColor="@color/titulo_pantalla_general"/>
+
+                <TextView
+                    android:id="@+id/tvModeloAeronaveItemHojasRuta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/robotoregular"
+                    android:textColor="@color/color_texto_cajatexto"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:paddingLeft="10dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:src="@drawable/ic_checklist"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvCodigoHojaRutaItemHojasRuta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:fontFamily="@font/robotomedium"
+                        android:textColor="@color/color_texto_cajatexto"
+                        android:layout_marginLeft="20dp"/>
+
+                    <TextView
+                        android:id="@+id/tvAeronaveItemHojasRuta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:fontFamily="@font/robotoregular"
+                        android:textColor="@color/color_texto_cajatexto"
+                        android:layout_marginLeft="20dp"/>
+
+                    <TextView
+                        android:id="@+id/tvUbicacionItemHojasRuta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:fontFamily="@font/robotoregular"
+                        android:textColor="@color/color_texto_cajatexto"
+                        android:layout_marginLeft="20dp"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Fecha"
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/robotoregular"
+                    android:textColor="@color/titulo_pantalla_general"/>
+
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tvItemNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ffff"
+            android:textSize="17sp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:fontFamily="@font/robotoregular"
+            android:textColor="@color/color_texto_cajatexto"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
